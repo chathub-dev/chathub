@@ -1,0 +1,10 @@
+.markdown {
+  > p {
+    margin-bottom: 5px;
+  }
+  > ul,
+  ol {
+    list-style: disc;
+    padding-left: 1em;
+  }
+}

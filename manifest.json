@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "ChatHub",
+  "version": "0.0.1",
+  "background": {
+    "service_worker": "src/background/index.ts",
+    "type": "module"
+  },
+  "action": {},
+  "host_permissions": ["https://*.bing.com/", "https://*.openai.com/"],
+  "permissions": ["storage"]
+}

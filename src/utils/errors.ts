@@ -1,0 +1,3 @@
+export enum ErrorCode {
+  CONVERSATION_LIMIT = 'CONVERSATION_LIMIT',
+}
