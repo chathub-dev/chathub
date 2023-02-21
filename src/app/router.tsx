@@ -1,5 +1,5 @@
 import { ChakraProvider } from '@chakra-ui/react'
-import { Outlet, ReactRouter, RootRoute, Route, useParams } from '@tanstack/react-router'
+import { Outlet, ReactRouter, RootRoute, Route, useParams, createHashHistory } from '@tanstack/react-router'
 import { BotId } from './bots'
 import Sidebar from './components/Sidebar'
 import MultiBotChatPanel from './pages/MultiBotChatPanel'
@@ -43,7 +43,8 @@ const chatRoute = new Route({
 
 const routeTree = rootRoute.addChildren([layoutRoute.addChildren([indexRoute, chatRoute])])
 
-const router = new ReactRouter({ routeTree })
+const hashHistory = createHashHistory()
+const router = new ReactRouter({ routeTree, history: hashHistory })
 
 declare module '@tanstack/react-router' {
   interface Register {
