@@ -5,8 +5,8 @@ import { BotId } from '../bots'
 import ConversationPanel from '../components/Chat/ConversationPanel'
 
 const MultiBotChatPanel: FC = () => {
-  const chatgptChat = useChat('chatgpt')
-  const bingChat = useChat('bing')
+  const chatgptChat = useChat('chatgpt', 'multiple')
+  const bingChat = useChat('bing', 'multiple')
 
   const onUserSendMessage = useCallback(
     (input: string, botId?: BotId) => {

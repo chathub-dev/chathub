@@ -8,7 +8,7 @@ interface Props {
 }
 
 const SingleBotChatPanel: FC<Props> = ({ botId }) => {
-  const { messages, sendMessage } = useChat(botId)
+  const { messages, sendMessage } = useChat(botId, 'single')
   return <ConversationPanel botId={botId} messages={messages} onUserSendMessage={sendMessage} />
 }
 

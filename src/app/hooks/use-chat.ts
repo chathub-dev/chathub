@@ -1,25 +1,28 @@
+import { useAtom } from 'jotai'
 import { useCallback, useMemo } from 'react'
-import { useImmer } from 'use-immer'
-import { ChatMessageModel } from '~types'
+import { chatFamily } from '~app/state'
 import { uuid } from '~utils'
-import { botClasses, BotId } from '../bots'
+import { BotId } from '../bots'
 
-export function useChat(botId: BotId) {
-  const bot = useMemo(() => new botClasses[botId](), [botId])
-  const [messages, setMessages] = useImmer<ChatMessageModel[]>([])
+export function useChat(botId: BotId, page: string) {
+  const chatAtom = useMemo(() => chatFamily({ botId, page }), [botId, page])
+  const [chatState, setChatState] = useAtom(chatAtom)
 
   const sendMessage = useCallback(
     (input: string) => {
       const botMessageId = uuid()
-      setMessages((draft) => {
-        draft.push({ id: uuid(), text: input, author: 'user' }, { id: botMessageId, text: '...', author: botId })
+      setChatState((draft) => {
+        draft.messages.push(
+          { id: uuid(), text: input, author: 'user' },
+          { id: botMessageId, text: '...', author: botId },
+        )
       })
-      bot.sendMessage({
+      chatState.bot.sendMessage({
         prompt: input,
         onEvent(event) {
           if (event.type === 'UPDATE_ANSWER') {
-            setMessages((draft) => {
-              const message = draft.find((m) => m.id === botMessageId)
+            setChatState((draft) => {
+              const message = draft.messages.find((m) => m.id === botMessageId)
               if (message) {
                 message.text = event.data.text
               }
@@ -28,8 +31,11 @@ export function useChat(botId: BotId) {
         },
       })
     },
-    [bot, botId, setMessages],
+    [botId, chatState.bot, setChatState],
   )
 
-  return { messages, sendMessage }
+  return {
+    messages: chatState.messages,
+    sendMessage,
+  }
 }
