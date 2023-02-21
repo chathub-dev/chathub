@@ -4,15 +4,14 @@ export function convertMessageToMarkdown(message: ChatResponseMessage): string {
   if (message.messageType === 'InternalSearchQuery') {
     return message.text
   }
-  let adaptiveCardText = ''
   for (const card of message.adaptiveCards) {
     for (const block of card.body) {
       if (block.type === 'TextBlock') {
-        adaptiveCardText += '\n' + block.text
+        return block.text
       }
     }
   }
-  return adaptiveCardText
+  return ''
 }
 
 const RecordSeparator = String.fromCharCode(30)
