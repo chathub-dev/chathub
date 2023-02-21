@@ -28,5 +28,5 @@ export abstract class AbstractBot {
   abstract name: string
   abstract logo: string
   abstract sendMessage(params: SendMessageParams): Promise<void>
-  abstract resetConversation(): Promise<void>
+  abstract resetConversation(): void
 }

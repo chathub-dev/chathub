@@ -1,4 +1,4 @@
-import { Avatar } from '@chakra-ui/react'
+import { Avatar, Alert } from '@chakra-ui/react'
 import remarkGfm from 'remark-gfm'
 import supersub from 'remark-supersub'
 import ReactMarkdown from 'react-markdown'
@@ -22,19 +22,27 @@ const ChatMessageCard: FC<Props> = ({ message }) => {
     }
   }, [message])
   return (
-    <div className="flex flex-row gap-3">
+    <div className="flex flex-row gap-3 w-full">
       <div>
         <Avatar src={user?.avatar} size="sm" />
       </div>
-      <div className="flex flex-col">
-        <span className="text-sm opacity-50">{user?.name || 'You'}</span>
-        <ReactMarkdown
-          remarkPlugins={[supersub, remarkGfm]}
-          className={`markdown-body ${classes.markdown}`}
-          linkTarget="_blank"
-        >
-          {message.text}
-        </ReactMarkdown>
+      <div className="flex flex-col w-full">
+        <span className="text-sm opacity-50 mb-1">{user?.name || 'You'}</span>
+        {!!message.text && (
+          <ReactMarkdown
+            remarkPlugins={[supersub, remarkGfm]}
+            className={`markdown-body ${classes.markdown}`}
+            linkTarget="_blank"
+          >
+            {message.text}
+          </ReactMarkdown>
+        )}
+        {!!message.error && (
+          <Alert status="error" variant="left-accent" className="text-sm">
+            {message.error}
+          </Alert>
+        )}
+        {!message.text && !message.error && <p className="animate-pulse">...</p>}
       </div>
     </div>
   )

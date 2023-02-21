@@ -94,7 +94,7 @@ export class BingWebBot extends AbstractBot {
     wsp.sendPacked({ protocol: 'json', version: 1 })
   }
 
-  async resetConversation(): Promise<void> {
+  resetConversation() {
     this.conversationContext = undefined
   }
 }

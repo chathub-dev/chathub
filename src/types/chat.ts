@@ -1,8 +1,10 @@
+import { BotId } from '~app/bots'
+
 export interface ChatMessageModel {
   id: string
-  author: string
+  author: BotId | 'user'
   text: string
-  metadata?: unknown
+  error?: string
 }
 
 export interface ConversationModel {

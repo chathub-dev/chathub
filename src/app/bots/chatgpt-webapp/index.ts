@@ -94,7 +94,7 @@ export class ChatGPTWebBot implements AbstractBot {
     })
   }
 
-  async resetConversation(): Promise<void> {
+  resetConversation() {
     this.conversationContext = undefined
   }
 }
