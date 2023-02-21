@@ -1,12 +1,8 @@
-import { Avatar, Alert, Tooltip } from '@chakra-ui/react'
-import remarkGfm from 'remark-gfm'
-import supersub from 'remark-supersub'
-import ReactMarkdown from 'react-markdown'
-import { FC, useMemo } from 'react'
+import { Alert, Avatar } from '@chakra-ui/react'
 import 'github-markdown-css'
+import { FC, useMemo } from 'react'
 import { ChatMessageModel } from '~/types'
 import { CHATBOTS } from '../../consts'
-import classes from './card.module.css'
 import Markdown from '../Markdown'
 
 interface Props {
