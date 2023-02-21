@@ -2,7 +2,7 @@ import { Link } from '@tanstack/react-router'
 
 function Sidebar() {
   return (
-    <aside className="bg-gray-900 p-2 flex flex-col text-white">
+    <aside className="bg-gray-900 p-2 flex flex-col text-white items-center">
       <span>ChatHub</span>
       <div className="mt-10 flex flex-col gap-3">
         <span>
@@ -20,8 +20,10 @@ function Sidebar() {
         </span>
       </div>
       <span className="mt-auto"></span>
-      <span>Feedback</span>
-      <span>About</span>
+      <div>
+        <p>Feedback</p>
+        <p>About</p>
+      </div>
     </aside>
   )
 }
