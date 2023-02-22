@@ -27,27 +27,20 @@ export function useChat(botId: BotId, page: string) {
       setChatState((draft) => {
         draft.messages.push({ id: uuid(), text: input, author: 'user' }, { id: botMessageId, text: '', author: botId })
       })
-      try {
-        await chatState.bot.sendMessage({
-          prompt: input,
-          onEvent(event) {
-            if (event.type === 'UPDATE_ANSWER') {
-              updateMessage(botMessageId, (message) => {
-                message.text = event.data.text
-              })
-            } else if (event.type === 'ERROR') {
-              updateMessage(botMessageId, (message) => {
-                message.error = event.data.message
-              })
-            }
-          },
-        })
-      } catch (err) {
-        console.error(err)
-        updateMessage(botMessageId, (message) => {
-          message.error = (err as Error).message
-        })
-      }
+      await chatState.bot.sendMessage({
+        prompt: input,
+        onEvent(event) {
+          if (event.type === 'UPDATE_ANSWER') {
+            updateMessage(botMessageId, (message) => {
+              message.text = event.data.text
+            })
+          } else if (event.type === 'ERROR') {
+            updateMessage(botMessageId, (message) => {
+              message.error = event.error
+            })
+          }
+        },
+      })
     },
     [botId, chatState.bot, setChatState, updateMessage],
   )

@@ -1,6 +1,6 @@
 import WebSocketAsPromised from 'websocket-as-promised'
 import logo from '~/assets/bing-logo.png'
-import { ErrorCode } from '~utils/errors'
+import { ChatError, ErrorCode } from '~utils/errors'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
 import { createConversation } from './api'
 import { ChatResponseMessage, ConversationInfo, InvocationEventType } from './types'
@@ -43,7 +43,7 @@ export class BingWebBot extends AbstractBot {
     }
   }
 
-  async sendMessage(params: SendMessageParams) {
+  async doSendMessage(params: SendMessageParams) {
     if (!this.conversationContext) {
       const conversation = await createConversation()
       this.conversationContext = {
@@ -80,10 +80,10 @@ export class BingWebBot extends AbstractBot {
           if (limited) {
             params.onEvent({
               type: 'ERROR',
-              data: {
-                code: ErrorCode.CONVERSATION_LIMIT,
-                message: 'Sorry, you have reached chat turns limit in this conversation.',
-              },
+              error: new ChatError(
+                'Sorry, you have reached chat turns limit in this conversation.',
+                ErrorCode.CONVERSATION_LIMIT,
+              ),
             })
           }
         }

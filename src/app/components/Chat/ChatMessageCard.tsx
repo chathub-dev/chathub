@@ -29,7 +29,7 @@ const ChatMessageCard: FC<Props> = ({ message }) => {
         {!!message.text && <Markdown>{message.text}</Markdown>}
         {!!message.error && (
           <Alert status="error" variant="left-accent" className="text-sm">
-            {message.error}
+            {message.error.message}
           </Alert>
         )}
         {!message.text && !message.error && <BeatLoader size={10} />}

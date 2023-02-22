@@ -9,7 +9,7 @@ interface ConversationContext {
   lastMessageId: string
 }
 
-export class ChatGPTWebBot implements AbstractBot {
+export class ChatGPTWebBot extends AbstractBot {
   name = 'ChatGPT'
   logo = logo
 
@@ -36,7 +36,7 @@ export class ChatGPTWebBot implements AbstractBot {
     }
   }
 
-  async sendMessage(params: SendMessageParams) {
+  async doSendMessage(params: SendMessageParams) {
     if (!this.accessToken) {
       this.accessToken = await getChatGPTAccessToken()
     }
