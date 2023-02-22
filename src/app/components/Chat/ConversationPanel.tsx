@@ -1,4 +1,4 @@
-import { Container, Input } from '@chakra-ui/react'
+import { Button, Container, Input } from '@chakra-ui/react'
 import { FC, useCallback } from 'react'
 import { ChatMessageModel } from '~types'
 import { BotId } from '../../bots'
@@ -8,7 +8,8 @@ interface Props {
   botId: BotId
   messages: ChatMessageModel[]
   onUserSendMessage: (input: string, botId: BotId) => void
-  replying: boolean
+  generating: boolean
+  stopGenerating: () => void
 }
 
 const ConversationPanel: FC<Props> = (props) => {
@@ -30,9 +31,12 @@ const ConversationPanel: FC<Props> = (props) => {
       <div className="text-center font-bold">{props.botId}</div>
       <MessageList botId={props.botId} messages={props.messages} />
       <Container maxW="md" className="my-0">
-        <form onSubmit={onSubmit}>
-          <Input name="input" autoComplete="off" disabled={props.replying} placeholder={`Ask ${props.botId} ...`} />
-        </form>
+        <div className="flex flex-row gap-2">
+          <form onSubmit={onSubmit}>
+            <Input name="input" autoComplete="off" disabled={props.generating} placeholder={`Ask ${props.botId} ...`} />
+          </form>
+          {props.generating && <Button onClick={props.stopGenerating}>Stop Generating...</Button>}
+        </div>
       </Container>
     </div>
   )

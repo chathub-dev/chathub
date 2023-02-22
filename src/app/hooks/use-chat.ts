@@ -8,7 +8,8 @@ import { BotId } from '../bots'
 export function useChat(botId: BotId, page: string) {
   const chatAtom = useMemo(() => chatFamily({ botId, page }), [botId, page])
   const [chatState, setChatState] = useAtom(chatAtom)
-  const [replying, setReplying] = useState(false)
+  const [generating, setGenerating] = useState(false)
+  const [abortController, setAbortController] = useState<AbortController | undefined>()
 
   const updateMessage = useCallback(
     (messageId: string, updater: (message: ChatMessageModel) => void) => {
@@ -28,9 +29,12 @@ export function useChat(botId: BotId, page: string) {
       setChatState((draft) => {
         draft.messages.push({ id: uuid(), text: input, author: 'user' }, { id: botMessageId, text: '', author: botId })
       })
-      setReplying(true)
+      const abortController = new AbortController()
+      setAbortController(abortController)
+      setGenerating(true)
       await chatState.bot.sendMessage({
         prompt: input,
+        signal: abortController.signal,
         onEvent(event) {
           if (event.type === 'UPDATE_ANSWER') {
             updateMessage(botMessageId, (message) => {
@@ -40,9 +44,11 @@ export function useChat(botId: BotId, page: string) {
             updateMessage(botMessageId, (message) => {
               message.error = event.error
             })
-            setReplying(false)
+            setAbortController(undefined)
+            setGenerating(false)
           } else if (event.type === 'DONE') {
-            setReplying(false)
+            setAbortController(undefined)
+            setGenerating(false)
           }
         },
       })
@@ -57,10 +63,16 @@ export function useChat(botId: BotId, page: string) {
     })
   }, [chatState.bot, setChatState])
 
+  const stopGenerating = useCallback(() => {
+    abortController?.abort()
+    setGenerating(false)
+  }, [abortController])
+
   return {
     messages: chatState.messages,
     sendMessage,
     resetConversation,
-    replying,
+    generating,
+    stopGenerating,
   }
 }

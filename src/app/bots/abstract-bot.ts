@@ -32,7 +32,8 @@ export abstract class AbstractBot {
       console.error(err)
       if (err instanceof ChatError) {
         params.onEvent({ type: 'ERROR', error: err })
-      } else {
+      } else if (!params.signal?.aborted) {
+        // ignore user abort exception
         params.onEvent({ type: 'ERROR', error: new ChatError((err as Error).message, ErrorCode.UNKOWN_ERROR) })
       }
     }

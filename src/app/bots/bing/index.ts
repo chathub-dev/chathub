@@ -90,6 +90,15 @@ export class BingWebBot extends AbstractBot {
       }
     })
 
+    wsp.onClose.addListener(() => {
+      params.onEvent({ type: 'DONE' })
+    })
+
+    params.signal?.addEventListener('abort', () => {
+      wsp.removeAllListeners()
+      wsp.close()
+    })
+
     await wsp.open()
     wsp.sendPacked({ protocol: 'json', version: 1 })
   }

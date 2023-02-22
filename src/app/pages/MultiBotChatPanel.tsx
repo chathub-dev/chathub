@@ -40,14 +40,16 @@ const MultiBotChatPanel: FC = () => {
         botId="chatgpt"
         messages={chatgptChat.messages}
         onUserSendMessage={onUserSendMessage}
-        replying={chatgptChat.replying}
+        generating={chatgptChat.generating}
+        stopGenerating={chatgptChat.stopGenerating}
       />
       <div className="bg-gray-300"></div>
       <ConversationPanel
         botId="bing"
         messages={bingChat.messages}
         onUserSendMessage={onUserSendMessage}
-        replying={bingChat.replying}
+        generating={bingChat.generating}
+        stopGenerating={bingChat.stopGenerating}
       />
       <div className="col-span-3">
         <Container className="h-full">
@@ -57,7 +59,7 @@ const MultiBotChatPanel: FC = () => {
               name="input"
               autoComplete="off"
               className="shadow-[0_0_10px_rgba(0,0,0,0.10)]"
-              disabled={chatgptChat.replying || bingChat.replying}
+              disabled={chatgptChat.generating || bingChat.generating}
               placeholder="Ask both ..."
             />
           </form>
