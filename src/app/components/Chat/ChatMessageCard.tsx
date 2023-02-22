@@ -1,6 +1,7 @@
 import { Alert, Avatar } from '@chakra-ui/react'
 import 'github-markdown-css'
 import { FC, useMemo } from 'react'
+import { BeatLoader } from 'react-spinners'
 import { ChatMessageModel } from '~/types'
 import { CHATBOTS } from '../../consts'
 import Markdown from '../Markdown'
@@ -31,7 +32,7 @@ const ChatMessageCard: FC<Props> = ({ message }) => {
             {message.error}
           </Alert>
         )}
-        {!message.text && !message.error && <p className="animate-pulse">...</p>}
+        {!message.text && !message.error && <BeatLoader size={10} />}
       </div>
     </div>
   )
