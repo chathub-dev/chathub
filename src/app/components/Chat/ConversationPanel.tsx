@@ -31,7 +31,7 @@ const ConversationPanel: FC<Props> = (props) => {
       <MessageList botId={props.botId} messages={props.messages} />
       <Container maxW="md" className="my-0">
         <form onSubmit={onSubmit}>
-          <Input name="input" autoComplete="off" disabled={props.replying} />
+          <Input name="input" autoComplete="off" disabled={props.replying} placeholder={`Ask ${props.botId} ...`} />
         </form>
       </Container>
     </div>

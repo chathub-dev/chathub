@@ -58,6 +58,7 @@ const MultiBotChatPanel: FC = () => {
               autoComplete="off"
               className="shadow-[0_0_10px_rgba(0,0,0,0.10)]"
               disabled={chatgptChat.replying || bingChat.replying}
+              placeholder="Ask both ..."
             />
           </form>
         </Container>
