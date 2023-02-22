@@ -8,6 +8,7 @@ interface Props {
   botId: BotId
   messages: ChatMessageModel[]
   onUserSendMessage: (input: string, botId: BotId) => void
+  replying: boolean
 }
 
 const ConversationPanel: FC<Props> = (props) => {
@@ -30,7 +31,7 @@ const ConversationPanel: FC<Props> = (props) => {
       <MessageList botId={props.botId} messages={props.messages} />
       <Container maxW="md" className="my-0">
         <form onSubmit={onSubmit}>
-          <Input name="input" autoComplete="off" />
+          <Input name="input" autoComplete="off" disabled={props.replying} />
         </form>
       </Container>
     </div>

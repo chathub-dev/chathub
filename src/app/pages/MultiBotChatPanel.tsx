@@ -36,13 +36,29 @@ const MultiBotChatPanel: FC = () => {
 
   return (
     <main className="grid grid-cols-[1fr_2px_1fr] grid-rows-[1fr_80px] overflow-hidden">
-      <ConversationPanel botId="chatgpt" messages={chatgptChat.messages} onUserSendMessage={onUserSendMessage} />
+      <ConversationPanel
+        botId="chatgpt"
+        messages={chatgptChat.messages}
+        onUserSendMessage={onUserSendMessage}
+        replying={chatgptChat.replying}
+      />
       <div className="bg-gray-300"></div>
-      <ConversationPanel botId="bing" messages={bingChat.messages} onUserSendMessage={onUserSendMessage} />
+      <ConversationPanel
+        botId="bing"
+        messages={bingChat.messages}
+        onUserSendMessage={onUserSendMessage}
+        replying={bingChat.replying}
+      />
       <div className="col-span-3">
         <Container className="h-full">
           <form onSubmit={onSubmit}>
-            <Input size="lg" name="input" autoComplete="off" className="shadow-[0_0_10px_rgba(0,0,0,0.10)]" />
+            <Input
+              size="lg"
+              name="input"
+              autoComplete="off"
+              className="shadow-[0_0_10px_rgba(0,0,0,0.10)]"
+              disabled={chatgptChat.replying || bingChat.replying}
+            />
           </form>
         </Container>
       </div>

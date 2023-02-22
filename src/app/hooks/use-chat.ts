@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { chatFamily } from '~app/state'
 import { ChatMessageModel } from '~types'
 import { uuid } from '~utils'
@@ -8,6 +8,7 @@ import { BotId } from '../bots'
 export function useChat(botId: BotId, page: string) {
   const chatAtom = useMemo(() => chatFamily({ botId, page }), [botId, page])
   const [chatState, setChatState] = useAtom(chatAtom)
+  const [replying, setReplying] = useState(false)
 
   const updateMessage = useCallback(
     (messageId: string, updater: (message: ChatMessageModel) => void) => {
@@ -27,6 +28,7 @@ export function useChat(botId: BotId, page: string) {
       setChatState((draft) => {
         draft.messages.push({ id: uuid(), text: input, author: 'user' }, { id: botMessageId, text: '', author: botId })
       })
+      setReplying(true)
       await chatState.bot.sendMessage({
         prompt: input,
         onEvent(event) {
@@ -38,6 +40,9 @@ export function useChat(botId: BotId, page: string) {
             updateMessage(botMessageId, (message) => {
               message.error = event.error
             })
+            setReplying(false)
+          } else if (event.type === 'DONE') {
+            setReplying(false)
           }
         },
       })
@@ -56,5 +61,6 @@ export function useChat(botId: BotId, page: string) {
     messages: chatState.messages,
     sendMessage,
     resetConversation,
+    replying,
   }
 }
