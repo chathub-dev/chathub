@@ -2,8 +2,8 @@ import { Link } from '@tanstack/react-router'
 
 function Sidebar() {
   return (
-    <aside className="bg-gray-900 p-2 flex flex-col text-white items-center">
-      <span>ChatHub</span>
+    <aside className="bg-gray-900 p-5 flex flex-col text-white">
+      <span className="font-bold">ChatHub</span>
       <div className="mt-10 flex flex-col gap-3">
         <span>
           <Link to="/">All-in-One</Link>
