@@ -3,6 +3,7 @@ export enum ErrorCode {
   UNKOWN_ERROR = 'UNKOWN_ERROR',
   CLOUDFLARE = 'CLOUDFLARE',
   CHATGPT_UNAUTHORIZED = 'CHATGPT_UNAUTHORIZED',
+  BING_UNAUTHORIZED = 'BING_UNAUTHORIZED',
 }
 
 export class ChatError extends Error {

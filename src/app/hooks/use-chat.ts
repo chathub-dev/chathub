@@ -44,6 +44,7 @@ export function useChat(botId: BotId, page: string) {
               message.text = event.data.text
             })
           } else if (event.type === 'ERROR') {
+            console.error('sendMessage error', event.error.code, event.error)
             updateMessage(botMessageId, (message) => {
               message.error = event.error
             })

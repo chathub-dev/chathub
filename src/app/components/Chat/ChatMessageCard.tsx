@@ -5,6 +5,7 @@ import userAvatar from '~assets/user-avatar.svg'
 import { ChatMessageModel } from '~/types'
 import { CHATBOTS } from '../../consts'
 import Markdown from '../Markdown'
+import ErrorAction from './ErrorAction'
 
 interface Props {
   message: ChatMessageModel
@@ -27,9 +28,14 @@ const ChatMessageCard: FC<Props> = ({ message }) => {
         <span className="text-sm opacity-50 mb-1">{user?.name}</span>
         {!!message.text && <Markdown>{message.text}</Markdown>}
         {!!message.error && (
-          <Alert status="error" variant="left-accent" className="text-sm">
-            {message.error.message}
-          </Alert>
+          <div className="flex flex-col gap-2">
+            <Alert status="error" variant="left-accent" className="text-sm">
+              {message.error.message}
+            </Alert>
+            <div>
+              <ErrorAction error={message.error} />
+            </div>
+          </div>
         )}
         {!message.text && !message.error && <BeatLoader size={10} />}
       </div>

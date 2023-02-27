@@ -1,5 +1,6 @@
 import wretch from 'wretch'
 import { uuid } from '~utils'
+import { ChatError, ErrorCode } from '~utils/errors'
 import { ConversationResponse } from './types'
 
 export async function createConversation(): Promise<ConversationResponse> {
@@ -11,7 +12,11 @@ export async function createConversation(): Promise<ConversationResponse> {
     .get()
     .json()
   if (resp.result.value !== 'Success') {
-    throw new Error(`Failed to create conversation: ${resp.result.value} ${resp.result.message}`)
+    const message = `${resp.result.value}: ${resp.result.message}`
+    if (resp.result.value === 'UnauthorizedRequest') {
+      throw new ChatError(message, ErrorCode.BING_UNAUTHORIZED)
+    }
+    throw new Error(message)
   }
   return resp
 }
