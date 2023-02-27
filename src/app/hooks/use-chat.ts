@@ -27,7 +27,10 @@ export function useChat(botId: BotId, page: string) {
     async (input: string) => {
       const botMessageId = uuid()
       setChatState((draft) => {
-        draft.messages.push({ id: uuid(), text: input, author: 'user' }, { id: botMessageId, text: '', author: botId })
+        draft.messages.push(
+          { id: uuid(), text: input.replaceAll('\n', '\n\n'), author: 'user' },
+          { id: botMessageId, text: '', author: botId },
+        )
       })
       const abortController = new AbortController()
       setAbortController(abortController)

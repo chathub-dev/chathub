@@ -1,7 +1,8 @@
-import { Button, Container, Input } from '@chakra-ui/react'
+import { Button, Container } from '@chakra-ui/react'
 import { FC, useCallback } from 'react'
 import { ChatMessageModel } from '~types'
 import { BotId } from '../../bots'
+import TextInput from '../TextInput'
 import MessageList from './ChatMessageList'
 
 interface Props {
@@ -14,15 +15,8 @@ interface Props {
 
 const ConversationPanel: FC<Props> = (props) => {
   const onSubmit = useCallback(
-    async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault()
-      const form = e.target as HTMLFormElement
-      const formData = new FormData(form)
-      const { input } = Object.fromEntries(formData.entries())
-      form.reset()
-      if (input) {
-        props.onUserSendMessage(input as string, props.botId)
-      }
+    async (input: string) => {
+      props.onUserSendMessage(input as string, props.botId)
     },
     [props],
   )
@@ -32,10 +26,14 @@ const ConversationPanel: FC<Props> = (props) => {
       <MessageList botId={props.botId} messages={props.messages} />
       <Container maxW="md" className="my-0">
         <div className="flex flex-row gap-2">
-          <form onSubmit={onSubmit}>
-            <Input name="input" autoComplete="off" disabled={props.generating} placeholder={`Ask ${props.botId} ...`} />
-          </form>
-          {props.generating && <Button onClick={props.stopGenerating}>Stop Generating...</Button>}
+          <TextInput
+            name="input"
+            autoComplete="off"
+            isDisabled={props.generating}
+            placeholder={`Ask ${props.botId} ...`}
+            onSubmitText={onSubmit}
+          />
+          {props.generating || <Button onClick={props.stopGenerating}>Stop</Button>}
         </div>
       </Container>
     </div>
