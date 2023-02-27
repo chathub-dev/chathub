@@ -22,9 +22,6 @@ export interface SendMessageParams {
 }
 
 export abstract class AbstractBot {
-  abstract name: string
-  abstract logo: string
-
   async sendMessage(params: SendMessageParams) {
     try {
       await this.doSendMessage(params)

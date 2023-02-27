@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from 'uuid'
-import logo from '~/assets/chatgpt-logo.svg'
 import { fetchSSE } from '~/utils/fetch-sse'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
 import { getChatGPTAccessToken, requestBackendAPIWithToken } from './api'
@@ -10,9 +9,6 @@ interface ConversationContext {
 }
 
 export class ChatGPTWebBot extends AbstractBot {
-  name = 'ChatGPT'
-  logo = logo
-
   private accessToken?: string
   private conversationContext?: ConversationContext
   private modelName?: string

@@ -1,5 +1,4 @@
 import WebSocketAsPromised from 'websocket-as-promised'
-import logo from '~/assets/bing-logo.png'
 import { ChatError, ErrorCode } from '~utils/errors'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
 import { createConversation } from './api'
@@ -7,9 +6,6 @@ import { ChatResponseMessage, ConversationInfo, InvocationEventType } from './ty
 import { convertMessageToMarkdown, websocketUtils } from './utils'
 
 export class BingWebBot extends AbstractBot {
-  name = 'Bing'
-  logo = logo
-
   private conversationContext?: ConversationInfo
 
   private buildChatRequest(conversation: ConversationInfo, message: string) {
