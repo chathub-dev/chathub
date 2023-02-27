@@ -1,4 +1,5 @@
 import { Alert, Avatar } from '@chakra-ui/react'
+import userAvatar from '~/assets/user-avatar.svg'
 import 'github-markdown-css'
 import { FC, useMemo } from 'react'
 import { BeatLoader } from 'react-spinners'
@@ -18,14 +19,13 @@ const ChatMessageCard: FC<Props> = ({ message }) => {
     if (message.author === 'bing') {
       return CHATBOTS.bing
     }
+    return { name: 'You', avatar: userAvatar }
   }, [message])
   return (
     <div className="flex flex-row gap-3 w-full">
-      <div>
-        <Avatar src={user?.avatar} size="sm" />
-      </div>
+      <img src={user?.avatar} className="w-7 h-7 object-contain rounded-full" />
       <div className="flex flex-col w-full">
-        <span className="text-sm opacity-50 mb-1">{user?.name || 'You'}</span>
+        <span className="text-sm opacity-50 mb-1">{user?.name}</span>
         {!!message.text && <Markdown>{message.text}</Markdown>}
         {!!message.error && (
           <Alert status="error" variant="left-accent" className="text-sm">

@@ -1,5 +1,5 @@
 import chatgptLogo from '~/assets/chatgpt-logo.svg'
-import bingLogo from '~/assets/bing-logo.png'
+import bingLogo from '~/assets/bing-logo.svg'
 
 export const CHATBOTS = {
   chatgpt: {
