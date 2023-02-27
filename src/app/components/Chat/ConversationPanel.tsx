@@ -33,7 +33,7 @@ const ConversationPanel: FC<Props> = (props) => {
             placeholder={`Ask ${props.botId} ...`}
             onSubmitText={onSubmit}
           />
-          {props.generating || <Button onClick={props.stopGenerating}>Stop</Button>}
+          {props.generating && <Button onClick={props.stopGenerating}>Stop</Button>}
         </div>
       </Container>
     </div>
