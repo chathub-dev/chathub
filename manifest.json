@@ -8,5 +8,11 @@
   },
   "action": {},
   "host_permissions": ["https://*.bing.com/", "https://*.openai.com/"],
-  "permissions": ["storage"]
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": ["https://chat.openai.com/chat/*"],
+      "js": ["src/content-script/chatgpt-inpage-proxy.ts"]
+    }
+  ]
 }

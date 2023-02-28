@@ -2,9 +2,7 @@ import { createParser } from 'eventsource-parser'
 import { isEmpty } from 'lodash-es'
 import { streamAsyncIterable } from './stream-async-iterable'
 
-export async function fetchSSE(resource: string, options: RequestInit & { onMessage: (message: string) => void }) {
-  const { onMessage, ...fetchOptions } = options
-  const resp = await fetch(resource, fetchOptions)
+export async function parseSSEResponse(resp: Response, onMessage: (message: string) => void) {
   if (!resp.ok) {
     const error = await resp.json().catch(() => ({}))
     throw new Error(!isEmpty(error) ? JSON.stringify(error) : `${resp.status} ${resp.statusText}`)

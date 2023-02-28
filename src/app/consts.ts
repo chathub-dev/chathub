@@ -11,3 +11,5 @@ export const CHATBOTS = {
     avatar: bingLogo,
   },
 }
+
+export const CHATGPT_HOME_URL = 'https://chat.openai.com/chat'

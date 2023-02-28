@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
-import { fetchSSE } from '~/utils/fetch-sse'
+import { parseSSEResponse } from '~utils/sse'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
-import { getChatGPTAccessToken, requestBackendAPIWithToken } from './api'
+import { chatGPTClient } from './client'
 
 interface ConversationContext {
   conversationId: string
@@ -13,9 +13,8 @@ export class ChatGPTWebBot extends AbstractBot {
   private conversationContext?: ConversationContext
   private modelName?: string
 
-  private async fetchModels(): Promise<{ slug: string; title: string; description: string; max_tokens: number }[]> {
-    const resp = await requestBackendAPIWithToken(this.accessToken!, 'GET', '/models').then((r) => r.json())
-    return resp.models
+  constructor() {
+    super()
   }
 
   private async getModelName(): Promise<string> {
@@ -23,7 +22,7 @@ export class ChatGPTWebBot extends AbstractBot {
       return this.modelName
     }
     try {
-      const models = await this.fetchModels()
+      const models = await chatGPTClient.getModels(this.accessToken!)
       this.modelName = models[0].slug
       return this.modelName
     } catch (err) {
@@ -34,12 +33,12 @@ export class ChatGPTWebBot extends AbstractBot {
 
   async doSendMessage(params: SendMessageParams) {
     if (!this.accessToken) {
-      this.accessToken = await getChatGPTAccessToken()
+      this.accessToken = await chatGPTClient.getAccessToken()
     }
     const modelName = await this.getModelName()
     console.debug('Using model:', modelName)
 
-    await fetchSSE('https://chat.openai.com/backend-api/conversation', {
+    const resp = await chatGPTClient.fetch('https://chat.openai.com/backend-api/conversation', {
       method: 'POST',
       signal: params.signal,
       headers: {
@@ -62,31 +61,32 @@ export class ChatGPTWebBot extends AbstractBot {
         conversation_id: this.conversationContext?.conversationId || undefined,
         parent_message_id: this.conversationContext?.lastMessageId || uuidv4(),
       }),
-      onMessage: (message: string) => {
-        console.debug('sse message', message)
-        if (message === '[DONE]') {
-          params.onEvent({ type: 'DONE' })
-          return
+    })
+
+    await parseSSEResponse(resp, (message) => {
+      console.debug('chatgpt sse message', message)
+      if (message === '[DONE]') {
+        params.onEvent({ type: 'DONE' })
+        return
+      }
+      let data
+      try {
+        data = JSON.parse(message)
+      } catch (err) {
+        console.error(err)
+        return
+      }
+      const text = data.message?.content?.parts?.[0]
+      if (text) {
+        this.conversationContext = {
+          conversationId: data.conversation_id,
+          lastMessageId: data.message.id,
         }
-        let data
-        try {
-          data = JSON.parse(message)
-        } catch (err) {
-          console.error(err)
-          return
-        }
-        const text = data.message?.content?.parts?.[0]
-        if (text) {
-          this.conversationContext = {
-            conversationId: data.conversation_id,
-            lastMessageId: data.message.id,
-          }
-          params.onEvent({
-            type: 'UPDATE_ANSWER',
-            data: { text },
-          })
-        }
-      },
+        params.onEvent({
+          type: 'UPDATE_ANSWER',
+          data: { text },
+        })
+      }
     })
   }
 

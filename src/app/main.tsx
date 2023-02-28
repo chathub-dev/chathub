@@ -1,5 +1,5 @@
-import Plausible from 'plausible-tracker'
 import { RouterProvider } from '@tanstack/react-router'
+import Plausible from 'plausible-tracker'
 import { createRoot } from 'react-dom/client'
 import '../base.css'
 import { router } from './router'
