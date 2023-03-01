@@ -1,6 +1,7 @@
 {
   "manifest_version": 3,
   "name": "ChatHub",
+  "description": "Use ChatGPT and new Bing Chat side by side",
   "version": "0.0.1",
   "icons": {
     "16": "src/assets/icon.png",
