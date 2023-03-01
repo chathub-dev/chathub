@@ -2,6 +2,12 @@
   "manifest_version": 3,
   "name": "ChatHub",
   "version": "0.0.1",
+  "icons": {
+    "16": "src/assets/icon.png",
+    "32": "src/assets/icon.png",
+    "48": "src/assets/icon.png",
+    "128": "src/assets/icon.png"
+  },
   "background": {
     "service_worker": "src/background/index.ts",
     "type": "module"
