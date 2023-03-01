@@ -12,7 +12,7 @@ const TextInput: FC<Props> = (props) => {
 
   const onKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = useCallback(
     (e) => {
-      if (e.key === 'Enter') {
+      if (e.keyCode === 13) {
         e.preventDefault()
         if (e.shiftKey) {
           setValue(value + '\n')
