@@ -20,11 +20,6 @@ function Sidebar() {
           </Link>
         </span>
       </div>
-      <span className="mt-auto"></span>
-      <div>
-        <p>Feedback</p>
-        <p>About</p>
-      </div>
     </aside>
   )
 }
