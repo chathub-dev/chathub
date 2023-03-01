@@ -9,4 +9,4 @@ async function main() {
 }
 
 setupProxyExecutor()
-main()
+main().catch(console.error)
