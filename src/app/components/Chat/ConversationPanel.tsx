@@ -40,7 +40,7 @@ const ConversationPanel: FC<Props> = (props) => {
         <span className="font-semibold text-[#707070] text-sm">{botInfo.name}</span>
       </div>
       <MessageList botId={props.botId} messages={props.messages} className={cx(marginClass, 'mt-5')} />
-      <div className={cx('my-5 flex flex-col', marginClass)}>
+      <div className={cx('mt-3 mb-5 flex flex-col', marginClass)}>
         <div className={cx('flex flex-row items-center gap-[5px]', mode === 'full' ? 'mb-[15px]' : 'mb-[5px]')}>
           {mode === 'compact' && <span className="font-medium text-xs text-[#bebebe]">Send to {botInfo.name}</span>}
           <hr className="grow border-[#ededed]" />
