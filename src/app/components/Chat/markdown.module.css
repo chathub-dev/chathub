@@ -7,4 +7,6 @@
     list-style: disc;
     padding-left: 1em;
   }
+  color: inherit;
+  background-color: transparent;
 }

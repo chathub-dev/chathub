@@ -1,6 +1,6 @@
-import { Container } from '@chakra-ui/react'
-import { FC, useCallback } from 'react'
-import TextInput from '~app/components/TextInput'
+import { FC, useCallback, useMemo } from 'react'
+import Button from '~app/components/Button'
+import ChatMessageInput from '~app/components/Chat/ChatMessageInput'
 import { useChat } from '~app/hooks/use-chat'
 import { BotId } from '../bots'
 import ConversationPanel from '../components/Chat/ConversationPanel'
@@ -8,6 +8,11 @@ import ConversationPanel from '../components/Chat/ConversationPanel'
 const MultiBotChatPanel: FC = () => {
   const chatgptChat = useChat('chatgpt', 'multiple')
   const bingChat = useChat('bing', 'multiple')
+
+  const generating = useMemo(
+    () => chatgptChat.generating || bingChat.generating,
+    [bingChat.generating, chatgptChat.generating],
+  )
 
   const onUserSendMessage = useCallback(
     (input: string, botId?: BotId) => {
@@ -24,36 +29,34 @@ const MultiBotChatPanel: FC = () => {
   )
 
   return (
-    <main className="grid grid-cols-[1fr_2px_1fr] grid-rows-[1fr_80px] overflow-hidden">
+    <div className="grid grid-cols-2 grid-rows-[1fr_auto] overflow-hidden gap-5">
       <ConversationPanel
         botId="chatgpt"
         messages={chatgptChat.messages}
         onUserSendMessage={onUserSendMessage}
         generating={chatgptChat.generating}
         stopGenerating={chatgptChat.stopGenerating}
+        mode="compact"
       />
-      <div className="bg-gray-300"></div>
       <ConversationPanel
         botId="bing"
         messages={bingChat.messages}
         onUserSendMessage={onUserSendMessage}
         generating={bingChat.generating}
         stopGenerating={bingChat.stopGenerating}
+        mode="compact"
       />
-      <div className="col-span-3">
-        <Container className="h-full">
-          <TextInput
-            size="lg"
-            name="input"
-            autoComplete="off"
-            className="shadow-[0_0_10px_rgba(0,0,0,0.10)]"
-            isDisabled={chatgptChat.generating || bingChat.generating}
-            placeholder="Ask both ..."
-            onSubmitText={onUserSendMessage}
-          />
-        </Container>
+      <div className="col-span-full">
+        <ChatMessageInput
+          className="rounded-[40px] bg-white px-[30px] py-[15px]"
+          disabled={generating}
+          placeholder="Send to all ..."
+          onSubmit={onUserSendMessage}
+          actionButton={!generating && <Button text="Send" color="primary" type="submit" />}
+          inputMinRows={1}
+        />
       </div>
-    </main>
+    </div>
   )
 }
 

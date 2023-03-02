@@ -1,10 +1,12 @@
-import { Button, Container } from '@chakra-ui/react'
 import { FC, useCallback } from 'react'
+import cx from 'classnames'
 import { CHATBOTS } from '~app/consts'
 import { ChatMessageModel } from '~types'
 import { BotId } from '../../bots'
 import TextInput from '../TextInput'
 import MessageList from './ChatMessageList'
+import Button from '../Button'
+import ChatMessageInput from './ChatMessageInput'
 
 interface Props {
   botId: BotId
@@ -12,10 +14,13 @@ interface Props {
   onUserSendMessage: (input: string, botId: BotId) => void
   generating: boolean
   stopGenerating: () => void
+  mode?: 'full' | 'compact'
 }
 
 const ConversationPanel: FC<Props> = (props) => {
   const botInfo = CHATBOTS[props.botId]
+  const mode = props.mode || 'full'
+  const marginClass = mode === 'compact' ? 'mx-5' : 'mx-10'
 
   const onSubmit = useCallback(
     async (input: string) => {
@@ -25,21 +30,34 @@ const ConversationPanel: FC<Props> = (props) => {
   )
 
   return (
-    <div className="py-5 flex flex-col overflow-hidden">
-      <div className="text-center font-bold">{botInfo.name}</div>
-      <MessageList botId={props.botId} messages={props.messages} />
-      <Container maxW="md" className="my-0">
-        <div className="flex flex-row gap-2">
-          <TextInput
-            name="input"
-            autoComplete="off"
-            isDisabled={props.generating}
-            placeholder={`Ask ${props.botId} ...`}
-            onSubmitText={onSubmit}
-          />
-          {props.generating && <Button onClick={props.stopGenerating}>Stop</Button>}
+    <div className={cx('flex flex-col overflow-hidden bg-white rounded-[60px] h-full')}>
+      <div
+        className={cx(
+          'text-center border-b border-solid border-[#ededed] h-[80px] flex flex-col justify-center mb-5',
+          marginClass,
+        )}
+      >
+        <span className="font-semibold text-[#707070] text-sm">{botInfo.name}</span>
+      </div>
+      <MessageList botId={props.botId} messages={props.messages} className={marginClass} />
+      <div className={cx('my-5 flex flex-col', marginClass)}>
+        <div className={cx('flex flex-row items-center gap-[5px]', mode === 'full' ? 'mb-[15px]' : 'mb-[5px]')}>
+          {mode === 'compact' && <span className="font-medium text-xs text-[#bebebe]">Send to {botInfo.name}</span>}
+          <hr className="grow border-[#ededed]" />
         </div>
-      </Container>
+        <ChatMessageInput
+          disabled={props.generating}
+          placeholder={mode === 'compact' ? '' : 'Ask me anything...'}
+          onSubmit={onSubmit}
+          actionButton={
+            props.generating ? (
+              <Button text="Stop" color="flat" onClick={props.stopGenerating} />
+            ) : (
+              mode === 'full' && <Button text="Send" color="primary" type="submit" />
+            )
+          }
+        />
+      </div>
     </div>
   )
 }

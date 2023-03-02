@@ -1,20 +1,8 @@
-import { ChakraProvider } from '@chakra-ui/react'
-import { Outlet, ReactRouter, RootRoute, Route, useParams, createHashHistory } from '@tanstack/react-router'
+import { createHashHistory, ReactRouter, RootRoute, Route, useParams } from '@tanstack/react-router'
 import { BotId } from './bots'
-import Sidebar from './components/Sidebar'
+import Layout from './components/Layout'
 import MultiBotChatPanel from './pages/MultiBotChatPanel'
 import SingleBotChatPanel from './pages/SingleBotChatPanel'
-
-function Layout() {
-  return (
-    <ChakraProvider>
-      <div className="grid grid-cols-[200px_1fr] h-screen">
-        <Sidebar />
-        <Outlet />
-      </div>
-    </ChakraProvider>
-  )
-}
 
 const rootRoute = new RootRoute()
 

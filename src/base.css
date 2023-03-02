@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body {
+  font-family: 'Inter', 'system-ui';
+}
+
+@supports (font-variation-settings: normal) {
+  html,
+  body {
+    font-family: 'Inter var', 'system-ui';
+  }
+}
+
 body {
   font-size: 100%;
 }

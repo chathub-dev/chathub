@@ -1,7 +1,8 @@
-import { Alert, Button } from '@chakra-ui/react'
 import { FC, useCallback, useState } from 'react'
 import { chatGPTClient } from '~app/bots/chatgpt-webapp/client'
 import { ChatError, ErrorCode } from '~utils/errors'
+import Button from '../Button'
+import MessageBubble from './MessageBubble'
 
 const ChatGPTAuthErrorAction = () => {
   const [fixing, setFixing] = useState(false)
@@ -21,25 +22,16 @@ const ChatGPTAuthErrorAction = () => {
   }, [])
 
   if (fixed) {
-    return (
-      <Alert status="info" variant="left-accent" className="text-sm">
-        Fixed, please retry chat
-      </Alert>
-    )
+    return <MessageBubble color="flat">Fixed, please retry chat</MessageBubble>
   }
-
-  return (
-    <Button size="sm" onClick={fixChatGPT} isLoading={fixing}>
-      Login or verify
-    </Button>
-  )
+  return <Button color="primary" text="Login or verify" onClick={fixChatGPT} isLoading={fixing} size="small" />
 }
 
 const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
   if (error.code === ErrorCode.BING_UNAUTHORIZED) {
     return (
       <a href="https://bing.com" target="_blank" rel="noreferrer">
-        <Button size="sm">Login at bing.com</Button>
+        <Button color="primary" text="Login at bing.com" />
       </a>
     )
   }

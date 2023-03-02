@@ -1,42 +1,39 @@
-import { Textarea, TextareaProps } from '@chakra-ui/react'
-import { FC, KeyboardEventHandler, useCallback, useMemo, useState } from 'react'
+import cx from 'classnames'
+import { FC, KeyboardEventHandler, useCallback } from 'react'
+import TextareaAutosize, { TextareaAutosizeProps } from 'react-textarea-autosize'
 
-type Props = TextareaProps & {
-  onSubmitText?: (value: string) => void
+type Props = TextareaAutosizeProps & {
+  onValueChange: (value: string) => void
+  formref?: React.RefObject<HTMLFormElement>
 }
 
 const TextInput: FC<Props> = (props) => {
-  const { onSubmitText, ...textareaProps } = props
-  const [value, setValue] = useState('')
-  const rows = useMemo(() => Math.min((value.match(/\n/g) || []).length + 1, 3), [value])
+  const { className, value = '', onValueChange, minRows = 2, ...textareaProps } = props
 
   const onKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = useCallback(
     (e) => {
       if (e.keyCode === 13) {
         e.preventDefault()
         if (e.shiftKey) {
-          setValue(value + '\n')
+          onValueChange(value + '\n')
         } else {
-          if (value.trim() === '') {
-            return
-          }
-          onSubmitText?.(value)
-          setValue('')
+          props.formref?.current?.requestSubmit()
         }
       }
     },
-    [onSubmitText, value],
+    [onValueChange, props.formref, value],
   )
 
   return (
-    <Textarea
-      {...textareaProps}
+    <TextareaAutosize
+      className={cx('resize-none w-full outline-none text-sm text-[#303030] disabled:cursor-wait bg-white', className)}
       onKeyDown={onKeyDown}
       value={value}
-      onChange={(event) => setValue(event.target.value)}
-      rows={rows}
+      onChange={(event) => onValueChange(event.target.value)}
       autoComplete="off"
-      resize="none"
+      minRows={minRows}
+      maxRows={5}
+      {...textareaProps}
     />
   )
 }
