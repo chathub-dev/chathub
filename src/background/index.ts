@@ -13,3 +13,10 @@ Browser.runtime.onInstalled.addListener((details) => {
     openAppPage()
   }
 })
+
+Browser.commands.onCommand.addListener((command) => {
+  console.debug(`Command: ${command}`)
+  if (command === 'open-app') {
+    openAppPage()
+  }
+})

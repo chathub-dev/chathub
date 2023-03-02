@@ -15,11 +15,20 @@
   },
   "action": {},
   "host_permissions": ["https://*.bing.com/", "https://*.openai.com/"],
-  "permissions": [],
+  "permissions": ["commands"],
   "content_scripts": [
     {
       "matches": ["https://chat.openai.com/chat/*"],
       "js": ["src/content-script/chatgpt-inpage-proxy.ts"]
     }
-  ]
+  ],
+  "commands": {
+    "open-app": {
+      "suggested_key": {
+        "default": "Ctrl+J",
+        "mac": "Command+J"
+      },
+      "description": "Open ChatHub app"
+    }
+  }
 }
