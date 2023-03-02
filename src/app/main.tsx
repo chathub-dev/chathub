@@ -1,9 +1,8 @@
 import { RouterProvider } from '@tanstack/react-router'
 import Plausible from 'plausible-tracker'
 import { createRoot } from 'react-dom/client'
-import 'inter-ui/inter.css'
 import 'react-tooltip/dist/react-tooltip.css'
-import '../base.css'
+import '../base.scss'
 import { router } from './router'
 
 const container = document.getElementById('app')!

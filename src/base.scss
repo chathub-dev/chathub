@@ -1,0 +1,33 @@
+@use 'inter-ui/default' as inter-ui with (
+  $inter-font-display: swap,
+  $inter-font-path: 'inter-ui/Inter (web)'
+);
+@use 'inter-ui/variable' as inter-ui-variable with (
+  $inter-font-display: swap,
+  $inter-font-path: 'inter-ui/Inter (web)'
+);
+@include inter-ui.weight-400-normal;
+@include inter-ui.weight-500-normal;
+@include inter-ui.weight-600-normal;
+@include inter-ui.weight-700-normal;
+@include inter-ui-variable.normal;
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  font-family: 'Inter', 'system-ui';
+}
+
+@supports (font-variation-settings: normal) {
+  html,
+  body {
+    font-family: 'Inter var', 'system-ui';
+  }
+}
+
+body {
+  font-size: 100%;
+}
