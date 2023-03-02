@@ -25,7 +25,7 @@ const ChatMessageCard: FC<Props> = ({ message }) => {
   return (
     <div className={cx('flex gap-3 w-full', message.author === 'user' ? 'flex-row-reverse' : 'flex-row')}>
       <img src={user.avatar} className="w-10 h-10 object-contain rounded-full" />
-      <div className="flex flex-col w-2/3 max-w-fit items-start gap-2">
+      <div className="flex flex-col w-4/5 max-w-fit items-start gap-2">
         <MessageBubble color={message.author === 'user' ? 'primary' : 'flat'}>
           {message.text ? <Markdown>{message.text}</Markdown> : !message.error && <BeatLoader size={10} />}
           {!!message.error && <p className="text-[#e00]">{message.error.message}</p>}
