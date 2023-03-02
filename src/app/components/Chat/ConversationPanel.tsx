@@ -33,13 +33,13 @@ const ConversationPanel: FC<Props> = (props) => {
     <div className={cx('flex flex-col overflow-hidden bg-white rounded-[60px] h-full')}>
       <div
         className={cx(
-          'text-center border-b border-solid border-[#ededed] h-[80px] flex flex-col justify-center mb-5',
+          'text-center border-b border-solid border-[#ededed] h-[80px] flex flex-col justify-center',
           marginClass,
         )}
       >
         <span className="font-semibold text-[#707070] text-sm">{botInfo.name}</span>
       </div>
-      <MessageList botId={props.botId} messages={props.messages} className={marginClass} />
+      <MessageList botId={props.botId} messages={props.messages} className={cx(marginClass, 'mt-5')} />
       <div className={cx('my-5 flex flex-col', marginClass)}>
         <div className={cx('flex flex-row items-center gap-[5px]', mode === 'full' ? 'mb-[15px]' : 'mb-[5px]')}>
           {mode === 'compact' && <span className="font-medium text-xs text-[#bebebe]">Send to {botInfo.name}</span>}
