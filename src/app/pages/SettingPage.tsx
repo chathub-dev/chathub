@@ -30,7 +30,7 @@ function SettingPage() {
 
   return (
     <PagePanel title="Setting">
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-row justify-between items-center">
         <div>
           <p className="font-semibold">Shortcut to open this app</p>
           <div className="flex flex-row gap-1 mt-2">
