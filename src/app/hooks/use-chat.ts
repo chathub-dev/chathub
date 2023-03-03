@@ -8,7 +8,7 @@ import { BotId } from '../bots'
 export function useChat(botId: BotId, page: string) {
   const chatAtom = useMemo(() => chatFamily({ botId, page }), [botId, page])
   const [chatState, setChatState] = useAtom(chatAtom)
-  const [generating, setGenerating] = useState(false)
+  const [generatingMessageId, setGeneratingMessageId] = useState<string | undefined>(undefined)
   const [abortController, setAbortController] = useState<AbortController | undefined>()
 
   const updateMessage = useCallback(
@@ -34,7 +34,7 @@ export function useChat(botId: BotId, page: string) {
       })
       const abortController = new AbortController()
       setAbortController(abortController)
-      setGenerating(true)
+      setGeneratingMessageId(botMessageId)
       await chatState.bot.sendMessage({
         prompt: input,
         signal: abortController.signal,
@@ -49,10 +49,10 @@ export function useChat(botId: BotId, page: string) {
               message.error = event.error
             })
             setAbortController(undefined)
-            setGenerating(false)
+            setGeneratingMessageId(undefined)
           } else if (event.type === 'DONE') {
             setAbortController(undefined)
-            setGenerating(false)
+            setGeneratingMessageId(undefined)
           }
         },
       })
@@ -69,14 +69,21 @@ export function useChat(botId: BotId, page: string) {
 
   const stopGenerating = useCallback(() => {
     abortController?.abort()
-    setGenerating(false)
-  }, [abortController])
+    if (generatingMessageId) {
+      updateMessage(generatingMessageId, (message) => {
+        if (!message.text && !message.error) {
+          message.text = 'Cancelled'
+        }
+      })
+    }
+    setGeneratingMessageId(undefined)
+  }, [abortController, generatingMessageId, updateMessage])
 
   return {
     messages: chatState.messages,
     sendMessage,
     resetConversation,
-    generating,
+    generating: !!generatingMessageId,
     stopGenerating,
   }
 }
