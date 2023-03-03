@@ -1,4 +1,6 @@
 .markdown {
+  color: inherit;
+  background-color: transparent;
   > p {
     margin-bottom: 5px;
   }
@@ -7,6 +9,8 @@
     list-style: disc;
     padding-left: 1em;
   }
-  color: inherit;
-  background-color: transparent;
+  > li > p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
 }
