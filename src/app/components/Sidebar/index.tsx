@@ -1,15 +1,16 @@
+import { Link } from '@tanstack/react-router'
 import cx from 'classnames'
-import logo from '~/assets/logo.svg'
-import NavLink from './NavLink'
 import feedbackIcon from '~/assets/icons/feedback.svg'
 import settingIcon from '~/assets/icons/setting.svg'
+import logo from '~/assets/logo.svg'
+import NavLink from './NavLink'
 
 function IconButton(props: { icon: string; active?: boolean }) {
   return (
     <div
       className={cx(
         'p-[6px] rounded-[10px] cursor-pointer hover:opacity-80',
-        props.active ? 'bg-[#5E95FC]' : 'bg-[#f2f2f233]',
+        props.active ? 'bg-[#5E95FC]' : 'bg-[#F2F2F2] bg-opacity-20',
       )}
     >
       <img src={props.icon} className="w-6 h-6" />
@@ -32,7 +33,9 @@ function Sidebar() {
           <a href="https://canny.io" target="_blank" rel="noreferrer">
             <IconButton icon={feedbackIcon} />
           </a>
-          <IconButton icon={settingIcon} />
+          <Link to="/setting">
+            <IconButton icon={settingIcon} />
+          </Link>
         </div>
       </div>
     </aside>
