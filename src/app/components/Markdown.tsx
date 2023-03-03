@@ -1,12 +1,11 @@
 /* eslint-disable react/prop-types */
 import 'github-markdown-css/github-markdown-light.css'
-import { Tooltip } from 'react-tooltip'
 import { FC } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import supersub from 'remark-supersub'
 import classes from './Chat/markdown.module.css'
-import { uuid } from '~utils'
+import Tooltip from './Tooltip'
 
 const Markdown: FC<{ children: string }> = ({ children }) => {
   return (
@@ -19,12 +18,10 @@ const Markdown: FC<{ children: string }> = ({ children }) => {
           if (!props.title) {
             return <a {...props} />
           }
-          const id = uuid()
           return (
-            <>
-              <a {...props} title={undefined} data-tooltip-id={id} data-tooltip-content={props.title} />
-              <Tooltip id={id} />
-            </>
+            <Tooltip content={props.title}>
+              <a {...props} title={undefined} />
+            </Tooltip>
           )
         },
       }}
