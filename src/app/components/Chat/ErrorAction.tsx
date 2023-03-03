@@ -1,5 +1,6 @@
-import { FC, useCallback, useState } from 'react'
+import { FC, useCallback, useContext, useState } from 'react'
 import { chatGPTClient } from '~app/bots/chatgpt-webapp/client'
+import { ConversationContext } from '~app/context'
 import { ChatError, ErrorCode } from '~utils/errors'
 import Button from '../Button'
 import MessageBubble from './MessageBubble'
@@ -28,6 +29,8 @@ const ChatGPTAuthErrorAction = () => {
 }
 
 const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
+  const conversation = useContext(ConversationContext)
+
   if (error.code === ErrorCode.BING_UNAUTHORIZED) {
     return (
       <a href="https://bing.com" target="_blank" rel="noreferrer">
@@ -37,6 +40,9 @@ const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
   }
   if (error.code === ErrorCode.CHATGPT_CLOUDFLARE || error.code === ErrorCode.CHATGPT_UNAUTHORIZED) {
     return <ChatGPTAuthErrorAction />
+  }
+  if (error.code === ErrorCode.CONVERSATION_LIMIT) {
+    return <Button color="primary" text="Restart" size="small" onClick={() => conversation?.reset()} />
   }
   return null
 }

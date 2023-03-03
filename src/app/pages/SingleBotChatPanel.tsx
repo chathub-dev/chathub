@@ -8,15 +8,16 @@ interface Props {
 }
 
 const SingleBotChatPanel: FC<Props> = ({ botId }) => {
-  const { messages, sendMessage, generating, stopGenerating } = useChat(botId, 'single')
+  const chat = useChat(botId, 'single')
   return (
     <div className="overflow-hidden">
       <ConversationPanel
         botId={botId}
-        messages={messages}
-        onUserSendMessage={sendMessage}
-        generating={generating}
-        stopGenerating={stopGenerating}
+        messages={chat.messages}
+        onUserSendMessage={chat.sendMessage}
+        generating={chat.generating}
+        stopGenerating={chat.stopGenerating}
+        resetConversation={chat.resetConversation}
       />
     </div>
   )

@@ -60,9 +60,11 @@ export class BingWebBot extends AbstractBot {
     wsp.onUnpackedMessage.addListener((events) => {
       for (const event of events) {
         if (JSON.stringify(event) === '{}') {
-          wsp.sendPacked({ type: InvocationEventType.Ping })
+          wsp.sendPacked({ type: 6 })
           wsp.sendPacked(this.buildChatRequest(conversation, params.prompt))
           conversation.invocationId += 1
+        } else if (event.type === 6) {
+          wsp.sendPacked({ type: 6 })
         } else if (event.type === 3) {
           params.onEvent({ type: 'DONE' })
           wsp.removeAllListeners()

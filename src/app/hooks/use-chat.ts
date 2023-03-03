@@ -62,6 +62,8 @@ export function useChat(botId: BotId, page: string) {
 
   const resetConversation = useCallback(() => {
     chatState.bot.resetConversation()
+    setGeneratingMessageId(undefined)
+    setAbortController(undefined)
     setChatState((draft) => {
       draft.messages = []
     })

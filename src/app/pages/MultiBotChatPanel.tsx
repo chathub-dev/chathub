@@ -37,6 +37,7 @@ const MultiBotChatPanel: FC = () => {
         generating={chatgptChat.generating}
         stopGenerating={chatgptChat.stopGenerating}
         mode="compact"
+        resetConversation={chatgptChat.resetConversation}
       />
       <ConversationPanel
         botId="bing"
@@ -45,6 +46,7 @@ const MultiBotChatPanel: FC = () => {
         generating={bingChat.generating}
         stopGenerating={bingChat.stopGenerating}
         mode="compact"
+        resetConversation={bingChat.resetConversation}
       />
       <div className="col-span-full">
         <ChatMessageInput
