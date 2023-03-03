@@ -10,6 +10,7 @@ interface Props {
   placeholder?: string
   actionButton?: ReactNode | null
   inputMinRows?: number
+  autoFocus?: boolean
 }
 
 const ChatMessageInput: FC<Props> = (props) => {
@@ -37,6 +38,7 @@ const ChatMessageInput: FC<Props> = (props) => {
         value={value}
         onValueChange={setValue}
         minRows={props.inputMinRows}
+        autoFocus={props.autoFocus}
       />
       {props.actionButton || <Button text="x" className="invisible" />}
     </form>
