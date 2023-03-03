@@ -13,7 +13,7 @@ interface Props {
 
 const MessageList: FC<Props> = (props) => {
   return (
-    <ScrollToBottom className="overflow-scroll h-full">
+    <ScrollToBottom className="overflow-scroll h-full mt-5">
       <div className={cx('flex flex-col gap-4 h-full', props.className)}>
         {props.messages.map((message) => {
           return <ChatMessageCard key={message.id} message={message} />
