@@ -53,7 +53,6 @@ const MultiBotChatPanel: FC = () => {
           placeholder="Send to all ..."
           onSubmit={onUserSendMessage}
           actionButton={!generating && <Button text="Send" color="primary" type="submit" />}
-          inputMinRows={1}
           autoFocus={true}
         />
       </div>
