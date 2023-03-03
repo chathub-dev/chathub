@@ -27,7 +27,11 @@ const ChatMessageCard: FC<Props> = ({ message }) => {
       <img src={avatar} className="w-10 h-10 object-contain rounded-full" />
       <div className="flex flex-col w-4/5 max-w-fit items-start gap-2">
         <MessageBubble color={message.author === 'user' ? 'primary' : 'flat'}>
-          {message.text ? <Markdown>{message.text}</Markdown> : !message.error && <BeatLoader size={10} />}
+          {message.text ? (
+            <Markdown>{message.text}</Markdown>
+          ) : (
+            !message.error && <BeatLoader size={10} className="leading-tight" />
+          )}
           {!!message.error && <p className="text-[#e00]">{message.error.message}</p>}
         </MessageBubble>
         {!!message.error && <ErrorAction error={message.error} />}
