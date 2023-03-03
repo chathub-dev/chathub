@@ -8,7 +8,7 @@ type Props = TextareaAutosizeProps & {
 }
 
 const TextInput: FC<Props> = (props) => {
-  const { className, value = '', onValueChange, minRows = 1, ...textareaProps } = props
+  const { className, value = '', onValueChange, minRows = 1, formref, ...textareaProps } = props
 
   const onKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = useCallback(
     (e) => {
@@ -17,11 +17,11 @@ const TextInput: FC<Props> = (props) => {
         if (e.shiftKey) {
           onValueChange(value + '\n')
         } else {
-          props.formref?.current?.requestSubmit()
+          formref?.current?.requestSubmit()
         }
       }
     },
-    [onValueChange, props.formref, value],
+    [formref, onValueChange, value],
   )
 
   return (
