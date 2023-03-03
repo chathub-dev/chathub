@@ -11,7 +11,7 @@ interface Props {
   className?: string
 }
 
-const MessageList: FC<Props> = (props) => {
+const ChatMessageList: FC<Props> = (props) => {
   return (
     <ScrollToBottom className="overflow-scroll h-full mt-5">
       <div className={cx('flex flex-col gap-4 h-full', props.className)}>
@@ -23,4 +23,4 @@ const MessageList: FC<Props> = (props) => {
   )
 }
 
-export default MessageList
+export default ChatMessageList

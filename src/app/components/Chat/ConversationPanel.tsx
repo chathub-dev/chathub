@@ -1,12 +1,11 @@
-import { FC, useCallback } from 'react'
 import cx from 'classnames'
+import { FC, useCallback } from 'react'
 import { CHATBOTS } from '~app/consts'
 import { ChatMessageModel } from '~types'
 import { BotId } from '../../bots'
-import TextInput from '../TextInput'
-import MessageList from './ChatMessageList'
 import Button from '../Button'
 import ChatMessageInput from './ChatMessageInput'
+import ChatMessageList from './ChatMessageList'
 
 interface Props {
   botId: BotId
@@ -39,7 +38,7 @@ const ConversationPanel: FC<Props> = (props) => {
       >
         <span className="font-semibold text-[#707070] text-sm">{botInfo.name}</span>
       </div>
-      <MessageList botId={props.botId} messages={props.messages} className={marginClass} />
+      <ChatMessageList botId={props.botId} messages={props.messages} className={marginClass} />
       <div className={cx('mt-3 mb-5 flex flex-col', marginClass)}>
         <div className={cx('flex flex-row items-center gap-[5px]', mode === 'full' ? 'mb-[15px]' : 'mb-[5px]')}>
           {mode === 'compact' && <span className="font-medium text-xs text-[#bebebe]">Send to {botInfo.name}</span>}

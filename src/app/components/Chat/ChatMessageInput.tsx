@@ -1,5 +1,5 @@
 import cx from 'classnames'
-import { FC, ReactNode, useCallback, useRef, useState } from 'react'
+import { FC, memo, ReactNode, useCallback, useRef, useState } from 'react'
 import Button from '../Button'
 import TextInput from '../TextInput'
 
@@ -43,4 +43,4 @@ const ChatMessageInput: FC<Props> = (props) => {
   )
 }
 
-export default ChatMessageInput
+export default memo(ChatMessageInput)
