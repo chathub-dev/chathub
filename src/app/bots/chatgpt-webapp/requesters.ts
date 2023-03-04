@@ -47,6 +47,7 @@ class ProxyFetchRequester implements Requester {
   async refreshProxyTab() {
     const tab = await this.findExistingProxyTab()
     if (!tab) {
+      await this.createProxyTab()
       return
     }
     await Browser.tabs.update(tab.id!, { active: true })
