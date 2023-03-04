@@ -1,7 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "ChatHub",
-  "description": "Use ChatGPT and new Bing Chat side by side",
+  "name": "__MSG_appName__",
+  "description": "__MSG_appDesc__",
+  "default_locale": "en",
   "version": "1.0.0",
   "icons": {
     "16": "src/assets/icon.png",
