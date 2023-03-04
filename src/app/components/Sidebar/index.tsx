@@ -30,7 +30,7 @@ function Sidebar() {
       <div className="mt-auto">
         <hr className="border-[#ffffff4d]" />
         <div className="flex flex-row mt-5 gap-[10px] mb-6">
-          <a href="https://canny.io" target="_blank" rel="noreferrer">
+          <a href="https://github.com/wong2/chathub/issues" target="_blank" rel="noreferrer" title="Feedback">
             <IconButton icon={feedbackIcon} />
           </a>
           <Link to="/setting">
