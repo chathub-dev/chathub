@@ -39,7 +39,7 @@ function SettingPage() {
   }, [apiKey])
 
   return (
-    <PagePanel title="Setting">
+    <PagePanel title="Settings">
       <div className="flex flex-col gap-10">
         <div className="flex flex-row justify-between items-center">
           <div>
