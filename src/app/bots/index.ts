@@ -1,10 +1,10 @@
-import { AbstractBot } from './abstract-bot'
 import { BingWebBot } from './bing'
-import { ChatGPTWebBot } from './chatgpt-webapp'
+import { ChatGPTBot } from './chatgpt'
+import { ChatGPTApiBot } from './chatgpt-api'
 
 export type BotId = 'chatgpt' | 'bing'
 
-export const botClasses: Record<BotId, typeof ChatGPTWebBot | typeof BingWebBot> = {
-  chatgpt: ChatGPTWebBot,
+export const botClasses: Record<BotId, typeof ChatGPTApiBot | typeof BingWebBot> = {
+  chatgpt: ChatGPTBot,
   bing: BingWebBot,
 }

@@ -18,7 +18,6 @@ const ChatMessageInput: FC<Props> = (props) => {
   const inputRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
-    console.log(props.disabled, props.autoFocus)
     if (!props.disabled && props.autoFocus) {
       inputRef.current?.focus()
     }

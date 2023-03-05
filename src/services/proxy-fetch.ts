@@ -43,7 +43,7 @@ export function setupProxyExecutor() {
 }
 
 export async function proxyFetch(tabId: number, url: string, options?: RequestInitSubset): Promise<Response> {
-  console.log('proxyFetch', tabId, url, options)
+  console.debug('proxyFetch', tabId, url, options)
   return new Promise((resolve) => {
     const port = Browser.tabs.connect(tabId, { name: uuid() })
     port.onDisconnect.addListener(() => {
