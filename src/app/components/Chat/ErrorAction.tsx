@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { FC, useCallback, useContext, useState } from 'react'
 import { chatGPTClient } from '~app/bots/chatgpt-webapp/client'
 import { ConversationContext } from '~app/context'
@@ -25,7 +26,15 @@ const ChatGPTAuthErrorAction = () => {
   if (fixed) {
     return <MessageBubble color="flat">Fixed, please retry chat</MessageBubble>
   }
-  return <Button color="primary" text="Login or verify" onClick={fixChatGPT} isLoading={fixing} size="small" />
+  return (
+    <div className="flex flex-row gap-2 items-center">
+      <Button color="primary" text="Login & verify" onClick={fixChatGPT} isLoading={fixing} size="small" />
+      <span className="text-sm">OR</span>
+      <Link to="/setting">
+        <Button color="primary" text="Set api key" size="small" />
+      </Link>
+    </div>
+  )
 }
 
 const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
