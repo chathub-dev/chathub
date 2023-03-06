@@ -7,9 +7,16 @@ export enum StartupPage {
   Bing = 'bing',
 }
 
+export enum BingConversationStyle {
+  Creative = 'creative',
+  Balanced = 'balanced',
+  Precise = 'precise',
+}
+
 const userConfigWithDefaultValue = {
   openaiApiKey: '',
   startupPage: StartupPage.All,
+  bingConversationStyle: BingConversationStyle.Balanced,
 }
 
 export type UserConfig = typeof userConfigWithDefaultValue

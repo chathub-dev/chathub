@@ -1,3 +1,5 @@
+import { BingConversationStyle } from '~services/user-config'
+
 export interface ConversationResponse {
   conversationId: string
   clientId: string
@@ -25,6 +27,7 @@ export interface ConversationInfo {
   clientId: string
   conversationSignature: string
   invocationId: number
+  conversationStyle: BingConversationStyle
 }
 
 export interface BingChatResponse {

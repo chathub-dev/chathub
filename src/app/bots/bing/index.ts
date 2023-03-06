@@ -1,28 +1,36 @@
 import WebSocketAsPromised from 'websocket-as-promised'
+import { BingConversationStyle, getUserConfig } from '~services/user-config'
 import { ChatError, ErrorCode } from '~utils/errors'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
 import { createConversation } from './api'
 import { ChatResponseMessage, ConversationInfo, InvocationEventType } from './types'
 import { convertMessageToMarkdown, websocketUtils } from './utils'
 
+const styleOptionMap: Record<BingConversationStyle, string> = {
+  [BingConversationStyle.Balanced]: 'harmonyv3',
+  [BingConversationStyle.Creative]: 'h3imaginative',
+  [BingConversationStyle.Precise]: 'h3precise',
+}
+
 export class BingWebBot extends AbstractBot {
   private conversationContext?: ConversationInfo
 
   private buildChatRequest(conversation: ConversationInfo, message: string) {
+    const styleOption = styleOptionMap[conversation.conversationStyle]
     return {
       arguments: [
         {
           source: 'cib',
           optionsSets: [
-            'nlu_direct_response_filter',
             'deepleo',
+            'nlu_direct_response_filter',
             'disable_emoji_spoken_text',
             'responsible_ai_policy_235',
             'enablemm',
-            'harmonyv3',
             'dtappid',
             'rai253',
             'dv3sugg',
+            styleOption,
           ],
           allowedMessageTypes: ['Chat', 'InternalSearchQuery'],
           isStartOfSession: conversation.invocationId === 0,
@@ -45,12 +53,13 @@ export class BingWebBot extends AbstractBot {
 
   async doSendMessage(params: SendMessageParams) {
     if (!this.conversationContext) {
-      const conversation = await createConversation()
+      const [conversation, { bingConversationStyle }] = await Promise.all([createConversation(), getUserConfig()])
       this.conversationContext = {
         conversationId: conversation.conversationId,
         conversationSignature: conversation.conversationSignature,
         clientId: conversation.clientId,
         invocationId: 0,
+        conversationStyle: bingConversationStyle,
       }
     }
 

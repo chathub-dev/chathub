@@ -3,7 +3,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import Browser from 'webextension-polyfill'
 import Button from '~app/components/Button'
 import PagePanel from '../components/Page'
-import { getUserConfig, StartupPage, updateUserConfig, UserConfig } from '~services/user-config'
+import { BingConversationStyle, getUserConfig, StartupPage, updateUserConfig, UserConfig } from '~services/user-config'
 
 function KDB(props: { text: string }) {
   return (
@@ -64,6 +64,32 @@ function SettingPage() {
           </div>
         </div>
         <div>
+          <p className="font-semibold mb-2">OpenAI API key (Optional)</p>
+          <input
+            className="bg-[#F2F2F2] rounded-[20px] px-3 py-1 outline-none text-[#303030] text-sm w-[300px]"
+            placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            value={userConfig.openaiApiKey}
+            onChange={(e) => updateConfigValue({ openaiApiKey: e.target.value })}
+            type="password"
+          />
+        </div>
+        <div>
+          <p className="font-semibold mb-2">Bing conversation style</p>
+          <select
+            className="outline-none"
+            value={userConfig.bingConversationStyle}
+            onChange={(e) =>
+              updateConfigValue({ bingConversationStyle: e.target.value } as {
+                bingConversationStyle: BingConversationStyle
+              })
+            }
+          >
+            <option value={BingConversationStyle.Creative}>Creative</option>
+            <option value={BingConversationStyle.Balanced}>Balanced</option>
+            <option value={BingConversationStyle.Precise}>Precise</option>
+          </select>
+        </div>
+        <div>
           <p className="font-semibold mb-2">Startup page</p>
           <select
             className="outline-none"
@@ -74,16 +100,6 @@ function SettingPage() {
             <option value={StartupPage.ChatGPT}>ChatGPT</option>
             <option value={StartupPage.Bing}>Bing</option>
           </select>
-        </div>
-        <div>
-          <p className="font-semibold mb-2">OpenAI API key (Optional)</p>
-          <input
-            className="bg-[#F2F2F2] rounded-[20px] px-3 py-1 outline-none text-[#303030] text-sm w-[300px]"
-            placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-            value={userConfig.openaiApiKey}
-            onChange={(e) => updateConfigValue({ openaiApiKey: e.target.value })}
-            type="password"
-          />
         </div>
       </div>
       <Button color="flat" text="Save" className="w-fit mt-10" onClick={save} />
