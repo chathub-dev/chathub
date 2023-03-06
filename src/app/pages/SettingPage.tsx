@@ -3,7 +3,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import Browser from 'webextension-polyfill'
 import Button from '~app/components/Button'
 import PagePanel from '../components/Page'
-import * as userConfig from '~services/user-config'
+import { getUserConfig, updateUserConfig } from '~services/user-config'
 
 function KDB(props: { text: string }) {
   return (
@@ -25,7 +25,7 @@ function SettingPage() {
         }
       }
     })
-    userConfig.getApiKey().then((key) => setApiKey(key || ''))
+    getUserConfig().then(({ openaiApiKey }) => setApiKey(openaiApiKey))
   }, [])
 
   const openShortcutPage = useCallback(() => {
@@ -33,7 +33,7 @@ function SettingPage() {
   }, [])
 
   const saveApiKey = useCallback(async () => {
-    await userConfig.setApiKey(apiKey)
+    await updateUserConfig({ openaiApiKey: apiKey })
     toast.success('Saved')
     setTimeout(() => location.reload(), 500)
   }, [apiKey])

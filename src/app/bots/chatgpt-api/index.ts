@@ -1,4 +1,4 @@
-import * as userConfig from '~services/user-config'
+import { getUserConfig } from '~services/user-config'
 import { ChatError, ErrorCode } from '~utils/errors'
 import { parseSSEResponse } from '~utils/sse'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
@@ -17,8 +17,8 @@ export class ChatGPTApiBot extends AbstractBot {
   private conversationContext?: ConversationContext
 
   async doSendMessage(params: SendMessageParams) {
-    const apiKey = await userConfig.getApiKey()
-    if (!apiKey) {
+    const { openaiApiKey } = await getUserConfig()
+    if (!openaiApiKey) {
       throw new ChatError('OpenAI API key not set', ErrorCode.API_KEY_NOT_SET)
     }
     if (!this.conversationContext) {
@@ -33,7 +33,7 @@ export class ChatGPTApiBot extends AbstractBot {
       signal: params.signal,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
+        Authorization: `Bearer ${openaiApiKey}`,
       },
       body: JSON.stringify({
         model: 'gpt-3.5-turbo',

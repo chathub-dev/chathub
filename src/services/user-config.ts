@@ -1,12 +1,18 @@
+import { defaults } from 'lodash-es'
 import Browser from 'webextension-polyfill'
 
-export async function setApiKey(apiKey: string) {
-  await Browser.storage.sync.set({
-    'openai-api-key': apiKey,
-  })
+const userConfigWithDefaultValue = {
+  openaiApiKey: '',
 }
 
-export async function getApiKey(): Promise<string | undefined> {
-  const result = await Browser.storage.sync.get('openai-api-key')
-  return result['openai-api-key']
+export type UserConfig = typeof userConfigWithDefaultValue
+
+export async function getUserConfig(): Promise<UserConfig> {
+  const result = await Browser.storage.local.get(Object.keys(userConfigWithDefaultValue))
+  return defaults(result, userConfigWithDefaultValue)
+}
+
+export async function updateUserConfig(updates: Partial<UserConfig>) {
+  console.debug('update configs', updates)
+  return Browser.storage.local.set(updates)
 }
