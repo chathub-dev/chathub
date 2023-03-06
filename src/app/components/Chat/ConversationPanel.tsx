@@ -48,8 +48,8 @@ const ConversationPanel: FC<Props> = (props) => {
           <span className="font-semibold text-[#707070] text-sm">{botInfo.name}</span>
         </div>
         <ChatMessageList botId={props.botId} messages={props.messages} className={marginClass} />
-        <div className={cx('mt-3 mb-5 flex flex-col', marginClass)}>
-          <div className={cx('flex flex-row items-center gap-[5px]', mode === 'full' ? 'mb-[15px]' : 'mb-[5px]')}>
+        <div className={cx('mt-3 flex flex-col', marginClass, mode === 'full' ? 'mb-5' : 'mb-3')}>
+          <div className={cx('flex flex-row items-center gap-[5px]', mode === 'full' ? 'mb-[15px]' : 'mb-0')}>
             {mode === 'compact' && <span className="font-medium text-xs text-[#bebebe]">Send to {botInfo.name}</span>}
             <hr className="grow border-[#ededed]" />
           </div>
