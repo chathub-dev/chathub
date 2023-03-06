@@ -6,15 +6,15 @@ import ReactMarkdown from 'react-markdown'
 import rehypeHighlight from 'rehype-highlight'
 import remarkGfm from 'remark-gfm'
 import supersub from 'remark-supersub'
-import classes from './Chat/markdown.module.css'
-import Tooltip from './Tooltip'
+import Tooltip from '../Tooltip'
+import './markdown.css'
 
 const Markdown: FC<{ children: string }> = ({ children }) => {
   return (
     <ReactMarkdown
       remarkPlugins={[supersub, remarkGfm]}
       rehypePlugins={[[rehypeHighlight, { detect: true }]]}
-      className={`markdown-body ${classes.markdown} !text-base font-normal`}
+      className={`markdown-body markdown-custom-styles !text-base font-normal`}
       linkTarget="_blank"
       components={{
         a: ({ node, ...props }) => {

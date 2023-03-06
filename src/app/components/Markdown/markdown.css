@@ -1,4 +1,4 @@
-.markdown {
+.markdown-custom-styles {
   color: inherit;
   background-color: transparent;
   > p {
@@ -12,5 +12,14 @@
   > li > p {
     margin-top: 10px;
     margin-bottom: 10px;
+  }
+  > pre {
+    margin-bottom: 5px;
+  }
+  > pre code.hljs {
+    padding: 0;
+  }
+  > pre code:not([class*='language-']) {
+    white-space: pre-wrap;
   }
 }
