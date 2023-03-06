@@ -1,8 +1,15 @@
 import { defaults } from 'lodash-es'
 import Browser from 'webextension-polyfill'
 
+export enum StartupPage {
+  All = 'all',
+  ChatGPT = 'chatgpt',
+  Bing = 'bing',
+}
+
 const userConfigWithDefaultValue = {
   openaiApiKey: '',
+  startupPage: StartupPage.All,
 }
 
 export type UserConfig = typeof userConfigWithDefaultValue
