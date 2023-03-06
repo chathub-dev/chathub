@@ -54,7 +54,7 @@ function SettingPage() {
       <div className="flex flex-col gap-8">
         <div className="flex flex-row justify-between items-center">
           <div>
-            <p className="font-semibold mb-2">Shortcut to open this app</p>
+            <p className="font-semibold mb-2 text-lg">Shortcut to open this app</p>
             <div className="flex flex-row gap-1">
               {shortcuts.length ? shortcuts.map((s) => <KDB key={s} text={s} />) : 'Not set'}
             </div>
@@ -64,7 +64,7 @@ function SettingPage() {
           </div>
         </div>
         <div>
-          <p className="font-semibold mb-2">OpenAI API key (Optional)</p>
+          <p className="font-semibold mb-2 text-lg">OpenAI API key (optional)</p>
           <input
             className="bg-[#F2F2F2] rounded-[20px] px-3 py-1 outline-none text-[#303030] text-sm w-[300px]"
             placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -72,9 +72,20 @@ function SettingPage() {
             onChange={(e) => updateConfigValue({ openaiApiKey: e.target.value })}
             type="password"
           />
+          <span className="block mt-2 italic">
+            Find or create your api key{' '}
+            <a
+              href="https://platform.openai.com/account/api-keys"
+              target="_blank"
+              rel="noreferrer"
+              className="underline"
+            >
+              here
+            </a>
+          </span>
         </div>
         <div>
-          <p className="font-semibold mb-2">Bing conversation style</p>
+          <p className="font-semibold mb-2 text-lg">Bing conversation style</p>
           <select
             className="outline-none"
             value={userConfig.bingConversationStyle}
@@ -90,7 +101,7 @@ function SettingPage() {
           </select>
         </div>
         <div>
-          <p className="font-semibold mb-2">Startup page</p>
+          <p className="font-semibold mb-2 text-lg">Startup page</p>
           <select
             className="outline-none"
             value={userConfig.startupPage}
