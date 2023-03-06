@@ -1,4 +1,5 @@
 import cx from 'classnames'
+import { VscDebugRestart } from 'react-icons/vsc'
 import { FC, useCallback, useMemo } from 'react'
 import { CHATBOTS } from '~app/consts'
 import { ConversationContext, ConversationContextValue } from '~app/context'
@@ -41,11 +42,14 @@ const ConversationPanel: FC<Props> = (props) => {
       <div className={cx('flex flex-col overflow-hidden bg-white rounded-[35px] h-full')}>
         <div
           className={cx(
-            'text-center border-b border-solid border-[#ededed] h-[60px] flex flex-col justify-center',
+            'border-b border-solid border-[#ededed] h-[60px] flex flex-row items-center justify-center gap-2',
             marginClass,
           )}
         >
           <span className="font-semibold text-[#707070] text-sm">{botInfo.name}</span>
+          <div className="cursor-pointer" title="Restart conversation" onClick={props.resetConversation}>
+            <VscDebugRestart color="#707070" size={14} />
+          </div>
         </div>
         <ChatMessageList botId={props.botId} messages={props.messages} className={marginClass} />
         <div className={cx('mt-3 flex flex-col', marginClass, mode === 'full' ? 'mb-5' : 'mb-[10px]')}>
