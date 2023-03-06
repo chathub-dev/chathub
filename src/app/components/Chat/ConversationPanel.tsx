@@ -41,7 +41,7 @@ const ConversationPanel: FC<Props> = (props) => {
       <div className={cx('flex flex-col overflow-hidden bg-white rounded-[35px] h-full')}>
         <div
           className={cx(
-            'text-center border-b border-solid border-[#ededed] h-[80px] flex flex-col justify-center',
+            'text-center border-b border-solid border-[#ededed] h-[60px] flex flex-col justify-center',
             marginClass,
           )}
         >
