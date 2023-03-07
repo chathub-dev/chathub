@@ -2,12 +2,8 @@ import { getUserConfig } from '~services/user-config'
 import { ChatError, ErrorCode } from '~utils/errors'
 import { parseSSEResponse } from '~utils/sse'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
-import { CHATGPT_SYSTEM_MESSAGE } from './consts'
-
-interface ChatMessage {
-  role: 'system' | 'assistant' | 'user'
-  content: string
-}
+import { CHATGPT_SYSTEM_MESSAGE, ChatMessage } from './consts'
+import { updateTokenUsage } from './usage'
 
 interface ConversationContext {
   messages: ChatMessage[]
@@ -49,7 +45,9 @@ export class ChatGPTApiBot extends AbstractBot {
       console.debug('chatgpt sse message', message)
       if (message === '[DONE]') {
         params.onEvent({ type: 'DONE' })
-        this.conversationContext!.messages.push(result)
+        const messages = this.conversationContext!.messages
+        messages.push(result)
+        updateTokenUsage(messages).catch(console.error)
         return
       }
       let data

@@ -4,6 +4,8 @@ import Browser from 'webextension-polyfill'
 import Button from '~app/components/Button'
 import PagePanel from '../components/Page'
 import { BingConversationStyle, getUserConfig, StartupPage, updateUserConfig, UserConfig } from '~services/user-config'
+import { getTokenUsage, resetTokenUsage } from '~services/storage'
+import { formatAmount, formatDecimal } from '~utils/format'
 
 function KDB(props: { text: string }) {
   return (
@@ -16,6 +18,7 @@ function KDB(props: { text: string }) {
 function SettingPage() {
   const [shortcuts, setShortcuts] = useState<string[]>([])
   const [userConfig, setUserConfig] = useState<UserConfig | undefined>(undefined)
+  const [tokenUsed, setTokenUsed] = useState(0)
 
   useEffect(() => {
     Browser.commands.getAll().then((commands) => {
@@ -26,6 +29,7 @@ function SettingPage() {
       }
     })
     getUserConfig().then((config) => setUserConfig(config))
+    getTokenUsage().then((used) => setTokenUsed(used))
   }, [])
 
   const openShortcutPage = useCallback(() => {
@@ -41,6 +45,9 @@ function SettingPage() {
 
   const save = useCallback(async () => {
     await updateUserConfig(userConfig!)
+    if (!userConfig?.openaiApiKey) {
+      await resetTokenUsage()
+    }
     toast.success('Saved')
     setTimeout(() => location.reload(), 500)
   }, [userConfig])
@@ -72,17 +79,24 @@ function SettingPage() {
             onChange={(e) => updateConfigValue({ openaiApiKey: e.target.value })}
             type="password"
           />
-          <span className="block mt-2 italic">
-            Find or create your api key{' '}
-            <a
-              href="https://platform.openai.com/account/api-keys"
-              target="_blank"
-              rel="noreferrer"
-              className="underline"
-            >
-              here
-            </a>
-          </span>
+          {!userConfig.openaiApiKey && (
+            <span className="block mt-2 italic">
+              Find or create your api key{' '}
+              <a
+                href="https://platform.openai.com/account/api-keys"
+                target="_blank"
+                rel="noreferrer"
+                className="underline"
+              >
+                here
+              </a>
+            </span>
+          )}
+          {tokenUsed > 0 && (
+            <p className="text-sm mt-2">
+              Usage: {formatDecimal(tokenUsed)} tokens (~{formatAmount((tokenUsed / 1000) * 0.002)})
+            </p>
+          )}
         </div>
         <div>
           <p className="font-semibold mb-2 text-lg">Bing conversation style</p>

@@ -49,6 +49,7 @@
     "expiry-map": "^2.0.0",
     "framer-motion": "^9.0.4",
     "github-markdown-css": "^5.2.0",
+    "gpt3-tokenizer": "^1.1.5",
     "highlight.js": "^11.7.0",
     "immer": "^9.0.19",
     "inter-ui": "^3.19.3",
