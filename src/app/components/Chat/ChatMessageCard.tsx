@@ -14,7 +14,7 @@ interface Props {
 const ChatMessageCard: FC<Props> = ({ message, className }) => {
   return (
     <div className={cx('flex gap-3 w-full', message.author === 'user' ? 'flex-row-reverse' : 'flex-row', className)}>
-      <div className="flex flex-col w-4/5 max-w-fit items-start gap-2">
+      <div className="flex flex-col w-11/12  max-w-fit items-start gap-2">
         <MessageBubble color={message.author === 'user' ? 'primary' : 'flat'}>
           {message.text ? (
             <Markdown>{message.text}</Markdown>
