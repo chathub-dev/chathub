@@ -8,11 +8,12 @@ import MessageBubble from './MessageBubble'
 
 interface Props {
   message: ChatMessageModel
+  className?: string
 }
 
-const ChatMessageCard: FC<Props> = ({ message }) => {
+const ChatMessageCard: FC<Props> = ({ message, className }) => {
   return (
-    <div className={cx('flex gap-3 w-full', message.author === 'user' ? 'flex-row-reverse' : 'flex-row')}>
+    <div className={cx('flex gap-3 w-full', message.author === 'user' ? 'flex-row-reverse' : 'flex-row', className)}>
       <div className="flex flex-col w-4/5 max-w-fit items-start gap-2">
         <MessageBubble color={message.author === 'user' ? 'primary' : 'flat'}>
           {message.text ? (
