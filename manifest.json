@@ -16,7 +16,7 @@
   },
   "action": {},
   "host_permissions": ["https://*.bing.com/", "https://*.openai.com/"],
-  "permissions": ["commands", "storage"],
+  "permissions": ["commands", "storage", "tabs"],
   "content_scripts": [
     {
       "matches": ["https://chat.openai.com/chat/*"],
