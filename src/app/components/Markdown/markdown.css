@@ -8,6 +8,7 @@
   ol {
     list-style: disc;
     padding-left: 1em;
+    margin-bottom: 5px;
   }
   & li p {
     margin-top: 5px;
