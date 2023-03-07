@@ -46,6 +46,7 @@ const ConversationPanel: FC<Props> = (props) => {
             marginClass,
           )}
         >
+          <img src={botInfo.avatar} className="w-5 h-5 object-contain rounded-full" />
           <span className="font-semibold text-[#707070] text-sm">{botInfo.name}</span>
           {!!props.messages.length && (
             <div className="cursor-pointer" title="Restart conversation" onClick={props.resetConversation}>
