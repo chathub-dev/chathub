@@ -9,9 +9,9 @@
     list-style: disc;
     padding-left: 1em;
   }
-  > li > p {
-    margin-top: 10px;
-    margin-bottom: 10px;
+  & li p {
+    margin-top: 5px;
+    margin-bottom: 5px;
   }
   > pre {
     margin-bottom: 5px;
