@@ -19,7 +19,7 @@
   > pre code.hljs {
     padding: 0;
   }
-  > pre code:not([class*='language-']) {
+  > pre code {
     white-space: pre-wrap;
   }
 }
