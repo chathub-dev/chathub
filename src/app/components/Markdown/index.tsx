@@ -13,7 +13,7 @@ const Markdown: FC<{ children: string }> = ({ children }) => {
   return (
     <ReactMarkdown
       remarkPlugins={[supersub, remarkGfm]}
-      rehypePlugins={[[rehypeHighlight, { detect: true }]]}
+      rehypePlugins={[[rehypeHighlight, { detect: true, ignoreMissing: true }]]}
       className={`markdown-body markdown-custom-styles !text-base font-normal`}
       linkTarget="_blank"
       components={{
