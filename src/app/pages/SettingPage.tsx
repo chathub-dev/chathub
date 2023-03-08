@@ -9,7 +9,7 @@ import PagePanel from '../components/Page'
 
 function KDB(props: { text: string }) {
   return (
-    <kbd className="px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">
+    <kbd className="px-2 py-1.5 text-sm font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">
       {props.text}
     </kbd>
   )
@@ -24,7 +24,8 @@ function SettingPage() {
     Browser.commands.getAll().then((commands) => {
       for (const c of commands) {
         if (c.name === 'open-app' && c.shortcut) {
-          setShortcuts(c.shortcut.split(''))
+          console.log(c.shortcut)
+          setShortcuts(c.shortcut ? [c.shortcut] : [])
         }
       }
     })
@@ -64,7 +65,7 @@ function SettingPage() {
 
   return (
     <PagePanel title="Settings">
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-8 mt-3 pr-3">
         <div className="flex flex-row justify-between items-center">
           <div>
             <p className="font-bold mb-2 text-xl">Shortcut to open this app</p>
@@ -135,7 +136,7 @@ function SettingPage() {
           </select>
         </div>
       </div>
-      <Button color="flat" text="Save" className="w-fit mt-10" onClick={save} />
+      <Button color="flat" text="Save" className="w-fit mt-10 mb-5" onClick={save} />
       <Toaster position="top-right" />
     </PagePanel>
   )

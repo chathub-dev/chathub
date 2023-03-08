@@ -27,7 +27,10 @@ const TextInput = React.forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
   return (
     <TextareaAutosize
       ref={ref}
-      className={cx('resize-none w-full outline-none text-sm text-[#303030] disabled:cursor-wait bg-white', className)}
+      className={cx(
+        'resize-none overflow-hidden w-full outline-none text-sm text-[#303030] disabled:cursor-wait bg-white',
+        className,
+      )}
       onKeyDown={onKeyDown}
       value={value}
       onChange={(event) => onValueChange(event.target.value)}
