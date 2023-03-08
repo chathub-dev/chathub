@@ -13,7 +13,7 @@ export class ChatGPTApiBot extends AbstractBot {
   private conversationContext?: ConversationContext
 
   async doSendMessage(params: SendMessageParams) {
-    const { openaiApiKey } = await getUserConfig()
+    const { openaiApiKey, openaiApiHost } = await getUserConfig()
     if (!openaiApiKey) {
       throw new ChatError('OpenAI API key not set', ErrorCode.API_KEY_NOT_SET)
     }
@@ -24,7 +24,7 @@ export class ChatGPTApiBot extends AbstractBot {
     }
     this.conversationContext.messages.push({ role: 'user', content: params.prompt })
 
-    const resp = await fetch('https://api.openai.com/v1/chat/completions', {
+    const resp = await fetch(`${openaiApiHost}/v1/chat/completions`, {
       method: 'POST',
       signal: params.signal,
       headers: {

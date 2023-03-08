@@ -15,6 +15,7 @@ export enum BingConversationStyle {
 
 const userConfigWithDefaultValue = {
   openaiApiKey: '',
+  openaiApiHost: 'https://api.openai.com',
   startupPage: StartupPage.All,
   bingConversationStyle: BingConversationStyle.Balanced,
 }
@@ -22,11 +23,16 @@ const userConfigWithDefaultValue = {
 export type UserConfig = typeof userConfigWithDefaultValue
 
 export async function getUserConfig(): Promise<UserConfig> {
-  const result = await Browser.storage.local.get(Object.keys(userConfigWithDefaultValue))
+  const result = await Browser.storage.sync.get(Object.keys(userConfigWithDefaultValue))
   return defaults(result, userConfigWithDefaultValue)
 }
 
 export async function updateUserConfig(updates: Partial<UserConfig>) {
   console.debug('update configs', updates)
-  return Browser.storage.local.set(updates)
+  await Browser.storage.sync.set(updates)
+  for (const [key, value] of Object.entries(updates)) {
+    if (value === undefined) {
+      await Browser.storage.sync.remove(key)
+    }
+  }
 }

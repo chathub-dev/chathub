@@ -2,10 +2,10 @@ import { useCallback, useEffect, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import Browser from 'webextension-polyfill'
 import Button from '~app/components/Button'
-import PagePanel from '../components/Page'
+import { getTokenUsage } from '~services/storage'
 import { BingConversationStyle, getUserConfig, StartupPage, updateUserConfig, UserConfig } from '~services/user-config'
-import { getTokenUsage, resetTokenUsage } from '~services/storage'
 import { formatAmount, formatDecimal } from '~utils/format'
+import PagePanel from '../components/Page'
 
 function KDB(props: { text: string }) {
   return (
@@ -44,10 +44,16 @@ function SettingPage() {
   )
 
   const save = useCallback(async () => {
-    await updateUserConfig(userConfig!)
-    if (!userConfig?.openaiApiKey) {
-      await resetTokenUsage()
+    let apiHost = userConfig?.openaiApiHost
+    if (apiHost) {
+      apiHost = apiHost.replace(/\/$/, '')
+      if (!apiHost.startsWith('http')) {
+        apiHost = 'https://' + apiHost
+      }
+    } else {
+      apiHost = undefined
     }
+    await updateUserConfig({ ...userConfig!, openaiApiHost: apiHost })
     toast.success('Saved')
     setTimeout(() => location.reload(), 500)
   }, [userConfig])
@@ -61,7 +67,7 @@ function SettingPage() {
       <div className="flex flex-col gap-8">
         <div className="flex flex-row justify-between items-center">
           <div>
-            <p className="font-semibold mb-2 text-lg">Shortcut to open this app</p>
+            <p className="font-bold mb-2 text-xl">Shortcut to open this app</p>
             <div className="flex flex-row gap-1">
               {shortcuts.length ? shortcuts.map((s) => <KDB key={s} text={s} />) : 'Not set'}
             </div>
@@ -70,52 +76,54 @@ function SettingPage() {
             <Button text="Change shortcut" size="normal" onClick={openShortcutPage} />
           </div>
         </div>
-        <div>
-          <p className="font-semibold mb-2 text-lg">OpenAI API key (optional)</p>
-          <input
-            className="bg-[#F2F2F2] rounded-[20px] px-3 py-1 outline-none text-[#303030] text-sm w-[300px]"
-            placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-            value={userConfig.openaiApiKey}
-            onChange={(e) => updateConfigValue({ openaiApiKey: e.target.value })}
-            type="password"
-          />
-          {!userConfig.openaiApiKey && (
-            <span className="block mt-2 italic">
-              Find or create your api key{' '}
-              <a
-                href="https://platform.openai.com/account/api-keys"
-                target="_blank"
-                rel="noreferrer"
-                className="underline"
-              >
-                here
-              </a>
-            </span>
-          )}
+        <div className="flex flex-col gap-2">
+          <p className="font-bold text-xl">ChatGPT API</p>
+          <div className="flex flex-col gap-1">
+            <p className="font-medium text-base">API Key</p>
+            <input
+              className="bg-[#F2F2F2] rounded-[20px] px-3 py-2 outline-none text-[#303030] text-sm w-[300px]"
+              placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+              value={userConfig.openaiApiKey}
+              onChange={(e) => updateConfigValue({ openaiApiKey: e.target.value })}
+              type="password"
+            />
+          </div>
+          <div className="flex flex-col gap-1">
+            <p className="font-medium text-base">API Host</p>
+            <input
+              className="bg-[#F2F2F2] rounded-[20px] px-3 py-2 outline-none text-[#303030] text-sm w-[300px]"
+              placeholder="https://api.openai.com"
+              value={userConfig.openaiApiHost}
+              onChange={(e) => updateConfigValue({ openaiApiHost: e.target.value })}
+            />
+          </div>
           {tokenUsed > 0 && (
-            <p className="text-sm mt-2">
+            <p className="text-sm">
               Usage: {formatDecimal(tokenUsed)} tokens (~{formatAmount((tokenUsed / 1000) * 0.002)})
             </p>
           )}
         </div>
-        <div>
-          <p className="font-semibold mb-2 text-lg">Bing conversation style</p>
-          <select
-            className="outline-none"
-            value={userConfig.bingConversationStyle}
-            onChange={(e) =>
-              updateConfigValue({ bingConversationStyle: e.target.value } as {
-                bingConversationStyle: BingConversationStyle
-              })
-            }
-          >
-            <option value={BingConversationStyle.Creative}>Creative</option>
-            <option value={BingConversationStyle.Balanced}>Balanced</option>
-            <option value={BingConversationStyle.Precise}>Precise</option>
-          </select>
+        <div className="flex flex-col gap-1">
+          <p className="font-bold text-xl">Bing</p>
+          <div className="flex flex-col gap-1">
+            <p className="font-medium text-base">Conversation Style</p>
+            <select
+              className="outline-none w-fit"
+              value={userConfig.bingConversationStyle}
+              onChange={(e) =>
+                updateConfigValue({ bingConversationStyle: e.target.value } as {
+                  bingConversationStyle: BingConversationStyle
+                })
+              }
+            >
+              <option value={BingConversationStyle.Creative}>Creative</option>
+              <option value={BingConversationStyle.Balanced}>Balanced</option>
+              <option value={BingConversationStyle.Precise}>Precise</option>
+            </select>
+          </div>
         </div>
         <div>
-          <p className="font-semibold mb-2 text-lg">Startup page</p>
+          <p className="font-bold mb-2 text-xl">Startup page</p>
           <select
             className="outline-none"
             value={userConfig.startupPage}
