@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import Browser from 'webextension-polyfill'
 import Button from '~app/components/Button'
+import Select from '~app/components/Select'
 import { getTokenUsage } from '~services/storage'
 import { BingConversationStyle, getUserConfig, StartupPage, updateUserConfig, UserConfig } from '~services/user-config'
 import { formatAmount, formatDecimal } from '~utils/format'
@@ -19,6 +20,7 @@ function SettingPage() {
   const [shortcuts, setShortcuts] = useState<string[]>([])
   const [userConfig, setUserConfig] = useState<UserConfig | undefined>(undefined)
   const [tokenUsed, setTokenUsed] = useState(0)
+  const [dirty, setDirty] = useState(false)
 
   useEffect(() => {
     Browser.commands.getAll().then((commands) => {
@@ -40,6 +42,7 @@ function SettingPage() {
   const updateConfigValue = useCallback(
     (update: Partial<UserConfig>) => {
       setUserConfig({ ...userConfig!, ...update })
+      setDirty(true)
     },
     [userConfig],
   )
@@ -77,12 +80,26 @@ function SettingPage() {
             <Button text="Change shortcut" size="normal" onClick={openShortcutPage} />
           </div>
         </div>
+        <div>
+          <p className="font-bold mb-2 text-xl">Startup page</p>
+          <div className="w-[200px]">
+            <Select
+              options={[
+                { name: 'All-In-One', value: StartupPage.All },
+                { name: 'ChatGPT', value: StartupPage.ChatGPT },
+                { name: 'Bing', value: StartupPage.Bing },
+              ]}
+              value={userConfig.startupPage}
+              onChange={(v) => updateConfigValue({ startupPage: v })}
+            />
+          </div>
+        </div>
         <div className="flex flex-col gap-2">
           <p className="font-bold text-xl">ChatGPT API</p>
           <div className="flex flex-col gap-1">
             <p className="font-medium text-base">API Key</p>
             <input
-              className="bg-[#F2F2F2] rounded-[20px] px-3 py-2 outline-none text-[#303030] text-sm w-[300px]"
+              className="px-3 py-1.5 outline-none text-[#303030] text-sm  block rounded-md border-0  shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 w-[300px]"
               placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
               value={userConfig.openaiApiKey}
               onChange={(e) => updateConfigValue({ openaiApiKey: e.target.value })}
@@ -92,7 +109,7 @@ function SettingPage() {
           <div className="flex flex-col gap-1">
             <p className="font-medium text-base">API Host</p>
             <input
-              className="bg-[#F2F2F2] rounded-[20px] px-3 py-2 outline-none text-[#303030] text-sm w-[300px]"
+              className="px-3 py-1.5 outline-none text-[#303030] text-sm  block rounded-md border-0  shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 w-[300px]"
               placeholder="https://api.openai.com"
               value={userConfig.openaiApiHost}
               onChange={(e) => updateConfigValue({ openaiApiHost: e.target.value })}
@@ -106,37 +123,32 @@ function SettingPage() {
         </div>
         <div className="flex flex-col gap-1">
           <p className="font-bold text-xl">Bing</p>
-          <div className="flex flex-col gap-1">
-            <p className="font-medium text-base">Conversation Style</p>
-            <select
-              className="outline-none w-fit"
-              value={userConfig.bingConversationStyle}
-              onChange={(e) =>
-                updateConfigValue({ bingConversationStyle: e.target.value } as {
-                  bingConversationStyle: BingConversationStyle
-                })
-              }
-            >
-              <option value={BingConversationStyle.Creative}>Creative</option>
-              <option value={BingConversationStyle.Balanced}>Balanced</option>
-              <option value={BingConversationStyle.Precise}>Precise</option>
-            </select>
+          <div className="flex flex-row gap-3 items-center">
+            <p className="font-medium text-base">Conversation style</p>
+            <div className="w-[150px]">
+              <Select
+                options={[
+                  {
+                    name: 'Creative',
+                    value: BingConversationStyle.Creative,
+                  },
+                  {
+                    name: 'Balanced',
+                    value: BingConversationStyle.Balanced,
+                  },
+                  {
+                    name: 'Precise',
+                    value: BingConversationStyle.Precise,
+                  },
+                ]}
+                value={userConfig.bingConversationStyle}
+                onChange={(v) => updateConfigValue({ bingConversationStyle: v })}
+              />
+            </div>
           </div>
         </div>
-        <div>
-          <p className="font-bold mb-2 text-xl">Startup page</p>
-          <select
-            className="outline-none"
-            value={userConfig.startupPage}
-            onChange={(e) => updateConfigValue({ startupPage: e.target.value } as { startupPage: StartupPage })}
-          >
-            <option value={StartupPage.All}>All-In-One</option>
-            <option value={StartupPage.ChatGPT}>ChatGPT</option>
-            <option value={StartupPage.Bing}>Bing</option>
-          </select>
-        </div>
       </div>
-      <Button color="flat" text="Save" className="w-fit mt-10 mb-5" onClick={save} />
+      <Button color={dirty ? 'primary' : 'flat'} text="Save" className="w-fit mt-10 mb-5" onClick={save} />
       <Toaster position="top-right" />
     </PagePanel>
   )

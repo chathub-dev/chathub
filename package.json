@@ -41,6 +41,8 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@headlessui/react": "^1.7.13",
+    "@heroicons/react": "^2.0.16",
     "@radix-ui/colors": "^0.1.8",
     "@radix-ui/react-tooltip": "^1.0.4",
     "@tanstack/react-router": "^0.0.1-beta.83",
