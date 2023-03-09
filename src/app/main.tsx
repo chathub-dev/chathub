@@ -1,7 +1,7 @@
 import { RouterProvider } from '@tanstack/react-router'
 import Plausible from 'plausible-tracker'
 import { createRoot } from 'react-dom/client'
-import '../base.scss'
+import './base.scss'
 import { router } from './router'
 
 const container = document.getElementById('app')!
