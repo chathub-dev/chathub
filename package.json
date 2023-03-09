@@ -58,6 +58,7 @@
     "jotai": "^2.0.2",
     "jotai-immer": "^0.2.0",
     "lodash-es": "^4.17.21",
+    "ofetch": "^1.0.1",
     "plausible-tracker": "^0.3.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -75,7 +76,6 @@
     "uuid": "^9.0.0",
     "webextension-polyfill": "^0.10.0",
     "websocket-as-promised": "^2.0.1",
-    "wretch": "^2.4.1",
     "zustand": "^4.3.3"
   }
 }
