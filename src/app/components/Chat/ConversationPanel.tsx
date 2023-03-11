@@ -1,6 +1,6 @@
 import cx from 'classnames'
-import { VscDebugRestart } from 'react-icons/vsc'
 import { FC, useCallback, useMemo } from 'react'
+import { AiOutlineClear } from 'react-icons/ai'
 import { CHATBOTS } from '~app/consts'
 import { ConversationContext, ConversationContextValue } from '~app/context'
 import { ChatMessageModel } from '~types'
@@ -57,10 +57,10 @@ const ConversationPanel: FC<Props> = (props) => {
           {!!props.messages.length && (
             <div
               className={cx(props.generating ? 'cursor-not-allowed' : 'cursor-pointer')}
-              title="Restart conversation"
+              title="Start new conversation"
               onClick={resetConversation}
             >
-              <VscDebugRestart color="#707070" size={14} />
+              <AiOutlineClear color="#707070" size={14} />
             </div>
           )}
         </div>
