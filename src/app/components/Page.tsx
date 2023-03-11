@@ -6,7 +6,7 @@ const PagePanel: FC<PropsWithChildren<{ title: string }>> = (props) => {
       <div className="text-center border-b border-solid border-[rgb(237,237,237)] h-[80px] flex flex-col justify-center mx-10">
         <span className="font-semibold text-[#303030] text-lg">{props.title}</span>
       </div>
-      <div className="mx-10 h-full overflow-auto">{props.children}</div>
+      <div className="mx-10 h-full overflow-auto pl-[2px]">{props.children}</div>
     </div>
   )
 }
