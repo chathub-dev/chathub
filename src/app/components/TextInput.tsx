@@ -8,7 +8,7 @@ type Props = TextareaAutosizeProps & {
 }
 
 const TextInput = React.forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
-  const { className, value = '', onValueChange, minRows = 1, formref, ...textareaProps } = props
+  const { className, value = '', onValueChange, minRows = 1, formref, disabled, ...textareaProps } = props
 
   const onKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = useCallback(
     (e) => {
@@ -16,19 +16,20 @@ const TextInput = React.forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
         e.preventDefault()
         if (e.shiftKey) {
           onValueChange(value + '\n')
-        } else {
+        } else if (!disabled) {
           formref?.current?.requestSubmit()
         }
       }
     },
-    [formref, onValueChange, value],
+    [disabled, formref, onValueChange, value],
   )
 
   return (
     <TextareaAutosize
       ref={ref}
       className={cx(
-        'resize-none overflow-hidden w-full outline-none text-sm text-[#303030] disabled:cursor-wait bg-white',
+        'resize-none overflow-hidden w-full outline-none text-sm text-[#303030] bg-white',
+        disabled && 'cursor-wait',
         className,
       )}
       onKeyDown={onKeyDown}
