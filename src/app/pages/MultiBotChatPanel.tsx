@@ -6,8 +6,8 @@ import { BotId } from '../bots'
 import ConversationPanel from '../components/Chat/ConversationPanel'
 
 const MultiBotChatPanel: FC = () => {
-  const chatgptChat = useChat('chatgpt', 'multiple')
-  const bingChat = useChat('bing', 'multiple')
+  const chatgptChat = useChat('chatgpt')
+  const bingChat = useChat('bing')
 
   const generating = useMemo(
     () => chatgptChat.generating || bingChat.generating,

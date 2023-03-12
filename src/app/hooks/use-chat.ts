@@ -1,15 +1,13 @@
 import { useAtom } from 'jotai'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo } from 'react'
 import { chatFamily } from '~app/state'
 import { ChatMessageModel } from '~types'
 import { uuid } from '~utils'
 import { BotId } from '../bots'
 
-export function useChat(botId: BotId, page: string) {
+export function useChat(botId: BotId, page = 'singleton') {
   const chatAtom = useMemo(() => chatFamily({ botId, page }), [botId, page])
   const [chatState, setChatState] = useAtom(chatAtom)
-  const [generatingMessageId, setGeneratingMessageId] = useState<string | undefined>(undefined)
-  const [abortController, setAbortController] = useState<AbortController | undefined>()
 
   const updateMessage = useCallback(
     (messageId: string, updater: (message: ChatMessageModel) => void) => {
@@ -33,8 +31,10 @@ export function useChat(botId: BotId, page: string) {
         )
       })
       const abortController = new AbortController()
-      setAbortController(abortController)
-      setGeneratingMessageId(botMessageId)
+      setChatState((draft) => {
+        draft.generatingMessageId = botMessageId
+        draft.abortController = abortController
+      })
       await chatState.bot.sendMessage({
         prompt: input,
         signal: abortController.signal,
@@ -48,11 +48,15 @@ export function useChat(botId: BotId, page: string) {
             updateMessage(botMessageId, (message) => {
               message.error = event.error
             })
-            setAbortController(undefined)
-            setGeneratingMessageId(undefined)
+            setChatState((draft) => {
+              draft.abortController = undefined
+              draft.generatingMessageId = ''
+            })
           } else if (event.type === 'DONE') {
-            setAbortController(undefined)
-            setGeneratingMessageId(undefined)
+            setChatState((draft) => {
+              draft.abortController = undefined
+              draft.generatingMessageId = ''
+            })
           }
         },
       })
@@ -62,30 +66,32 @@ export function useChat(botId: BotId, page: string) {
 
   const resetConversation = useCallback(() => {
     chatState.bot.resetConversation()
-    setGeneratingMessageId(undefined)
-    setAbortController(undefined)
     setChatState((draft) => {
+      draft.abortController = undefined
+      draft.generatingMessageId = ''
       draft.messages = []
     })
   }, [chatState.bot, setChatState])
 
   const stopGenerating = useCallback(() => {
-    abortController?.abort()
-    if (generatingMessageId) {
-      updateMessage(generatingMessageId, (message) => {
+    chatState.abortController?.abort()
+    if (chatState.generatingMessageId) {
+      updateMessage(chatState.generatingMessageId, (message) => {
         if (!message.text && !message.error) {
           message.text = 'Cancelled'
         }
       })
     }
-    setGeneratingMessageId(undefined)
-  }, [abortController, generatingMessageId, updateMessage])
+    setChatState((draft) => {
+      draft.generatingMessageId = ''
+    })
+  }, [chatState.abortController, chatState.generatingMessageId, setChatState, updateMessage])
 
   return {
     messages: chatState.messages,
     sendMessage,
     resetConversation,
-    generating: !!generatingMessageId,
+    generating: !!chatState.generatingMessageId,
     stopGenerating,
   }
 }

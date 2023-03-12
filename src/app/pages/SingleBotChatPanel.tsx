@@ -8,7 +8,7 @@ interface Props {
 }
 
 const SingleBotChatPanel: FC<Props> = ({ botId }) => {
-  const chat = useChat(botId, 'single')
+  const chat = useChat(botId)
   return (
     <div className="overflow-hidden">
       <ConversationPanel

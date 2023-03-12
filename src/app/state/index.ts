@@ -11,6 +11,8 @@ export const chatFamily = atomFamily(
       botId: param.botId,
       bot: new botClasses[param.botId](),
       messages: [] as ChatMessageModel[],
+      generatingMessageId: '',
+      abortController: undefined as AbortController | undefined,
     })
   },
   (a, b) => a.botId === b.botId && a.page === b.page,
