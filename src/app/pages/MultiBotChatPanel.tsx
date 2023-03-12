@@ -50,7 +50,7 @@ const MultiBotChatPanel: FC = () => {
       />
       <div className="col-span-full">
         <ChatMessageInput
-          className="rounded-[40px] bg-white px-[25px] py-[12px]"
+          className="rounded-full bg-white px-[20px] py-[10px]"
           disabled={generating}
           placeholder="Send to all ..."
           onSubmit={onUserSendMessage}
