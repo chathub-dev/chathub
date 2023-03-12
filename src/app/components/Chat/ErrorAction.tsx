@@ -47,6 +47,13 @@ const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
       </a>
     )
   }
+  if (error.code === ErrorCode.BING_FORBIDDEN) {
+    return (
+      <a href="https://bing.com/new" target="_blank" rel="noreferrer">
+        <Button color="primary" text="Join new Bing waitlist" size="small" />
+      </a>
+    )
+  }
   if (error.code === ErrorCode.CHATGPT_CLOUDFLARE || error.code === ErrorCode.CHATGPT_UNAUTHORIZED) {
     return <ChatGPTAuthErrorAction />
   }
