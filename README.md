@@ -16,3 +16,10 @@ ChatHub is an all-in-one chatbot client
 - Token usage stats when using ChatGPT API mode.
 - Shortcut to quickly activate the app anywhere in the browser.
 - Markdown and code highlight support.
+
+## Changelog
+
+### v1.2.0
+
+* Support copy message text
+* Improve setting page form element style
