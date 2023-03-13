@@ -19,7 +19,13 @@ ChatHub is an all-in-one chatbot client
 
 ## Changelog
 
+### v1.3.0
+
+- Add copy code button
+- Sync chat state between all-in-one and standalone mode
+- Allows input while generating answer
+
 ### v1.2.0
 
-* Support copy message text
-* Improve setting page form element style
+- Support copy message text
+- Improve setting page form element style
