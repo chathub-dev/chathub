@@ -19,6 +19,10 @@ ChatHub is an all-in-one chatbot client
 
 ## Changelog
 
+### v1.4.0
+
+- Add Prompt Library
+
 ### v1.3.0
 
 - Add copy code button
