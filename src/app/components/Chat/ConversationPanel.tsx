@@ -71,6 +71,7 @@ const ConversationPanel: FC<Props> = (props) => {
             <hr className="grow border-[#ededed]" />
           </div>
           <ChatMessageInput
+            enablePromptLibrary={mode === 'full'}
             disabled={props.generating}
             placeholder={mode === 'compact' ? '' : 'Ask me anything...'}
             onSubmit={onSubmit}

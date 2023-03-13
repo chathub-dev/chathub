@@ -22,4 +22,7 @@
   > pre code {
     white-space: pre-wrap;
   }
+  > blockquote {
+    color: white;
+  }
 }

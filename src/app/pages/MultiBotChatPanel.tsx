@@ -56,6 +56,7 @@ const MultiBotChatPanel: FC = () => {
           onSubmit={onUserSendMessage}
           actionButton={!generating && <Button text="Send" color="primary" type="submit" />}
           autoFocus={true}
+          enablePromptLibrary={true}
         />
       </div>
     </div>
