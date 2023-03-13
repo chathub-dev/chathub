@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import Browser from 'webextension-polyfill'
 import Button from '~app/components/Button'
+import { Input } from '~app/components/Input'
 import Select from '~app/components/Select'
 import { getTokenUsage } from '~services/storage'
 import { BingConversationStyle, getUserConfig, StartupPage, updateUserConfig, UserConfig } from '~services/user-config'
@@ -98,21 +99,21 @@ function SettingPage() {
           <p className="font-bold text-xl">ChatGPT API</p>
           <div className="flex flex-col gap-1">
             <p className="font-medium text-base">API Key</p>
-            <input
-              className="px-3 py-1.5 outline-none text-[#303030] text-sm  block rounded-md border-0  shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 w-[300px]"
+            <Input
+              className="w-[300px]"
               placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
               value={userConfig.openaiApiKey}
-              onChange={(e) => updateConfigValue({ openaiApiKey: e.target.value })}
+              onChange={(e) => updateConfigValue({ openaiApiKey: e.currentTarget.value })}
               type="password"
             />
           </div>
           <div className="flex flex-col gap-1">
             <p className="font-medium text-base">API Host</p>
-            <input
-              className="px-3 py-1.5 outline-none text-[#303030] text-sm  block rounded-md border-0  shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 w-[300px]"
+            <Input
+              className="w-[300px]"
               placeholder="https://api.openai.com"
               value={userConfig.openaiApiHost}
-              onChange={(e) => updateConfigValue({ openaiApiHost: e.target.value })}
+              onChange={(e) => updateConfigValue({ openaiApiHost: e.currentTarget.value })}
             />
           </div>
           {tokenUsed > 0 && (

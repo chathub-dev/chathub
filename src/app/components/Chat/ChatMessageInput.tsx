@@ -1,7 +1,7 @@
 import cx from 'classnames'
 import { FC, memo, ReactNode, useCallback, useEffect, useRef, useState } from 'react'
 import Button from '../Button'
-import TextInput from '../TextInput'
+import TextInput from './TextInput'
 
 interface Props {
   onSubmit: (value: string) => void
