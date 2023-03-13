@@ -1,14 +1,13 @@
 /* eslint-disable react/prop-types */
-import reactNodeToString from 'react-node-to-string'
+
 import cx from 'classnames'
 import 'github-markdown-css/github-markdown-light.css'
 import 'highlight.js/styles/github.css'
 import { FC, ReactNode, useEffect, useMemo, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { BsClipboard } from 'react-icons/bs'
-import { FiClipboard } from 'react-icons/fi'
-import { BiClipboard } from 'react-icons/bi'
 import ReactMarkdown from 'react-markdown'
+import reactNodeToString from 'react-node-to-string'
 import rehypeHighlight from 'rehype-highlight'
 import remarkGfm from 'remark-gfm'
 import supersub from 'remark-supersub'
