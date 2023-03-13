@@ -68,6 +68,7 @@
     "react-hot-toast": "^2.4.0",
     "react-icons": "^4.8.0",
     "react-markdown": "^8.0.5",
+    "react-node-to-string": "^0.1.1",
     "react-scroll-to-bottom": "^4.2.0",
     "react-spinners": "^0.13.8",
     "react-textarea-autosize": "^8.4.0",

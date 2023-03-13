@@ -4656,6 +4656,11 @@ react-markdown@^8.0.5:
     unist-util-visit "^4.0.0"
     vfile "^5.0.0"
 
+react-node-to-string@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/react-node-to-string/-/react-node-to-string-0.1.1.tgz#857a5e223ef2ea75d5d10e72d3c6b0d9a31000ab"
+  integrity sha512-BufjWy2h2dOFcQp1IY/iXgdJzVbhAX6rM4/aNcmyp2VgMpUCU0py/t3MHRBLPxMULB6dCQeNebM+s6iI/46Xqw==
+
 react-refresh@^0.13.0:
   version "0.13.0"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.13.0.tgz#cbd01a4482a177a5da8d44c9755ebb1f26d5a1c1"

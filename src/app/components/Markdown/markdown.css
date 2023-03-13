@@ -15,10 +15,9 @@
     margin-bottom: 5px;
   }
   > pre {
-    margin-bottom: 5px;
-  }
-  > pre code.hljs {
     padding: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
   > pre code {
     white-space: pre-wrap;
