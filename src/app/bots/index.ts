@@ -1,10 +1,17 @@
 import { BingWebBot } from './bing'
 import { ChatGPTBot } from './chatgpt'
-import { ChatGPTApiBot } from './chatgpt-api'
+import { ChatGPTWebBot } from './chatgpt-webapp'
 
-export type BotId = 'chatgpt' | 'bing'
+export type BotId = 'chatgpt' | 'bing' | 'gpt-4'
 
-export const botClasses: Record<BotId, typeof ChatGPTApiBot | typeof BingWebBot> = {
-  chatgpt: ChatGPTBot,
-  bing: BingWebBot,
+export function createBot(botId: BotId) {
+  if (botId === 'chatgpt') {
+    return new ChatGPTBot()
+  }
+  if (botId === 'bing') {
+    return new BingWebBot()
+  }
+  if (botId === 'gpt-4') {
+    return new ChatGPTWebBot('gpt-4')
+  }
 }

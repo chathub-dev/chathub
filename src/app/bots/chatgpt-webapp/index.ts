@@ -13,8 +13,9 @@ export class ChatGPTWebBot extends AbstractBot {
   private conversationContext?: ConversationContext
   private modelName?: string
 
-  constructor() {
+  constructor(modelName?: string) {
     super()
+    this.modelName = modelName
   }
 
   private async getModelName(): Promise<string> {
