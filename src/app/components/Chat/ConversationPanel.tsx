@@ -71,14 +71,19 @@ const ConversationPanel: FC<Props> = (props) => {
             <hr className="grow border-[#ededed]" />
           </div>
           <ChatMessageInput
-            enablePromptLibrary={mode === 'full'}
+            mode={mode}
             disabled={props.generating}
             placeholder={mode === 'compact' ? '' : 'Ask me anything...'}
             onSubmit={onSubmit}
             autoFocus={mode === 'full'}
             actionButton={
               props.generating ? (
-                <Button text="Stop" color="flat" onClick={props.stopGenerating} />
+                <Button
+                  text="Stop"
+                  color="flat"
+                  size={mode === 'full' ? 'normal' : 'small'}
+                  onClick={props.stopGenerating}
+                />
               ) : (
                 mode === 'full' && <Button text="Send" color="primary" type="submit" />
               )

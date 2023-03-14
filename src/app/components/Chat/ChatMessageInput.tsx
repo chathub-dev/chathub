@@ -6,7 +6,7 @@ import PromptLibraryDialog from '../PromptLibrary/Dialog'
 import TextInput from './TextInput'
 
 interface Props {
-  enablePromptLibrary: boolean
+  mode: 'full' | 'compact'
   onSubmit: (value: string) => void
   className?: string
   disabled?: boolean
@@ -52,7 +52,7 @@ const ChatMessageInput: FC<Props> = (props) => {
 
   return (
     <form className={cx('flex flex-row items-center gap-3', props.className)} onSubmit={onFormSubmit} ref={formRef}>
-      {props.enablePromptLibrary && (
+      {props.mode === 'full' && (
         <>
           <GoBook
             size={22}
@@ -76,7 +76,9 @@ const ChatMessageInput: FC<Props> = (props) => {
         value={value}
         onValueChange={setValue}
       />
-      {props.actionButton || <Button text="-" className="invisible" />}
+      {props.actionButton || (
+        <Button text="-" className="invisible" size={props.mode === 'full' ? 'normal' : 'small'} />
+      )}
     </form>
   )
 }
