@@ -13,10 +13,16 @@ export enum BingConversationStyle {
   Precise = 'precise',
 }
 
+export enum ChatGPTMode {
+  API = 'api',
+  Webapp = 'webapp',
+}
+
 const userConfigWithDefaultValue = {
   openaiApiKey: '',
   openaiApiHost: 'https://api.openai.com',
-  chatgptApiTemperature: 0.6,
+  chatgptMode: ChatGPTMode.Webapp,
+  chatgptWebappModelName: 'default',
   startupPage: StartupPage.All,
   bingConversationStyle: BingConversationStyle.Balanced,
 }

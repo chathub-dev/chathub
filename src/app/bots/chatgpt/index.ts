@@ -1,5 +1,5 @@
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
-import { getUserConfig } from '~/services/user-config'
+import { ChatGPTMode, getUserConfig } from '~/services/user-config'
 import { ChatGPTApiBot } from '../chatgpt-api'
 import { ChatGPTWebBot } from '../chatgpt-webapp'
 
@@ -9,9 +9,11 @@ export class ChatGPTBot extends AbstractBot {
   constructor() {
     super()
     this.#bot = new ChatGPTWebBot()
-    getUserConfig().then(({ openaiApiKey }) => {
-      if (openaiApiKey) {
+    getUserConfig().then(({ chatgptMode, chatgptWebappModelName }) => {
+      if (chatgptMode === ChatGPTMode.API) {
         this.#bot = new ChatGPTApiBot()
+      } else {
+        this.#bot = new ChatGPTWebBot(chatgptWebappModelName === 'default' ? undefined : chatgptWebappModelName)
       }
     })
   }

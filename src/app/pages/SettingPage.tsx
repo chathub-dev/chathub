@@ -5,7 +5,14 @@ import Button from '~app/components/Button'
 import { Input } from '~app/components/Input'
 import Select from '~app/components/Select'
 import { getTokenUsage } from '~services/storage'
-import { BingConversationStyle, getUserConfig, StartupPage, updateUserConfig, UserConfig } from '~services/user-config'
+import {
+  BingConversationStyle,
+  ChatGPTMode,
+  getUserConfig,
+  StartupPage,
+  updateUserConfig,
+  UserConfig,
+} from '~services/user-config'
 import { formatAmount, formatDecimal } from '~utils/format'
 import PagePanel from '../components/Page'
 
@@ -96,30 +103,63 @@ function SettingPage() {
           </div>
         </div>
         <div className="flex flex-col gap-2">
-          <p className="font-bold text-xl">ChatGPT API</p>
-          <div className="flex flex-col gap-1">
-            <p className="font-medium text-base">API Key</p>
-            <Input
-              className="w-[300px]"
-              placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-              value={userConfig.openaiApiKey}
-              onChange={(e) => updateConfigValue({ openaiApiKey: e.currentTarget.value })}
-              type="password"
-            />
+          <p className="font-bold text-xl">ChatGPT</p>
+          <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10 mb-1">
+            {(Object.keys(ChatGPTMode) as (keyof typeof ChatGPTMode)[]).map((k) => (
+              <div className="flex items-center" key={k}>
+                <input
+                  id={k}
+                  type="radio"
+                  checked={userConfig.chatgptMode === ChatGPTMode[k]}
+                  className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                  value={ChatGPTMode[k]}
+                  onChange={(e) => updateConfigValue({ chatgptMode: e.currentTarget.value as ChatGPTMode })}
+                />
+                <label htmlFor={k} className="ml-3 block text-sm font-medium leading-6 text-gray-900">
+                  {k} Mode
+                </label>
+              </div>
+            ))}
           </div>
-          <div className="flex flex-col gap-1">
-            <p className="font-medium text-base">API Host</p>
-            <Input
-              className="w-[300px]"
-              placeholder="https://api.openai.com"
-              value={userConfig.openaiApiHost}
-              onChange={(e) => updateConfigValue({ openaiApiHost: e.currentTarget.value })}
-            />
-          </div>
-          {tokenUsed > 0 && (
-            <p className="text-sm">
-              Usage: {formatDecimal(tokenUsed)} tokens (~{formatAmount((tokenUsed / 1000) * 0.002)})
-            </p>
+          {userConfig.chatgptMode === ChatGPTMode.API ? (
+            <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-1">
+                <p className="font-medium text-sm">API Key</p>
+                <Input
+                  className="w-[300px]"
+                  placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                  value={userConfig.openaiApiKey}
+                  onChange={(e) => updateConfigValue({ openaiApiKey: e.currentTarget.value })}
+                  type="password"
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <p className="font-medium text-sm">API Host</p>
+                <Input
+                  className="w-[300px]"
+                  placeholder="https://api.openai.com"
+                  value={userConfig.openaiApiHost}
+                  onChange={(e) => updateConfigValue({ openaiApiHost: e.currentTarget.value })}
+                />
+              </div>
+              {tokenUsed > 0 && (
+                <p className="text-sm">
+                  Usage: {formatDecimal(tokenUsed)} tokens (~{formatAmount((tokenUsed / 1000) * 0.002)})
+                </p>
+              )}
+            </div>
+          ) : (
+            <div className="flex flex-col gap-1 w-[200px]">
+              <p className="font-medium text-sm">Model</p>
+              <Select
+                options={[
+                  { name: 'Default', value: 'default' },
+                  { name: 'GPT-4 (requires Plus)', value: 'gpt-4' },
+                ]}
+                value={userConfig.chatgptWebappModelName}
+                onChange={(v) => updateConfigValue({ chatgptWebappModelName: v })}
+              />
+            </div>
           )}
         </div>
         <div className="flex flex-col gap-1">
