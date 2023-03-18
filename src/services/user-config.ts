@@ -31,6 +31,9 @@ export type UserConfig = typeof userConfigWithDefaultValue
 
 export async function getUserConfig(): Promise<UserConfig> {
   const result = await Browser.storage.sync.get(Object.keys(userConfigWithDefaultValue))
+  if (!result.chatgptMode && result.openaiApiKey) {
+    result.chatgptMode = ChatGPTMode.API
+  }
   return defaults(result, userConfigWithDefaultValue)
 }
 
