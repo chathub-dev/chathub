@@ -1,15 +1,25 @@
-import { ofetch } from 'ofetch'
+import { ofetch, FetchError } from 'ofetch'
 import { uuid } from '~utils'
 import { ChatError, ErrorCode } from '~utils/errors'
 import { ConversationResponse } from './types'
 
 export async function createConversation(): Promise<ConversationResponse> {
-  const resp = await ofetch<ConversationResponse>('https://www.bing.com/turing/conversation/create', {
-    headers: {
-      'x-ms-client-request-id': uuid(),
-      'x-ms-useragent': 'azsdk-js-api-client-factory/1.0.0-beta.1 core-rest-pipeline/1.10.0 OS/Win32',
-    },
-  })
+  const headers = {
+    'x-ms-client-request-id': uuid(),
+    'x-ms-useragent': 'azsdk-js-api-client-factory/1.0.0-beta.1 core-rest-pipeline/1.10.0 OS/Win32',
+  }
+
+  let resp: ConversationResponse
+  try {
+    resp = await ofetch('https://www.bing.com/turing/conversation/create', { headers })
+  } catch (err) {
+    if (err instanceof FetchError && err.status === 404) {
+      resp = await ofetch('https://edgeservices.bing.com/edgesvc/turing/conversation/create', { headers })
+    } else {
+      throw err
+    }
+  }
+
   if (resp.result.value !== 'Success') {
     const message = `${resp.result.value}: ${resp.result.message}`
     if (resp.result.value === 'UnauthorizedRequest') {
