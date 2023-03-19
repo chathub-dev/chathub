@@ -1,6 +1,7 @@
 import cx from 'classnames'
 import { FC, memo, ReactNode, useCallback, useEffect, useRef, useState } from 'react'
 import { GoBook } from 'react-icons/go'
+import { trackEvent } from '~app/plausible'
 import Button from '../Button'
 import PromptLibraryDialog from '../PromptLibrary/Dialog'
 import TextInput from './TextInput'
@@ -50,16 +51,16 @@ const ChatMessageInput: FC<Props> = (props) => {
     [value],
   )
 
+  const openPromptLibrary = useCallback(() => {
+    setIsPromptLibraryDialogOpen(true)
+    trackEvent('open_prompt_library')
+  }, [])
+
   return (
     <form className={cx('flex flex-row items-center gap-3', props.className)} onSubmit={onFormSubmit} ref={formRef}>
       {props.mode === 'full' && (
         <>
-          <GoBook
-            size={22}
-            color="#707070"
-            className="cursor-pointer"
-            onClick={() => setIsPromptLibraryDialogOpen(true)}
-          />
+          <GoBook size={22} color="#707070" className="cursor-pointer" onClick={openPromptLibrary} />
           <PromptLibraryDialog
             isOpen={isPromptLibraryDialogOpen}
             onClose={() => setIsPromptLibraryDialogOpen(false)}
