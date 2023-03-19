@@ -12,6 +12,10 @@ export async function createConversation(): Promise<ConversationResponse> {
   let resp: ConversationResponse
   try {
     resp = await ofetch('https://www.bing.com/turing/conversation/create', { headers })
+    if (!resp.result) {
+      console.debug('bing/conversation/create', resp)
+      resp = await ofetch('https://edgeservices.bing.com/edgesvc/turing/conversation/create', { headers })
+    }
   } catch (err) {
     if (err instanceof FetchError && err.status === 404) {
       resp = await ofetch('https://edgeservices.bing.com/edgesvc/turing/conversation/create', { headers })
