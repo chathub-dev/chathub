@@ -23,6 +23,16 @@ const resources = {
       Save: '保存',
     },
   },
+  th: {
+    translation: {
+      'Shortcut to open this app': 'ทางลัดเพื่อเปิดแอปนี้',
+      Settings: 'การตั้งค่า',
+      'Startup page': 'หน้าเริ่มต้น',
+      'Conversation style': 'สไตล์การสนทนา',
+      'Change shortcut': 'เปลี่ยนทางลัด',
+      Save: 'บันทึก',
+    },
+  },
 }
 
 i18n
