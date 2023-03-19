@@ -17,6 +17,14 @@ ChatHub is an all-in-one chatbot client
 - Shortcut to quickly activate the app anywhere in the browser.
 - Markdown and code highlight support.
 
+## Manual Installation / 手动安装
+
+- Download chathub.zip from [Releases](https://github.com/chathub-dev/chathub/releases).
+- Unzip the file.
+- In Chrome/Edge go to the extensions page (chrome://extensions or edge://extensions).
+- Enable Developer Mode.
+- Drag the unzipped folder anywhere on the page to import it (do not delete the folder afterward).
+
 ## Changelog
 
 ### v1.5.1
