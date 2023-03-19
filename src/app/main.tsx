@@ -3,6 +3,7 @@ import Plausible from 'plausible-tracker'
 import { createRoot } from 'react-dom/client'
 import './base.scss'
 import { router } from './router'
+import './i18n'
 
 const container = document.getElementById('app')!
 const root = createRoot(container)

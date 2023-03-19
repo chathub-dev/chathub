@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import toast, { Toaster } from 'react-hot-toast'
 import Browser from 'webextension-polyfill'
 import Button from '~app/components/Button'
@@ -25,6 +26,7 @@ function KDB(props: { text: string }) {
 }
 
 function SettingPage() {
+  const { t } = useTranslation()
   const [shortcuts, setShortcuts] = useState<string[]>([])
   const [userConfig, setUserConfig] = useState<UserConfig | undefined>(undefined)
   const [tokenUsed, setTokenUsed] = useState(0)
@@ -75,21 +77,21 @@ function SettingPage() {
   }
 
   return (
-    <PagePanel title="Settings">
+    <PagePanel title={t('Settings')}>
       <div className="flex flex-col gap-8 mt-3 pr-3">
         <div className="flex flex-row justify-between items-center">
           <div>
-            <p className="font-bold mb-2 text-xl">Shortcut to open this app</p>
+            <p className="font-bold mb-2 text-xl">{t('Shortcut to open this app')}</p>
             <div className="flex flex-row gap-1">
               {shortcuts.length ? shortcuts.map((s) => <KDB key={s} text={s} />) : 'Not set'}
             </div>
           </div>
           <div>
-            <Button text="Change shortcut" size="normal" onClick={openShortcutPage} />
+            <Button text={t('Change shortcut')} size="normal" onClick={openShortcutPage} />
           </div>
         </div>
         <div>
-          <p className="font-bold mb-2 text-xl">Startup page</p>
+          <p className="font-bold mb-2 text-xl">{t('Startup page')}</p>
           <div className="w-[200px]">
             <Select
               options={[
@@ -165,7 +167,7 @@ function SettingPage() {
         <div className="flex flex-col gap-1">
           <p className="font-bold text-xl">Bing</p>
           <div className="flex flex-row gap-3 items-center">
-            <p className="font-medium text-base">Conversation style</p>
+            <p className="font-medium text-base">{t('Conversation style')}</p>
             <div className="w-[150px]">
               <Select
                 options={[
@@ -189,7 +191,7 @@ function SettingPage() {
           </div>
         </div>
       </div>
-      <Button color={dirty ? 'primary' : 'flat'} text="Save" className="w-fit mt-10 mb-5" onClick={save} />
+      <Button color={dirty ? 'primary' : 'flat'} text={t('Save')} className="w-fit mt-10 mb-5" onClick={save} />
       <Toaster position="top-right" />
     </PagePanel>
   )
