@@ -8,6 +8,7 @@ import { useCallback, useState } from 'react'
 import { Input, Textarea } from '../Input'
 import { uuid } from '~utils'
 import { BeatLoader } from 'react-spinners'
+import { trackEvent } from '~app/plausible'
 
 const PromptItem = (props: {
   title: string
@@ -76,6 +77,7 @@ function LocalPrompts(props: { insertPrompt: (text: string) => void }) {
       await addLocalPrompt({ id: uuid(), title, prompt })
       localPromptsQuery.mutate()
       setShowForm(false)
+      trackEvent('add_local_prompt')
     },
     [localPromptsQuery],
   )
@@ -143,6 +145,13 @@ function CommunityPrompts(props: { insertPrompt: (text: string) => void }) {
 }
 
 const PromptLibrary = (props: { insertPrompt: (text: string) => void }) => {
+  const insertPrompt = useCallback(
+    (text: string) => {
+      props.insertPrompt(text)
+      trackEvent('use_prompt')
+    },
+    [props],
+  )
   return (
     <Tabs defaultValue="local" className="w-full">
       <TabsList>
@@ -151,12 +160,12 @@ const PromptLibrary = (props: { insertPrompt: (text: string) => void }) => {
       </TabsList>
       <TabsContent value="local">
         <Suspense fallback={<BeatLoader size={10} className="mt-5" />}>
-          <LocalPrompts insertPrompt={props.insertPrompt} />
+          <LocalPrompts insertPrompt={insertPrompt} />
         </Suspense>
       </TabsContent>
       <TabsContent value="community">
         <Suspense fallback={<BeatLoader size={10} className="mt-5" />}>
-          <CommunityPrompts insertPrompt={props.insertPrompt} />
+          <CommunityPrompts insertPrompt={insertPrompt} />
         </Suspense>
       </TabsContent>
     </Tabs>
