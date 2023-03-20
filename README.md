@@ -27,6 +27,10 @@ ChatHub is an all-in-one chatbot client
 
 ## Changelog
 
+### v1.5.4
+
+- Support GPT-4 model in chatgpt api mode
+
 ### v1.5.1
 
 - Add i18n settings
