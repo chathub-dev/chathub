@@ -1,5 +1,6 @@
 import { defaults } from 'lodash-es'
 import Browser from 'webextension-polyfill'
+import { CHATGPT_API_MODELS } from '~app/consts'
 
 export enum StartupPage {
   All = 'all',
@@ -21,6 +22,7 @@ export enum ChatGPTMode {
 const userConfigWithDefaultValue = {
   openaiApiKey: '',
   openaiApiHost: 'https://api.openai.com',
+  chatgptApiModel: CHATGPT_API_MODELS[0],
   chatgptMode: ChatGPTMode.Webapp,
   chatgptWebappModelName: 'default',
   startupPage: StartupPage.All,

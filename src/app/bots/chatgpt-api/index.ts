@@ -13,7 +13,7 @@ export class ChatGPTApiBot extends AbstractBot {
   private conversationContext?: ConversationContext
 
   async doSendMessage(params: SendMessageParams) {
-    const { openaiApiKey, openaiApiHost } = await getUserConfig()
+    const { openaiApiKey, openaiApiHost, chatgptApiModel } = await getUserConfig()
     if (!openaiApiKey) {
       throw new ChatError('OpenAI API key not set', ErrorCode.API_KEY_NOT_SET)
     }
@@ -32,7 +32,7 @@ export class ChatGPTApiBot extends AbstractBot {
         Authorization: `Bearer ${openaiApiKey}`,
       },
       body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
+        model: chatgptApiModel,
         messages: this.conversationContext.messages,
         temperature: 0.6,
         stream: true,

@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import toast, { Toaster } from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
 import Browser from 'webextension-polyfill'
 import Button from '~app/components/Button'
 import { Input } from '~app/components/Input'
 import Select from '~app/components/Select'
+import { CHATGPT_API_MODELS } from '~app/consts'
 import { getTokenUsage } from '~services/storage'
 import {
   BingConversationStyle,
@@ -142,6 +143,14 @@ function SettingPage() {
                   placeholder="https://api.openai.com"
                   value={userConfig.openaiApiHost}
                   onChange={(e) => updateConfigValue({ openaiApiHost: e.currentTarget.value })}
+                />
+              </div>
+              <div className="flex flex-col gap-1 w-[200px]">
+                <p className="font-medium text-sm">API Model</p>
+                <Select
+                  options={CHATGPT_API_MODELS.map((m) => ({ name: m, value: m }))}
+                  value={userConfig.chatgptApiModel}
+                  onChange={(v) => updateConfigValue({ chatgptApiModel: v })}
                 />
               </div>
               {tokenUsed > 0 && (
