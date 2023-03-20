@@ -4,7 +4,7 @@ function NavLink(props: LinkPropsOptions & { text: string }) {
   const { text, ...linkProps } = props
   return (
     <Link
-      className="rounded-[10px] w-full h-[50px] pl-5 flex flex-col justify-center"
+      className="rounded-[10px] w-full h-[45px] pl-5 flex flex-col justify-center"
       activeOptions={{ exact: true }}
       activeProps={{
         className: 'bg-[#4987FC]',

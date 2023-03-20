@@ -29,36 +29,36 @@ const MultiBotChatPanel: FC = () => {
   )
 
   return (
-    <div className="grid grid-cols-2 grid-rows-[1fr_auto] overflow-hidden gap-5">
-      <ConversationPanel
-        botId="chatgpt"
-        messages={chatgptChat.messages}
-        onUserSendMessage={onUserSendMessage}
-        generating={chatgptChat.generating}
-        stopGenerating={chatgptChat.stopGenerating}
-        mode="compact"
-        resetConversation={chatgptChat.resetConversation}
-      />
-      <ConversationPanel
-        botId="bing"
-        messages={bingChat.messages}
-        onUserSendMessage={onUserSendMessage}
-        generating={bingChat.generating}
-        stopGenerating={bingChat.stopGenerating}
-        mode="compact"
-        resetConversation={bingChat.resetConversation}
-      />
-      <div className="col-span-full">
-        <ChatMessageInput
-          mode="full"
-          className="rounded-full bg-white px-[20px] py-[10px]"
-          disabled={generating}
-          placeholder="Send to all ..."
-          onSubmit={onUserSendMessage}
-          actionButton={!generating && <Button text="Send" color="primary" type="submit" />}
-          autoFocus={true}
+    <div className="flex flex-col overflow-hidden">
+      <div className="grid grid-cols-2 gap-5 overflow-hidden grow">
+        <ConversationPanel
+          botId="chatgpt"
+          messages={chatgptChat.messages}
+          onUserSendMessage={onUserSendMessage}
+          generating={chatgptChat.generating}
+          stopGenerating={chatgptChat.stopGenerating}
+          mode="compact"
+          resetConversation={chatgptChat.resetConversation}
+        />
+        <ConversationPanel
+          botId="bing"
+          messages={bingChat.messages}
+          onUserSendMessage={onUserSendMessage}
+          generating={bingChat.generating}
+          stopGenerating={bingChat.stopGenerating}
+          mode="compact"
+          resetConversation={bingChat.resetConversation}
         />
       </div>
+      <ChatMessageInput
+        mode="full"
+        className="rounded-full bg-white px-[20px] py-[10px] mt-5"
+        disabled={generating}
+        placeholder="Send to all ..."
+        onSubmit={onUserSendMessage}
+        actionButton={!generating && <Button text="Send" color="primary" type="submit" />}
+        autoFocus={true}
+      />
     </div>
   )
 }
