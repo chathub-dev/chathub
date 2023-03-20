@@ -48,7 +48,7 @@ const ConversationPanel: FC<Props> = (props) => {
       <div className="flex flex-col overflow-hidden bg-white rounded-[35px] h-full">
         <div
           className={cx(
-            'border-b border-solid border-[#ededed] h-[60px] flex flex-row items-center justify-center gap-2',
+            'border-b border-solid border-[#ededed] flex flex-row items-center justify-center gap-2 py-3',
             marginClass,
           )}
         >
