@@ -31,3 +31,75 @@ body {
 body {
   font-size: 100%;
 }
+
+@mixin light-theme {
+  --bg-1: #4987fc;
+  --bg-2: #f2f2f2;
+  --bg-3: #6756bd;
+  --bg-4: #f2f2f2;
+  --bg-5: #5E95FC;
+  --bg-6: #f2f2f233;
+  --text-1: #303030;
+  --text-2: #6756bd;
+  --text-3: #707070;
+  --text-4: #bebebe;
+  --border-1: #ededed;
+}
+
+@mixin dark-theme {
+  --bg-1: #3c7eff;
+  --bg-2: #4b5563;
+  --bg-3: #6756bd;
+  --bg-4: #f2f2f2;
+  --bg-5: #5E95FC;
+  --bg-6: #4b556333;
+  --text-1: #f3f4f6;
+  --text-2: #d1d5db;
+  --text-3: #e2e8f0;
+  --text-4: #f1f5f9;
+  --border-1: #94a3b8;
+}
+
+.light {
+  @include light-theme;
+  .scrollbar::-webkit-scrollbar-track {
+    background-color: #f1f5f9;
+    border-radius: 0.25rem;
+  }
+  .scrollbar::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 0.25rem;
+  }
+  .scrollbar::-webkit-scrollbar {
+    background-color: transparent;
+    width: 0.375rem;
+    height: 0.375rem;
+  }
+}
+
+.dark {
+  @include dark-theme;
+  .scrollbar::-webkit-scrollbar-track {
+    background-color: #64748b29;
+    border-radius: 0.25rem;
+  }
+  .scrollbar::-webkit-scrollbar-thumb {
+    background-color: #64748b80;
+    border-radius: 0.25rem;
+  }
+  .scrollbar::-webkit-scrollbar {
+    background-color: transparent;
+    width: 0.375rem;
+    height: 0.375rem;
+  }
+}
+
+:root:not(.light):not(.dark) {
+  @media (prefers-color-scheme: light) {
+    @include light-theme;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    @include dark-theme;
+  }
+}

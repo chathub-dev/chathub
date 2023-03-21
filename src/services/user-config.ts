@@ -19,6 +19,12 @@ export enum ChatGPTMode {
   Webapp = 'webapp',
 }
 
+export enum DarkMode {
+  Dark = 'dark',
+  Light = 'light',
+  Auto = 'auto',
+}
+
 const userConfigWithDefaultValue = {
   openaiApiKey: '',
   openaiApiHost: 'https://api.openai.com',
@@ -27,6 +33,7 @@ const userConfigWithDefaultValue = {
   chatgptWebappModelName: 'default',
   startupPage: StartupPage.All,
   bingConversationStyle: BingConversationStyle.Balanced,
+  darkMode: DarkMode.Auto,
 }
 
 export type UserConfig = typeof userConfigWithDefaultValue

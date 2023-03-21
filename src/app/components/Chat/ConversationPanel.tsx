@@ -58,35 +58,38 @@ const ConversationPanel: FC<Props> = (props) => {
     <ConversationContext.Provider value={context}>
       <div
         className={cx(
-          'flex flex-col overflow-hidden bg-white h-full',
+          'flex flex-col overflow-hidden bg-white h-full dark:bg-gray-800',
           mode === 'full' ? 'rounded-[35px]' : 'rounded-[20px]',
         )}
       >
         <div
           className={cx(
-            'border-b border-solid border-[#ededed] flex flex-row items-center justify-between gap-2 py-3',
+            'border-b border-solid border-[var(--border-1)] flex flex-row items-center justify-center gap-2 py-3',
             marginClass,
           )}
         >
           <div className="flex flex-row items-center gap-2">
-            <img src={botInfo.avatar} className="w-5 h-5 object-contain rounded-full" />
-            <span className="font-semibold text-[#707070] text-sm">{botInfo.name}</span>
+            <img title={botInfo.name} src={botInfo.avatar} className="w-5 h-5 object-contain rounded-full" />
+            <span className="font-semibold text-[var(--text-3)] text-sm">{botInfo.name}</span>
             {mode === 'compact' && <SwitchBotDropdown excludeBotId={props.botId} index={props.index!} />}
           </div>
           <div className="flex flex-row items-center gap-3">
             <img
+              title='clean'
               src={clearIcon}
-              className={cx('w-5 h-5', props.generating ? 'cursor-not-allowed' : 'cursor-pointer')}
+              className={cx('w-5 h-5 text-[var(--text-3)]', props.generating ? 'cursor-not-allowed' : 'cursor-pointer')}
               onClick={resetConversation}
             />
-            <img src={historyIcon} className="w-5 h-5 cursor-pointer" onClick={openHistoryDialog} />
+            <img title='history' src={historyIcon} className="w-5 h-5 cursor-pointer text-[var(--text-3)]" onClick={openHistoryDialog} />
           </div>
         </div>
         <ChatMessageList botId={props.botId} messages={props.messages} className={marginClass} />
         <div className={cx('mt-3 flex flex-col', marginClass, mode === 'full' ? 'mb-5' : 'mb-[10px]')}>
           <div className={cx('flex flex-row items-center gap-[5px]', mode === 'full' ? 'mb-[15px]' : 'mb-0')}>
-            {mode === 'compact' && <span className="font-medium text-xs text-[#bebebe]">Send to {botInfo.name}</span>}
-            <hr className="grow border-[#ededed]" />
+            {mode === 'compact' && (
+              <span className="font-medium text-xs text-[var(--text-4)]">Send to {botInfo.name}</span>
+            )}
+            <hr className="grow border-[var(--border-1)]" />
           </div>
           <ChatMessageInput
             mode={mode}
