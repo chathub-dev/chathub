@@ -31,7 +31,7 @@ const ChatGPTAuthErrorAction = () => {
       <Button color="primary" text="Login & verify" onClick={fixChatGPT} isLoading={fixing} size="small" />
       <span className="text-sm">OR</span>
       <Link to="/setting">
-        <Button color="primary" text="Set api key" size="small" />
+        <Button color="primary" text="Set api key" size="small" className="top-[-1px] relative" />
       </Link>
     </div>
   )

@@ -31,3 +31,39 @@ body {
 body {
   font-size: 100%;
 }
+
+@mixin light-theme {
+  --bg-1: #4987fc;
+  --bg-2: #f2f2f2;
+  --bg-3: #6756bd;
+  --text-1: #303030;
+  --text-2: #6756bd;
+  --border-1: #ededed;
+}
+
+@mixin dark-theme {
+  --bg-1: #3c7eff;
+  --bg-2: #4b5563;
+  --bg-3: #6756bd;
+  --text-1: #f3f4f6;
+  --text-2: #d1d5db;
+  --border-1: #94a3b8;
+}
+
+.light {
+  @include light-theme;
+}
+
+.dark {
+  @include dark-theme;
+}
+
+:root:not(.light):not(.dark) {
+  @media (prefers-color-scheme: light) {
+    @include light-theme;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    @include dark-theme;
+  }
+}

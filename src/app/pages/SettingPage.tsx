@@ -82,8 +82,8 @@ function SettingPage() {
       <div className="flex flex-col gap-8 mt-3 pr-3">
         <div className="flex flex-row justify-between items-center">
           <div>
-            <p className="font-bold mb-2 text-xl">{t('Shortcut to open this app')}</p>
-            <div className="flex flex-row gap-1">
+            <p className="font-bold mb-2 text-xl text-[var(--text-1)]">{t('Shortcut to open this app')}</p>
+            <div className="flex flex-row gap-1 text-[var(--text-1)]">
               {shortcuts.length ? shortcuts.map((s) => <KDB key={s} text={s} />) : 'Not set'}
             </div>
           </div>
@@ -92,7 +92,7 @@ function SettingPage() {
           </div>
         </div>
         <div>
-          <p className="font-bold mb-2 text-xl">{t('Startup page')}</p>
+          <p className="font-bold mb-2 text-xl text-[var(--text-1)]">{t('Startup page')}</p>
           <div className="w-[200px]">
             <Select
               options={[
@@ -106,7 +106,7 @@ function SettingPage() {
           </div>
         </div>
         <div className="flex flex-col gap-2">
-          <p className="font-bold text-xl">ChatGPT</p>
+          <p className="font-bold text-xl text-[var(--text-1)]">ChatGPT</p>
           <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10 mb-1">
             {(Object.keys(ChatGPTMode) as (keyof typeof ChatGPTMode)[]).map((k) => (
               <div className="flex items-center" key={k}>
@@ -114,11 +114,14 @@ function SettingPage() {
                   id={k}
                   type="radio"
                   checked={userConfig.chatgptMode === ChatGPTMode[k]}
-                  className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                  className="h-4 w-4 border-gray-300 dark:border-gray-900 dark:bg-gray-900 text-indigo-600 focus:ring-indigo-600"
                   value={ChatGPTMode[k]}
                   onChange={(e) => updateConfigValue({ chatgptMode: e.currentTarget.value as ChatGPTMode })}
                 />
-                <label htmlFor={k} className="ml-3 block text-sm font-medium leading-6 text-gray-900">
+                <label
+                  htmlFor={k}
+                  className="ml-3 block text-sm font-medium leading-6 text-gray-900 dark:text-gray-300"
+                >
                   {k} Mode
                 </label>
               </div>
@@ -161,7 +164,7 @@ function SettingPage() {
             </div>
           ) : (
             <div className="flex flex-col gap-1 w-[200px]">
-              <p className="font-medium text-sm">Model</p>
+              <p className="font-medium text-sm text-[var(--text-1)]">Model</p>
               <Select
                 options={[
                   { name: 'Default', value: 'default' },
@@ -174,9 +177,9 @@ function SettingPage() {
           )}
         </div>
         <div className="flex flex-col gap-1">
-          <p className="font-bold text-xl">Bing</p>
+          <p className="font-bold text-xl text-[var(--text-1)]">Bing</p>
           <div className="flex flex-row gap-3 items-center">
-            <p className="font-medium text-base">{t('Conversation style')}</p>
+            <p className="font-medium text-base text-[var(--text-1)]">{t('Conversation style')}</p>
             <div className="w-[150px]">
               <Select
                 options={[

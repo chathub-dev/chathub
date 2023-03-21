@@ -19,13 +19,18 @@ const Button: FC<Props> = (props) => {
       type={props.type}
       className={cx(
         size === 'normal' ? 'rounded-[60px] text-base font-medium px-8 py-2' : 'rounded-[30px] text-sm px-4 py-1',
-        props.color === 'primary' ? 'text-white bg-[#4987FC]' : 'text-[#303030] bg-[#F2F2F2]',
+        props.color === 'primary' ? 'text-white bg-[var(--bg-1)] ' : 'text-[var(--text-1)] bg-[var(--bg-2)] ',
         props.className,
       )}
       onClick={props.onClick}
     >
       {props.isLoading ? (
-        <BeatLoader size={size === 'normal' ? 10 : 5} color={props.color === 'primary' ? 'white' : '#303030'} />
+        <BeatLoader
+          size={size === 'normal' ? 10 : 5}
+          color={props.color === 'primary' ? 'white' : '#303030'}
+          style={{ display: 'flex' }}
+          className={cx(size === 'normal' ? 'h-6' : 'h-5', 'items-center')}
+        />
       ) : (
         props.text
       )}

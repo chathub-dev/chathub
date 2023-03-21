@@ -12,7 +12,7 @@ interface Props<T> {
 
 function Select<T extends string>(props: Props<T>) {
   const { options, value, onChange, size = 'normal' } = props
-  const selectedName = useMemo(() => options.find((o) => o.value === value)!.name, [options, value])
+  const selectedName = useMemo(() => options.find((o) => o.value === value)?.name, [options, value])
   return (
     <Listbox value={value} onChange={onChange}>
       {({ open }) => (
@@ -20,13 +20,13 @@ function Select<T extends string>(props: Props<T>) {
           <div className="relative">
             <Listbox.Button
               className={cx(
-                'relative w-full cursor-default rounded-md bg-white pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 leading-6',
+                'relative w-full cursor-default rounded-md bg-[var(--bg-2)] pl-3 pr-10 text-left text-gray-900 dark:text-gray-300 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-600 leading-6',
                 size === 'normal' ? 'text-sm py-1.5' : 'text-xs py-1',
               )}
             >
               <span className="block truncate">{selectedName}</span>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                <ChevronUpDownIcon className="h-5 w-5 text-gray-400 dark:text-gray-900" aria-hidden="true" />
               </span>
             </Listbox.Button>
             <Transition
@@ -38,7 +38,7 @@ function Select<T extends string>(props: Props<T>) {
             >
               <Listbox.Options
                 className={cx(
-                  'absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
+                  'absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-[var(--bg-2)] py-1 text-base shadow-lg ring-1 ring-white dark:ring-black  ring-opacity-5 focus:outline-none',
                   size === 'normal' ? 'text-sm' : 'text-xs',
                 )}
               >
@@ -47,7 +47,7 @@ function Select<T extends string>(props: Props<T>) {
                     key={option.value}
                     className={({ active }) =>
                       cx(
-                        active ? 'bg-[#6756BD] text-white' : 'text-gray-900',
+                        active ? 'bg-[var(--bg-3)] text-white' : 'text-gray-900 dark:text-gray-300',
                         'relative cursor-default select-none py-2 pl-3 pr-9',
                       )
                     }
@@ -61,7 +61,7 @@ function Select<T extends string>(props: Props<T>) {
                         {selected ? (
                           <span
                             className={cx(
-                              active ? 'text-white' : 'text-[#6756BD]',
+                              active ? 'text-white' : 'text-[var(--text-2)]',
                               'absolute inset-y-0 right-0 flex items-center pr-4',
                             )}
                           >
