@@ -61,11 +61,13 @@ const ChatMessageInput: FC<Props> = (props) => {
       {props.mode === 'full' && (
         <>
           <GoBook size={22} color="#707070" className="cursor-pointer" onClick={openPromptLibrary} />
-          <PromptLibraryDialog
-            isOpen={isPromptLibraryDialogOpen}
-            onClose={() => setIsPromptLibraryDialogOpen(false)}
-            insertPrompt={insertTextAtCursor}
-          />
+          {isPromptLibraryDialogOpen && (
+            <PromptLibraryDialog
+              isOpen={true}
+              onClose={() => setIsPromptLibraryDialogOpen(false)}
+              insertPrompt={insertTextAtCursor}
+            />
+          )}
         </>
       )}
       <TextInput

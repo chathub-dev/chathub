@@ -10,7 +10,7 @@ interface Props {
 const PromptLibraryDialog = (props: Props) => {
   return (
     <Dialog title="Prompt Library" open={props.isOpen} onClose={props.onClose} className="w-[800px] min-h-[400px]">
-      <div className="my-5">
+      <div className="my-5 px-5">
         <PromptLibrary insertPrompt={props.insertPrompt} />
       </div>
     </Dialog>

@@ -1,7 +1,8 @@
 import { useAtom } from 'jotai'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { trackEvent } from '~app/plausible'
 import { chatFamily } from '~app/state'
+import { setConversationMessages } from '~services/chat-history'
 import { ChatMessageModel } from '~types'
 import { uuid } from '~utils'
 import { BotId } from '../bots'
@@ -72,6 +73,7 @@ export function useChat(botId: BotId, page = 'singleton') {
       draft.abortController = undefined
       draft.generatingMessageId = ''
       draft.messages = []
+      draft.conversationId = uuid()
     })
   }, [chatState.bot, setChatState])
 
@@ -88,6 +90,12 @@ export function useChat(botId: BotId, page = 'singleton') {
       draft.generatingMessageId = ''
     })
   }, [chatState.abortController, chatState.generatingMessageId, setChatState, updateMessage])
+
+  useEffect(() => {
+    if (chatState.messages.length) {
+      setConversationMessages(botId, chatState.conversationId, chatState.messages)
+    }
+  }, [botId, chatState.conversationId, chatState.messages])
 
   return {
     messages: chatState.messages,
