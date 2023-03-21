@@ -25,6 +25,12 @@ ChatHub is an all-in-one chatbot client
 - Enable Developer Mode.
 - Drag the unzipped folder anywhere on the page to import it (do not delete the folder afterward).
 
+## Roadmap
+
+* [ ] Conversation history
+* [ ] Export conversation to PDF or image
+* [ ] Dark mode
+
 ## Changelog
 
 ### v1.5.4
