@@ -27,11 +27,15 @@ ChatHub is an all-in-one chatbot client
 
 ## Roadmap
 
-* [ ] Conversation history
-* [ ] Export conversation to PDF or image
-* [ ] Dark mode
+- [ ] Conversation history
+- [ ] Export conversation to PDF or image
+- [ ] Dark mode
 
 ## Changelog
+
+### v1.6.0
+
+- Add support for Google Bard
 
 ### v1.5.4
 
