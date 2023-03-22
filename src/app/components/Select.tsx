@@ -17,7 +17,7 @@ function Select<T extends string>(props: Props<T>) {
     <Listbox value={value} onChange={onChange}>
       {({ open }) => (
         <>
-          <div className="relative">
+          <div className="relative w-full">
             <Listbox.Button
               className={cx(
                 'relative w-full cursor-default rounded-md bg-[var(--bg-2)] pl-3 pr-10 text-left text-gray-900 dark:text-gray-300 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-600 leading-6',

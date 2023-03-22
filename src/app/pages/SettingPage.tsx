@@ -175,8 +175,9 @@ function SettingPage() {
               )}
             </div>
           ) : (
-            <div className="flex flex-col gap-1 w-[200px]">
-              <p className="font-medium text-sm text-[var(--text-1)]">Model</p>
+            <div className="flex flex-row gap-3 items-center">
+              <p className="font-medium text-base text-[var(--text-1)]">{t('Model')}</p>
+              <div className="w-[200px]">
               <Select
                 options={[
                   { name: 'Default', value: 'default' },
@@ -185,6 +186,7 @@ function SettingPage() {
                 value={userConfig.chatgptWebappModelName}
                 onChange={(v) => updateConfigValue({ chatgptWebappModelName: v })}
               />
+            </div>
             </div>
           )}
         </div>
@@ -215,20 +217,20 @@ function SettingPage() {
           </div>
         </div>
         <div className="flex flex-col gap-1">
-          <p className="font-bold text-xl text-[var(--text-1)]">Dark Mode</p>
+          <p className="font-bold text-xl text-[var(--text-1)]">{t('Dark Mode')}</p>
           <div className="w-[150px]">
             <Select
               options={[
                 {
-                  name: 'Auto',
+                  name: t('Follow System'),
                   value: DarkMode.Auto,
                 },
                 {
-                  name: 'Dark',
+                  name: t('Dark'),
                   value: DarkMode.Dark,
                 },
                 {
-                  name: 'Light',
+                  name: t('Light'),
                   value: DarkMode.Light,
                 },
               ]}
