@@ -10,6 +10,7 @@
   },
   "devDependencies": {
     "@crxjs/vite-plugin": "^2.0.0-beta.12",
+    "@headlessui/tailwindcss": "^0.1.2",
     "@parcel/config-webextension": "^2.8.3",
     "@parcel/optimizer-data-url": "2.8.3",
     "@parcel/transformer-inline-string": "2.8.3",
