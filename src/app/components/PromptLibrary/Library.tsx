@@ -17,13 +17,13 @@ const PromptItem = (props: {
   insertPrompt: (text: string) => void
 }) => {
   return (
-    <div className="group relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-5 py-4 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">
+    <div className="group relative flex items-center space-x-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-5 py-4 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">
       <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-medium text-gray-900">{props.title}</p>
+        <p className="truncate text-sm font-medium text-gray-900 dark:text-gray-300">{props.title}</p>
       </div>
       <div>
         <a
-          className="inline-flex items-center rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 cursor-pointer"
+          className="inline-flex items-center rounded-full bg-white dark:bg-gray-800 px-2.5 py-1 text-xs font-semibold text-gray-900 dark:text-gray-300 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 cursor-pointer"
           onClick={() => props.insertPrompt(props.prompt)}
         >
           Use
@@ -31,7 +31,7 @@ const PromptItem = (props: {
       </div>
       {props.remove && (
         <IoIosCloseCircleOutline
-          className="hidden group-hover:block absolute right-[-8px] top-[-8px] bg-white cursor-pointer"
+          className="hidden group-hover:block absolute right-[-8px] top-[-8px] bg-white dark:bg-gray-800 cursor-pointer"
           size={20}
           onClick={props.remove}
         />
@@ -105,7 +105,7 @@ function LocalPrompts(props: { insertPrompt: (text: string) => void }) {
           ))}
         </div>
       ) : (
-        <div className="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-3 text-center text-sm mt-5">
+        <div className="relative block w-full rounded-lg border-2 border-dashed border-gray-300 dark:text-white dark:border-gray-700 p-3 text-center text-sm mt-5">
           You have no prompts.
         </div>
       )}
@@ -129,7 +129,7 @@ function CommunityPrompts(props: { insertPrompt: (text: string) => void }) {
           <PromptItem key={index} title={prompt.title} prompt={prompt.prompt} insertPrompt={props.insertPrompt} />
         ))}
       </div>
-      <span className="text-sm mt-5 block">
+      <span className="text-sm mt-5 block dark:text-white">
         Contribute on{' '}
         <a
           href="https://github.com/chathub-dev/community-prompts"

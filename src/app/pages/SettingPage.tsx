@@ -10,6 +10,7 @@ import { getTokenUsage } from '~services/storage'
 import {
   BingConversationStyle,
   ChatGPTMode,
+  DarkMode,
   getUserConfig,
   StartupPage,
   updateUserConfig,
@@ -114,7 +115,7 @@ function SettingPage() {
                   id={k}
                   type="radio"
                   checked={userConfig.chatgptMode === ChatGPTMode[k]}
-                  className="h-4 w-4 border-gray-300 dark:border-gray-900 dark:bg-gray-900 text-indigo-600 focus:ring-indigo-600"
+                  className="h-4 w-4 border-gray-300 dark:border-gray-900 dark:bg-gray-800 text-indigo-600 focus:ring-indigo-600"
                   value={ChatGPTMode[k]}
                   onChange={(e) => updateConfigValue({ chatgptMode: e.currentTarget.value as ChatGPTMode })}
                 />
@@ -200,6 +201,29 @@ function SettingPage() {
                 onChange={(v) => updateConfigValue({ bingConversationStyle: v })}
               />
             </div>
+          </div>
+        </div>
+        <div className="flex flex-col gap-1">
+          <p className="font-bold text-xl text-[var(--text-1)]">Dark Mode</p>
+          <div className="w-[150px]">
+            <Select
+              options={[
+                {
+                  name: 'Auto',
+                  value: DarkMode.Auto,
+                },
+                {
+                  name: 'Dark',
+                  value: DarkMode.Dark,
+                },
+                {
+                  name: 'Light',
+                  value: DarkMode.Light,
+                },
+              ]}
+              value={userConfig.darkMode}
+              onChange={(v) => updateConfigValue({ darkMode: v })}
+            />
           </div>
         </div>
       </div>

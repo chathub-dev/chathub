@@ -45,30 +45,32 @@ const ConversationPanel: FC<Props> = (props) => {
 
   return (
     <ConversationContext.Provider value={context}>
-      <div className="flex flex-col overflow-hidden bg-white rounded-[35px] h-full">
+      <div className="flex flex-col overflow-hidden bg-white dark:bg-gray-800 rounded-[35px] h-full">
         <div
           className={cx(
-            'border-b border-solid border-[#ededed] flex flex-row items-center justify-center gap-2 py-3',
+            'border-b border-solid border-[var(--border-1)] flex flex-row items-center justify-center gap-2 py-3',
             marginClass,
           )}
         >
           <img src={botInfo.avatar} className="w-4 h-4 object-contain rounded-full" />
-          <span className="font-semibold text-[#707070] text-xs">{botInfo.name}</span>
+          <span className="font-semibold text-[var(--text-3)] text-xs">{botInfo.name}</span>
           {!!props.messages.length && (
             <div
               className={cx(props.generating ? 'cursor-not-allowed' : 'cursor-pointer')}
               title="Start new conversation"
               onClick={resetConversation}
             >
-              <AiOutlineClear color="#707070" size={14} />
+              <AiOutlineClear color="var(--text-3)" size={14} />
             </div>
           )}
         </div>
         <ChatMessageList botId={props.botId} messages={props.messages} className={marginClass} />
         <div className={cx('mt-3 flex flex-col', marginClass, mode === 'full' ? 'mb-5' : 'mb-[10px]')}>
           <div className={cx('flex flex-row items-center gap-[5px]', mode === 'full' ? 'mb-[15px]' : 'mb-0')}>
-            {mode === 'compact' && <span className="font-medium text-xs text-[#bebebe]">Send to {botInfo.name}</span>}
-            <hr className="grow border-[#ededed]" />
+            {mode === 'compact' && (
+              <span className="font-medium text-xs text-[var(--text-4)]">Send to {botInfo.name}</span>
+            )}
+            <hr className="grow border-[var(--border-1)]" />
           </div>
           <ChatMessageInput
             mode={mode}

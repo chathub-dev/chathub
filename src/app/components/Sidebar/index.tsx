@@ -10,7 +10,7 @@ function IconButton(props: { icon: string; active?: boolean }) {
     <div
       className={cx(
         'p-[6px] rounded-[10px] cursor-pointer hover:opacity-80',
-        props.active ? 'bg-[#5E95FC]' : 'bg-[#F2F2F2] bg-opacity-20',
+        props.active ? 'bg-[var(--bg-5)]' : 'bg-[var(--bg-6)]',
       )}
     >
       <img src={props.icon} className="w-6 h-6" />
