@@ -16,6 +16,7 @@ ChatHub is an all-in-one chatbot client
 - Token usage stats when using ChatGPT API mode.
 - Shortcut to quickly activate the app anywhere in the browser.
 - Markdown and code highlight support.
+- Conversation history saved locally
 
 ## Manual Installation / 手动安装
 
@@ -27,11 +28,15 @@ ChatHub is an all-in-one chatbot client
 
 ## Roadmap
 
-- [ ] Conversation history
+- [x] Conversation history
 - [ ] Export conversation to PDF or image
 - [ ] Dark mode
 
 ## Changelog
+
+### v1.7.0
+
+- Add conversation history
 
 ### v1.6.0
 
