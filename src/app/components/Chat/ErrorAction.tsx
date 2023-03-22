@@ -60,6 +60,13 @@ const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
   if (error.code === ErrorCode.CONVERSATION_LIMIT) {
     return <Button color="primary" text="Restart" size="small" onClick={() => conversation?.reset()} />
   }
+  if (error.code === ErrorCode.BARD_EMPTY_RESPONSE) {
+    return (
+      <a href="https://bard.google.com" target="_blank" rel="noreferrer">
+        <Button color="primary" text="Visit bard.google.com" size="small" />
+      </a>
+    )
+  }
   return null
 }
 

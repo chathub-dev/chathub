@@ -6,6 +6,7 @@ export enum ErrorCode {
   BING_UNAUTHORIZED = 'BING_UNAUTHORIZED',
   BING_FORBIDDEN = 'BING_FORBIDDEN',
   API_KEY_NOT_SET = 'API_KEY_NOT_SET',
+  BARD_EMPTY_RESPONSE = 'BARD_EMPTY_RESPONSE',
 }
 
 export class ChatError extends Error {

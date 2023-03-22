@@ -26,6 +26,7 @@ function Sidebar() {
         <NavLink to="/" text="All-In-One" />
         <NavLink to="/chat/$botId" params={{ botId: 'chatgpt' }} text="ChatGPT" />
         <NavLink to="/chat/$botId" params={{ botId: 'bing' }} text="Bing" />
+        <NavLink to="/chat/$botId" params={{ botId: 'bard' }} text="Bard" />
       </div>
       <div className="mt-auto">
         <hr className="border-[#ffffff4d]" />

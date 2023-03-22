@@ -15,7 +15,7 @@
     "type": "module"
   },
   "action": {},
-  "host_permissions": ["https://*.bing.com/", "https://*.openai.com/"],
+  "host_permissions": ["https://*.bing.com/", "https://*.openai.com/", "https://bard.google.com/"],
   "permissions": ["commands", "storage"],
   "content_scripts": [
     {

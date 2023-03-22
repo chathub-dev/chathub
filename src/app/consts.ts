@@ -1,5 +1,6 @@
 import chatgptLogo from '~/assets/chatgpt-logo.svg'
 import bingLogo from '~/assets/bing-logo.svg'
+import bardLogo from '~/assets/bard-logo.svg'
 
 export const CHATBOTS = {
   chatgpt: {
@@ -9,6 +10,10 @@ export const CHATBOTS = {
   bing: {
     name: 'Bing',
     avatar: bingLogo,
+  },
+  bard: {
+    name: 'Bard',
+    avatar: bardLogo,
   },
 }
 
