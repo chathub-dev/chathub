@@ -1,8 +1,9 @@
 import chatgptLogo from '~/assets/chatgpt-logo.svg'
 import bingLogo from '~/assets/bing-logo.svg'
 import bardLogo from '~/assets/bard-logo.svg'
+import { BotId } from './bots'
 
-export const CHATBOTS = {
+export const CHATBOTS: Record<BotId, { name: string; avatar: any }> = {
   chatgpt: {
     name: 'ChatGPT',
     avatar: chatgptLogo,

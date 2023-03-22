@@ -8,7 +8,7 @@ import { ChatMessageModel } from '~types'
 import { BotId } from '../../bots'
 import Button from '../Button'
 import HistoryDialog from '../History/Dialog'
-import Tooltip from '../Tooltip'
+import SwitchBotDropdown from '../SwitchBotDropdown'
 import ChatMessageInput from './ChatMessageInput'
 import ChatMessageList from './ChatMessageList'
 
@@ -20,6 +20,7 @@ interface Props {
   generating: boolean
   stopGenerating: () => void
   mode?: 'full' | 'compact'
+  index?: number
 }
 
 const ConversationPanel: FC<Props> = (props) => {
@@ -64,6 +65,7 @@ const ConversationPanel: FC<Props> = (props) => {
           <div className="flex flex-row items-center gap-2">
             <img src={botInfo.avatar} className="w-5 h-5 object-contain rounded-full" />
             <span className="font-semibold text-[#707070] text-sm">{botInfo.name}</span>
+            {mode === 'compact' && <SwitchBotDropdown excludeBotId={props.botId} index={props.index!} />}
           </div>
           <div className="flex flex-row items-center gap-3">
             <img

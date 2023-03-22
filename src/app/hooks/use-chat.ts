@@ -97,11 +97,17 @@ export function useChat(botId: BotId, page = 'singleton') {
     }
   }, [botId, chatState.conversationId, chatState.messages])
 
-  return {
-    messages: chatState.messages,
-    sendMessage,
-    resetConversation,
-    generating: !!chatState.generatingMessageId,
-    stopGenerating,
-  }
+  const chat = useMemo(
+    () => ({
+      botId,
+      messages: chatState.messages,
+      sendMessage,
+      resetConversation,
+      generating: !!chatState.generatingMessageId,
+      stopGenerating,
+    }),
+    [botId, chatState.generatingMessageId, chatState.messages, resetConversation, sendMessage, stopGenerating],
+  )
+
+  return chat
 }
