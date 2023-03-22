@@ -17,6 +17,11 @@ export async function addLocalPrompt(prompt: Prompt) {
   await Browser.storage.local.set({ prompts: [prompt, ...prompts] })
 }
 
+export async function editLocalPrompt(prompt: Prompt) {
+  const prompts = await loadLocalPrompts()
+  await Browser.storage.local.set({ prompts: prompts.map((p) => (p.id === prompt.id ? prompt : p))})
+}
+
 export async function removeLocalPrompt(id: string) {
   const prompts = await loadLocalPrompts()
   await Browser.storage.local.set({ prompts: prompts.filter((p) => p.id !== id) })
