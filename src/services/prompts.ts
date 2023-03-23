@@ -12,9 +12,22 @@ export async function loadLocalPrompts() {
   return (value || []) as Prompt[]
 }
 
-export async function addLocalPrompt(prompt: Prompt) {
+export async function saveLocalPrompt(prompt: Prompt) {
   const prompts = await loadLocalPrompts()
-  await Browser.storage.local.set({ prompts: [prompt, ...prompts] })
+  let existed = false
+  for (const p of prompts) {
+    if (p.id === prompt.id) {
+      p.title = prompt.title
+      p.prompt = prompt.prompt
+      existed = true
+      break
+    }
+  }
+  if (!existed) {
+    prompts.unshift(prompt)
+  }
+  await Browser.storage.local.set({ prompts })
+  return existed
 }
 
 export async function removeLocalPrompt(id: string) {

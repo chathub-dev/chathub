@@ -2,7 +2,7 @@ import useSWR from 'swr'
 import { Suspense } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../Tabs'
 import { IoIosCloseCircleOutline } from 'react-icons/io'
-import { addLocalPrompt, loadLocalPrompts, loadRemotePrompts, removeLocalPrompt } from '~services/prompts'
+import { saveLocalPrompt, loadLocalPrompts, loadRemotePrompts, removeLocalPrompt, Prompt } from '~services/prompts'
 import Button from '../Button'
 import { useCallback, useState } from 'react'
 import { Input, Textarea } from '../Input'
@@ -10,9 +10,21 @@ import { uuid } from '~utils'
 import { BeatLoader } from 'react-spinners'
 import { trackEvent } from '~app/plausible'
 
+const ActionButton = (props: { text: string; onClick: () => void }) => {
+  return (
+    <a
+      className="inline-flex items-center rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 cursor-pointer"
+      onClick={props.onClick}
+    >
+      {props.text}
+    </a>
+  )
+}
+
 const PromptItem = (props: {
   title: string
   prompt: string
+  edit?: () => void
   remove?: () => void
   insertPrompt: (text: string) => void
 }) => {
@@ -21,13 +33,9 @@ const PromptItem = (props: {
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-medium text-gray-900">{props.title}</p>
       </div>
-      <div>
-        <a
-          className="inline-flex items-center rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 cursor-pointer"
-          onClick={() => props.insertPrompt(props.prompt)}
-        >
-          Use
-        </a>
+      <div className="flex flex-row gap-1">
+        {props.edit && <ActionButton text="Edit" onClick={props.edit} />}
+        <ActionButton text="Use" onClick={() => props.insertPrompt(props.prompt)} />
       </div>
       {props.remove && (
         <IoIosCloseCircleOutline
@@ -40,7 +48,7 @@ const PromptItem = (props: {
   )
 }
 
-function CreatePromptForm(props: { onSubmit: (title: string, prompt: string) => void }) {
+function PromptForm(props: { initialData: Prompt; onSubmit: (data: Prompt) => void }) {
   const onSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
@@ -48,7 +56,11 @@ function CreatePromptForm(props: { onSubmit: (title: string, prompt: string) => 
       const formdata = new FormData(e.currentTarget)
       const json = Object.fromEntries(formdata.entries())
       if (json.title && json.prompt) {
-        props.onSubmit(json.title as string, json.prompt as string)
+        props.onSubmit({
+          id: props.initialData.id,
+          title: json.title as string,
+          prompt: json.prompt as string,
+        })
       }
     },
     [props],
@@ -57,27 +69,27 @@ function CreatePromptForm(props: { onSubmit: (title: string, prompt: string) => 
     <form className="flex flex-col gap-2 w-1/2" onSubmit={onSubmit}>
       <div className="w-full">
         <span className="text-sm font-semibold block mb-1">Prompt Title</span>
-        <Input className="w-full" name="title" />
+        <Input className="w-full" name="title" defaultValue={props.initialData.title} />
       </div>
       <div className="w-full">
         <span className="text-sm font-semibold block mb-1">Prompt Content</span>
-        <Textarea className="w-full" name="prompt" />
+        <Textarea className="w-full" name="prompt" defaultValue={props.initialData.prompt} />
       </div>
-      <Button color="primary" text="Create" className="w-fit" size="small" type="submit" />
+      <Button color="primary" text="Save" className="w-fit" size="small" type="submit" />
     </form>
   )
 }
 
 function LocalPrompts(props: { insertPrompt: (text: string) => void }) {
-  const [showForm, setShowForm] = useState(false)
+  const [formData, setFormData] = useState<Prompt | null>(null)
   const localPromptsQuery = useSWR('local-prompts', () => loadLocalPrompts(), { suspense: true })
 
-  const createPrompt = useCallback(
-    async (title: string, prompt: string) => {
-      await addLocalPrompt({ id: uuid(), title, prompt })
+  const savePrompt = useCallback(
+    async (prompt: Prompt) => {
+      const existed = await saveLocalPrompt(prompt)
       localPromptsQuery.mutate()
-      setShowForm(false)
-      trackEvent('add_local_prompt')
+      setFormData(null)
+      trackEvent(existed ? 'edit_local_prompt' : 'add_local_prompt')
     },
     [localPromptsQuery],
   )
@@ -86,9 +98,14 @@ function LocalPrompts(props: { insertPrompt: (text: string) => void }) {
     async (id: string) => {
       await removeLocalPrompt(id)
       localPromptsQuery.mutate()
+      trackEvent('remove_local_prompt')
     },
     [localPromptsQuery],
   )
+
+  const create = useCallback(() => {
+    setFormData({ id: uuid(), title: '', prompt: '' })
+  }, [])
 
   return (
     <>
@@ -99,6 +116,7 @@ function LocalPrompts(props: { insertPrompt: (text: string) => void }) {
               key={prompt.id}
               title={prompt.title}
               prompt={prompt.prompt}
+              edit={() => setFormData(prompt)}
               remove={() => removePrompt(prompt.id)}
               insertPrompt={props.insertPrompt}
             />
@@ -110,10 +128,10 @@ function LocalPrompts(props: { insertPrompt: (text: string) => void }) {
         </div>
       )}
       <div className="mt-5">
-        {showForm ? (
-          <CreatePromptForm onSubmit={createPrompt} />
+        {formData ? (
+          <PromptForm initialData={formData} onSubmit={savePrompt} />
         ) : (
-          <Button text="Create new prompt" size="small" onClick={() => setShowForm(true)} />
+          <Button text="Create new prompt" size="small" onClick={create} />
         )}
       </div>
     </>
