@@ -18,7 +18,7 @@ export function parseBartResponse(resp: string) {
   const data = JSON.parse(resp.split('\n')[3])
   const payload = JSON.parse(data[0][2])
   if (!payload) {
-    throw new ChatError('Bard is not available.', ErrorCode.BARD_EMPTY_RESPONSE)
+    throw new ChatError("You don't have access to Bard", ErrorCode.BARD_EMPTY_RESPONSE)
   }
   console.debug('bard response payload', payload)
   const text = payload[0][0]
