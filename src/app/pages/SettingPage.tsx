@@ -17,6 +17,7 @@ import {
   updateUserConfig,
   UserConfig,
 } from '~services/user-config'
+import { getVersion } from '~utils'
 import { formatAmount, formatDecimal } from '~utils/format'
 import PagePanel from '../components/Page'
 
@@ -80,7 +81,7 @@ function SettingPage() {
   }
 
   return (
-    <PagePanel title={t('Settings')}>
+    <PagePanel title={`${t('Settings')} (v${getVersion()})`}>
       <div className="flex flex-col gap-8 mt-3 pr-3">
         <div>
           <p className="font-bold mb-1 text-xl">{t('Export/Import All Data')}</p>
