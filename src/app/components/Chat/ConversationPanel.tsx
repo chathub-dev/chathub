@@ -4,6 +4,7 @@ import clearIcon from '~/assets/icons/clear.svg'
 import historyIcon from '~/assets/icons/history.svg'
 import { CHATBOTS } from '~app/consts'
 import { ConversationContext, ConversationContextValue } from '~app/context'
+import { trackEvent } from '~app/plausible'
 import { ChatMessageModel } from '~types'
 import { BotId } from '../../bots'
 import Button from '../Button'
@@ -48,6 +49,11 @@ const ConversationPanel: FC<Props> = (props) => {
     }
   }, [props])
 
+  const openHistoryDialog = useCallback(() => {
+    setShowHistory(true)
+    trackEvent('open_history_dialog', { botId: props.botId })
+  }, [props.botId])
+
   return (
     <ConversationContext.Provider value={context}>
       <div
@@ -73,7 +79,7 @@ const ConversationPanel: FC<Props> = (props) => {
               className={cx('w-5 h-5', props.generating ? 'cursor-not-allowed' : 'cursor-pointer')}
               onClick={resetConversation}
             />
-            <img src={historyIcon} className="w-5 h-5 cursor-pointer" onClick={() => setShowHistory(true)} />
+            <img src={historyIcon} className="w-5 h-5 cursor-pointer" onClick={openHistoryDialog} />
           </div>
         </div>
         <ChatMessageList botId={props.botId} messages={props.messages} className={marginClass} />
