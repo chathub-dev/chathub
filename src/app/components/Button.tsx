@@ -1,5 +1,5 @@
 import cx from 'classnames'
-import { ButtonHTMLAttributes, FC } from 'react'
+import { ButtonHTMLAttributes, FC, ReactNode } from 'react'
 import { BeatLoader } from 'react-spinners'
 
 interface Props {
@@ -10,6 +10,7 @@ interface Props {
   onClick?: () => void
   isLoading?: boolean
   size?: 'small' | 'normal'
+  icon?: ReactNode
 }
 
 const Button: FC<Props> = (props) => {
@@ -27,7 +28,10 @@ const Button: FC<Props> = (props) => {
       {props.isLoading ? (
         <BeatLoader size={size === 'normal' ? 10 : 5} color={props.color === 'primary' ? 'white' : '#303030'} />
       ) : (
-        props.text
+        <div className="flex flex-row items-center gap-1">
+          {props.icon}
+          <span>{props.text}</span>
+        </div>
       )}
     </button>
   )

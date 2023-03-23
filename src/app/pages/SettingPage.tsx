@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
+import { BiExport, BiImport } from 'react-icons/bi'
 import Browser from 'webextension-polyfill'
 import Button from '~app/components/Button'
 import { Input } from '~app/components/Input'
 import Select from '~app/components/Select'
 import { CHATGPT_API_MODELS } from '~app/consts'
+import { exportData, importData } from '~app/utils/export'
 import { getTokenUsage } from '~services/storage'
 import {
   BingConversationStyle,
@@ -80,6 +82,14 @@ function SettingPage() {
   return (
     <PagePanel title={t('Settings')}>
       <div className="flex flex-col gap-8 mt-3 pr-3">
+        <div>
+          <p className="font-bold mb-1 text-xl">{t('Export/Import All Data')}</p>
+          <p className="mb-3 opacity-80">{t('Data includes all your settings, chat histories, and local prompts')}</p>
+          <div className="flex flex-row gap-3">
+            <Button size="small" text={t('Export')} icon={<BiExport />} onClick={exportData} />
+            <Button size="small" text={t('Import')} icon={<BiImport />} onClick={importData} />
+          </div>
+        </div>
         <div className="flex flex-row justify-between items-center">
           <div>
             <p className="font-bold mb-2 text-xl">{t('Shortcut to open this app')}</p>

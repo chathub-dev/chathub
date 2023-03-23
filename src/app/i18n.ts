@@ -3,16 +3,6 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
 
 const resources = {
-  de: {
-    translation: {
-      'Shortcut to open this app': 'Verknüpfung zum Öffnen dieser App',
-      Settings: 'Einstellungen',
-      'Startup page': 'Startseite',
-      'Conversation style': 'Konversationsstil',
-      'Change shortcut': 'Verknüpfung ändern',
-      Save: 'Speichern',
-    },
-  },
   en: {
     translation: {
       'Shortcut to open this app': 'Shortcut to open this app',
@@ -21,6 +11,21 @@ const resources = {
       'Conversation style': 'Conversation style',
       'Change shortcut': 'Change shortcut',
       Save: 'Save',
+      Export: 'Export',
+      Import: 'Import',
+      'Export/Import All Data': 'Export/Import All Data',
+      'Data includes all your settings, chat histories, and local prompts':
+        'Data includes all your settings, chat histories, and local prompts',
+    },
+  },
+  de: {
+    translation: {
+      'Shortcut to open this app': 'Verknüpfung zum Öffnen dieser App',
+      Settings: 'Einstellungen',
+      'Startup page': 'Startseite',
+      'Conversation style': 'Konversationsstil',
+      'Change shortcut': 'Verknüpfung ändern',
+      Save: 'Speichern',
     },
   },
   es: {
@@ -71,6 +76,10 @@ const resources = {
       'Conversation style': '会话风格',
       'Change shortcut': '修改快捷键',
       Save: '保存',
+      Export: '导出',
+      Import: '导入',
+      'Export/Import All Data': '导出/导入数据',
+      'Data includes all your settings, chat histories, and local prompts': '数据包括所有设置、聊天记录和本地prompts',
     },
   },
   'zh-TW': {
