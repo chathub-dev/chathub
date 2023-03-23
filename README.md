@@ -34,6 +34,12 @@ ChatHub is an all-in-one chatbot client
 
 ## Changelog
 
+### v1.8.0
+
+- Import/Export all data
+- Edit local prompts
+- Switch chatbots for comparison
+
 ### v1.7.0
 
 - Add conversation history
