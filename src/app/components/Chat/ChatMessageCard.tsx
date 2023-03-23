@@ -1,7 +1,7 @@
 import cx from 'classnames'
 import { FC, memo, useEffect, useMemo, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { IoCopy, IoCopyOutline } from 'react-icons/io5'
+import { IoCheckmarkSharp, IoCopyOutline } from 'react-icons/io5'
 import { BeatLoader } from 'react-spinners'
 import { ChatMessageModel } from '~/types'
 import Markdown from '../Markdown'
@@ -49,9 +49,12 @@ const ChatMessageCard: FC<Props> = ({ message, className }) => {
       {!!copyText && (
         <CopyToClipboard text={copyText} onCopy={() => setCopied(true)}>
           {copied ? (
-            <IoCopy className="self-center cursor-pointer invisible group-hover:visible" color="#707070" />
+            <IoCheckmarkSharp
+              className="self-top cursor-pointer invisible group-hover:visible mt-[12px]"
+              color="#707070"
+            />
           ) : (
-            <IoCopyOutline className="self-center cursor-pointer invisible group-hover:visible" />
+            <IoCopyOutline className="self-top cursor-pointer invisible group-hover:visible mt-[12px]" />
           )}
         </CopyToClipboard>
       )}
