@@ -9,6 +9,7 @@ import { Input, Textarea } from '../Input'
 import { uuid } from '~utils'
 import { BeatLoader } from 'react-spinners'
 import { trackEvent } from '~app/plausible'
+import { t } from 'i18next'
 
 const ActionButton = (props: { text: string; onClick: () => void }) => {
   return (
@@ -34,8 +35,8 @@ const PromptItem = (props: {
         <p className="truncate text-sm font-medium text-gray-900">{props.title}</p>
       </div>
       <div className="flex flex-row gap-1">
-        {props.edit && <ActionButton text="Edit" onClick={props.edit} />}
-        <ActionButton text="Use" onClick={() => props.insertPrompt(props.prompt)} />
+        {props.edit && <ActionButton text={t('Edit')} onClick={props.edit} />}
+        <ActionButton text={t('Use')} onClick={() => props.insertPrompt(props.prompt)} />
       </div>
       {props.remove && (
         <IoIosCloseCircleOutline
@@ -68,11 +69,11 @@ function PromptForm(props: { initialData: Prompt; onSubmit: (data: Prompt) => vo
   return (
     <form className="flex flex-col gap-2 w-1/2" onSubmit={onSubmit}>
       <div className="w-full">
-        <span className="text-sm font-semibold block mb-1">Prompt Title</span>
+        <span className="text-sm font-semibold block mb-1">{t('Prompt Title')}</span>
         <Input className="w-full" name="title" defaultValue={props.initialData.title} />
       </div>
       <div className="w-full">
-        <span className="text-sm font-semibold block mb-1">Prompt Content</span>
+        <span className="text-sm font-semibold block mb-1">{t('Prompt Content')}</span>
         <Textarea className="w-full" name="prompt" defaultValue={props.initialData.prompt} />
       </div>
       <Button color="primary" text="Save" className="w-fit" size="small" type="submit" />
@@ -124,14 +125,14 @@ function LocalPrompts(props: { insertPrompt: (text: string) => void }) {
         </div>
       ) : (
         <div className="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-3 text-center text-sm mt-5">
-          You have no prompts.
+          {t('You have no prompts.')}
         </div>
       )}
       <div className="mt-5">
         {formData ? (
           <PromptForm initialData={formData} onSubmit={savePrompt} />
         ) : (
-          <Button text="Create new prompt" size="small" onClick={create} />
+          <Button text={t('Create new prompt')} size="small" onClick={create} />
         )}
       </div>
     </>
@@ -173,8 +174,8 @@ const PromptLibrary = (props: { insertPrompt: (text: string) => void }) => {
   return (
     <Tabs defaultValue="local" className="w-full">
       <TabsList>
-        <TabsTrigger value="local">Your Prompts</TabsTrigger>
-        <TabsTrigger value="community">Community Prompts</TabsTrigger>
+        <TabsTrigger value="local">{t('Your Prompts')}</TabsTrigger>
+        <TabsTrigger value="community">{t('Community Prompts')}</TabsTrigger>
       </TabsList>
       <TabsContent value="local">
         <Suspense fallback={<BeatLoader size={10} className="mt-5" />}>

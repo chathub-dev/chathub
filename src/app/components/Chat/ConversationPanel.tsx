@@ -1,4 +1,5 @@
 import cx from 'classnames'
+import { t } from 'i18next'
 import { FC, useCallback, useMemo, useState } from 'react'
 import clearIcon from '~/assets/icons/clear.svg'
 import historyIcon from '~/assets/icons/history.svg'
@@ -85,13 +86,15 @@ const ConversationPanel: FC<Props> = (props) => {
         <ChatMessageList botId={props.botId} messages={props.messages} className={marginClass} />
         <div className={cx('mt-3 flex flex-col', marginClass, mode === 'full' ? 'mb-5' : 'mb-[10px]')}>
           <div className={cx('flex flex-row items-center gap-[5px]', mode === 'full' ? 'mb-[15px]' : 'mb-0')}>
-            {mode === 'compact' && <span className="font-medium text-xs text-[#bebebe]">Send to {botInfo.name}</span>}
+            {mode === 'compact' && (
+              <span className="font-medium text-xs text-[#bebebe]">{t('Send to', { name: botInfo.name })}</span>
+            )}
             <hr className="grow border-[#ededed]" />
           </div>
           <ChatMessageInput
             mode={mode}
             disabled={props.generating}
-            placeholder={mode === 'compact' ? '' : 'Ask me anything...'}
+            placeholder={mode === 'compact' ? '' : `${t('Ask me anything')}...`}
             onSubmit={onSubmit}
             autoFocus={mode === 'full'}
             actionButton={
@@ -103,7 +106,7 @@ const ConversationPanel: FC<Props> = (props) => {
                   onClick={props.stopGenerating}
                 />
               ) : (
-                mode === 'full' && <Button text="Send" color="primary" type="submit" />
+                mode === 'full' && <Button text={t('Send')} color="primary" type="submit" />
               )
             }
           />

@@ -1,3 +1,4 @@
+import { t } from 'i18next'
 import { useAtomValue } from 'jotai'
 import { uniqBy } from 'lodash-es'
 import { FC, useCallback, useMemo } from 'react'
@@ -50,9 +51,9 @@ const MultiBotChatPanel: FC = () => {
         mode="full"
         className="rounded-full bg-white px-[20px] py-[10px] mt-5"
         disabled={generating}
-        placeholder="Send to all ..."
+        placeholder={`${t('Send to all')} ...`}
         onSubmit={onUserSendMessage}
-        actionButton={!generating && <Button text="Send" color="primary" type="submit" />}
+        actionButton={!generating && <Button text={t('Send')} color="primary" type="submit" />}
         autoFocus={true}
       />
     </div>

@@ -3,6 +3,7 @@ import { BotId } from '~app/bots'
 import HistoryContent from './Content'
 import Dialog from '../Dialog'
 import { CHATBOTS } from '~app/consts'
+import { t } from 'i18next'
 
 interface Props {
   botId: BotId
@@ -14,7 +15,7 @@ const HistoryDialog: FC<Props> = (props) => {
   const botName = useMemo(() => CHATBOTS[props.botId].name, [props.botId])
   return (
     <Dialog
-      title={`History conversations with ${botName}`}
+      title={t('History conversations with', { name: botName })}
       open={props.open}
       onClose={props.onClose}
       className="w-[1000px] min-h-[400px]"
