@@ -13,7 +13,7 @@ import { trackEvent } from '~app/plausible'
 const ActionButton = (props: { text: string; onClick: () => void }) => {
   return (
     <a
-      className="inline-flex items-center rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 cursor-pointer"
+      className="inline-flex items-center rounded-full bg-white dark:bg-gray-800 px-2.5 py-1 text-xs font-semibold text-gray-900 dark:text-gray-300 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 cursor-pointer"
       onClick={props.onClick}
     >
       {props.text}
@@ -39,7 +39,7 @@ const PromptItem = (props: {
       </div>
       {props.remove && (
         <IoIosCloseCircleOutline
-          className="hidden group-hover:block absolute right-[-8px] top-[-8px] bg-white dark:bg-gray-800 cursor-pointer"
+          className="hidden group-hover:block absolute right-[-8px] top-[-8px] bg-white dark:bg-gray-800 text-[var(--text-1)] cursor-pointer"
           size={20}
           onClick={props.remove}
         />
@@ -68,11 +68,11 @@ function PromptForm(props: { initialData: Prompt; onSubmit: (data: Prompt) => vo
   return (
     <form className="flex flex-col gap-2 w-1/2" onSubmit={onSubmit}>
       <div className="w-full">
-        <span className="text-sm font-semibold block mb-1">Prompt Title</span>
+        <span className="text-sm font-semibold block mb-1 text-[var(--text-1)]">Prompt Title</span>
         <Input className="w-full" name="title" defaultValue={props.initialData.title} />
       </div>
       <div className="w-full">
-        <span className="text-sm font-semibold block mb-1">Prompt Content</span>
+        <span className="text-sm font-semibold block mb-1 text-[var(--text-1)]">Prompt Content</span>
         <Textarea className="w-full" name="prompt" defaultValue={props.initialData.prompt} />
       </div>
       <Button color="primary" text="Save" className="w-fit" size="small" type="submit" />

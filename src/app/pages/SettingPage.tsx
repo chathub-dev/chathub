@@ -85,8 +85,10 @@ function SettingPage() {
     <PagePanel title={`${t('Settings')} (v${getVersion()})`}>
       <div className="flex flex-col gap-8 mt-3 pr-3">
         <div>
-          <p className="font-bold mb-1 text-xl">{t('Export/Import All Data')}</p>
-          <p className="mb-3 opacity-80">{t('Data includes all your settings, chat histories, and local prompts')}</p>
+          <p className="font-bold mb-1 text-xl text-[var(--text-1)]">{t('Export/Import All Data')}</p>
+          <p className="mb-3 opacity-80 text-[var(--text-1)]">
+            {t('Data includes all your settings, chat histories, and local prompts')}
+          </p>
           <div className="flex flex-row gap-3">
             <Button size="small" text={t('Export')} icon={<BiExport />} onClick={exportData} />
             <Button size="small" text={t('Import')} icon={<BiImport />} onClick={importData} />
@@ -142,7 +144,7 @@ function SettingPage() {
           {userConfig.chatgptMode === ChatGPTMode.API ? (
             <div className="flex flex-col gap-2">
               <div className="flex flex-col gap-1">
-                <p className="font-medium text-sm">API Key</p>
+                <p className="font-medium text-sm text-[var(--text-1)]">API Key</p>
                 <Input
                   className="w-[300px]"
                   placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -152,7 +154,7 @@ function SettingPage() {
                 />
               </div>
               <div className="flex flex-col gap-1">
-                <p className="font-medium text-sm">API Host</p>
+                <p className="font-medium text-sm text-[var(--text-1)]">API Host</p>
                 <Input
                   className="w-[300px]"
                   placeholder="https://api.openai.com"
@@ -161,7 +163,7 @@ function SettingPage() {
                 />
               </div>
               <div className="flex flex-col gap-1 w-[200px]">
-                <p className="font-medium text-sm">API Model</p>
+                <p className="font-medium text-sm text-[var(--text-1)]">API Model</p>
                 <Select
                   options={CHATGPT_API_MODELS.map((m) => ({ name: m, value: m }))}
                   value={userConfig.chatgptApiModel}
@@ -175,9 +177,8 @@ function SettingPage() {
               )}
             </div>
           ) : (
-            <div className="flex flex-row gap-3 items-center">
-              <p className="font-medium text-base text-[var(--text-1)]">{t('Model')}</p>
-              <div className="w-[200px]">
+            <div className="flex flex-col gap-1 w-[200px]">
+              <p className="font-medium text-sm text-[var(--text-1)]">{t('Model')}</p>
               <Select
                 options={[
                   { name: 'Default', value: 'default' },
@@ -186,7 +187,6 @@ function SettingPage() {
                 value={userConfig.chatgptWebappModelName}
                 onChange={(v) => updateConfigValue({ chatgptWebappModelName: v })}
               />
-            </div>
             </div>
           )}
         </div>
