@@ -19,7 +19,7 @@ export enum ChatGPTMode {
   Webapp = 'webapp',
 }
 
-const userConfigWithDefaultValue = {
+export const userConfigWithDefaultValue = {
   openaiApiKey: '',
   openaiApiHost: 'https://api.openai.com',
   chatgptApiModel: CHATGPT_API_MODELS[0],
@@ -27,6 +27,7 @@ const userConfigWithDefaultValue = {
   chatgptWebappModelName: 'default',
   startupPage: StartupPage.All,
   bingConversationStyle: BingConversationStyle.Balanced,
+  language: 'en',
 }
 
 export type UserConfig = typeof userConfigWithDefaultValue
