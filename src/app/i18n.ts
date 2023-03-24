@@ -2,7 +2,25 @@ import i18n from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
 
+ 
 const resources = {
+  zh: {
+    translation: {
+      'Shortcut to open this app': '打开ChatHub的快捷键',
+      Settings: '设置',
+      'Startup page': '启动页面',
+      'Conversation style': '会话风格',
+      'Change shortcut': '修改快捷键',
+      Save: '保存',
+      Export: '导出',
+      Import: '导入',
+      'Export/Import All Data': '导出/导入数据',
+      'Data includes all your settings, chat histories, and local prompts': '数据包括所有设置、聊天记录和本地prompts',
+      Model: '模型',
+      Key: '密钥',
+      Host: '域名',
+    },
+  },
   en: {
     translation: {
       'Shortcut to open this app': 'Shortcut to open this app',
@@ -16,28 +34,50 @@ const resources = {
       'Export/Import All Data': 'Export/Import All Data',
       'Data includes all your settings, chat histories, and local prompts':
         'Data includes all your settings, chat histories, and local prompts',
+      Model: 'Model',
+      Key: 'Key',
+      Host: 'Host',
     },
   },
+
   de: {
     translation: {
-      'Shortcut to open this app': 'Verknüpfung zum Öffnen dieser App',
+      'Shortcut to open this app': 'Tastenkürzel zum Öffnen dieser App',
       Settings: 'Einstellungen',
       'Startup page': 'Startseite',
       'Conversation style': 'Konversationsstil',
-      'Change shortcut': 'Verknüpfung ändern',
+      'Change shortcut': 'Tastenkürzel ändern',
       Save: 'Speichern',
+      Export: 'Exportieren',
+      Import: 'Importieren',
+      'Export/Import All Data': 'Alle Daten exportieren/importieren',
+      'Data includes all your settings, chat histories, and local prompts':
+        'Daten beinhalten alle Einstellungen, Chatverläufe und lokale Prompts',
+      Model: 'Modell',
+      Key: 'Schlüssel',
+      Host: 'Host',
     },
   },
+
   es: {
     translation: {
       'Shortcut to open this app': 'Acceso directo para abrir esta aplicación',
-      Settings: 'Ajustes',
+      Settings: 'Configuración',
       'Startup page': 'Página de inicio',
       'Conversation style': 'Estilo de conversación',
       'Change shortcut': 'Cambiar acceso directo',
       Save: 'Guardar',
+      Export: 'Exportar',
+      Import: 'Importar',
+      'Export/Import All Data': 'Exportar/Importar todos los datos',
+      'Data includes all your settings, chat histories, and local prompts':
+        'Los datos incluyen todas tus configuraciones, historiales de chat y promociones locales',
+      Model: 'Modelo',
+      Key: 'Clave',
+      Host: 'Anfitrión',
     },
   },
+
   fr: {
     translation: {
       'Shortcut to open this app': 'Raccourci pour ouvrir cette application',
@@ -46,50 +86,51 @@ const resources = {
       'Conversation style': 'Style de conversation',
       'Change shortcut': 'Modifier le raccourci',
       Save: 'Enregistrer',
+      Export: 'Exporter',
+      Import: 'Importer',
+      'Export/Import All Data': 'Exporter/Importer toutes les données',
+      'Data includes all your settings, chat histories, and local prompts':
+        'Les données incluent tous vos paramètres, historiques de chat et invitations locales',
+      Model: 'Modèle',
+      Key: 'Clé',
+      Host: 'Hôte',
     },
   },
+
   ja: {
     translation: {
       'Shortcut to open this app': 'このアプリを開くためのショートカット',
       Settings: '設定',
       'Startup page': 'スタートアップページ',
       'Conversation style': '会話スタイル',
-      'Change shortcut': 'ショートカットの変更',
+      'Change shortcut': 'ショートカットを変更',
       Save: '保存',
+      Export: 'エクスポート',
+      Import: 'インポート',
+      'Export/Import All Data': 'すべてのデータをエクスポート/インポート',
+      'Data includes all your settings, chat histories, and local prompts':
+        'データには、すべての設定、チャット履歴、ローカルプロンプトが含まれます',
+      Model: 'モデル',
+      Key: 'キー',
+      Host: 'ホスト',
     },
   },
-  th: {
-    translation: {
-      'Shortcut to open this app': 'ทางลัดเพื่อเปิดแอปนี้',
-      Settings: 'การตั้งค่า',
-      'Startup page': 'หน้าเริ่มต้น',
-      'Conversation style': 'สไตล์การสนทนา',
-      'Change shortcut': 'เปลี่ยนทางลัด',
-      Save: 'บันทึก',
-    },
-  },
-  zh: {
-    translation: {
-      'Shortcut to open this app': '打开ChatHub的快捷键',
-      Settings: '设置',
-      'Startup page': '启动页面',
-      'Conversation style': '会话风格',
-      'Change shortcut': '修改快捷键',
-      Save: '保存',
-      Export: '导出',
-      Import: '导入',
-      'Export/Import All Data': '导出/导入数据',
-      'Data includes all your settings, chat histories, and local prompts': '数据包括所有设置、聊天记录和本地prompts',
-    },
-  },
+
   'zh-TW': {
     translation: {
       'Shortcut to open this app': '開啟此應用程式的快捷鍵',
       Settings: '設定',
       'Startup page': '啟動頁面',
       'Conversation style': '對話風格',
-      'Change shortcut': '更改快捷鍵',
+      'Change shortcut': '變更快捷鍵',
       Save: '儲存',
+      Export: '匯出',
+      Import: '匯入',
+      'Export/Import All Data': '匯出/匯入所有資料',
+      'Data includes all your settings, chat histories, and local prompts': '資料包含所有設定、聊天紀錄和本地提示',
+      Model: '模型',
+      Key: '密鑰',
+      Host: '主機',
     },
   },
 }
