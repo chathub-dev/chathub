@@ -1,7 +1,15 @@
-import { ofetch, FetchError } from 'ofetch'
+import { random } from 'lodash-es'
+import { ofetch } from 'ofetch'
 import { uuid } from '~utils'
 import { ChatError, ErrorCode } from '~utils/errors'
 import { ConversationResponse } from './types'
+
+// https://github.com/acheong08/EdgeGPT/blob/master/src/EdgeGPT.py#L32
+function randomIP() {
+  return `13.${random(104, 107)}.${random(0, 255)}.${random(0, 255)}`
+}
+
+const API_ENDPOINT = 'https://www.bing.com/turing/conversation/create'
 
 export async function createConversation(): Promise<ConversationResponse> {
   const headers = {
@@ -11,17 +19,16 @@ export async function createConversation(): Promise<ConversationResponse> {
 
   let resp: ConversationResponse
   try {
-    resp = await ofetch('https://www.bing.com/turing/conversation/create', { headers })
+    resp = await ofetch(API_ENDPOINT, { headers, redirect: 'error' })
     if (!resp.result) {
-      console.debug('bing/conversation/create', resp)
-      resp = await ofetch('https://edgeservices.bing.com/edgesvc/turing/conversation/create', { headers })
+      throw new Error('Invalid response')
     }
   } catch (err) {
-    if (err instanceof FetchError && err.status === 404) {
-      resp = await ofetch('https://edgeservices.bing.com/edgesvc/turing/conversation/create', { headers })
-    } else {
-      throw err
-    }
+    console.error('retry bing create', err)
+    resp = await ofetch(API_ENDPOINT, {
+      headers: { ...headers, 'x-forwarded-for': randomIP() },
+      redirect: 'error',
+    })
   }
 
   if (resp.result.value !== 'Success') {
