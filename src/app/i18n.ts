@@ -16,9 +16,6 @@ const resources = {
       Import: '导入',
       'Export/Import All Data': '导出/导入数据',
       'Data includes all your settings, chat histories, and local prompts': '数据包括所有设置、聊天记录和本地prompts',
-      Model: '模型',
-      Key: '密钥',
-      Host: '域名',
     },
   },
   en: {
@@ -34,9 +31,6 @@ const resources = {
       'Export/Import All Data': 'Export/Import All Data',
       'Data includes all your settings, chat histories, and local prompts':
         'Data includes all your settings, chat histories, and local prompts',
-      Model: 'Model',
-      Key: 'Key',
-      Host: 'Host',
     },
   },
 
@@ -53,9 +47,6 @@ const resources = {
       'Export/Import All Data': 'Alle Daten exportieren/importieren',
       'Data includes all your settings, chat histories, and local prompts':
         'Daten beinhalten alle Einstellungen, Chatverläufe und lokale Prompts',
-      Model: 'Modell',
-      Key: 'Schlüssel',
-      Host: 'Host',
     },
   },
 
@@ -72,9 +63,6 @@ const resources = {
       'Export/Import All Data': 'Exportar/Importar todos los datos',
       'Data includes all your settings, chat histories, and local prompts':
         'Los datos incluyen todas tus configuraciones, historiales de chat y promociones locales',
-      Model: 'Modelo',
-      Key: 'Clave',
-      Host: 'Anfitrión',
     },
   },
 
@@ -91,9 +79,6 @@ const resources = {
       'Export/Import All Data': 'Exporter/Importer toutes les données',
       'Data includes all your settings, chat histories, and local prompts':
         'Les données incluent tous vos paramètres, historiques de chat et invitations locales',
-      Model: 'Modèle',
-      Key: 'Clé',
-      Host: 'Hôte',
     },
   },
 
@@ -110,9 +95,6 @@ const resources = {
       'Export/Import All Data': 'すべてのデータをエクスポート/インポート',
       'Data includes all your settings, chat histories, and local prompts':
         'データには、すべての設定、チャット履歴、ローカルプロンプトが含まれます',
-      Model: 'モデル',
-      Key: 'キー',
-      Host: 'ホスト',
     },
   },
 
@@ -128,9 +110,6 @@ const resources = {
       Import: '匯入',
       'Export/Import All Data': '匯出/匯入所有資料',
       'Data includes all your settings, chat histories, and local prompts': '資料包含所有設定、聊天紀錄和本地提示',
-      Model: '模型',
-      Key: '密鑰',
-      Host: '主機',
     },
   },
 }
