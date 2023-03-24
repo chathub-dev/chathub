@@ -4,20 +4,6 @@ import { initReactI18next } from 'react-i18next'
 
  
 const resources = {
-  zh: {
-    translation: {
-      'Shortcut to open this app': '打开ChatHub的快捷键',
-      Settings: '设置',
-      'Startup page': '启动页面',
-      'Conversation style': '会话风格',
-      'Change shortcut': '修改快捷键',
-      Save: '保存',
-      Export: '导出',
-      Import: '导入',
-      'Export/Import All Data': '导出/导入数据',
-      'Data includes all your settings, chat histories, and local prompts': '数据包括所有设置、聊天记录和本地prompts',
-    },
-  },
   en: {
     translation: {
       'Shortcut to open this app': 'Shortcut to open this app',
@@ -97,7 +83,35 @@ const resources = {
         'データには、すべての設定、チャット履歴、ローカルプロンプトが含まれます',
     },
   },
-
+  th: {
+    translation: {
+      'Shortcut to open this app': 'ทางลัดเพื่อเปิดแอปนี้',
+      Settings: 'การตั้งค่า',
+      'Startup page': 'หน้าเริ่มต้น',
+      'Conversation style': 'สไตล์การสนทนา',
+      'Change shortcut': 'เปลี่ยนทางลัด',
+      Save: 'บันทึก',
+      Export: 'ส่งออก',
+      Import: 'นำเข้า',
+      'Export/Import All Data': 'ส่งออก/นำเข้าข้อมูลทั้งหมด',
+      'Data includes all your settings, chat histories, and local prompts':
+        'ข้อมูลรวมถึงการตั้งค่าทั้งหมดของคุณ ประวัติการแชท และข้อความเตือนในเครื่อง',
+    },
+  },
+  zh: {
+    translation: {
+      'Shortcut to open this app': '打开ChatHub的快捷键',
+      Settings: '设置',
+      'Startup page': '启动页面',
+      'Conversation style': '会话风格',
+      'Change shortcut': '修改快捷键',
+      Save: '保存',
+      Export: '导出',
+      Import: '导入',
+      'Export/Import All Data': '导出/导入数据',
+      'Data includes all your settings, chat histories, and local prompts': '数据包括所有设置、聊天记录和本地 prompts',
+    },
+  },
   'zh-TW': {
     translation: {
       'Shortcut to open this app': '開啟此應用程式的快捷鍵',
