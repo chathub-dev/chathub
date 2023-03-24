@@ -7,6 +7,7 @@ import Button from '~app/components/Button'
 import { Input } from '~app/components/Input'
 import Select from '~app/components/Select'
 import { CHATGPT_API_MODELS } from '~app/consts'
+import { resources } from '~app/i18n'
 import { exportData, importData } from '~app/utils/export'
 import { getTokenUsage } from '~services/storage'
 import {
@@ -16,6 +17,7 @@ import {
   StartupPage,
   updateUserConfig,
   UserConfig,
+  userConfigWithDefaultValue,
 } from '~services/user-config'
 import { getVersion } from '~utils'
 import { formatAmount, formatDecimal } from '~utils/format'
@@ -62,7 +64,9 @@ function SettingPage() {
   )
 
   const save = useCallback(async () => {
+    const language = userConfig?.language || userConfigWithDefaultValue.language
     let apiHost = userConfig?.openaiApiHost
+
     if (apiHost) {
       apiHost = apiHost.replace(/\/$/, '')
       if (!apiHost.startsWith('http')) {
@@ -72,6 +76,9 @@ function SettingPage() {
       apiHost = undefined
     }
     await updateUserConfig({ ...userConfig!, openaiApiHost: apiHost })
+
+    localStorage.setItem('i18nextLng', language)
+
     toast.success('Saved')
     setTimeout(() => location.reload(), 500)
   }, [userConfig])
@@ -100,6 +107,25 @@ function SettingPage() {
           </div>
           <div>
             <Button text={t('Change shortcut')} size="normal" onClick={openShortcutPage} />
+          </div>
+        </div>
+        <div>
+          <p className="font-bold mb-2 text-xl">{t('Language')}</p>
+          <div className="w-[250px]">
+            <Select
+              options={Object.keys(resources).map((lang) => {
+                return {
+                  name: `${lang}, ${
+                    resources[userConfig.language as keyof typeof resources]?.translation?.[
+                      lang as keyof typeof resources
+                    ]
+                  }`,
+                  value: lang,
+                }
+              })}
+              value={userConfig.language}
+              onChange={(v) => updateConfigValue({ language: v })}
+            />
           </div>
         </div>
         <div>
@@ -138,7 +164,7 @@ function SettingPage() {
           {userConfig.chatgptMode === ChatGPTMode.API ? (
             <div className="flex flex-col gap-2">
               <div className="flex flex-col gap-1">
-                <p className="font-medium text-sm">API Key</p>
+                <p className="font-medium text-sm">API {t('Key')}</p>
                 <Input
                   className="w-[300px]"
                   placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -148,7 +174,7 @@ function SettingPage() {
                 />
               </div>
               <div className="flex flex-col gap-1">
-                <p className="font-medium text-sm">API Host</p>
+                <p className="font-medium text-sm">API {t('Host')}</p>
                 <Input
                   className="w-[300px]"
                   placeholder="https://api.openai.com"
@@ -157,7 +183,7 @@ function SettingPage() {
                 />
               </div>
               <div className="flex flex-col gap-1 w-[200px]">
-                <p className="font-medium text-sm">API Model</p>
+                <p className="font-medium text-sm">API {t('Model')}</p>
                 <Select
                   options={CHATGPT_API_MODELS.map((m) => ({ name: m, value: m }))}
                   value={userConfig.chatgptApiModel}
@@ -172,7 +198,7 @@ function SettingPage() {
             </div>
           ) : (
             <div className="flex flex-col gap-1 w-[200px]">
-              <p className="font-medium text-sm">Model</p>
+              <p className="font-medium text-sm">{t('Model')}</p>
               <Select
                 options={[
                   { name: 'Default', value: 'default' },
