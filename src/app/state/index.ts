@@ -21,4 +21,4 @@ export const chatFamily = atomFamily(
   (a, b) => a.botId === b.botId && a.page === b.page,
 )
 
-export const compareBotsAtom = atomWithStorage<[BotId, BotId]>('compareBots', ['chatgpt', 'bing'])
+export const compareBotsAtom = atomWithStorage<[BotId, BotId, BotId]>('compareBots', ['chatgpt', 'bing', 'bard'])

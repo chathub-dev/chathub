@@ -19,7 +19,7 @@ const SwitchBotDropdown: FC<Props> = (props) => {
     (botId: BotId) => {
       trackEvent('switch_bot', { botId })
       setCompareBots((bots) => {
-        const newBots = [...bots] as [BotId, BotId]
+        const newBots = [...bots] as [BotId, BotId, BotId]
         newBots[props.index] = botId
         return newBots
       })

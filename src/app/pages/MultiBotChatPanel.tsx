@@ -9,11 +9,12 @@ import { BotId } from '../bots'
 import ConversationPanel from '../components/Chat/ConversationPanel'
 
 const MultiBotChatPanel: FC = () => {
-  const [leftBotId, rightBotId] = useAtomValue(compareBotsAtom)
+  const [leftBotId, middleBotId, rightBotId] = useAtomValue(compareBotsAtom)
 
   const leftChat = useChat(leftBotId)
+  const middleChat = useChat(middleBotId)
   const rightChat = useChat(rightBotId)
-  const chats = useMemo(() => [leftChat, rightChat], [leftChat, rightChat])
+  const chats = useMemo(() => [leftChat, middleChat, rightChat], [leftChat, middleChat, rightChat])
 
   const generating = useMemo(() => chats.some((c) => c.generating), [chats])
 
@@ -31,7 +32,7 @@ const MultiBotChatPanel: FC = () => {
 
   return (
     <div className="flex flex-col overflow-hidden">
-      <div className="grid grid-cols-2 gap-5 overflow-hidden grow">
+      <div className="grid grid-cols-3 gap-5 overflow-hidden grow">
         {chats.map((chat, index) => (
           <ConversationPanel
             key={`${chat.botId}-${index}`}
