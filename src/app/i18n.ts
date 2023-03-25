@@ -2,7 +2,6 @@ import i18n from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
 
- 
 const resources = {
   en: {
     translation: {
@@ -19,7 +18,6 @@ const resources = {
         'Data includes all your settings, chat histories, and local prompts',
     },
   },
-
   de: {
     translation: {
       'Shortcut to open this app': 'Tastenkürzel zum Öffnen dieser App',
@@ -35,7 +33,6 @@ const resources = {
         'Daten beinhalten alle Einstellungen, Chatverläufe und lokale Prompts',
     },
   },
-
   es: {
     translation: {
       'Shortcut to open this app': 'Acceso directo para abrir esta aplicación',
@@ -51,7 +48,6 @@ const resources = {
         'Los datos incluyen todas tus configuraciones, historiales de chat y promociones locales',
     },
   },
-
   fr: {
     translation: {
       'Shortcut to open this app': 'Raccourci pour ouvrir cette application',
@@ -67,7 +63,6 @@ const resources = {
         'Les données incluent tous vos paramètres, historiques de chat et invitations locales',
     },
   },
-
   ja: {
     translation: {
       'Shortcut to open this app': 'このアプリを開くためのショートカット',
@@ -109,7 +104,7 @@ const resources = {
       Export: '导出',
       Import: '导入',
       'Export/Import All Data': '导出/导入数据',
-      'Data includes all your settings, chat histories, and local prompts': '数据包括所有设置、聊天记录和本地 prompts',
+      'Data includes all your settings, chat histories, and local prompts': '数据包括所有设置、聊天记录和本地prompts',
     },
   },
   'zh-TW': {
@@ -123,7 +118,7 @@ const resources = {
       Export: '匯出',
       Import: '匯入',
       'Export/Import All Data': '匯出/匯入所有資料',
-      'Data includes all your settings, chat histories, and local prompts': '資料包含所有設定、聊天紀錄和本地提示',
+      'Data includes all your settings, chat histories, and local prompts': '資料包含所有設定、聊天紀錄和本地prompts',
     },
   },
 }
