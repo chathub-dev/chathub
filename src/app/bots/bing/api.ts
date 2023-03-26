@@ -1,5 +1,5 @@
 import { random } from 'lodash-es'
-import { ofetch } from 'ofetch'
+import { FetchError, ofetch } from 'ofetch'
 import { uuid } from '~utils'
 import { ChatError, ErrorCode } from '~utils/errors'
 import { ConversationResponse } from './types'
@@ -29,6 +29,9 @@ export async function createConversation(): Promise<ConversationResponse> {
       headers: { ...headers, 'x-forwarded-for': randomIP() },
       redirect: 'error',
     })
+    if (!resp) {
+      throw new FetchError(`Failed to fetch (${API_ENDPOINT})`)
+    }
   }
 
   if (resp.result.value !== 'Success') {
