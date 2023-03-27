@@ -9,8 +9,15 @@ interface ConversationContext {
   messages: ChatMessage[]
 }
 
+const SYSTEM_MESSAGE: ChatMessage = { role: 'system', content: CHATGPT_SYSTEM_MESSAGE }
+const CONTEXT_SIZE = 10
+
 export class ChatGPTApiBot extends AbstractBot {
   private conversationContext?: ConversationContext
+
+  buildMessages(): ChatMessage[] {
+    return [SYSTEM_MESSAGE, ...this.conversationContext!.messages.slice(-(CONTEXT_SIZE + 1))]
+  }
 
   async doSendMessage(params: SendMessageParams) {
     const { openaiApiKey, openaiApiHost, chatgptApiModel } = await getUserConfig()
@@ -18,9 +25,7 @@ export class ChatGPTApiBot extends AbstractBot {
       throw new ChatError('OpenAI API key not set', ErrorCode.API_KEY_NOT_SET)
     }
     if (!this.conversationContext) {
-      this.conversationContext = {
-        messages: [{ role: 'system', content: CHATGPT_SYSTEM_MESSAGE }],
-      }
+      this.conversationContext = { messages: [] }
     }
     this.conversationContext.messages.push({ role: 'user', content: params.prompt })
 
@@ -33,7 +38,7 @@ export class ChatGPTApiBot extends AbstractBot {
       },
       body: JSON.stringify({
         model: chatgptApiModel,
-        messages: this.conversationContext.messages,
+        messages: this.buildMessages(),
         temperature: 0.6,
         stream: true,
       }),
