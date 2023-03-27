@@ -19,6 +19,7 @@ ChatHub is an all-in-one chatbot client
 - Prompt Library for custom prompts and community prompts.
 - Conversation history saved locally.
 - Export and Import all your data.
+- Share conversation to markdown.
 
 ## Manual Installation / 手动安装
 
@@ -31,7 +32,7 @@ ChatHub is an all-in-one chatbot client
 ## Roadmap
 
 - [x] Conversation history
-- [x] Share conversation to makrdown
+- [x] Share conversation to markdown
 - [ ] Dark mode
 
 ## Changelog
