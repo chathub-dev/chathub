@@ -31,10 +31,14 @@ ChatHub is an all-in-one chatbot client
 ## Roadmap
 
 - [x] Conversation history
-- [ ] Export conversation to PDF or image
+- [x] Share conversation to makrdown
 - [ ] Dark mode
 
 ## Changelog
+
+### v1.9.0
+
+- Share chat as markdown or via sharegpt.com
 
 ### v1.8.0
 
