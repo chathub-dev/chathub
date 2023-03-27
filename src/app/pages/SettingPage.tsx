@@ -107,9 +107,11 @@ function SettingPage() {
           <div className="w-[200px]">
             <Select
               options={[
-                { name: 'All-In-One', value: StartupPage.All },
+                { name: '2-In-1', value: StartupPage.Two },
+                { name: '3-In-1', value: StartupPage.Three },
                 { name: 'ChatGPT', value: StartupPage.ChatGPT },
                 { name: 'Bing', value: StartupPage.Bing },
+                { name: 'Bard', value: StartupPage.Bard },
               ]}
               value={userConfig.startupPage}
               onChange={(v) => updateConfigValue({ startupPage: v })}

@@ -2,26 +2,34 @@ import { createHashHistory, ReactRouter, RootRoute, Route, useParams } from '@ta
 import { BotId } from './bots'
 import Layout from './components/Layout'
 import MultiBotChatPanel from './pages/MultiBotChatPanel'
-import SettingPage from './pages/SettingPage'
 import SingleBotChatPanel from './pages/SingleBotChatPanel'
+import SettingPage from './pages/SettingPage'
+import { StartupPage } from '~services/user-config'
 
 const rootRoute = new RootRoute()
-
+  
 const layoutRoute = new Route({
   getParentRoute: () => rootRoute,
   component: Layout,
   id: 'layout',
 })
 
-const indexRoute = new Route({
-  getParentRoute: () => layoutRoute,
-  path: '/',
-  component: MultiBotChatPanel,
-})
+// const indexRoute = new Route({
+//   getParentRoute: () => layoutRoute,
+//   path: '/',
+//   component: ChatRoute,
+// })
 
 function ChatRoute() {
-  const { botId } = useParams({ from: chatRoute.id })
-  return <SingleBotChatPanel botId={botId as BotId} />
+  let { botId } = useParams({ from: chatRoute.id })
+  if (botId == 'all' || botId == '') {
+    botId = StartupPage.Two
+  }
+  if (botId == StartupPage.Two || botId == StartupPage.Three) {
+    return <MultiBotChatPanel botId={botId as BotId} />
+  } else {
+    return <SingleBotChatPanel botId={botId as BotId} />
+  }
 }
 
 const chatRoute = new Route({
@@ -36,7 +44,7 @@ const settingRoute = new Route({
   component: SettingPage,
 })
 
-const routeTree = rootRoute.addChildren([layoutRoute.addChildren([indexRoute, chatRoute, settingRoute])])
+const routeTree = rootRoute.addChildren([layoutRoute.addChildren([chatRoute, settingRoute])])
 
 const hashHistory = createHashHistory()
 const router = new ReactRouter({ routeTree, history: hashHistory })

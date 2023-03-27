@@ -12,7 +12,7 @@ interface Props<T> {
 
 function Select<T extends string>(props: Props<T>) {
   const { options, value, onChange, size = 'normal' } = props
-  const selectedName = useMemo(() => options.find((o) => o.value === value)!.name, [options, value])
+  const selectedName = useMemo(() => options.find((o) => o.value === value)?.name, [options, value])
   return (
     <Listbox value={value} onChange={onChange}>
       {({ open }) => (

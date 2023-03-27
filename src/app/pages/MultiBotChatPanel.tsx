@@ -7,14 +7,25 @@ import { useChat } from '~app/hooks/use-chat'
 import { compareBotsAtom } from '~app/state'
 import { BotId } from '../bots'
 import ConversationPanel from '../components/Chat/ConversationPanel'
+import { StartupPage } from '~services/user-config'
 
-const MultiBotChatPanel: FC = () => {
+interface Props {
+  botId: BotId
+}
+
+const MultiBotChatPanel: FC<Props> = ({ botId }) => {
   const [leftBotId, middleBotId, rightBotId] = useAtomValue(compareBotsAtom)
 
   const leftChat = useChat(leftBotId)
   const middleChat = useChat(middleBotId)
-  const rightChat = useChat(rightBotId)
-  const chats = useMemo(() => [leftChat, middleChat, rightChat], [leftChat, middleChat, rightChat])
+
+  let cols = '2'
+  let chats = useMemo(() => [leftChat, middleChat], [leftChat, middleChat])
+  if (botId.toString() == StartupPage.Three) {
+    cols = '3'
+    const rightChat = useChat(rightBotId)
+    chats = useMemo(() => [leftChat, middleChat, rightChat], [leftChat, middleChat, rightChat])
+  }
 
   const generating = useMemo(() => chats.some((c) => c.generating), [chats])
 
@@ -32,7 +43,8 @@ const MultiBotChatPanel: FC = () => {
 
   return (
     <div className="flex flex-col overflow-hidden">
-      <div className="grid grid-cols-3 gap-5 overflow-hidden grow">
+      <div className={`grid grid-cols-${cols} gap-5 overflow-hidden grow`}>
+      {/* <div className="grid grid-cols-2 gap-5 overflow-hidden grow"> */}
         {chats.map((chat, index) => (
           <ConversationPanel
             key={`${chat.botId}-${index}`}

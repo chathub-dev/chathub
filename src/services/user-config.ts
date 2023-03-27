@@ -3,9 +3,11 @@ import Browser from 'webextension-polyfill'
 import { CHATGPT_API_MODELS } from '~app/consts'
 
 export enum StartupPage {
-  All = 'all',
+  Two = 'two',
+  Three = 'three',
   ChatGPT = 'chatgpt',
   Bing = 'bing',
+  Bard = 'bard',
 }
 
 export enum BingConversationStyle {
@@ -25,7 +27,7 @@ const userConfigWithDefaultValue = {
   chatgptApiModel: CHATGPT_API_MODELS[0],
   chatgptMode: ChatGPTMode.Webapp,
   chatgptWebappModelName: 'default',
-  startupPage: StartupPage.All,
+  startupPage: StartupPage.Two,
   bingConversationStyle: BingConversationStyle.Balanced,
 }
 
