@@ -2,9 +2,11 @@ import cx from 'classnames'
 import { FC, useCallback, useMemo, useState } from 'react'
 import clearIcon from '~/assets/icons/clear.svg'
 import historyIcon from '~/assets/icons/history.svg'
+import shareIcon from '~/assets/icons/share.svg'
 import { CHATBOTS } from '~app/consts'
 import { ConversationContext, ConversationContextValue } from '~app/context'
 import { trackEvent } from '~app/plausible'
+import ShareDialog from '../Share/Dialog'
 import { ChatMessageModel } from '~types'
 import { BotId } from '../../bots'
 import Button from '../Button'
@@ -29,6 +31,7 @@ const ConversationPanel: FC<Props> = (props) => {
   const mode = props.mode || 'full'
   const marginClass = mode === 'compact' ? 'mx-5' : 'mx-10'
   const [showHistory, setShowHistory] = useState(false)
+  const [showShareDialog, setShowShareDialog] = useState(false)
 
   const context: ConversationContextValue = useMemo(() => {
     return {
@@ -54,6 +57,11 @@ const ConversationPanel: FC<Props> = (props) => {
     trackEvent('open_history_dialog', { botId: props.botId })
   }, [props.botId])
 
+  const openShareDialog = useCallback(() => {
+    setShowShareDialog(true)
+    trackEvent('open_share_dialog', { botId: props.botId })
+  }, [props.botId])
+
   return (
     <ConversationContext.Provider value={context}>
       <div
@@ -74,6 +82,7 @@ const ConversationPanel: FC<Props> = (props) => {
             {mode === 'compact' && <SwitchBotDropdown excludeBotId={props.botId} index={props.index!} />}
           </div>
           <div className="flex flex-row items-center gap-3">
+            <img src={shareIcon} className="w-5 h-5 cursor-pointer" onClick={openShareDialog} />
             <img
               src={clearIcon}
               className={cx('w-5 h-5', props.generating ? 'cursor-not-allowed' : 'cursor-pointer')}
@@ -110,6 +119,9 @@ const ConversationPanel: FC<Props> = (props) => {
         </div>
       </div>
       {showHistory && <HistoryDialog botId={props.botId} open={true} onClose={() => setShowHistory(false)} />}
+      {showShareDialog && (
+        <ShareDialog open={true} onClose={() => setShowShareDialog(false)} messages={props.messages} />
+      )}
     </ConversationContext.Provider>
   )
 }

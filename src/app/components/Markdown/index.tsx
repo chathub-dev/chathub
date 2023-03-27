@@ -66,7 +66,6 @@ const Markdown: FC<{ children: string }> = ({ children }) => {
               </code>
             )
           }
-          console.log(node, props)
           return <CustomCode className={className}>{children}</CustomCode>
         },
       }}
