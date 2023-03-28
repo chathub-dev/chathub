@@ -23,6 +23,7 @@ const userConfigWithDefaultValue = {
   openaiApiKey: '',
   openaiApiHost: 'https://api.openai.com',
   chatgptApiModel: CHATGPT_API_MODELS[0],
+  chatgptApiTemperature: 1,
   chatgptMode: ChatGPTMode.Webapp,
   chatgptWebappModelName: 'default',
   startupPage: StartupPage.All,
