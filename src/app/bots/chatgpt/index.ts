@@ -9,11 +9,9 @@ export class ChatGPTBot extends AbstractBot {
   constructor() {
     super()
     this.#bot = new ChatGPTWebBot()
-    getUserConfig().then(({ chatgptMode, chatgptWebappModelName }) => {
+    getUserConfig().then(({ chatgptMode }) => {
       if (chatgptMode === ChatGPTMode.API) {
         this.#bot = new ChatGPTApiBot()
-      } else {
-        this.#bot = new ChatGPTWebBot(chatgptWebappModelName === 'default' ? undefined : chatgptWebappModelName)
       }
     })
   }
