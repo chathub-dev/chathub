@@ -20,7 +20,7 @@ const ShareDialog = (props: Props) => {
       title="Share Chat"
       open={props.open}
       onClose={props.onClose}
-      className={cx('rounded-2xl', mode ? 'w-[800px] h-[400px]' : 'w-[600px] h-[250px]')}
+      className={cx('rounded-xl', mode ? 'w-[800px] h-[400px]' : 'w-[600px] h-[250px]')}
     >
       {(() => {
         if (mode === 'markdown') {

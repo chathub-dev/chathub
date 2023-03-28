@@ -25,7 +25,7 @@ const MarkdownView: FC<Props> = ({ messages }) => {
   }, [content])
 
   return (
-    <div className="px-5 pt-3 pb-4 overflow-hidden flex flex-col">
+    <div className="px-5 pt-3 pb-4 overflow-hidden flex flex-col h-full">
       <div className="mb-3">
         <Button size="small" text={copied ? 'Copied!' : 'Copy'} onClick={copy} />
       </div>
