@@ -62,7 +62,6 @@ class ProxyFetchRequester implements Requester {
       await this.createProxyTab()
       return
     }
-    await Browser.tabs.update(tab.id!, { active: true })
     return new Promise<Browser.Tabs.Tab>((resolve) => {
       this.waitForProxyTabReady(resolve)
       Browser.tabs.reload(tab.id!)
@@ -71,7 +70,12 @@ class ProxyFetchRequester implements Requester {
 
   async fetch(url: string, options?: RequestInitSubset) {
     const tab = await this.getProxyTab()
-    return proxyFetch(tab.id!, url, options)
+    const resp = await proxyFetch(tab.id!, url, options)
+    if (resp.status === 403) {
+      await this.refreshProxyTab()
+      return proxyFetch(tab.id!, url, options)
+    }
+    return resp
   }
 }
 
