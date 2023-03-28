@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
+import { getUserConfig } from '~services/user-config'
 import { parseSSEResponse } from '~utils/sse'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
 import { chatGPTClient } from './client'
@@ -11,21 +12,29 @@ interface ConversationContext {
 export class ChatGPTWebBot extends AbstractBot {
   private accessToken?: string
   private conversationContext?: ConversationContext
-  private modelName?: string
+  private cachedModelNames?: string[]
 
-  constructor(modelName?: string) {
+  constructor() {
     super()
-    this.modelName = modelName
+  }
+
+  private async fetchModelNames(): Promise<string[]> {
+    if (this.cachedModelNames) {
+      return this.cachedModelNames
+    }
+    const resp = await chatGPTClient.getModels(this.accessToken!)
+    this.cachedModelNames = resp.map((r) => r.slug)
+    return this.cachedModelNames
   }
 
   private async getModelName(): Promise<string> {
-    if (this.modelName) {
-      return this.modelName
+    const { chatgptWebappModelName } = await getUserConfig()
+    if (chatgptWebappModelName !== 'default') {
+      return chatgptWebappModelName
     }
     try {
-      const models = await chatGPTClient.getModels(this.accessToken!)
-      this.modelName = models[0].slug
-      return this.modelName
+      const modelNames = await this.fetchModelNames()
+      return modelNames[0]
     } catch (err) {
       console.error(err)
       return 'text-davinci-002-render'
