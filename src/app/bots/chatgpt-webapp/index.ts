@@ -23,7 +23,7 @@ export class ChatGPTWebBot extends AbstractBot {
       return this.cachedModelNames
     }
     const resp = await chatGPTClient.getModels(this.accessToken!)
-    this.cachedModelNames = resp.map((r) => r.slug)
+    this.cachedModelNames = resp.map((r) => r.slug).filter((slug) => !slug.includes('plugins'))
     return this.cachedModelNames
   }
 
