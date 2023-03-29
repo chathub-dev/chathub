@@ -21,6 +21,12 @@ async function loadHistoryConversations(botId: BotId): Promise<Conversation[]> {
   return value || []
 }
 
+async function deleteHistoryConversation(botId: BotId, cid: string) {
+  const conversations = await loadHistoryConversations(botId)
+  const newConversations = conversations.filter((c) => c.id !== cid)
+  await Browser.storage.local.set({ [`conversations:${botId}`]: newConversations })
+}
+
 async function loadConversationMessages(botId: BotId, cid: string): Promise<ChatMessageModel[]> {
   const key = `conversation:${botId}:${cid}:messages`
   const { [key]: value } = await Browser.storage.local.get(key)
@@ -45,4 +51,13 @@ export async function loadHistoryMessages(botId: BotId): Promise<ConversationWit
     createdAt: c!.createdAt,
     messages: messages!,
   }))
+}
+
+export async function deleteHistoryMessage(botId: BotId, conversationId: string, messageId: string) {
+  const messages = await loadConversationMessages(botId, conversationId)
+  const newMessages = messages.filter((m) => m.id !== messageId)
+  await setConversationMessages(botId, conversationId, newMessages)
+  if (!newMessages.length) {
+    await deleteHistoryConversation(botId, conversationId)
+  }
 }

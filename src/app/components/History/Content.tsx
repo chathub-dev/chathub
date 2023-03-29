@@ -15,6 +15,7 @@ type ViewportListItem =
   | {
       type: 'message'
       message: ChatMessageModel
+      conversationId: string
     }
 
 const Timestamp = memo((props: { timestamp: number }) => {
@@ -30,9 +31,13 @@ const HistoryContent: FC<{ botId: BotId }> = ({ botId }) => {
   const items: ViewportListItem[] = useMemo(() => {
     const results: ViewportListItem[] = []
     for (const c of Array.from(historyQuery.data).reverse()) {
+      const messages = c.messages.filter((m) => m.text)
+      if (!messages.length) {
+        continue
+      }
       results.push({ type: 'conversation', createdAt: c.createdAt })
-      for (const m of c.messages) {
-        results.push({ type: 'message', message: m })
+      for (const m of messages) {
+        results.push({ type: 'message', message: m, conversationId: c.id })
       }
     }
     return results
@@ -44,12 +49,19 @@ const HistoryContent: FC<{ botId: BotId }> = ({ botId }) => {
         {(item) => {
           if (item.type === 'conversation') {
             return (
-              <div className="text-center mt-5">
+              <div className="text-center my-5" key={item.createdAt}>
                 <Timestamp timestamp={item.createdAt} />
               </div>
             )
           }
-          return <ChatMessage key={item.message.id} message={item.message} />
+          return (
+            <ChatMessage
+              key={item.message.id}
+              botId={botId}
+              message={item.message}
+              conversationId={item.conversationId}
+            />
+          )
         }}
       </ViewportList>
     </div>
