@@ -1,5 +1,5 @@
 import cx from 'classnames'
-import { ButtonHTMLAttributes, FC, ReactNode } from 'react'
+import { ButtonHTMLAttributes, FC, ReactNode, useCallback } from 'react'
 import { BeatLoader } from 'react-spinners'
 
 interface Props {
@@ -15,6 +15,17 @@ interface Props {
 
 const Button: FC<Props> = (props) => {
   const size = props.size || 'normal'
+
+  const onClick = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (props.type !== 'submit') {
+        e.preventDefault()
+      }
+      props.onClick?.()
+    },
+    [props],
+  )
+
   return (
     <button
       type={props.type}
@@ -23,7 +34,7 @@ const Button: FC<Props> = (props) => {
         props.color === 'primary' ? 'text-white bg-[#4987FC]' : 'text-[#303030] bg-[#F2F2F2]',
         props.className,
       )}
-      onClick={props.onClick}
+      onClick={onClick}
     >
       {props.isLoading ? (
         <BeatLoader size={size === 'normal' ? 10 : 5} color={props.color === 'primary' ? 'white' : '#303030'} />
