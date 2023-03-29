@@ -60,7 +60,7 @@ export class ChatGPTWebBot extends AbstractBot {
         messages: [
           {
             id: uuidv4(),
-            role: 'user',
+            author: { role: 'user' },
             content: {
               content_type: 'text',
               parts: [params.prompt],
