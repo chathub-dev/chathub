@@ -3,13 +3,17 @@
 import cx from 'classnames'
 import 'github-markdown-css/github-markdown-light.css'
 import 'highlight.js/styles/github.css'
+import 'katex/dist/katex.min.css'
 import { FC, ReactNode, useEffect, useMemo, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { BsClipboard } from 'react-icons/bs'
 import ReactMarkdown from 'react-markdown'
 import reactNodeToString from 'react-node-to-string'
 import rehypeHighlight from 'rehype-highlight'
+import rehypeKatex from 'rehype-katex'
+import rehypeRaw from 'rehype-raw'
 import remarkGfm from 'remark-gfm'
+import remarkMath from 'remark-math'
 import supersub from 'remark-supersub'
 import Tooltip from '../Tooltip'
 import './markdown.css'
@@ -43,8 +47,8 @@ function CustomCode(props: { children: ReactNode; className?: string }) {
 const Markdown: FC<{ children: string }> = ({ children }) => {
   return (
     <ReactMarkdown
-      remarkPlugins={[supersub, remarkGfm]}
-      rehypePlugins={[[rehypeHighlight, { detect: true, ignoreMissing: true }]]}
+      remarkPlugins={[remarkMath, supersub, remarkGfm]}
+      rehypePlugins={[rehypeKatex, rehypeRaw, [rehypeHighlight, { detect: true, ignoreMissing: true }]]}
       className={`markdown-body markdown-custom-styles !text-base font-normal`}
       linkTarget="_blank"
       components={{
