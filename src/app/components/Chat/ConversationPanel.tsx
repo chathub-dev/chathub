@@ -14,6 +14,7 @@ import HistoryDialog from '../History/Dialog'
 import SwitchBotDropdown from '../SwitchBotDropdown'
 import ChatMessageInput from './ChatMessageInput'
 import ChatMessageList from './ChatMessageList'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   botId: BotId
@@ -27,6 +28,7 @@ interface Props {
 }
 
 const ConversationPanel: FC<Props> = (props) => {
+  const { t } = useTranslation()
   const botInfo = CHATBOTS[props.botId]
   const mode = props.mode || 'full'
   const marginClass = 'mx-5'
@@ -101,13 +103,13 @@ const ConversationPanel: FC<Props> = (props) => {
             actionButton={
               props.generating ? (
                 <Button
-                  text="Stop"
+                  text={t('Stop')}
                   color="flat"
                   size={mode === 'full' ? 'normal' : 'small'}
                   onClick={props.stopGenerating}
                 />
               ) : (
-                mode === 'full' && <Button text="Send" color="primary" type="submit" />
+                mode === 'full' && <Button text={t('Send')} color="primary" type="submit" />
               )
             }
           />

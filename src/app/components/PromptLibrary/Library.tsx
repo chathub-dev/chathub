@@ -1,14 +1,14 @@
-import useSWR from 'swr'
-import { Suspense } from 'react'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../Tabs'
+import { Suspense, useCallback, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { IoIosCloseCircleOutline } from 'react-icons/io'
-import { saveLocalPrompt, loadLocalPrompts, loadRemotePrompts, removeLocalPrompt, Prompt } from '~services/prompts'
-import Button from '../Button'
-import { useCallback, useState } from 'react'
-import { Input, Textarea } from '../Input'
-import { uuid } from '~utils'
 import { BeatLoader } from 'react-spinners'
+import useSWR from 'swr'
 import { trackEvent } from '~app/plausible'
+import { loadLocalPrompts, loadRemotePrompts, Prompt, removeLocalPrompt, saveLocalPrompt } from '~services/prompts'
+import { uuid } from '~utils'
+import Button from '../Button'
+import { Input, Textarea } from '../Input'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../Tabs'
 
 const ActionButton = (props: { text: string; onClick: () => void }) => {
   return (
@@ -26,16 +26,26 @@ const PromptItem = (props: {
   prompt: string
   edit?: () => void
   remove?: () => void
+  copyToLocal?: () => void
   insertPrompt: (text: string) => void
 }) => {
+  const { t } = useTranslation()
+  const [saved, setSaved] = useState(false)
+
+  const copyToLocal = useCallback(() => {
+    props.copyToLocal?.()
+    setSaved(true)
+  }, [props])
+
   return (
     <div className="group relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-5 py-4 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-medium text-gray-900">{props.title}</p>
       </div>
       <div className="flex flex-row gap-1">
-        {props.edit && <ActionButton text="Edit" onClick={props.edit} />}
-        <ActionButton text="Use" onClick={() => props.insertPrompt(props.prompt)} />
+        {props.edit && <ActionButton text={t('Edit')} onClick={props.edit} />}
+        {props.copyToLocal && <ActionButton text={t(saved ? 'Saved' : 'Save')} onClick={copyToLocal} />}
+        <ActionButton text={t('Use')} onClick={() => props.insertPrompt(props.prompt)} />
       </div>
       {props.remove && (
         <IoIosCloseCircleOutline
@@ -49,6 +59,7 @@ const PromptItem = (props: {
 }
 
 function PromptForm(props: { initialData: Prompt; onSubmit: (data: Prompt) => void }) {
+  const { t } = useTranslation()
   const onSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
@@ -68,19 +79,20 @@ function PromptForm(props: { initialData: Prompt; onSubmit: (data: Prompt) => vo
   return (
     <form className="flex flex-col gap-2 w-1/2" onSubmit={onSubmit}>
       <div className="w-full">
-        <span className="text-sm font-semibold block mb-1">Prompt Title</span>
+        <span className="text-sm font-semibold block mb-1">Prompt {t('Title')}</span>
         <Input className="w-full" name="title" defaultValue={props.initialData.title} />
       </div>
       <div className="w-full">
-        <span className="text-sm font-semibold block mb-1">Prompt Content</span>
+        <span className="text-sm font-semibold block mb-1">Prompt {t('Content')}</span>
         <Textarea className="w-full" name="prompt" defaultValue={props.initialData.prompt} />
       </div>
-      <Button color="primary" text="Save" className="w-fit" size="small" type="submit" />
+      <Button color="primary" text={t('Save')} className="w-fit" size="small" type="submit" />
     </form>
   )
 }
 
 function LocalPrompts(props: { insertPrompt: (text: string) => void }) {
+  const { t } = useTranslation()
   const [formData, setFormData] = useState<Prompt | null>(null)
   const localPromptsQuery = useSWR('local-prompts', () => loadLocalPrompts(), { suspense: true })
 
@@ -131,7 +143,7 @@ function LocalPrompts(props: { insertPrompt: (text: string) => void }) {
         {formData ? (
           <PromptForm initialData={formData} onSubmit={savePrompt} />
         ) : (
-          <Button text="Create new prompt" size="small" onClick={create} />
+          <Button text={t('Create new prompt')} size="small" onClick={create} />
         )}
       </div>
     </>
@@ -140,11 +152,22 @@ function LocalPrompts(props: { insertPrompt: (text: string) => void }) {
 
 function CommunityPrompts(props: { insertPrompt: (text: string) => void }) {
   const promptsQuery = useSWR('community-prompts', () => loadRemotePrompts(), { suspense: true })
+
+  const copyToLocal = useCallback(async (prompt: Prompt) => {
+    await saveLocalPrompt({ ...prompt, id: uuid() })
+  }, [])
+
   return (
     <>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 pt-2">
         {promptsQuery.data.map((prompt, index) => (
-          <PromptItem key={index} title={prompt.title} prompt={prompt.prompt} insertPrompt={props.insertPrompt} />
+          <PromptItem
+            key={index}
+            title={prompt.title}
+            prompt={prompt.prompt}
+            insertPrompt={props.insertPrompt}
+            copyToLocal={() => copyToLocal(prompt)}
+          />
         ))}
       </div>
       <span className="text-sm mt-5 block">

@@ -39,7 +39,7 @@ const Button: FC<Props> = (props) => {
       {props.isLoading ? (
         <BeatLoader size={size === 'normal' ? 10 : 5} color={props.color === 'primary' ? 'white' : '#303030'} />
       ) : (
-        <div className="flex flex-row items-center gap-1">
+        <div className="flex flex-row items-center gap-1 min-w-max">
           {props.icon}
           <span>{props.text}</span>
         </div>
