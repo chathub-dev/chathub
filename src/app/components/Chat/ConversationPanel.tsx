@@ -29,7 +29,7 @@ interface Props {
 const ConversationPanel: FC<Props> = (props) => {
   const botInfo = CHATBOTS[props.botId]
   const mode = props.mode || 'full'
-  const marginClass = mode === 'compact' ? 'mx-5' : 'mx-10'
+  const marginClass = 'mx-5'
   const [showHistory, setShowHistory] = useState(false)
   const [showShareDialog, setShowShareDialog] = useState(false)
 
@@ -64,12 +64,7 @@ const ConversationPanel: FC<Props> = (props) => {
 
   return (
     <ConversationContext.Provider value={context}>
-      <div
-        className={cx(
-          'flex flex-col overflow-hidden bg-white h-full',
-          mode === 'full' ? 'rounded-[35px]' : 'rounded-[20px]',
-        )}
-      >
+      <div className={cx('flex flex-col overflow-hidden bg-white h-full rounded-[20px]')}>
         <div
           className={cx(
             'border-b border-solid border-[#ededed] flex flex-row items-center justify-between gap-2 py-3',
