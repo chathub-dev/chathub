@@ -179,6 +179,10 @@ function CommunityPrompts(props: { insertPrompt: (text: string) => void }) {
           className="underline"
         >
           GitHub
+        </a>{' '}
+        or{' '}
+        <a href="https://openprompt.co" target="_blank" rel="noreferrer" className="underline">
+          OpenPrompt
         </a>
       </span>
     </>
