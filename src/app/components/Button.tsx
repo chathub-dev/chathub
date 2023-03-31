@@ -17,10 +17,7 @@ const Button: FC<Props> = (props) => {
   const size = props.size || 'normal'
 
   const onClick = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      if (props.type !== 'submit') {
-        e.preventDefault()
-      }
+    (_e: React.MouseEvent<HTMLButtonElement>) => {
       props.onClick?.()
     },
     [props],
