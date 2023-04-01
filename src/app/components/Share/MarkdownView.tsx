@@ -29,7 +29,9 @@ const MarkdownView: FC<Props> = ({ messages }) => {
       <div className="mb-3">
         <Button size="small" text={copied ? 'Copied!' : 'Copy'} onClick={copy} />
       </div>
-      <pre className="text-sm whitespace-pre-wrap bg-gray-200 p-2 rounded-md overflow-auto h-full">{content}</pre>
+      <pre className="text-sm whitespace-pre-wrap text-primary-text p-2 rounded-md overflow-auto h-full bg-secondary">
+        {content}
+      </pre>
     </div>
   )
 }

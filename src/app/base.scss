@@ -31,3 +31,39 @@ body {
 body {
   font-size: 100%;
 }
+
+@layer base {
+  :root {
+    opacity: 0.88;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --color-primary-blue: 73 135 252; // #4987FC
+      --color-secondary: 242 242 242; // #F2F2F2
+      --primary-background: 255 255 255; // #FFFFFF
+      --primary-text: 48 48 48; // #303030
+      --secondary-text: 128 128 128; // #808080
+      --light-text: 190 190 190; // #BEBEBE
+      --primary-border: 237 237 237; // #EDEDED
+    }
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-primary-blue: 50 104 206; // #3268CE
+      --color-secondary: 46 46 46; // #2E2E2E
+      --primary-background: 25 25 25; // #191919
+      --primary-text: 223 223 223; // #DFDFDF
+      --secondary-text: 127 127 127; // #7F7F7F
+      --light-text: 79 79 79; // #4F4F4F
+      --primary-border: 53 53 53; // #353535
+    }
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  @import 'highlight.js/scss/github.scss';
+}
+
+@media (prefers-color-scheme: dark) {
+  @import 'highlight.js/scss/github-dark.scss';
+}

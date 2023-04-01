@@ -124,7 +124,7 @@ function SettingPage() {
                   value={ChatGPTMode[k]}
                   onChange={(e) => updateConfigValue({ chatgptMode: e.currentTarget.value as ChatGPTMode })}
                 />
-                <label htmlFor={k} className="ml-3 block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor={k} className="ml-3 block text-sm font-medium leading-6">
                   {k} Mode
                 </label>
               </div>

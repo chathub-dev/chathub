@@ -33,7 +33,7 @@ const ShareGPTView: FC<Props> = ({ messages }) => {
 
   return (
     <div className="p-5 flex flex-col items-center justify-center gap-5 h-full">
-      <p className="w-[400px] text-center">
+      <p className="w-[400px] text-center text-primary-text">
         This will upload this conversation to <b>sharegpt.com</b> and generate a link to share <b>publicly</b>.
       </p>
       {resultId ? (

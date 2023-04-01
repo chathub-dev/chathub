@@ -1,45 +1,37 @@
-/* eslint-disable react/prop-types */
-'use client'
-
-import * as React from 'react'
-import * as TabsPrimitive from '@radix-ui/react-tabs'
+import { FC, useState } from 'react'
 import cx from 'classnames'
 
-const Tabs = TabsPrimitive.Root
+export interface Tab {
+  name: string
+  value: string
+}
 
-const TabsList = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitive.List>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
->(({ className, ...props }, ref) => (
-  <TabsPrimitive.List
-    ref={ref}
-    className={cx('inline-flex items-center justify-center rounded-md bg-slate-100 p-1 dark:bg-slate-800', className)}
-    {...props}
-  />
-))
-TabsList.displayName = TabsPrimitive.List.displayName
+interface Props {
+  tabs: Tab[]
+  renderTab: (value: string) => JSX.Element | undefined
+}
 
-const TabsTrigger = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
->(({ className, ...props }, ref) => (
-  <TabsPrimitive.Trigger
-    className={cx(
-      'inline-flex min-w-[100px] items-center justify-center rounded-[0.185rem] px-3 py-1.5  text-sm font-medium text-slate-700 transition-all  disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-sm dark:text-slate-200 dark:data-[state=active]:bg-slate-900 dark:data-[state=active]:text-slate-100',
-      className,
-    )}
-    {...props}
-    ref={ref}
-  />
-))
-TabsTrigger.displayName = TabsPrimitive.Trigger.displayName
+const Tabs: FC<Props> = ({ tabs, renderTab }) => {
+  const [selected, setSelected] = useState(tabs[0].value)
+  return (
+    <>
+      <nav className="w-full flex space-x-4 mb-3" aria-label="Tabs">
+        {tabs.map((tab) => (
+          <a
+            key={tab.name}
+            className={cx(
+              'rounded-md px-3 py-2 text-sm font-medium cursor-pointer',
+              tab.value === selected ? 'bg-primary-blue text-white' : 'text-secondary-text hover:text-primary-text',
+            )}
+            onClick={() => setSelected(tab.value)}
+          >
+            {tab.name}
+          </a>
+        ))}
+      </nav>
+      {renderTab(selected)}
+    </>
+  )
+}
 
-const TabsContent = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>
->(({ className, ...props }, ref) => (
-  <TabsPrimitive.Content className={cx('mt-2 outline-none', className)} {...props} ref={ref} />
-))
-TabsContent.displayName = TabsPrimitive.Content.displayName
-
-export { Tabs, TabsList, TabsTrigger, TabsContent }
+export default Tabs

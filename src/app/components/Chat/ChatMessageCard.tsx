@@ -8,6 +8,8 @@ import Markdown from '../Markdown'
 import ErrorAction from './ErrorAction'
 import MessageBubble from './MessageBubble'
 
+const COPY_ICON_CLASS = 'self-top cursor-pointer invisible group-hover:visible mt-[12px] text-primary-text'
+
 interface Props {
   message: ChatMessageModel
   className?: string
@@ -40,22 +42,15 @@ const ChatMessageCard: FC<Props> = ({ message, className }) => {
           {message.text ? (
             <Markdown>{message.text}</Markdown>
           ) : (
-            !message.error && <BeatLoader size={10} className="leading-tight" />
+            !message.error && <BeatLoader size={10} className="leading-tight" color="rgb(var(--primary-text))" />
           )}
-          {!!message.error && <p className="text-[#e00]">{message.error.message}</p>}
+          {!!message.error && <p className="text-red-500">{message.error.message}</p>}
         </MessageBubble>
         {!!message.error && <ErrorAction error={message.error} />}
       </div>
       {!!copyText && (
         <CopyToClipboard text={copyText} onCopy={() => setCopied(true)}>
-          {copied ? (
-            <IoCheckmarkSharp
-              className="self-top cursor-pointer invisible group-hover:visible mt-[12px]"
-              color="#707070"
-            />
-          ) : (
-            <IoCopyOutline className="self-top cursor-pointer invisible group-hover:visible mt-[12px]" />
-          )}
+          {copied ? <IoCheckmarkSharp className={COPY_ICON_CLASS} /> : <IoCopyOutline className={COPY_ICON_CLASS} />}
         </CopyToClipboard>
       )}
     </div>

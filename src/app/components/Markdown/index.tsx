@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import cx from 'classnames'
-import 'github-markdown-css/github-markdown-light.css'
-import 'highlight.js/styles/github.css'
+import 'github-markdown-css'
 import 'katex/dist/katex.min.css'
 import { FC, ReactNode, useEffect, useMemo, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
@@ -16,7 +15,6 @@ import remarkGfm from 'remark-gfm'
 import remarkBreaks from 'remark-breaks'
 import remarkMath from 'remark-math'
 import supersub from 'remark-supersub'
-
 import Tooltip from '../Tooltip'
 import './markdown.css'
 
@@ -33,7 +31,7 @@ function CustomCode(props: { children: ReactNode; className?: string }) {
 
   return (
     <div className="flex flex-col">
-      <div className="bg-[#e6e7e8] text-xs p-2">
+      <div className="bg-[#e6e7e8] dark:bg-[#444a5354] text-xs p-2">
         <CopyToClipboard text={code} onCopy={() => setCopied(true)}>
           <div className="flex flex-row items-center gap-2 cursor-pointer w-fit ml-1">
             <BsClipboard />

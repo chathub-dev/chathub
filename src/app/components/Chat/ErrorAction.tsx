@@ -29,7 +29,7 @@ const ChatGPTAuthErrorAction = () => {
   return (
     <div className="flex flex-row gap-2 items-center">
       <Button color="primary" text="Login & verify" onClick={fixChatGPT} isLoading={fixing} size="small" />
-      <span className="text-sm">OR</span>
+      <span className="text-sm text-primary-text">OR</span>
       <Link to="/setting">
         <Button color="primary" text="Set api key" size="small" />
       </Link>

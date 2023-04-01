@@ -5,14 +5,9 @@ import settingIcon from '~/assets/icons/setting.svg'
 import logo from '~/assets/logo.svg'
 import NavLink from './NavLink'
 
-function IconButton(props: { icon: string; active?: boolean }) {
+function IconButton(props: { icon: string }) {
   return (
-    <div
-      className={cx(
-        'p-[6px] rounded-[10px] cursor-pointer hover:opacity-80',
-        props.active ? 'bg-[#5E95FC]' : 'bg-[#F2F2F2] bg-opacity-20',
-      )}
-    >
+    <div className="p-[6px] rounded-[10px] cursor-pointer hover:opacity-80 bg-secondary dark:bg-transparent bg-opacity-20">
       <img src={props.icon} className="w-6 h-6" />
     </div>
   )

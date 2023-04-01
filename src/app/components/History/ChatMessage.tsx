@@ -27,9 +27,14 @@ const ChatMessage: FC<Props> = ({ botId, message, conversationId }) => {
   }
 
   return (
-    <div className={cx('group relative py-5 flex flex-col gap-1 px-5', message.author === 'user' && 'bg-[#f2f2f2]')}>
+    <div
+      className={cx(
+        'group relative py-5 flex flex-col gap-1 px-5 text-primary-text',
+        message.author === 'user' ? 'bg-secondary' : 'bg-primary-background',
+      )}
+    >
       <div className="flex flex-row justify-between">
-        <span className="text-xs text-[#808080]">
+        <span className="text-xs text-secondary-tex">
           {message.author === 'user' ? 'You' : CHATBOTS[message.author].name}
         </span>
         <FiTrash2 className="invisible group-hover:visible cursor-pointer" onClick={deleteMessage} />

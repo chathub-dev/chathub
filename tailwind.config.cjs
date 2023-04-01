@@ -3,6 +3,15 @@ module.exports = {
   content: ['./src/**/*.{html,ts,tsx}'],
   theme: {
     extend: {
+      colors: {
+        'primary-blue': 'rgb(var(--color-primary-blue) / <alpha-value>)',
+        secondary: 'rgb(var(--color-secondary) / <alpha-value>)',
+        'primary-background': 'rgb(var(--primary-background) / <alpha-value>)',
+        'primary-text': 'rgb(var(--primary-text) / <alpha-value>)',
+        'secondary-text': 'rgb(var(--secondary-text) / <alpha-value>)',
+        'light-text': 'rgb(var(--light-text) / <alpha-value>)',
+        'primary-border': 'rgb(var(--primary-border) / <alpha-value>)',
+      },
       keyframes: {
         slideDownAndFade: {
           from: { opacity: 0, transform: 'translateY(-2px)' },

@@ -14,15 +14,13 @@
     margin-top: 5px;
     margin-bottom: 5px;
   }
-  > pre {
+  & pre {
     padding: 0;
     margin-top: 10px;
     margin-bottom: 10px;
   }
-  > pre code {
+  & pre code {
     white-space: pre-wrap;
-  }
-  > blockquote {
-    color: white;
+    padding: 10px;
   }
 }

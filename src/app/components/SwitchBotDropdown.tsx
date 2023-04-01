@@ -41,7 +41,7 @@ const SwitchBotDropdown: FC<Props> = (props) => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute left-0 z-10 mt-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="absolute left-0 z-10 mt-2 rounded-md bg-secondary shadow-lg focus:outline-none">
           {Object.keys(CHATBOTS).map((key) => {
             const botId = key as BotId
             if (botId === props.excludeBotId) {
@@ -51,7 +51,7 @@ const SwitchBotDropdown: FC<Props> = (props) => {
             return (
               <Menu.Item key={key}>
                 <div
-                  className="px-4 py-2 ui-active:bg-gray-100 ui-active:text-gray-900 ui-not-active:text-gray-700 cursor-pointer flex flex-row items-center gap-3 pr-8"
+                  className="px-4 py-2 ui-active:bg-primary-blue ui-active:text-white ui-not-active:text-secondary-text cursor-pointer flex flex-row items-center gap-3 pr-8"
                   onClick={() => onSelect(botId)}
                 >
                   <div className="w-4 h-4">

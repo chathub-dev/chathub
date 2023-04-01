@@ -19,7 +19,11 @@ type ViewportListItem =
     }
 
 const Timestamp = memo((props: { timestamp: number }) => {
-  return <span className="text-[#A8A8A8] bg-[#F2F2F2] text-xs px-2 py-1 w-fit">{formatTime(props.timestamp)}</span>
+  return (
+    <span className="text-secondary-text bg-secondary text-xs px-2 py-1 w-fit rounded">
+      {formatTime(props.timestamp)}
+    </span>
+  )
 })
 
 Timestamp.displayName = 'Timestamp'

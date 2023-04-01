@@ -1,14 +1,14 @@
-import { Suspense, useCallback, useState } from 'react'
+import { Suspense, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { IoIosCloseCircleOutline } from 'react-icons/io'
 import { BeatLoader } from 'react-spinners'
 import useSWR from 'swr'
+import closeIcon from '~/assets/icons/close.svg'
 import { trackEvent } from '~app/plausible'
-import { loadLocalPrompts, loadRemotePrompts, Prompt, removeLocalPrompt, saveLocalPrompt } from '~services/prompts'
+import { Prompt, loadLocalPrompts, loadRemotePrompts, removeLocalPrompt, saveLocalPrompt } from '~services/prompts'
 import { uuid } from '~utils'
 import Button from '../Button'
 import { Input, Textarea } from '../Input'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../Tabs'
+import Tabs, { Tab } from '../Tabs'
 
 const ActionButton = (props: { text: string; onClick: () => void }) => {
   return (
@@ -38,9 +38,9 @@ const PromptItem = (props: {
   }, [props])
 
   return (
-    <div className="group relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-5 py-4 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">
+    <div className="group relative flex items-center space-x-3 rounded-lg border border-primary-border bg-primary-background px-5 py-4 shadow-sm hover:border-gray-400">
       <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-medium text-gray-900">{props.title}</p>
+        <p className="truncate text-sm font-medium text-primary-text">{props.title}</p>
       </div>
       <div className="flex flex-row gap-1">
         {props.edit && <ActionButton text={t('Edit')} onClick={props.edit} />}
@@ -48,9 +48,9 @@ const PromptItem = (props: {
         <ActionButton text={t('Use')} onClick={() => props.insertPrompt(props.prompt)} />
       </div>
       {props.remove && (
-        <IoIosCloseCircleOutline
-          className="hidden group-hover:block absolute right-[-8px] top-[-8px] bg-white cursor-pointer"
-          size={20}
+        <img
+          src={closeIcon}
+          className="hidden group-hover:block absolute right-[-8px] top-[-8px] cursor-pointer w-4 h-4 rounded-full bg-primary-background"
           onClick={props.remove}
         />
       )}
@@ -79,11 +79,11 @@ function PromptForm(props: { initialData: Prompt; onSubmit: (data: Prompt) => vo
   return (
     <form className="flex flex-col gap-2 w-1/2" onSubmit={onSubmit}>
       <div className="w-full">
-        <span className="text-sm font-semibold block mb-1">Prompt {t('Title')}</span>
+        <span className="text-sm font-semibold block mb-1 text-primary-text">Prompt {t('Title')}</span>
         <Input className="w-full" name="title" defaultValue={props.initialData.title} />
       </div>
       <div className="w-full">
-        <span className="text-sm font-semibold block mb-1">Prompt {t('Content')}</span>
+        <span className="text-sm font-semibold block mb-1 text-primary-text">Prompt {t('Content')}</span>
         <Textarea className="w-full" name="prompt" defaultValue={props.initialData.prompt} />
       </div>
       <Button color="primary" text={t('Save')} className="w-fit" size="small" type="submit" />
@@ -135,7 +135,7 @@ function LocalPrompts(props: { insertPrompt: (text: string) => void }) {
           ))}
         </div>
       ) : (
-        <div className="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-3 text-center text-sm mt-5">
+        <div className="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-3 text-center text-sm mt-5 text-primary-text">
           You have no prompts.
         </div>
       )}
@@ -170,7 +170,7 @@ function CommunityPrompts(props: { insertPrompt: (text: string) => void }) {
           />
         ))}
       </div>
-      <span className="text-sm mt-5 block">
+      <span className="text-sm mt-5 block text-primary-text">
         Contribute on{' '}
         <a
           href="https://github.com/chathub-dev/community-prompts"
@@ -197,23 +197,35 @@ const PromptLibrary = (props: { insertPrompt: (text: string) => void }) => {
     },
     [props],
   )
+
+  const tabs = useMemo<Tab[]>(
+    () => [
+      { name: 'Your Prompts', value: 'local' },
+      { name: 'Community Prompts', value: 'community' },
+    ],
+    [],
+  )
+
   return (
-    <Tabs defaultValue="local" className="w-full">
-      <TabsList>
-        <TabsTrigger value="local">Your Prompts</TabsTrigger>
-        <TabsTrigger value="community">Community Prompts</TabsTrigger>
-      </TabsList>
-      <TabsContent value="local">
-        <Suspense fallback={<BeatLoader size={10} className="mt-5" />}>
-          <LocalPrompts insertPrompt={insertPrompt} />
-        </Suspense>
-      </TabsContent>
-      <TabsContent value="community">
-        <Suspense fallback={<BeatLoader size={10} className="mt-5" />}>
-          <CommunityPrompts insertPrompt={insertPrompt} />
-        </Suspense>
-      </TabsContent>
-    </Tabs>
+    <Tabs
+      tabs={tabs}
+      renderTab={(tab: (typeof tabs)[0]['value']) => {
+        if (tab === 'local') {
+          return (
+            <Suspense fallback={<BeatLoader size={10} className="mt-5" color="rgb(var(--primary-text))" />}>
+              <LocalPrompts insertPrompt={insertPrompt} />
+            </Suspense>
+          )
+        }
+        if (tab === 'community') {
+          return (
+            <Suspense fallback={<BeatLoader size={10} className="mt-5" color="rgb(var(--primary-text))" />}>
+              <CommunityPrompts insertPrompt={insertPrompt} />
+            </Suspense>
+          )
+        }
+      }}
+    />
   )
 }
 

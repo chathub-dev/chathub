@@ -6,11 +6,9 @@ function NavLink(props: LinkPropsOptions & { text: string }) {
     <Link
       className="rounded-[10px] w-full h-[45px] pl-5 flex flex-col justify-center"
       activeOptions={{ exact: true }}
-      activeProps={{
-        className: 'bg-[#4987FC]',
-      }}
+      activeProps={{ className: 'bg-primary-blue' }}
       inactiveProps={{
-        className: 'bg-[#F2F2F2] bg-opacity-20',
+        className: 'bg-primary-background bg-opacity-20',
       }}
       {...linkProps}
     >
