@@ -38,11 +38,11 @@ ChatHub adalah klien chatbot all-in-one
 
 </div>
 
-## Tangkapan Layar
+## 📷 Tangkapan Layar
 
 ![Tangkapan Layar](screenshots/extension.png?raw=true)
 
-## Fitur
+## ✨ Fitur
 
 - 🤖 Gunakan chatbot yang berbeda dalam satu aplikasi, saat ini mendukung ChatGPT, Bing Chat yang baru dan Google Bard, akan mengintegrasikan lebih banyak di masa depan.
 - 💬 Chat dengan beberapa chatbot secara bersamaan, sehingga mudah untuk membandingkan jawaban mereka.
@@ -55,7 +55,7 @@ ChatHub adalah klien chatbot all-in-one
 - 📥 Ekspor dan Impor semua data Anda.
 - 🔗 Bagikan percakapan ke markdown.
 
-## Instalasi Manual
+## 🔧 Instalasi Manual
 
 - Unduh chathub.zip dari [Release](https://github.com/chathub-dev/chathub/releases).
 - Ekstrak file.
@@ -63,13 +63,13 @@ ChatHub adalah klien chatbot all-in-one
 - Aktifkan Mode Pengembang.
 - Seret folder yang telah diekstrak ke mana saja di halaman untuk mengimpor (jangan hapus folder setelah itu).
 
-## Roadmap
+## 🗺️ Roadmap
 
 - [x] Riwayat percakapan
 - [x] Bagikan percakapan ke markdown
 - [ ] Mode gelap
 
-## Changelog
+## 📜 Changelog
 
 Versi 1.9.0
 
