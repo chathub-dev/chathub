@@ -23,7 +23,7 @@ English | [Indonesia](README_IN.md)
 
 [license-url]: https://github.com/chathub-dev/chathub/blob/main/LICENSE
 
-[release-image]: https://img.shields.io/github/release/josStorer/chatGPTBox.svg
+[release-image]: https://img.shields.io/badge/release-v.1.9.4-blue.svg
 
 [release-url]: https://github.com/chathub-dev/chathub/releases/latest
 
