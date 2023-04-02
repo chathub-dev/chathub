@@ -19,9 +19,9 @@ English&nbsp;&nbsp;|&nbsp;&nbsp;[Indonesia](README_IN.md)&nbsp;&nbsp;
 [![Edge][Edge-image]][Edge-url]
 
 [Screenshot](#Screenshot) | 
-[Features](#Features) | 
-[Manual Installation](#manual-installation--手动安装 | 
-[Roadmap](#Roadmap) | 
+[Features](#Features) |
+[Manual Installation](#manual-installation--手动安装) |
+[Roadmap](#Roadmap) |
 [Changelog](#Changelog)
     
 [license-image]: http://img.shields.io/badge/license-GNU-blue.svg
