@@ -11,7 +11,10 @@
 [![license][license-image]][license-url]
 [![release][release-image]][release-url]
 
-English | [Indonesia](README_IN.md)
+English
+&nbsp;&nbsp;| &nbsp;&nbsp;
+<a href="./README_IN.md">Indonesia</a>
+&nbsp;&nbsp;| &nbsp;&nbsp;
 
 ### Install
     
