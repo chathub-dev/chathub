@@ -46,7 +46,7 @@ English | [Indonesia](README_IN.md)
 
 ![Screenshot](screenshots/extension.png?raw=true)
 
-## Features
+## ✨ Features
 
 - 🤖 Use different chatbots in one app, currently supporting ChatGPT, new Bing Chat and Google Bard, will integrate more in the future.
 - 💬 Chat with multiple chatbots at the same time, making it easy to compare their answers.
