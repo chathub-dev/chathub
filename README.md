@@ -1,4 +1,10 @@
-# ChatHub
+<p align="center">
+    <img src="./src/logo.png">
+</p>
+
+<h1 align="center">ChatHub</h1>
+
+<div align="center">
 
 ChatHub is an all-in-one chatbot client
 
