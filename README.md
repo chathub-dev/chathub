@@ -11,7 +11,7 @@
 [![license][license-image]][license-url]
 [![release][release-image]][release-url]
 
-Inggris &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md)
+English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md)
 
 ### Install
     
