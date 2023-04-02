@@ -10,7 +10,6 @@ ChatHub is an all-in-one chatbot client
 
 [![license][license-image]][license-url]
 [![release][release-image]][release-url]
-[![verfiy][verify-image]][verify-url]
 
 English | [Indonesia](README_IN.md)
 
@@ -26,10 +25,6 @@ English | [Indonesia](README_IN.md)
 [release-image]: https://img.shields.io/badge/release-v.1.9.4-blue.svg
 
 [release-url]: https://github.com/chathub-dev/chathub/releases/latest
-
-[verify-image]: https://github.com/josStorer/chatGPTBox/workflows/verify-configs/badge.svg
-
-[verify-url]: https://github.com/josStorer/chatGPTBox/actions/workflows/verify-configs.yml
 
 [Chrome-image]: https://img.shields.io/badge/-Chrome-brightgreen?logo=google-chrome&logoColor=white
 
