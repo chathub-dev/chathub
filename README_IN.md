@@ -11,7 +11,7 @@ ChatHub adalah klien chatbot all-in-one
 [![license][license-image]][license-url]
 [![release][release-image]][release-url]
 
-[Inggris](README.md) &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md)
+[Inggris](README.md) &nbsp;&nbsp;|&nbsp;&nbsp; Indonesia
 
 ### Instal
     
