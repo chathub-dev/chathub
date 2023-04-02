@@ -22,7 +22,7 @@ English | [Indonesia](README_IN.md)
 [Features](#Features) |
 [Manual Installation](#manual-installation--手动安装) |
 [Roadmap](#Roadmap) |
-[Changelog](#Changelog) |
+[Changelog](#Changelog)
     
 [license-image]: http://img.shields.io/badge/license-GNU-blue.svg
 
