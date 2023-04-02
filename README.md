@@ -24,7 +24,7 @@ English | [Indonesia](README_IN.md)
 [Roadmap](#Roadmap) |
 [Changelog](#Changelog) |
     
-[license-image]: http://img.shields.io/badge/license-MIT-blue.svg
+[license-image]: http://img.shields.io/badge/license-GNU-blue.svg
 
 [license-url]: https://github.com/chathub-dev/chathub/blob/main/LICENSE
 
