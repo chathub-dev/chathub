@@ -21,8 +21,8 @@ English
 [![Chrome][Chrome-image]][Chrome-url]
 [![Edge][Edge-image]][Edge-url]
 
-[Screenshot](#Screenshot) |
-[Features](#Features) |
+[Screenshot](#Screenshot) | &nbsp;&nbsp;
+&nbsp;&nbsp; [Features](#Features) |
 [Manual Installation](#manual-installation--手动安装) |
 [Roadmap](#Roadmap) |
 [Changelog](#Changelog)
