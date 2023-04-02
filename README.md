@@ -21,11 +21,11 @@ English | [Indonesia](README_IN.md) | [简体中文](README_ZH.md)
     
 [license-image]: http://img.shields.io/badge/license-MIT-blue.svg
 
-[license-url]: https://github.com/josStorer/chatGPTBox/blob/master/LICENSE
+[license-url]: https://github.com/chathub-dev/chathub/blob/main/LICENSE
 
-[release-image]: https://img.shields.io/github/release/josStorer/chatGPTBox.svg
+[release-image]: https://github.com/chathub-dev/chathub/blob/main/src/assets/icon.svg
 
-[release-url]: https://github.com/josStorer/chatGPTBox/releases/latest
+[release-url]: https://github.com/chathub-dev/chathub/releases/latest
 
 [verify-image]: https://github.com/josStorer/chatGPTBox/workflows/verify-configs/badge.svg
 
@@ -33,11 +33,11 @@ English | [Indonesia](README_IN.md) | [简体中文](README_ZH.md)
 
 [Chrome-image]: https://img.shields.io/badge/-Chrome-brightgreen?logo=google-chrome&logoColor=white
 
-[Chrome-url]: https://chrome.google.com/webstore/detail/chatgptbox/eobbhoofkanlmddnplfhnmkfbnlhpbbo
+[Chrome-url]: https://chrome.google.com/webstore/detail/chathub-all-in-one-chatbo/iaakpnchhognanibcahlpcplchdfmgma?utm_source=website
 
 [Edge-image]: https://img.shields.io/badge/-Edge-blue?logo=microsoft-edge&logoColor=white
 
-[Edge-url]: https://microsoftedge.microsoft.com/addons/detail/fission-chatbox-best/enjmfilpkbbabhgeoadmdpjjpnahkogf
+[Edge-url]: https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga
 
 </div>
 
