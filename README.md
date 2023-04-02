@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="./src/assets/icon.png" width="100">
+    <img src="./src/assets/icon.png" width="200">
 </p>
 
 <h1 align="center">ChatHub</h1>
