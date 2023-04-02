@@ -18,10 +18,10 @@ English&nbsp;&nbsp;|&nbsp;&nbsp;[Indonesia](README_IN.md)&nbsp;&nbsp;
 [![Chrome][Chrome-image]][Chrome-url]
 [![Edge][Edge-image]][Edge-url]
 
-[Screenshot](#Screenshot)&nbsp;&nbsp;|&nbsp;&nbsp;
-[Features](#Features)&nbsp;&nbsp;|&nbsp;&nbsp;
-[Manual Installation](#manual-installation--手动安装)&nbsp;&nbsp;|&nbsp;&nbsp;
-[Roadmap](#Roadmap)&nbsp;&nbsp;|&nbsp;&nbsp;
+[Screenshot](#Screenshot) | 
+[Features](#Features) | 
+[Manual Installation](#manual-installation--手动安装 | 
+[Roadmap](#Roadmap) | 
 [Changelog](#Changelog)
     
 [license-image]: http://img.shields.io/badge/license-GNU-blue.svg
