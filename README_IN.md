@@ -11,9 +11,9 @@ ChatHub adalah klien chatbot all-in-one
 [![license][license-image]][license-url]
 [![release][release-image]][release-url]
 
-Inggris | [Indonesia](README_IN.md)
+[Inggris](README.md) | Indonesia
 
-### Install
+### Instal
     
 [![Chrome][Chrome-image]][Chrome-url]
 [![Edge][Edge-image]][Edge-url]
@@ -61,7 +61,7 @@ Inggris | [Indonesia](README_IN.md)
 
 ## Instalasi Manual
 
-- Unduh chathub.zip dari [Rilis](https://github.com/chathub-dev/chathub/releases).
+- Unduh chathub.zip dari [Release](https://github.com/chathub-dev/chathub/releases).
 - Ekstrak file.
 - Di Chrome/Edge, buka halaman ekstensi (chrome://extensions atau edge://extensions).
 - Aktifkan Mode Pengembang.
@@ -83,15 +83,15 @@ Versi 1.8.0
 
 - Impor/Ekspor semua data
 - Edit prompt lokal
-- Alihkan chatbot untuk dibandingkan
+- Mengalihkan chatbot untuk dibandingkan
 
 Versi 1.7.0
 
-- Tambahkan riwayat percakapan
+- Menambahkan riwayat percakapan
 
 Versi 1.6.0
 
-- Tambahkan dukungan untuk Google Bard
+- Menambahkan dukungan untuk Google Bard
 
 Versi 1.5.4
 
@@ -99,7 +99,7 @@ Versi 1.5.4
 
 Versi 1.5.1
 
-- Tambahkan pengaturan i18n
+- Menambahkan pengaturan i18n
 
 Versi 1.5.0
 
@@ -107,7 +107,7 @@ Versi 1.5.0
 
 Versi 1.4.0
 
-- Tambahkan Prompt Library
+- Menambahkan Prompt Library
 
 Versi 1.3.0
 
