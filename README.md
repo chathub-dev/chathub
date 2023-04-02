@@ -8,7 +8,7 @@
 
 ChatHub is an all-in-one chatbot client
 
-[![license][license-image]][https://github.com/chathub-dev/chathub/blob/main/LICENSE]
+[![license][license-image]][license-url]
 [![release][release-image]][release-url]
 [![verfiy][verify-image]][verify-url]
 
@@ -18,6 +18,28 @@ English | [Indonesia](README_IN.md) | [简体中文](README_ZH.md)
 
 [![Chrome][Chrome-image]][https://chathub.gg]
 [![Edge][Edge-image]][https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga]
+    
+[license-image]: http://img.shields.io/badge/license-MIT-blue.svg
+
+[license-url]: https://github.com/josStorer/chatGPTBox/blob/master/LICENSE
+
+[release-image]: https://img.shields.io/github/release/josStorer/chatGPTBox.svg
+
+[release-url]: https://github.com/josStorer/chatGPTBox/releases/latest
+
+[verify-image]: https://github.com/josStorer/chatGPTBox/workflows/verify-configs/badge.svg
+
+[verify-url]: https://github.com/josStorer/chatGPTBox/actions/workflows/verify-configs.yml
+
+[Chrome-image]: https://img.shields.io/badge/-Chrome-brightgreen?logo=google-chrome&logoColor=white
+
+[Chrome-url]: https://chrome.google.com/webstore/detail/chatgptbox/eobbhoofkanlmddnplfhnmkfbnlhpbbo
+
+[Edge-image]: https://img.shields.io/badge/-Edge-blue?logo=microsoft-edge&logoColor=white
+
+[Edge-url]: https://microsoftedge.microsoft.com/addons/detail/fission-chatbox-best/enjmfilpkbbabhgeoadmdpjjpnahkogf
+
+</div>
 
 ## Screenshot
 
