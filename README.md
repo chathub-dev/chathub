@@ -42,7 +42,7 @@ English | [Indonesia](README_IN.md)
 
 </div>
 
-## Screenshot
+## 📷 Screenshot
 
 ![Screenshot](screenshots/extension.png?raw=true)
 
@@ -59,7 +59,7 @@ English | [Indonesia](README_IN.md)
 - 📥 Export and Import all your data.
 - 🔗 Share conversation to markdown.
 
-## Manual Installation / 手动安装
+## 🔧 Manual Installation / 手动安装
 
 - Download chathub.zip from [Releases](https://github.com/chathub-dev/chathub/releases).
 - Unzip the file.
@@ -67,13 +67,13 @@ English | [Indonesia](README_IN.md)
 - Enable Developer Mode.
 - Drag the unzipped folder anywhere on the page to import it (do not delete the folder afterward).
 
-## Roadmap
+## 🗺️ Roadmap
 
 - [x] Conversation history
 - [x] Share conversation to markdown
 - [ ] Dark mode
 
-## Changelog
+## 📜 Changelog
 
 ### v1.9.0
 
