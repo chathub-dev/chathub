@@ -17,6 +17,10 @@ English | [Indonesia](README_IN.md)
     
 [![Chrome][Chrome-image]][Chrome-url]
 [![Edge][Edge-image]][Edge-url]
+
+[Guide](https://github.com/josStorer/chatGPTBox/wiki/Guide) |
+[Preview](#Preview) |
+[Development&Contributing][dev-url] |
     
 [license-image]: http://img.shields.io/badge/license-MIT-blue.svg
 
