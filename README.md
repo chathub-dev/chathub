@@ -12,9 +12,12 @@ ChatHub is an all-in-one chatbot client
 [![release][release-image]][release-url]
 [![verfiy][verify-image]][verify-url]
 
-[Install from Chrome Web Store](https://chathub.gg)
+English | [Indonesia](README_IN.md) | [简体中文](README_ZH.md)
 
-[Install from Edge Addons Store](https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga)
+### Install
+
+[![Chrome][Chrome-image]][https://chathub.gg]
+[![Edge][Edge-image]][https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga]
 
 ## Screenshot
 
