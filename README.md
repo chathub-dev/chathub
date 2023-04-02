@@ -29,15 +29,15 @@ English
 
 Screenshot
 &nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="#Screenshot">Features</a>
+<a href="./README.md/#Screenshot">Features</a>
 &nbsp;&nbsp;| &nbsp;&nbsp;
 <a href="#Features">Manual Installation</a>
 &nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="#manual-installation--手动安装">Roadmap</a>
+<a href="#./README.md/manual-installation--手动安装">Roadmap</a>
 &nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="#Roadmap">Changelog</a>
+<a href="./README.md/#Roadmap">Changelog</a>
 &nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="#Changelog"
+<a href="./README.md/#Changelog"
     
 [license-image]: http://img.shields.io/badge/license-GNU-blue.svg
 
