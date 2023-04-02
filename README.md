@@ -18,11 +18,11 @@ Inggris | [Indonesia](README_IN.md)
 [![Chrome][Chrome-image]][Chrome-url]
 [![Edge][Edge-image]][Edge-url]
 
-[Screenshot](#Screenshot) | 
-[Features](#Features) |
-[Manual Installation](#manual-installation--手动安装) |
-[Roadmap](#Roadmap) |
-[Changelog](#Changelog)
+[Screenshot](#📷-Screenshot) | 
+[Features](#✨-Features) |
+[Manual Installation](#🔧-manual-installation--手动安装) |
+[Roadmap](#🗺️-Roadmap) |
+[Changelog](#📜-Changelog)
     
 [license-image]: http://img.shields.io/badge/license-GNU-blue.svg
 
