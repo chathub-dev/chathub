@@ -21,11 +21,11 @@ English
 [![Chrome][Chrome-image]][Chrome-url]
 [![Edge][Edge-image]][Edge-url]
 
-[Screenshot](#Screenshot) | &nbsp;&nbsp;
+[Screenshot](#Screenshot) |
 &nbsp;&nbsp; [Features](#Features) |
-[Manual Installation](#manual-installation--手动安装) |
-[Roadmap](#Roadmap) |
-[Changelog](#Changelog)
+&nbsp;&nbsp; [Manual Installation](#manual-installation--手动安装) |
+&nbsp;&nbsp; [Roadmap](#Roadmap) |
+&nbsp;&nbsp; [Changelog](#Changelog)
 
 Screenshot
 &nbsp;&nbsp;| &nbsp;&nbsp;
