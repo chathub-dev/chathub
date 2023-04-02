@@ -6,7 +6,7 @@
 
 <div align="center">
 
-ChatHub is an all-in-one chatbot client
+### ChatHub is an all-in-one chatbot client
 
 [![license][license-image]][license-url]
 [![release][release-image]][release-url]
