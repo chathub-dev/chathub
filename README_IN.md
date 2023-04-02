@@ -11,18 +11,14 @@ ChatHub adalah klien chatbot all-in-one
 [![license][license-image]][license-url]
 [![release][release-image]][release-url]
 
-[Inggris](README.md) | Indonesia
+[Inggris](README.md) &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md)
 
 ### Instal
     
 [![Chrome][Chrome-image]][Chrome-url]
 [![Edge][Edge-image]][Edge-url]
 
-[Tangkapan Layar](#Tangkapan-Layar) |
-[Fitur](#Fitur) |
-[Instalasi Manual](#Instalasi-Manual) |
-[Roadmap](#Roadmap) |
-[Changelog](#Changelog) |
+[Tangkapan Layar](#-Tangkapan-Layar) &nbsp;&nbsp;|&nbsp;&nbsp; [Fitur](#-Fitur) &nbsp;&nbsp;|&nbsp;&nbsp; [Instalasi Manual](#-Instalasi-Manual) &nbsp;&nbsp;|&nbsp;&nbsp; [Roadmap](#-Roadmap) &nbsp;&nbsp;|&nbsp;&nbsp; [Changelog](#-Changelog)
     
 [license-image]: http://img.shields.io/badge/license-GNU-blue.svg
 
