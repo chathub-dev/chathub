@@ -40,18 +40,18 @@ English | [Indonesia](README_IN.md)
 
 ![Screenshot](screenshots/extension.png?raw=true)
 
-## Features
+## ✨ Features
 
-- Use different chatbots in one app, currently supporting ChatGPT, new Bing Chat and Google Bard, will integrate more in the future.
-- Chat with multiple chatbots at the same time, making it easy to compare their answers.
-- Support ChatGPT API mode, which is faster and more cost-effective than ChatGPT Plus.
-- Token usage stats when using ChatGPT API mode.
-- Shortcut to quickly activate the app anywhere in the browser.
-- Markdown and code highlight support.
-- Prompt Library for custom prompts and community prompts.
-- Conversation history saved locally.
-- Export and Import all your data.
-- Share conversation to markdown.
+- 🤖 Use different chatbots in one app, currently supporting ChatGPT, new Bing Chat and Google Bard, will integrate more in the future.
+- 💬 Chat with multiple chatbots at the same time, making it easy to compare their answers.
+- 🚀 Support ChatGPT API mode, which is faster and more cost-effective than ChatGPT Plus.
+- 📊 Token usage stats when using ChatGPT API mode.
+- 🔍 Shortcut to quickly activate the app anywhere in the browser.
+- 🎨 Markdown and code highlight support.
+- 📚 Prompt Library for custom prompts and community prompts.
+- 💾 Conversation history saved locally.
+- 📥 Export and Import all your data.
+- 🔗 Share conversation to markdown.
 
 ## Manual Installation / 手动安装
 
