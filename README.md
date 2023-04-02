@@ -21,19 +21,7 @@ English
 [![Chrome][Chrome-image]][Chrome-url]
 [![Edge][Edge-image]][Edge-url]
 
-[Screenshot](#Screenshot)&nbsp;&nbsp;|&nbsp;&nbsp; [Features](#Features)|&nbsp;&nbsp; [Manual Installation](#manual-installation--手动安装)|&nbsp;&nbsp; [Roadmap](#Roadmap)|&nbsp;&nbsp; [Changelog](#Changelog)
-
-Screenshot
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="./README.md/#Screenshot">Features</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="#Features">Manual Installation</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="#./README.md/manual-installation--手动安装">Roadmap</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="./README.md/#Roadmap">Changelog</a>
-&nbsp;&nbsp;| &nbsp;&nbsp;
-<a href="./README.md/#Changelog"
+[Screenshot](#Screenshot)&nbsp;&nbsp;|&nbsp;&nbsp; [Features](#Features)&nbsp;&nbsp;|&nbsp;&nbsp; [Manual Installation](#manual-installation--手动安装)&nbsp;&nbsp;|&nbsp;&nbsp; [Roadmap](#Roadmap)&nbsp;&nbsp;|&nbsp;&nbsp; [Changelog](#Changelog)
     
 [license-image]: http://img.shields.io/badge/license-GNU-blue.svg
 
