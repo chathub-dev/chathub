@@ -15,9 +15,9 @@ ChatHub is an all-in-one chatbot client
 English | [Indonesia](README_IN.md) | [简体中文](README_ZH.md)
 
 ### Install
-
-[![Chrome][Chrome-image]][https://chathub.gg]
-[![Edge][Edge-image]][https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga]
+    
+[![Chrome][Chrome-image]][Chrome-url]
+[![Edge][Edge-image]][Edge-url]
     
 [license-image]: http://img.shields.io/badge/license-MIT-blue.svg
 
