@@ -12,7 +12,7 @@ ChatHub is an all-in-one chatbot client
 [![release][release-image]][release-url]
 [![verfiy][verify-image]][verify-url]
 
-English | [Indonesia](README_IN.md) | [简体中文](README_ZH.md)
+English | [Indonesia](README_IN.md)
 
 ### Install
     
