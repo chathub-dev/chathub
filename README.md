@@ -20,7 +20,7 @@ English | [Indonesia](README_IN.md)
 
 [Screenshot](#Screenshot) |
 [Features](#Features) |
-[Manual Installation](#ManualInstallation) |
+[Manual Installation](#Manual-Installation) |
 [Roadmap](#Roadmap) |
 [Changelog](#Changelog) |
     
