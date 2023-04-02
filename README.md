@@ -16,6 +16,8 @@ English
 <a href="./README_IN.md">Indonesia</a>
 &nbsp;&nbsp;
 
+English&nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md)&nbsp;&nbsp;
+
 ### Install
     
 [![Chrome][Chrome-image]][Chrome-url]
