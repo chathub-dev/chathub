@@ -8,7 +8,7 @@
 
 ### ChatHub is an all-in-one chatbot client
 
-[![author: ][author-image]][author-url]
+[![author][author-image]][author-url]
 [![license][license-image]][license-url]
 [![release][release-image]][release-url]
 [![last commit][last-commit-image]][last-commit-url]
