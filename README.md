@@ -20,11 +20,11 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md)
 
 [Screenshot](#-Screenshot) &nbsp;&nbsp;|&nbsp;&nbsp; [Features](#-Features) &nbsp;&nbsp;|&nbsp;&nbsp; [Manual Installation](#-manual-installation--手动安装) &nbsp;&nbsp;|&nbsp;&nbsp; [Roadmap](#%EF%B8%8F-roadmap) &nbsp;&nbsp;|&nbsp;&nbsp; [Changelog](#-Changelog)
     
-[license-image]: http://img.shields.io/badge/license-GNU-blue.svg
+[license-image]: https://img.shields.io/github/license/chathub-dev/chathub?color=blue
 
 [license-url]: https://github.com/chathub-dev/chathub/blob/main/LICENSE
 
-[release-image]: https://img.shields.io/badge/release-v.1.9.4-blue.svg
+[release-image]: https://img.shields.io/github/v/release/chathub-dev/chathub?color=blue
 
 [release-url]: https://github.com/chathub-dev/chathub/releases/latest
 
