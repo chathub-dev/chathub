@@ -38,6 +38,8 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md)
 
 </div>
 
+##
+
 ## 📷 Screenshot
 
 ![Screenshot](screenshots/extension.png?raw=true)
