@@ -10,7 +10,7 @@
 
 [![license][license-image]][license-url]
 [![release][release-image]][release-url]
-[![last commit][last-commit-image][last-commit-url]
+[![last commit][last-commit-image]][last-commit-url]
 
 English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md)
 
