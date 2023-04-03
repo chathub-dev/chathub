@@ -70,6 +70,28 @@ const resources = {
         'Les données incluent tous vos paramètres, historiques de chat et invitations locales',
     },
   },
+  in: {
+    translation: {
+    'Shortcut to open this app': 'Jalur Pintas untuk membuka aplikasi ini',
+    Settings: 'Pengaturan',
+    'Startup page': 'Halaman Awal',
+    'Conversation style': 'Gaya Percakapan',
+    'Change shortcut': 'Ubah Jalur Pintas',
+    Save: 'Simpan',
+    Saved: 'Tersimpan',
+    Export: 'Ekspor',
+    Import: 'Impor',
+    'Export/Import All Data': 'Ekspor/Impor Seluruh Data',
+    'Data includes all your settings, chat histories, and local prompts':
+    'Data mencakup semua pengaturan, riwayat percakapan, dan prompt lokal Anda',
+    Edit: 'Edit',
+    Use: 'Gunakan',
+    Send: 'Kirim',
+    Stop: 'Berhenti',
+    Title: 'Judul',
+    Content: 'Isi',
+    },
+  },    
   ja: {
     translation: {
       'Shortcut to open this app': 'このアプリを開くためのショートカット',

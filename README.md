@@ -1,29 +1,61 @@
-# ChatHub
+<p align="center">
+    <img src="./src/assets/icon.png" width="150">
+</p>
 
-ChatHub is an all-in-one chatbot client
+<h1 align="center">ChatHub</h1>
 
-[Install from Chrome Web Store](https://chathub.gg)
+<div align="center">
 
-[Install from Edge Addons Store](https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga)
+### ChatHub is an all-in-one chatbot client
 
-## Screenshot
+[![license][license-image]][license-url]
+[![release][release-image]][release-url]
+
+English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md)
+
+### Install
+    
+[![Chrome][Chrome-image]][Chrome-url]
+[![Edge][Edge-image]][Edge-url]
+
+[Screenshot](#-Screenshot) &nbsp;&nbsp;|&nbsp;&nbsp; [Features](#-Features) &nbsp;&nbsp;|&nbsp;&nbsp; [Manual Installation](#-manual-installation--手动安装) &nbsp;&nbsp;|&nbsp;&nbsp; [Roadmap](#%EF%B8%8F-roadmap) &nbsp;&nbsp;|&nbsp;&nbsp; [Changelog](#-Changelog)
+    
+[license-image]: http://img.shields.io/badge/license-GNU-blue.svg
+
+[license-url]: https://github.com/chathub-dev/chathub/blob/main/LICENSE
+
+[release-image]: https://img.shields.io/badge/release-v.1.9.4-blue.svg
+
+[release-url]: https://github.com/chathub-dev/chathub/releases/latest
+
+[Chrome-image]: https://img.shields.io/badge/-Chrome-brightgreen?logo=google-chrome&logoColor=white
+
+[Chrome-url]: https://chrome.google.com/webstore/detail/chathub-all-in-one-chatbo/iaakpnchhognanibcahlpcplchdfmgma?utm_source=website
+
+[Edge-image]: https://img.shields.io/badge/-Edge-blue?logo=microsoft-edge&logoColor=white
+
+[Edge-url]: https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga
+
+</div>
+
+## 📷 Screenshot
 
 ![Screenshot](screenshots/extension.png?raw=true)
 
-## Features
+## ✨ Features
 
-- Use different chatbots in one app, currently supporting ChatGPT, new Bing Chat and Google Bard, will integrate more in the future.
-- Chat with multiple chatbots at the same time, making it easy to compare their answers.
-- Support ChatGPT API mode, which is faster and more cost-effective than ChatGPT Plus.
-- Token usage stats when using ChatGPT API mode.
-- Shortcut to quickly activate the app anywhere in the browser.
-- Markdown and code highlight support.
-- Prompt Library for custom prompts and community prompts.
-- Conversation history saved locally.
-- Export and Import all your data.
-- Share conversation to markdown.
+- 🤖 Use different chatbots in one app, currently supporting ChatGPT, new Bing Chat and Google Bard, will integrate more in the future.
+- 💬 Chat with multiple chatbots at the same time, making it easy to compare their answers.
+- 🚀 Support ChatGPT API mode, which is faster and more cost-effective than ChatGPT Plus.
+- 📊 Token usage stats when using ChatGPT API mode.
+- 🔍 Shortcut to quickly activate the app anywhere in the browser.
+- 🎨 Markdown and code highlight support.
+- 📚 Prompt Library for custom prompts and community prompts.
+- 💾 Conversation history saved locally.
+- 📥 Export and Import all your data.
+- 🔗 Share conversation to markdown.
 
-## Manual Installation / 手动安装
+## 🔧 Manual Installation / 手动安装
 
 - Download chathub.zip from [Releases](https://github.com/chathub-dev/chathub/releases).
 - Unzip the file.
@@ -31,13 +63,13 @@ ChatHub is an all-in-one chatbot client
 - Enable Developer Mode.
 - Drag the unzipped folder anywhere on the page to import it (do not delete the folder afterward).
 
-## Roadmap
+## 🗺️ Roadmap
 
 - [x] Conversation history
 - [x] Share conversation to markdown
 - [ ] Dark mode
 
-## Changelog
+## 📜 Changelog
 
 ### v1.9.0
 
