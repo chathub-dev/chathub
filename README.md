@@ -76,7 +76,7 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md)
 - [x] Share conversation to markdown
 - [x] Dark mode
 
-## 📜 Changelog
+## <summary>📜 Changelog</summary>
 
 ### v1.10.0
 
