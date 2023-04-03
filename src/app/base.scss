@@ -38,6 +38,7 @@ body {
   }
   @media (prefers-color-scheme: light) {
     :root {
+      color-scheme: light;
       --color-primary-blue: 73 135 252; // #4987FC
       --color-secondary: 242 242 242; // #F2F2F2
       --primary-background: 255 255 255; // #FFFFFF
@@ -49,6 +50,7 @@ body {
   }
   @media (prefers-color-scheme: dark) {
     :root {
+      color-scheme: dark;
       --color-primary-blue: 50 104 206; // #3268CE
       --color-secondary: 46 46 46; // #2E2E2E
       --primary-background: 25 25 25; // #191919

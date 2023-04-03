@@ -17,7 +17,7 @@ const Dialog: FC<PropsWithChildren<Props>> = (props) => {
       <div className="fixed inset-0 flex items-center justify-center max-h-screen m-5">
         <HeadlessDialog.Panel
           className={cx(
-            'mx-auto rounded-3xl bg-primary-background shadow-xl max-h-full overflow-hidden flex flex-col',
+            'mx-auto rounded-3xl bg-primary-background shadow-2xl max-h-full overflow-hidden flex flex-col',
             props.className,
           )}
         >
