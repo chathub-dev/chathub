@@ -10,6 +10,9 @@
 
 [![license][license-image]][license-url]
 [![release][release-image]][release-url]
+[![last commit][last-commit-image][last-commit-url]
+
+(https://img.shields.io/github/last-commit/cheems/goindex-extended?label=Last%20Commit)]()
 
 English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md)
 
@@ -21,19 +24,18 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md)
 [Screenshot](#-Screenshot) &nbsp;&nbsp;|&nbsp;&nbsp; [Features](#-Features) &nbsp;&nbsp;|&nbsp;&nbsp; [Manual Installation](#-manual-installation--手动安装) &nbsp;&nbsp;|&nbsp;&nbsp; [Roadmap](#%EF%B8%8F-roadmap) &nbsp;&nbsp;|&nbsp;&nbsp; [Changelog](#-Changelog)
     
 [license-image]: https://img.shields.io/github/license/chathub-dev/chathub?color=blue
-
 [license-url]: https://github.com/chathub-dev/chathub/blob/main/LICENSE
 
 [release-image]: https://img.shields.io/github/v/release/chathub-dev/chathub?color=blue
-
 [release-url]: https://github.com/chathub-dev/chathub/releases/latest
+   
+[last-commit-image]: https://img.shields.io/github/last-commit/chathub-dev/chathub?label=last%20commit
+[last-commit-url]: https://github.com/chathub-dev/chathub/commits
 
 [Chrome-image]: https://img.shields.io/badge/-Chrome-brightgreen?logo=google-chrome&logoColor=white
-
 [Chrome-url]: https://chrome.google.com/webstore/detail/chathub-all-in-one-chatbo/iaakpnchhognanibcahlpcplchdfmgma?utm_source=website
 
 [Edge-image]: https://img.shields.io/badge/-Edge-blue?logo=microsoft-edge&logoColor=white
-
 [Edge-url]: https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga
 
 </div>
