@@ -76,8 +76,7 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md)
 - [x] Share conversation to markdown
 - [x] Dark mode
 
-<details>
-<summary>## 📜 Changelog</summary>
+## 📜 Changelog
 
 ### v1.10.0
 
@@ -140,5 +139,3 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md)
 
 - Support copy message text
 - Improve setting page form element style
-
-</details>
