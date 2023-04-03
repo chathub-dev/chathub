@@ -58,7 +58,7 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md)
 - 🔗 Share conversation to markdown.
 - 🌙 Dark mode
 
-## 🔧 Manual Installation / 手动安装
+## 🔧 Manual Installation
 
 - Download chathub.zip from [Releases](https://github.com/chathub-dev/chathub/releases).
 - Unzip the file.
