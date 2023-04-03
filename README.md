@@ -11,12 +11,12 @@
 [![author][author-image]][author-url]
 [![license][license-image]][license-url]
 [![release][release-image]][release-url]
-[![last commit][last-commit-image]][last-commit-url]
-
-##    
+[![last commit][last-commit-image]][last-commit-url]    
     
 English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md)
 
+##    
+    
 ### Install
     
 <a href="https://chrome.google.com/webstore/detail/chathub-all-in-one-chatbo/iaakpnchhognanibcahlpcplchdfmgma?utm_source=website"><img src="https://user-images.githubusercontent.com/585534/107280622-91a8ea80-6a26-11eb-8d07-77c548b28665.png" alt="Get ChatHub for Chromium"></a>
