@@ -17,11 +17,10 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md)
 
 ### Install
     
-[![Chrome][Chrome-image]][Chrome-url]
-[![Edge][Edge-image]][Edge-url]
-    
 <a href="https://chrome.google.com/webstore/detail/chathub-all-in-one-chatbo/iaakpnchhognanibcahlpcplchdfmgma?utm_source=website"><img src="https://user-images.githubusercontent.com/585534/107280622-91a8ea80-6a26-11eb-8d07-77c548b28665.png" alt="Get ChatHub for Chromium"></a>
 <a href="https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga"><img src="https://user-images.githubusercontent.com/585534/107280673-a5ece780-6a26-11eb-9cc7-9fa9f9f81180.png" alt="Get ChatHub for Microsoft Edge"></a>
+    
+##
 
 [Screenshot](#-Screenshot) &nbsp;&nbsp;|&nbsp;&nbsp; [Features](#-Features) &nbsp;&nbsp;|&nbsp;&nbsp; [Manual Installation](#-manual-installation--手动安装) &nbsp;&nbsp;|&nbsp;&nbsp; [Roadmap](#%EF%B8%8F-roadmap) &nbsp;&nbsp;|&nbsp;&nbsp; [Changelog](#-Changelog)
 
@@ -36,12 +35,6 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md)
    
 [last-commit-image]: https://img.shields.io/github/last-commit/chathub-dev/chathub?label=last%20commit
 [last-commit-url]: https://github.com/chathub-dev/chathub/commits
-
-[Chrome-image]: https://img.shields.io/badge/-Chrome-brightgreen?logo=google-chrome&logoColor=white
-[Chrome-url]: https://chrome.google.com/webstore/detail/chathub-all-in-one-chatbo/iaakpnchhognanibcahlpcplchdfmgma?utm_source=website
-
-[Edge-image]: https://img.shields.io/badge/-Edge-blue?logo=microsoft-edge&logoColor=white
-[Edge-url]: https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga
 
 </div>
 
