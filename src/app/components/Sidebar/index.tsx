@@ -1,9 +1,9 @@
 import { Link } from '@tanstack/react-router'
-import cx from 'classnames'
 import feedbackIcon from '~/assets/icons/feedback.svg'
 import settingIcon from '~/assets/icons/setting.svg'
 import logo from '~/assets/logo.svg'
 import NavLink from './NavLink'
+import CommandBar from '../CommandBar'
 
 function IconButton(props: { icon: string }) {
   return (
@@ -34,6 +34,7 @@ function Sidebar() {
           </Link>
         </div>
       </div>
+      <CommandBar />
     </aside>
   )
 }
