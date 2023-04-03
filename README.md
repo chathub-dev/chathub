@@ -54,6 +54,7 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md)
 - 💾 Conversation history saved locally.
 - 📥 Export and Import all your data.
 - 🔗 Share conversation to markdown.
+- 🌙 Dark mode
 
 ## 🔧 Manual Installation / 手动安装
 
@@ -67,9 +68,26 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md)
 
 - [x] Conversation history
 - [x] Share conversation to markdown
-- [ ] Dark mode
+- [x] Dark mode
 
 ## 📜 Changelog
+
+### v1.10.0
+
+- Command + K
+
+### v1.9.4
+
+- Dark mode
+
+### v1.9.3
+
+- Support math formula with katex
+- Save community prompt to local
+
+### v1.9.2
+
+- Delete history messages
 
 ### v1.9.0
 
