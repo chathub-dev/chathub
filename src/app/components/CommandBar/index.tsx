@@ -39,7 +39,7 @@ function CommandBar() {
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup heading="Chat">
           <CommandItem onSelect={() => onSelectBot()}>
-            <Columns className="w-5 h-5 mr-2" />
+            <Columns className="w-5 h-5 mr-2" color="rgb(var(--color-primary-blue))" />
             <span>All-In-One</span>
           </CommandItem>
           {Object.keys(CHATBOTS).map((key) => {
