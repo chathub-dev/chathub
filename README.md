@@ -12,8 +12,6 @@
 [![release][release-image]][release-url]
 [![last commit][last-commit-image][last-commit-url]
 
-(https://img.shields.io/github/last-commit/cheems/goindex-extended?label=Last%20Commit)]()
-
 English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md)
 
 ### Install
