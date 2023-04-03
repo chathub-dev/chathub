@@ -20,11 +20,11 @@ ChatHub adalah klien chatbot all-in-one
 
 [Tangkapan Layar](#-Tangkapan-Layar) &nbsp;&nbsp;|&nbsp;&nbsp; [Fitur](#-Fitur) &nbsp;&nbsp;|&nbsp;&nbsp; [Instalasi Manual](#-Instalasi-Manual) &nbsp;&nbsp;|&nbsp;&nbsp; [Roadmap](#%EF%B8%8F-roadmap) &nbsp;&nbsp;|&nbsp;&nbsp; [Changelog](#-Changelog)
     
-[license-image]: http://img.shields.io/badge/license-GNU-blue.svg
+[license-image]: https://img.shields.io/github/license/chathub-dev/chathub?color=blue
 
 [license-url]: https://github.com/chathub-dev/chathub/blob/main/LICENSE
 
-[release-image]: https://img.shields.io/badge/release-v.1.9.4-blue.svg
+[release-image]: https://img.shields.io/github/v/release/chathub-dev/chathub?color=blue
 
 [release-url]: https://github.com/chathub-dev/chathub/releases/latest
 
@@ -37,6 +37,8 @@ ChatHub adalah klien chatbot all-in-one
 [Edge-url]: https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga
 
 </div>
+
+##
 
 ## 📷 Tangkapan Layar
 
@@ -54,6 +56,7 @@ ChatHub adalah klien chatbot all-in-one
 - 💾 Riwayat percakapan tersimpan secara lokal.
 - 📥 Ekspor dan Impor semua data Anda.
 - 🔗 Bagikan percakapan ke markdown.
+- 🌙 Mode gelap.
 
 ## 🔧 Instalasi Manual
 
@@ -67,51 +70,68 @@ ChatHub adalah klien chatbot all-in-one
 
 - [x] Riwayat percakapan
 - [x] Bagikan percakapan ke markdown
-- [ ] Mode gelap
+- [x] Mode gelap
 
 ## 📜 Changelog
 
-Versi 1.9.0
+### v1.10.0
+
+- Command + K
+
+### v1.9.4
+
+- Mode gelap
+
+### v1.9.3
+
+- Dukungan rumus matematika dengan katex
+- Simpan prompt komunitas ke lokal
+
+### v1.9.2
+
+- Hapus riwayat pesan
+
+### v1.9.0
 
 - Bagikan percakapan sebagai markdown atau melalui sharegpt.com
 
-Versi 1.8.0
+### v1.8.0
 
 - Impor/Ekspor semua data
 - Edit prompt lokal
 - Mengalihkan chatbot untuk dibandingkan
 
-Versi 1.7.0
+### v1.7.0
 
 - Menambahkan riwayat percakapan
 
-Versi 1.6.0
+### v1.6.0
 
 - Menambahkan dukungan untuk Google Bard
 
-Versi 1.5.4
+### v1.5.4
 
 - Dukungan model GPT-4 dalam mode api chatgpt
 
-Versi 1.5.1
+### v1.5.1
 
 - Menambahkan pengaturan i18n
 
-Versi 1.5.0
+### v1.5.0
 
 - Dukungan model GPT-4 dalam mode webapp chatgpt
 
-Versi 1.4.0
+### v1.4.0
 
 - Menambahkan Prompt Library
 
-Versi 1.3.0
+### v1.3.0
 
-- Tambahkan tombol salin kode
+- Menambahkan tombol salin kode
 - Sinkronisasi status chat antara all-in-one dan mode mandiri
 - Memungkinkan input sambil menghasilkan jawaban
 
-Versi 1.2.0
+### v1.2.0
 
 - Dukungan untuk menyalin teks pesan
 - Perbaiki gaya elemen formulir halaman pengaturan
