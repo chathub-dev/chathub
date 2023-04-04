@@ -42,7 +42,7 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 
 ##
 
-## 📷 #-截图
+## 📷 截图
 
 ![#-截图](screenshots/extension.png?raw=true)
 
