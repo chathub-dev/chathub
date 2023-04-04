@@ -9,9 +9,9 @@
 ### ChatHub 是一个多合一的聊天机器人客户端
 
 [![作者][作者-image]][作者-url]
-[![许可证][license-image]][license-url]
-[![发布][release-image]][release-url]
-[![最后一次提交][last-commit-image]][last-commit-url]    
+[![许可证][许可证-image]][许可证-url]
+[![发布][发布-image]][发布-url]
+[![最后次提交][最后次提交-image]][last-commit-url]    
     
 English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&nbsp; [简体中文](README_ZH-CN.md) &nbsp;&nbsp;|&nbsp;&nbsp; [繁體中文](README_ZH-TW.md)
 
@@ -24,29 +24,29 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
     
 ##
 
-[Screenshot](#-Screenshot) &nbsp;&nbsp;|&nbsp;&nbsp; [Features](#-Features) &nbsp;&nbsp;|&nbsp;&nbsp; [Manual Installation](#-manual-installation) &nbsp;&nbsp;|&nbsp;&nbsp; [Roadmap](#%EF%B8%8F-roadmap) &nbsp;&nbsp;|&nbsp;&nbsp; [Changelog](#-Changelog)
+[截图](#-截图) &nbsp;&nbsp;|&nbsp;&nbsp; [功能特点](#-功能特点) &nbsp;&nbsp;|&nbsp;&nbsp; [Manual Installation](#-manual-installation) &nbsp;&nbsp;|&nbsp;&nbsp; [Roadmap](#%EF%B8%8F-roadmap) &nbsp;&nbsp;|&nbsp;&nbsp; [Changelog](#-Changelog)
 
 [作者-image]: https://img.shields.io/badge/author-wong2-blue.svg
 [作者-url]: https://github.com/wong2
     
-[license-image]: https://img.shields.io/github/license/chathub-dev/chathub?color=blue
-[license-url]: https://github.com/chathub-dev/chathub/blob/main/LICENSE
+[许可证-image]: https://img.shields.io/github/license/chathub-dev/chathub?color=blue
+[许可证-url]: https://github.com/chathub-dev/chathub/blob/main/LICENSE
 
-[release-image]: https://img.shields.io/github/v/release/chathub-dev/chathub?color=blue
-[release-url]: https://github.com/chathub-dev/chathub/releases/latest
+[发布-image]: https://img.shields.io/github/v/release/chathub-dev/chathub?color=blue
+[发布-url]: https://github.com/chathub-dev/chathub/releases/latest
    
-[last-commit-image]: https://img.shields.io/github/last-commit/chathub-dev/chathub?label=last%20commit
-[last-commit-url]: https://github.com/chathub-dev/chathub/commits
+[最后次提交-image]: https://img.shields.io/github/last-commit/chathub-dev/chathub?label=last%20commit
+[最后次提交-url]: https://github.com/chathub-dev/chathub/commits
 
 </div>
 
 ##
 
-## 📷 Screenshot
+## 📷 #-截图
 
-![Screenshot](screenshots/extension.png?raw=true)
+![#-截图](screenshots/extension.png?raw=true)
 
-## ✨ Features
+## ✨ 功能特点
 
 - 🤖 Use different chatbots in one app, currently supporting ChatGPT, new Bing Chat and Google Bard, will integrate more in the future
 - 💬 Chat with multiple chatbots at the same time, making it easy to compare their answers
