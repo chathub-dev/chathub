@@ -6,7 +6,7 @@
 
 <div align="center">
 
-### ChatHub 是一个多合一聊天机器人客户端
+### ChatHub 是一個全方位的聊天機器人客戶端
 
 [![作者][author-image]][author-url]
 [![許可證][license-image]][license-url]
