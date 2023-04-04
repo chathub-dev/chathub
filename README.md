@@ -24,7 +24,7 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md)
     
 ##
 
-[Screenshot](#-Screenshot) &nbsp;&nbsp;|&nbsp;&nbsp; [Features](#-Features) &nbsp;&nbsp;|&nbsp;&nbsp; [Manual Installation](#-manual-installation--手动安装) &nbsp;&nbsp;|&nbsp;&nbsp; [Roadmap](#%EF%B8%8F-roadmap) &nbsp;&nbsp;|&nbsp;&nbsp; [Changelog](#-Changelog)
+[Screenshot](#-Screenshot) &nbsp;&nbsp;|&nbsp;&nbsp; [Features](#-Features) &nbsp;&nbsp;|&nbsp;&nbsp; [Manual Installation](#-manual-installation) &nbsp;&nbsp;|&nbsp;&nbsp; [Roadmap](#%EF%B8%8F-roadmap) &nbsp;&nbsp;|&nbsp;&nbsp; [Changelog](#-Changelog)
 
 [author-image]: https://img.shields.io/badge/author-wong2-blue.svg
 [author-url]: https://github.com/wong2
