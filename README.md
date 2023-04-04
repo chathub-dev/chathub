@@ -113,7 +113,7 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 
 ### v1.5.4
 
-- Support GPT-4 model in chatgpt api mode
+- Support GPT-4 model in ChatGPT api mode
 
 ### v1.5.1
 
@@ -121,7 +121,7 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 
 ### v1.5.0
 
-- Support GPT-4 model in chatgpt webapp mode
+- Support GPT-4 model in ChatGPT Webapp mode
 
 ### v1.4.0
 
