@@ -113,7 +113,7 @@ ChatHub adalah klien chatbot all-in-one
 
 ### v1.5.4
 
-- Dukungan model GPT-4 dalam mode api chatgpt
+- Dukungan model GPT-4 dalam mode api ChatGPT
 
 ### v1.5.1
 
@@ -121,7 +121,7 @@ ChatHub adalah klien chatbot all-in-one
 
 ### v1.5.0
 
-- Dukungan model GPT-4 dalam mode webapp chatgpt
+- Dukungan model GPT-4 dalam mode Webapp ChatGPT
 
 ### v1.4.0
 
