@@ -48,25 +48,25 @@ ChatHub adalah klien chatbot all-in-one
 
 ## ✨ Fitur
 
-- 🤖 Gunakan chatbot yang berbeda dalam satu aplikasi, saat ini mendukung ChatGPT, Bing Chat yang baru dan Google Bard, akan mengintegrasikan lebih banyak di masa depan.
-- 💬 Chat dengan beberapa chatbot secara bersamaan, sehingga mudah untuk membandingkan jawaban mereka.
-- 🚀 Mendukung mode API ChatGPT, yang lebih cepat dan lebih hemat biaya daripada ChatGPT Plus.
-- 📊 Statistik penggunaan token saat menggunakan mode API ChatGPT.
-- 🔍 Pintasan untuk dengan cepat mengaktifkan aplikasi di mana saja di browser.
-- 🎨 Mendukung penyorotan markdown dan kode.
-- 📚 Perpustakaan Prompt untuk prompt kustom dan prompt komunitas.
-- 💾 Riwayat percakapan tersimpan secara lokal.
-- 📥 Ekspor dan Impor semua data Anda.
-- 🔗 Bagikan percakapan ke markdown.
-- 🌙 Mode gelap.
+- 🤖 Gunakan chatbot yang berbeda dalam satu aplikasi, saat ini mendukung ChatGPT, Bing Chat yang baru dan Google Bard, akan mengintegrasikan lebih banyak di masa depan
+- 💬 Chat dengan beberapa chatbot secara bersamaan, sehingga mudah untuk membandingkan jawaban mereka
+- 🚀 Mendukung mode API ChatGPT, yang lebih cepat dan lebih hemat biaya daripada ChatGPT Plus
+- 📊 Statistik penggunaan token saat menggunakan mode API ChatGPT
+- 🔍 Pintasan untuk dengan cepat mengaktifkan aplikasi di mana saja di browser
+- 🎨 Mendukung penyorotan markdown dan kode
+- 📚 Perpustakaan Prompt untuk prompt kustom dan prompt komunitas
+- 💾 Riwayat percakapan tersimpan secara lokal
+- 📥 Ekspor dan Impor semua data Anda
+- 🔗 Bagikan percakapan ke markdown
+- 🌙 Mode gelap
 
 ## 🔧 Instalasi Manual
 
-- Unduh chathub.zip dari [Release](https://github.com/chathub-dev/chathub/releases).
-- Ekstrak file.
-- Di Chrome/Edge, buka halaman ekstensi (chrome://extensions atau edge://extensions).
-- Aktifkan Mode Pengembang.
-- Seret folder yang telah diekstrak ke mana saja di halaman untuk mengimpor (jangan hapus folder setelah itu).
+- Unduh chathub.zip dari [Release](https://github.com/chathub-dev/chathub/releases)
+- Ekstrak file
+- Di Chrome/Edge, buka halaman ekstensi (chrome://extensions atau edge://extensions)
+- Aktifkan Mode Pengembang
+- Seret folder yang telah diekstrak ke mana saja di halaman untuk mengimpor (jangan hapus folder setelah itu)
 
 ## 🗺️ Roadmap
 
