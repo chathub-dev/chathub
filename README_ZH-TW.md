@@ -44,7 +44,7 @@
 
 ## 📷 截圖
 
-![Screenshot](screenshots/extension.png?raw=true)
+![截圖](screenshots/extension.png?raw=true)
 
 ## ✨ 特點
 
