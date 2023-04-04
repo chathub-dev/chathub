@@ -6,12 +6,12 @@
 
 <div align="center">
 
-### ChatHub 是一个多合一的聊天机器人客户端
+### ChatHub 是款全能聊天机器人客户端
 
 [![作者][作者-image]][作者-url]
 [![许可证][许可证-image]][许可证-url]
 [![发布][发布-image]][发布-url]
-[![最后次提交][最后次提交-image]][last-commit-url]    
+[![最后提交][最后提交-image]][最后提交-url]    
     
 English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&nbsp; [简体中文](README_ZH-CN.md) &nbsp;&nbsp;|&nbsp;&nbsp; [繁體中文](README_ZH-TW.md)
 
@@ -24,7 +24,7 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
     
 ##
 
-[截图](#-截图) &nbsp;&nbsp;|&nbsp;&nbsp; [功能特点](#-功能特点) &nbsp;&nbsp;|&nbsp;&nbsp; [Manual Installation](#-manual-installation) &nbsp;&nbsp;|&nbsp;&nbsp; [Roadmap](#%EF%B8%8F-roadmap) &nbsp;&nbsp;|&nbsp;&nbsp; [Changelog](#-Changelog)
+[截图](#-截图) &nbsp;&nbsp;|&nbsp;&nbsp; [特点](#-特点) &nbsp;&nbsp;|&nbsp;&nbsp; [手动安装](#-手动安装) &nbsp;&nbsp;|&nbsp;&nbsp; [路线图](#%EF%B8%8F-路线图) &nbsp;&nbsp;|&nbsp;&nbsp; [更新日志](#-更新日志)
 
 [作者-image]: https://img.shields.io/badge/author-wong2-blue.svg
 [作者-url]: https://github.com/wong2
@@ -35,8 +35,8 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 [发布-image]: https://img.shields.io/github/v/release/chathub-dev/chathub?color=blue
 [发布-url]: https://github.com/chathub-dev/chathub/releases/latest
    
-[最后次提交-image]: https://img.shields.io/github/last-commit/chathub-dev/chathub?label=last%20commit
-[最后次提交-url]: https://github.com/chathub-dev/chathub/commits
+[最后提交-image]: https://img.shields.io/github/last-commit/chathub-dev/chathub?label=last%20commit
+[最后提交-url]: https://github.com/chathub-dev/chathub/commits
 
 </div>
 
@@ -46,94 +46,94 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 
 ![#-截图](screenshots/extension.png?raw=true)
 
-## ✨ 功能特点
+## ✨ 特点
 
-- 🤖 Use different chatbots in one app, currently supporting ChatGPT, new Bing Chat and Google Bard, will integrate more in the future
-- 💬 Chat with multiple chatbots at the same time, making it easy to compare their answers
-- 🚀 Support ChatGPT API mode, which is faster and more cost-effective than ChatGPT Plus
-- 📊 Token usage stats when using ChatGPT API mode
-- 🔍 Shortcut to quickly activate the app anywhere in the browser
-- 🎨 Markdown and code highlight support
-- 📚 Prompt Library for custom prompts and community prompts
-- 💾 Conversation history saved locally
-- 📥 Export and Import all your data
-- 🔗 Share conversation to markdown
-- 🌙 Dark mode
+- 🤖 在一个应用中使用不同的聊天机器人，目前支持 ChatGPT、新的 Bing Chat 和 Google Bard，未来将集成更多机器人
+- 💬 同时与多个聊天机器人聊天，方便比较它们的答案
+- 🚀 支持 ChatGPT API 模式，比 ChatGPT Plus 更快、更省成本
+- 📊 在使用 ChatGPT API 模式时，可以查看令牌使用统计信息
+- 🔍 快捷方式，可以快速在浏览器中的任何位置激活应用程序
+- 🎨 支持 Markdown 和代码高亮显示
+- 📚 自定义提示和社区提示的 Prompt 库
+- 💾 本地保存对话历史记录
+- 📥 导入和导出所有数据
+- 🔗 将对话分享为 Markdown
+- 🌙 暗黑模式
 
-## 🔧 Manual Installation
+## 🔧 手动安装
 
-- Download chathub.zip from [Releases](https://github.com/chathub-dev/chathub/releases)
-- Unzip the file
-- In Chrome/Edge go to the extensions page (chrome://extensions or edge://extensions)
-- Enable Developer Mode
-- Drag the unzipped folder anywhere on the page to import it (do not delete the folder afterward)
+- 从 [Releases](https://github.com/chathub-dev/chathub/releases) 下载 chathub.zip
+- 解压文件
+- 在 Chrome/Edge 中进入扩展页面 (chrome://extensions或edge://extensions)
+- 启用开发者模式
+- 将解压后的文件夹拖到页面上的任何位置进行导入（导入后不要删除文件夹）
 
-## 🗺️ Roadmap
+## 🗺️ 路线图
 
-- [x] Conversation history
-- [x] Share conversation to markdown
-- [x] Dark mode
+- [x] 对话历史记录
+- [x] 将对话分享为Markdown
+- [x] 暗黑模式
 
-## 📜 Changelog
+## 📜 更新日志
 
 ### v1.10.0
 
-- Command + K
+- 新增了快捷键 Command + K
 
 ### v1.9.4
 
-- Dark mode
+- 新增了暗黑模式
 
 ### v1.9.3
 
-- Support math formula with katex
-- Save community prompt to local
+- 支持使用 katex 插件输入数学公式
+- 可以将社区提示保存到本地
 
 ### v1.9.2
 
-- Delete history messages
+- 可以删除历史消息
 
 ### v1.9.0
 
-- Share chat as markdown or via sharegpt.com
+- 可以将聊天记录分享为Markdown或通过 sharegpt.com 分享
 
 ### v1.8.0
 
-- Import/Export all data
-- Edit local prompts
-- Switch chatbots for comparison
+- 可以导入/导出所有数据
+- 可以编辑本地提示
+- 可以切换聊天机器人进行比较
 
 ### v1.7.0
 
-- Add conversation history
+- 新增了对话历史记录
 
 ### v1.6.0
 
-- Add support for Google Bard
+- 增加了对 Google Bard 的支持
 
 ### v1.5.4
 
-- Support GPT-4 model in ChatGPT api mode
+- 在ChatGPT API模式下支持 GPT-4 模型
 
 ### v1.5.1
 
-- Add i18n settings
+- 增加了国际化设置
 
 ### v1.5.0
 
-- Support GPT-4 model in ChatGPT Webapp mode
+- 在 ChatGPT Webapp 模式下支持 GPT-4 模型
 
 ### v1.4.0
 
-- Add Prompt Library
+- 新增了 Prompt 库
 
 ### v1.3.0
 
-- Add copy code button
-- Sync chat state between all-in-one and standalone mode
-- Allows input while generating answer
+- 增加了复制代码按钮
+- 在全合一模式和独立模式之间同步聊天状态
+- 允许在生成答案时输入
 
 ### v1.2.0
 
-- Support copy message text
-- Improve setting page form element style
+- 支持复制消息文本
+- 改进了设置页面表单元素的样式
