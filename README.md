@@ -48,25 +48,25 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 
 ## ✨ Features
 
-- 🤖 Use different chatbots in one app, currently supporting ChatGPT, new Bing Chat and Google Bard, will integrate more in the future.
-- 💬 Chat with multiple chatbots at the same time, making it easy to compare their answers.
-- 🚀 Support ChatGPT API mode, which is faster and more cost-effective than ChatGPT Plus.
-- 📊 Token usage stats when using ChatGPT API mode.
-- 🔍 Shortcut to quickly activate the app anywhere in the browser.
-- 🎨 Markdown and code highlight support.
-- 📚 Prompt Library for custom prompts and community prompts.
-- 💾 Conversation history saved locally.
-- 📥 Export and Import all your data.
-- 🔗 Share conversation to markdown.
+- 🤖 Use different chatbots in one app, currently supporting ChatGPT, new Bing Chat and Google Bard, will integrate more in the future
+- 💬 Chat with multiple chatbots at the same time, making it easy to compare their answers
+- 🚀 Support ChatGPT API mode, which is faster and more cost-effective than ChatGPT Plus
+- 📊 Token usage stats when using ChatGPT API mode
+- 🔍 Shortcut to quickly activate the app anywhere in the browser
+- 🎨 Markdown and code highlight support
+- 📚 Prompt Library for custom prompts and community prompts
+- 💾 Conversation history saved locally
+- 📥 Export and Import all your data
+- 🔗 Share conversation to markdown
 - 🌙 Dark mode
 
 ## 🔧 Manual Installation
 
-- Download chathub.zip from [Releases](https://github.com/chathub-dev/chathub/releases).
-- Unzip the file.
-- In Chrome/Edge go to the extensions page (chrome://extensions or edge://extensions).
-- Enable Developer Mode.
-- Drag the unzipped folder anywhere on the page to import it (do not delete the folder afterward).
+- Download chathub.zip from [Releases](https://github.com/chathub-dev/chathub/releases)
+- Unzip the file
+- In Chrome/Edge go to the extensions page (chrome://extensions or edge://extensions)
+- Enable Developer Mode
+- Drag the unzipped folder anywhere on the page to import it (do not delete the folder afterward)
 
 ## 🗺️ Roadmap
 
