@@ -71,7 +71,7 @@
 ## 🗺️ 路线图
 
 - [x] 对话历史记录
-- [x] 将对话分享为Markdown
+- [x] 将对话分享为 Markdown
 - [x] 暗黑模式
 
 ## 📜 更新日志
@@ -95,7 +95,7 @@
 
 ### v1.9.0
 
-- 可以将聊天记录分享为Markdown或通过 sharegpt.com 分享
+- 可以将聊天记录分享为 Markdown 或通过 sharegpt.com 分享
 
 ### v1.8.0
 
@@ -113,7 +113,7 @@
 
 ### v1.5.4
 
-- 在ChatGPT API模式下支持 GPT-4 模型
+- 在 ChatGPT API 模式下支持 GPT-4 模型
 
 ### v1.5.1
 
