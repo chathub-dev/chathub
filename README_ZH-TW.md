@@ -8,10 +8,10 @@
 
 ### ChatHub 是一個全方位的聊天機器人客戶端
 
-[![作者][author-image]][author-url]
-[![許可證][license-image]][license-url]
-[![發布][release-image]][release-url]
-[![最後提交][last-commit-image]][last-commit-url]    
+[![作者][作者-image]][作者-url]
+[![許可證][許可證-image]][許可證-url]
+[![發布][發布-image]][發布-url]
+[![最後提交][最後提交-image]][最後提交-url]    
     
 [English](README.md) &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&nbsp; [简体中文](README_ZH-CN.md) &nbsp;&nbsp;|&nbsp;&nbsp; 繁體中文
 
@@ -26,17 +26,17 @@
 
 [截圖](#-截圖) &nbsp;&nbsp;|&nbsp;&nbsp; [特點](#-特點) &nbsp;&nbsp;|&nbsp;&nbsp; [手動安裝](#-手動安裝) &nbsp;&nbsp;|&nbsp;&nbsp; [路線圖](#%EF%B8%8F-路線圖) &nbsp;&nbsp;|&nbsp;&nbsp; [更新日誌](#-更新日誌)
 
-[author-image]: https://img.shields.io/badge/author-wong2-blue.svg
-[author-url]: https://github.com/wong2
+[作者-image]: https://img.shields.io/badge/author-wong2-blue.svg
+[作者-url]: https://github.com/wong2
     
-[license-image]: https://img.shields.io/github/license/chathub-dev/chathub?color=blue
-[license-url]: https://github.com/chathub-dev/chathub/blob/main/LICENSE
+[許可證-image]: https://img.shields.io/github/license/chathub-dev/chathub?color=blue
+[許可證-url]: https://github.com/chathub-dev/chathub/blob/main/LICENSE
 
-[release-image]: https://img.shields.io/github/v/release/chathub-dev/chathub?color=blue
-[release-url]: https://github.com/chathub-dev/chathub/releases/latest
+[發布-image]: https://img.shields.io/github/v/release/chathub-dev/chathub?color=blue
+[發布-url]: https://github.com/chathub-dev/chathub/releases/latest
    
-[last-commit-image]: https://img.shields.io/github/last-commit/chathub-dev/chathub?label=last%20commit
-[last-commit-url]: https://github.com/chathub-dev/chathub/commits
+[最後提交-image]: https://img.shields.io/github/last-commit/chathub-dev/chathub?label=last%20commit
+[最後提交-url]: https://github.com/chathub-dev/chathub/commits
 
 </div>
 
