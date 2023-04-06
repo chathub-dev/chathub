@@ -62,6 +62,12 @@ function SettingPage() {
       if (!apiHost.startsWith('http')) {
         apiHost = 'https://' + apiHost
       }
+      // request host permission to prevent CORS issues
+      try {
+        await Browser.permissions.request({ origins: [apiHost + '/'] })
+      } catch (e) {
+        console.error(e)
+      }
     } else {
       apiHost = undefined
     }
