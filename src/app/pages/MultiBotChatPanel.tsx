@@ -7,8 +7,10 @@ import { useChat } from '~app/hooks/use-chat'
 import { compareBotsAtom } from '~app/state'
 import { BotId } from '../bots'
 import ConversationPanel from '../components/Chat/ConversationPanel'
+import { useTranslation } from 'react-i18next'
 
 const MultiBotChatPanel: FC = () => {
+  const { t } = useTranslation()
   const [leftBotId, rightBotId] = useAtomValue(compareBotsAtom)
 
   const leftChat = useChat(leftBotId)
@@ -52,7 +54,7 @@ const MultiBotChatPanel: FC = () => {
         disabled={generating}
         placeholder="Send to all ..."
         onSubmit={onUserSendMessage}
-        actionButton={!generating && <Button text="Send" color="primary" type="submit" />}
+        actionButton={!generating && <Button text={t('Send')} color="primary" type="submit" />}
         autoFocus={true}
       />
     </div>
