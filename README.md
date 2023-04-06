@@ -71,6 +71,13 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 - Enable Developer Mode
 - Drag the unzipped folder anywhere on the page to import it (do not delete the folder afterward)
 
+## 🔨 Build from source
+
+- Clone the source code
+- `yarn install`
+- `yarn build`
+- Load `dist` folder to browser by following steps in _Manual Installation_
+
 ## 🗺️ Roadmap
 
 - [x] Conversation history
