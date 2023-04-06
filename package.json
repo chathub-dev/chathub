@@ -85,7 +85,6 @@
     "react-viewport-list": "^7.0.0",
     "rehype-highlight": "^6.0.0",
     "rehype-katex": "^6.0.2",
-    "rehype-raw": "^6.1.1",
     "rehype-sanitize": "^5.0.1",
     "rehype-stringify": "^9.0.3",
     "remark-breaks": "^3.0.2",

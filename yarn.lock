@@ -3389,7 +3389,7 @@ hast-util-parse-selector@^3.0.0:
   dependencies:
     "@types/hast" "^2.0.0"
 
-hast-util-raw@^7.0.0, hast-util-raw@^7.2.0:
+hast-util-raw@^7.0.0:
   version "7.2.3"
   resolved "https://registry.yarnpkg.com/hast-util-raw/-/hast-util-raw-7.2.3.tgz#dcb5b22a22073436dbdc4aa09660a644f4991d99"
   integrity sha512-RujVQfVsOrxzPOPSzZFiwofMArbQke6DJjnFfceiEbFh7S05CbPt0cYN+A5YeD3pso0JQk6O1aHBnx9+Pm2uqg==
@@ -5246,15 +5246,6 @@ rehype-parse@^8.0.0:
     "@types/hast" "^2.0.0"
     hast-util-from-parse5 "^7.0.0"
     parse5 "^6.0.0"
-    unified "^10.0.0"
-
-rehype-raw@^6.1.1:
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/rehype-raw/-/rehype-raw-6.1.1.tgz#81bbef3793bd7abacc6bf8335879d1b6c868c9d4"
-  integrity sha512-d6AKtisSRtDRX4aSPsJGTfnzrX2ZkHQLE5kiUuGOeEoLpbEulFF4hj0mLPbsa+7vmguDKOVVEQdHKDSwoaIDsQ==
-  dependencies:
-    "@types/hast" "^2.0.0"
-    hast-util-raw "^7.2.0"
     unified "^10.0.0"
 
 rehype-sanitize@^5.0.1:

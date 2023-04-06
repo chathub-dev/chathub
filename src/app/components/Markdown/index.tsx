@@ -10,7 +10,6 @@ import ReactMarkdown from 'react-markdown'
 import reactNodeToString from 'react-node-to-string'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeKatex from 'rehype-katex'
-import rehypeRaw from 'rehype-raw'
 import remarkGfm from 'remark-gfm'
 import remarkBreaks from 'remark-breaks'
 import remarkMath from 'remark-math'
@@ -48,7 +47,7 @@ const Markdown: FC<{ children: string }> = ({ children }) => {
   return (
     <ReactMarkdown
       remarkPlugins={[remarkMath, supersub, remarkBreaks, remarkGfm]}
-      rehypePlugins={[rehypeKatex, rehypeRaw, [rehypeHighlight, { detect: true, ignoreMissing: true }]]}
+      rehypePlugins={[rehypeKatex, [rehypeHighlight, { detect: true, ignoreMissing: true }]]}
       className={`markdown-body markdown-custom-styles !text-base font-normal`}
       linkTarget="_blank"
       components={{
