@@ -111,6 +111,7 @@ function SettingPage() {
                 { name: 'ChatGPT', value: StartupPage.ChatGPT },
                 { name: 'Bing', value: StartupPage.Bing },
                 { name: 'Bard', value: StartupPage.Bard },
+                { name: 'Claude', value: StartupPage.Claude },
               ]}
               value={userConfig.startupPage}
               onChange={(v) => updateConfigValue({ startupPage: v })}

@@ -54,6 +54,13 @@ const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
       </a>
     )
   }
+  if (error.code === ErrorCode.POE_UNAUTHORIZED) {
+    return (
+      <a href="https://poe.com" target="_blank" rel="noreferrer">
+        <Button color="primary" text="Login at poe.com" size="small" />
+      </a>
+    )
+  }
   if (error.code === ErrorCode.CHATGPT_CLOUDFLARE || error.code === ErrorCode.CHATGPT_UNAUTHORIZED) {
     return <ChatGPTAuthErrorAction />
   }

@@ -7,6 +7,7 @@ export enum StartupPage {
   ChatGPT = 'chatgpt',
   Bing = 'bing',
   Bard = 'bard',
+  Claude = 'claude',
 }
 
 export enum BingConversationStyle {

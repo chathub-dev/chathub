@@ -14,6 +14,7 @@
     "@parcel/config-webextension": "^2.8.3",
     "@parcel/optimizer-data-url": "2.8.3",
     "@parcel/transformer-inline-string": "2.8.3",
+    "@rollup/plugin-graphql": "^2.0.3",
     "@types/lodash-es": "^4.17.6",
     "@types/react": "^18.0.28",
     "@types/react-copy-to-clipboard": "^5.0.4",

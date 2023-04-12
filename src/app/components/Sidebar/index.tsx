@@ -4,6 +4,7 @@ import settingIcon from '~/assets/icons/setting.svg'
 import logo from '~/assets/logo.svg'
 import NavLink from './NavLink'
 import CommandBar from '../CommandBar'
+import { CHATBOTS } from '~app/consts'
 
 function IconButton(props: { icon: string }) {
   return (
@@ -19,9 +20,9 @@ function Sidebar() {
       <img src={logo} className="w-[79px] mb-[55px] mt-[66px] ml-5" />
       <div className="flex flex-col gap-3">
         <NavLink to="/" text="All-In-One" />
-        <NavLink to="/chat/$botId" params={{ botId: 'chatgpt' }} text="ChatGPT" />
-        <NavLink to="/chat/$botId" params={{ botId: 'bing' }} text="Bing" />
-        <NavLink to="/chat/$botId" params={{ botId: 'bard' }} text="Bard" />
+        {Object.entries(CHATBOTS).map(([botId, bot]) => (
+          <NavLink key={botId} to="/chat/$botId" params={{ botId }} text={bot.name} />
+        ))}
       </div>
       <div className="mt-auto">
         <hr className="border-[#ffffff4d]" />
