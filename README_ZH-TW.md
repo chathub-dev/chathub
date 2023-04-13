@@ -47,7 +47,7 @@
 
 ## ✨ 功能特色
 
-- 🤖 支援多個聊天機器人，目前支援 ChatGPT、新的 Bing Chat 和 Google Bard，未來會整合更多
+- 🤖 支援多個聊天機器人，目前支援 ChatGPT、新的 Bing Chat, Google Bard 和 Claude (透過 Poe)，未來會整合更多
 - 💬 同時與多個聊天機器人聊天，方便比較其回答
 - 🚀 支援 ChatGPT API 模式，比 ChatGPT Plus 更快速和更省成本
 - 📊 在使用 ChatGPT API 模式時，可以查看令牌使用統計信息
@@ -84,7 +84,7 @@
 
 ### v1.11.0
 
-- 支援 Claude (透過Poe)
+- 支援 Claude (透過 Poe)
 
 ### v1.10.0
 
