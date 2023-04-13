@@ -11,30 +11,27 @@
 [![author][author-image]][author-url]
 [![license][license-image]][license-url]
 [![release][release-image]][release-url]
-[![last commit][last-commit-image]][last-commit-url]    
-    
+[![last commit][last-commit-image]][last-commit-url]
+
 English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&nbsp; [简体中文](README_ZH-CN.md) &nbsp;&nbsp;|&nbsp;&nbsp; [繁體中文](README_ZH-TW.md) &nbsp;&nbsp;|&nbsp;&nbsp; [日本語](README_JA.md)
 
-##    
-    
+##
+
 ### Install
-    
+
 <a href="https://chrome.google.com/webstore/detail/chathub-all-in-one-chatbo/iaakpnchhognanibcahlpcplchdfmgma?utm_source=website"><img src="https://user-images.githubusercontent.com/585534/107280622-91a8ea80-6a26-11eb-8d07-77c548b28665.png" alt="Get ChatHub for Chromium"></a>
 <a href="https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga"><img src="https://user-images.githubusercontent.com/585534/107280673-a5ece780-6a26-11eb-9cc7-9fa9f9f81180.png" alt="Get ChatHub for Microsoft Edge"></a>
-    
+
 ##
 
 [Screenshot](#-Screenshot) &nbsp;&nbsp;|&nbsp;&nbsp; [Features](#-Features) &nbsp;&nbsp;|&nbsp;&nbsp; [Manual Installation](#-manual-installation) &nbsp;&nbsp;|&nbsp;&nbsp; [Roadmap](#%EF%B8%8F-roadmap) &nbsp;&nbsp;|&nbsp;&nbsp; [Changelog](#-Changelog)
 
 [author-image]: https://img.shields.io/badge/author-wong2-blue.svg
 [author-url]: https://github.com/wong2
-    
 [license-image]: https://img.shields.io/github/license/chathub-dev/chathub?color=blue
 [license-url]: https://github.com/chathub-dev/chathub/blob/main/LICENSE
-
 [release-image]: https://img.shields.io/github/v/release/chathub-dev/chathub?color=blue
 [release-url]: https://github.com/chathub-dev/chathub/releases/latest
-   
 [last-commit-image]: https://img.shields.io/github/last-commit/chathub-dev/chathub?label=last%20commit
 [last-commit-url]: https://github.com/chathub-dev/chathub/commits
 
@@ -48,10 +45,9 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 
 ![Screenshot (Dark Mode)](screenshots/dark.png?raw=true)
 
-
 ## ✨ Features
 
-- 🤖 Use different chatbots in one app, currently supporting ChatGPT, new Bing Chat and Google Bard, will integrate more in the future
+- 🤖 Use different chatbots in one app, currently supporting ChatGPT, new Bing Chat, Google Bard and Claude (via Poe), will integrate more in the future
 - 💬 Chat with multiple chatbots at the same time, making it easy to compare their answers
 - 🚀 Support ChatGPT API mode, which is faster and more cost-effective than ChatGPT Plus
 - 📊 Token usage stats when using ChatGPT API mode
@@ -85,6 +81,10 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 - [x] Dark mode
 
 ## 📜 Changelog
+
+### v1.11.0
+
+- Support Claude (via Poe)
 
 ### v1.10.0
 

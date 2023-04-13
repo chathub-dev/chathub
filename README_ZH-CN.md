@@ -11,30 +11,27 @@
 [![作者][作者-image]][作者-url]
 [![许可证][许可证-image]][许可证-url]
 [![发布][发布-image]][发布-url]
-[![最后提交][最后提交-image]][最后提交-url]    
-    
+[![最后提交][最后提交-image]][最后提交-url]
+
 [English](README.md) &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&nbsp; 简体中文 &nbsp;&nbsp;|&nbsp;&nbsp; [繁體中文](README_ZH-TW.md) &nbsp;&nbsp;|&nbsp;&nbsp; [日本語](README_JA.md)
 
-##    
-    
+##
+
 ### 安装
-    
+
 <a href="https://chrome.google.com/webstore/detail/chathub-all-in-one-chatbo/iaakpnchhognanibcahlpcplchdfmgma?utm_source=website"><img src="https://user-images.githubusercontent.com/585534/107280622-91a8ea80-6a26-11eb-8d07-77c548b28665.png" alt="获取 Chromium 版 ChatHub"></a>
 <a href="https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga"><img src="https://user-images.githubusercontent.com/585534/107280673-a5ece780-6a26-11eb-9cc7-9fa9f9f81180.png" alt="获取 Microsoft Edge 版 ChatHub"></a>
-    
+
 ##
 
 [截图](#-截图) &nbsp;&nbsp;|&nbsp;&nbsp; [特点](#-特点) &nbsp;&nbsp;|&nbsp;&nbsp; [手动安装](#-手动安装) &nbsp;&nbsp;|&nbsp;&nbsp; [路线图](#%EF%B8%8F-路线图) &nbsp;&nbsp;|&nbsp;&nbsp; [更新日志](#-更新日志)
 
 [作者-image]: https://img.shields.io/badge/author-wong2-blue.svg
 [作者-url]: https://github.com/wong2
-    
 [许可证-image]: https://img.shields.io/github/license/chathub-dev/chathub?color=blue
 [许可证-url]: https://github.com/chathub-dev/chathub/blob/main/LICENSE
-
 [发布-image]: https://img.shields.io/github/v/release/chathub-dev/chathub?color=blue
 [发布-url]: https://github.com/chathub-dev/chathub/releases/latest
-   
 [最后提交-image]: https://img.shields.io/github/last-commit/chathub-dev/chathub?label=last%20commit
 [最后提交-url]: https://github.com/chathub-dev/chathub/commits
 
@@ -48,7 +45,7 @@
 
 ## ✨ 特点
 
-- 🤖 在一个应用中使用不同的聊天机器人，目前支持 ChatGPT、新的 Bing Chat 和 Google Bard，未来将集成更多机器人
+- 🤖 在一个应用中使用不同的聊天机器人，目前支持 ChatGPT、新的 Bing Chat、Google Bard 和 Claude，未来将集成更多机器人
 - 💬 同时与多个聊天机器人聊天，方便比较它们的答案
 - 🚀 支持 ChatGPT API 模式，比 ChatGPT Plus 更快、更省成本
 - 📊 在使用 ChatGPT API 模式时，可以查看令牌使用统计信息
@@ -64,7 +61,7 @@
 
 - 从 [Releases](https://github.com/chathub-dev/chathub/releases) 下载 chathub.zip
 - 解压文件
-- 在 Chrome/Edge 中进入扩展页面 (chrome://extensions或edge://extensions)
+- 在 Chrome/Edge 中进入扩展页面 (chrome://extensions 或 edge://extensions)
 - 启用开发者模式
 - 将解压后的文件夹拖到页面上的任何位置进行导入（导入后不要删除文件夹）
 
@@ -75,6 +72,10 @@
 - [x] 暗黑模式
 
 ## 📜 更新日志
+
+### v1.11.0
+
+- 支持 Claude(via Poe)
 
 ### v1.10.0
 
