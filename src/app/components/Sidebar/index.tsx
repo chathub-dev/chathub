@@ -5,6 +5,7 @@ import logo from '~/assets/logo.svg'
 import NavLink from './NavLink'
 import CommandBar from '../CommandBar'
 import { CHATBOTS } from '~app/consts'
+import PremiumEntry from './PremiumEntry'
 
 function IconButton(props: { icon: string }) {
   return (
@@ -26,6 +27,9 @@ function Sidebar() {
       </div>
       <div className="mt-auto">
         <hr className="border-[#ffffff4d]" />
+        <div className="my-5">
+          <PremiumEntry />
+        </div>
         <div className="flex flex-row mt-5 gap-[10px] mb-6">
           <a href="https://github.com/wong2/chathub/issues" target="_blank" rel="noreferrer" title="Feedback">
             <IconButton icon={feedbackIcon} />

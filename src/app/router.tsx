@@ -4,6 +4,7 @@ import Layout from './components/Layout'
 import MultiBotChatPanel from './pages/MultiBotChatPanel'
 import SettingPage from './pages/SettingPage'
 import SingleBotChatPanel from './pages/SingleBotChatPanel'
+import PremiumPage from './pages/PremiumPage'
 
 const rootRoute = new RootRoute()
 
@@ -36,7 +37,13 @@ const settingRoute = new Route({
   component: SettingPage,
 })
 
-const routeTree = rootRoute.addChildren([layoutRoute.addChildren([indexRoute, chatRoute, settingRoute])])
+const premiumRoute = new Route({
+  getParentRoute: () => layoutRoute,
+  path: 'premium',
+  component: PremiumPage,
+})
+
+const routeTree = rootRoute.addChildren([layoutRoute.addChildren([indexRoute, chatRoute, settingRoute, premiumRoute])])
 
 const hashHistory = createHashHistory()
 const router = new ReactRouter({ routeTree, history: hashHistory })
