@@ -141,7 +141,7 @@ const resources = {
       Stop: '停止',
       Title: '标题',
       Content: '内容',
-      'Presale price': '预售价格',
+      'Presale discount': '预售折扣',
       'Cloud syncing data': '数据云同步',
       'More bots in All-In-One mode': '在All-In-One模式下使用更多chatbot',
       'Chat history full-text search': '全文搜索聊天记录',

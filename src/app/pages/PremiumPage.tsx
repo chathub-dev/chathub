@@ -19,7 +19,7 @@ function PremiumPage() {
     <div className="flex flex-col overflow-hidden bg-primary-background dark:text-primary-text rounded-[35px] h-full p-[50px]">
       <h1 className="font-bold text-[40px] leading-none text-primary-text">{t('Premium')}</h1>
       <p className="bg-[#FAE387] text-[#303030] w-fit rounded-[5px] px-2 py-[4px] text-sm font-semibold mt-9">
-        {t('Presale price')}
+        {t('Presale discount')}
       </p>
       <div className="flex flex-row items-end mt-5 gap-3">
         <span className="text-[64px] leading-none font-bold text-primary-blue">$15</span>
