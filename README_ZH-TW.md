@@ -24,17 +24,14 @@
     
 ##
 
-[螢幕截圖](#-螢幕截圖) &nbsp;&nbsp;|&nbsp;&nbsp; [功能特色](#-功能特色) &nbsp;&nbsp;|&nbsp;&nbsp; [手動安裝](#-手動安裝) &nbsp;&nbsp;|&nbsp;&nbsp; [路線圖](#%EF%B8%8F-路線圖) &nbsp;&nbsp;|&nbsp;&nbsp; [更新日誌](#-更新日誌)
+[螢幕截圖](#-螢幕截圖) &nbsp;&nbsp;|&nbsp;&nbsp; [功能特色](#-功能特色) &nbsp;&nbsp;|&nbsp;&nbsp; [手動安裝](#-手動安裝) &nbsp;&nbsp;|&nbsp;&nbsp; [從原始碼建置](#-從原始碼建置) &nbsp;&nbsp;|&nbsp;&nbsp; [路線圖](#%EF%B8%8F-路線圖) &nbsp;&nbsp;|&nbsp;&nbsp; [更新日誌](#-更新日誌)
 
 [作者-image]: https://img.shields.io/badge/author-wong2-blue.svg
-[作者-url]: https://github.com/wong2
-    
+[作者-url]: https://github.com/wong2    
 [許可證-image]: https://img.shields.io/github/license/chathub-dev/chathub?color=blue
 [許可證-url]: https://github.com/chathub-dev/chathub/blob/main/LICENSE
-
 [發布-image]: https://img.shields.io/github/v/release/chathub-dev/chathub?color=blue
 [發布-url]: https://github.com/chathub-dev/chathub/releases/latest
-   
 [版本發佈-image]: https://img.shields.io/github/last-commit/chathub-dev/chathub?label=last%20commit
 [版本發佈-url]: https://github.com/chathub-dev/chathub/commits
 
@@ -45,6 +42,8 @@
 ## 📷 螢幕截圖
 
 ![螢幕截圖](screenshots/extension.png?raw=true)
+
+![螢幕截圖 (暗模式)](screenshots/dark.png?raw=true)
 
 ## ✨ 功能特色
 
@@ -68,6 +67,13 @@
 - 啟用開發人員模式
 - 拖動解壓縮後的文件夾到頁面上的任何位置以導入它 (導入後不要刪除文件夾)
 
+## 🔨 從原始碼建置
+
+- 複製原始碼
+- `yarn install`
+- `yarn build`
+- 按照「手動安裝」中的步驟將 `dist` _資料夾載入瀏覽器_
+
 ## 🗺️ 路線圖
 
 - [x] 對話歷史
@@ -76,10 +82,14 @@
 
 ## 📜 更新日誌
 
+### v1.11.0
+
+- 支援 Claude (透過Poe)
+
 ### v1.10.0
 
 - 新增 Command + K 功能
-- 
+
 ### v1.9.4
 
 - 新增暗模式
