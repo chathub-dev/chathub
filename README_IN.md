@@ -47,7 +47,7 @@ ChatHub adalah klien chatbot all-in-one
 
 ## ✨ Fitur
 
-- 🤖 Gunakan chatbot yang berbeda dalam satu aplikasi, saat ini mendukung ChatGPT, Bing Chat yang baru dan Google Bard, akan mengintegrasikan lebih banyak di masa depan
+- 🤖 Gunakan chatbot yang berbeda dalam satu aplikasi, saat ini mendukung ChatGPT, Bing Chat yang baru, Google Bard dan Claude (via Poe), akan mengintegrasikan lebih banyak di masa depan
 - 💬 Chat dengan beberapa chatbot secara bersamaan, sehingga mudah untuk membandingkan jawaban mereka
 - 🚀 Mendukung mode API ChatGPT, yang lebih cepat dan lebih hemat biaya daripada ChatGPT Plus
 - 📊 Statistik penggunaan token saat menggunakan mode API ChatGPT
