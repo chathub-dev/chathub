@@ -24,7 +24,7 @@ ChatHub adalah klien chatbot all-in-one
     
 ##
 
-[Tangkapan Layar](#-Tangkapan-Layar) &nbsp;&nbsp;|&nbsp;&nbsp; [Fitur](#-Fitur) &nbsp;&nbsp;|&nbsp;&nbsp; [Instalasi Manual](#-Instalasi-Manual) &nbsp;&nbsp;|&nbsp;&nbsp; [Roadmap](#%EF%B8%8F-roadmap) &nbsp;&nbsp;|&nbsp;&nbsp; [Changelog](#-Changelog)
+[Tangkapan Layar](#-Tangkapan-Layar) &nbsp;&nbsp;|&nbsp;&nbsp; [Fitur](#-Fitur) &nbsp;&nbsp;|&nbsp;&nbsp; [Instalasi Manual](#-Instalasi-Manual) &nbsp;&nbsp;|&nbsp;&nbsp; [Membangun dari Source Code](#-membangun-dari-source-code) &nbsp;&nbsp;|&nbsp;&nbsp; [Roadmap](#%EF%B8%8F-roadmap) &nbsp;&nbsp;|&nbsp;&nbsp; [Changelog](#-Changelog)
     
 [author-image]: https://img.shields.io/badge/author-wong2-blue.svg
 [author-url]: https://github.com/wong2
