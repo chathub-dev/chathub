@@ -28,13 +28,10 @@ ChatHub adalah klien chatbot all-in-one
     
 [author-image]: https://img.shields.io/badge/author-wong2-blue.svg
 [author-url]: https://github.com/wong2
-    
 [license-image]: https://img.shields.io/github/license/chathub-dev/chathub?color=blue
 [license-url]: https://github.com/chathub-dev/chathub/blob/main/LICENSE
-
 [release-image]: https://img.shields.io/github/v/release/chathub-dev/chathub?color=blue
 [release-url]: https://github.com/chathub-dev/chathub/releases/latest
-   
 [last-commit-image]: https://img.shields.io/github/last-commit/chathub-dev/chathub?label=last%20commit
 [last-commit-url]: https://github.com/chathub-dev/chathub/commits
 
@@ -45,6 +42,8 @@ ChatHub adalah klien chatbot all-in-one
 ## 📷 Tangkapan Layar
 
 ![Tangkapan Layar](screenshots/extension.png?raw=true)
+
+![Tangkapan Layar (Mode Gelap)](screenshots/dark.png?raw=true)
 
 ## ✨ Fitur
 
@@ -68,6 +67,13 @@ ChatHub adalah klien chatbot all-in-one
 - Aktifkan Mode Pengembang
 - Seret folder yang telah diekstrak ke mana saja di halaman untuk mengimpor (jangan hapus folder setelah itu)
 
+## 🔨 Membangun dari Source Code
+
+- Clone source code
+- `yarn install`
+- `yarn build`
+- Muat folder `dist` ke browser dengan mengikuti langkah-langkah dalam _Instalasi Manual_
+
 ## 🗺️ Roadmap
 
 - [x] Riwayat percakapan
@@ -75,6 +81,10 @@ ChatHub adalah klien chatbot all-in-one
 - [x] Mode gelap
 
 ## 📜 Changelog
+
+### v1.11.0
+
+- Dukungan Claude (melalui Poe)
 
 ### v1.10.0
 
