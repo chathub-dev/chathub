@@ -20,7 +20,7 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 ### Install
 
 <a href="https://chrome.google.com/webstore/detail/chathub-all-in-one-chatbo/iaakpnchhognanibcahlpcplchdfmgma?utm_source=website"><img src="./src/assets/chrome_button_icon.png" width="200" alt="Get ChatHub for Chromium"></a>
-<a href="https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga"><img src="./src/assets/edge_button_icon.png" width="150" alt="Get ChatHub for Microsoft Edge"></a>
+<a href="https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga"><img src="./src/assets/edge_button_icon.png" width="160" alt="Get ChatHub for Microsoft Edge"></a>
 
 ##
 
