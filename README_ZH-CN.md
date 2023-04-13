@@ -24,7 +24,7 @@
 
 ##
 
-[截图](#-截图) &nbsp;&nbsp;|&nbsp;&nbsp; [特点](#-特点) &nbsp;&nbsp;|&nbsp;&nbsp; [手动安装](#-手动安装) &nbsp;&nbsp;|&nbsp;&nbsp; [路线图](#%EF%B8%8F-路线图) &nbsp;&nbsp;|&nbsp;&nbsp; [更新日志](#-更新日志)
+[截图](#-截图) &nbsp;&nbsp;|&nbsp;&nbsp; [特点](#-特点) &nbsp;&nbsp;|&nbsp;&nbsp; [手动安装](#-手动安装) &nbsp;&nbsp;|&nbsp;&nbsp; [从源代码构建](#-从源代码构建) &nbsp;&nbsp;|&nbsp;&nbsp; [路线图](#%EF%B8%8F-路线图) &nbsp;&nbsp;|&nbsp;&nbsp; [更新日志](#-更新日志)
 
 [作者-image]: https://img.shields.io/badge/author-wong2-blue.svg
 [作者-url]: https://github.com/wong2
@@ -41,7 +41,9 @@
 
 ## 📷 截图
 
-![#-截图](screenshots/extension.png?raw=true)
+![截图](screenshots/extension.png?raw=true)
+
+![截图 (暗黑模式)](screenshots/dark.png?raw=true)
 
 ## ✨ 特点
 
@@ -64,6 +66,13 @@
 - 在 Chrome/Edge 中进入扩展页面 (chrome://extensions 或 edge://extensions)
 - 启用开发者模式
 - 将解压后的文件夹拖到页面上的任何位置进行导入（导入后不要删除文件夹）
+
+## 🔨 从源代码构建
+
+- 克隆源代码
+- 运行 `yarn install`
+- 运行 `yarn build`
+- 按照 _手动安装_ 中的步骤将 `dist` 文件夹加载到浏览器中
 
 ## 🗺️ 路线图
 
