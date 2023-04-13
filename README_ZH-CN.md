@@ -47,7 +47,7 @@
 
 ## ✨ 特点
 
-- 🤖 在一个应用中使用不同的聊天机器人，目前支持 ChatGPT、新的 Bing Chat、Google Bard 和 Claude，未来将集成更多机器人
+- 🤖 在一个应用中使用不同的聊天机器人，目前支持 ChatGPT、新的 Bing Chat、Google Bard 和 Claude (via Poe)，未来将集成更多机器人
 - 💬 同时与多个聊天机器人聊天，方便比较它们的答案
 - 🚀 支持 ChatGPT API 模式，比 ChatGPT Plus 更快、更省成本
 - 📊 在使用 ChatGPT API 模式时，可以查看令牌使用统计信息
