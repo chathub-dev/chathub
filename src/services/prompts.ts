@@ -1,12 +1,12 @@
-import Browser from 'webextension-polyfill'
 import { ofetch } from 'ofetch'
+import Browser from 'webextension-polyfill'
+import { ChatMessage } from '~app/bots/chatgpt-api/consts'
 
-export type PromptRole = 'system' | 'user'
 export interface Prompt {
   id: string
   title: string
   prompt: string
-  role: PromptRole
+  role: ChatMessage['role']
 }
 
 export async function loadLocalPrompts() {

@@ -1,3 +1,4 @@
+import { Prompt } from '~services/prompts'
 import { ChatError, ErrorCode } from '~utils/errors'
 
 export type Event =
@@ -17,6 +18,7 @@ export type Event =
 
 export interface SendMessageParams {
   prompt: string
+  role: Prompt['role']
   onEvent: (event: Event) => void
   signal?: AbortSignal
 }

@@ -2,13 +2,19 @@ import cx from 'classnames'
 import { FC, memo, ReactNode, useCallback, useEffect, useRef, useState } from 'react'
 import { GoBook } from 'react-icons/go'
 import { trackEvent } from '~app/plausible'
+import { Prompt } from '~services/prompts'
 import Button from '../Button'
 import PromptLibraryDialog from '../PromptLibrary/Dialog'
 import TextInput from './TextInput'
 
+export interface Message {
+  text: string
+  role: Prompt['role']
+}
+
 interface Props {
   mode: 'full' | 'compact'
-  onSubmit: (value: string) => void
+  onSubmit: (message: Message) => void
   className?: string
   disabled?: boolean
   placeholder?: string
@@ -21,6 +27,7 @@ const ChatMessageInput: FC<Props> = (props) => {
   const formRef = useRef<HTMLFormElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const [isPromptLibraryDialogOpen, setIsPromptLibraryDialogOpen] = useState(false)
+  const role = useRef<Prompt['role']>('user')
 
   useEffect(() => {
     if (!props.disabled && props.autoFocus) {
@@ -32,19 +39,20 @@ const ChatMessageInput: FC<Props> = (props) => {
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
       if (value.trim()) {
-        props.onSubmit(value)
+        props.onSubmit({ text: value, role: role.current })
       }
       setValue('')
     },
     [props, value],
   )
 
-  const insertTextAtCursor = useCallback(
-    (text: string) => {
+  const insertPromptAtCursor = useCallback(
+    (prompt: Prompt) => {
       const cursorPosition = inputRef.current?.selectionStart || 0
       const textBeforeCursor = value.slice(0, cursorPosition)
       const textAfterCursor = value.slice(cursorPosition)
-      setValue(`${textBeforeCursor}${text}${textAfterCursor}`)
+      setValue(`${textBeforeCursor}${prompt.prompt}${textAfterCursor}`)
+      role.current = prompt.role
       setIsPromptLibraryDialogOpen(false)
       inputRef.current?.focus()
     },
@@ -65,7 +73,7 @@ const ChatMessageInput: FC<Props> = (props) => {
             <PromptLibraryDialog
               isOpen={true}
               onClose={() => setIsPromptLibraryDialogOpen(false)}
-              insertPrompt={insertTextAtCursor}
+              insertPrompt={insertPromptAtCursor}
             />
           )}
         </>

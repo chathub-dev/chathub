@@ -1,5 +1,6 @@
 import { useAtom } from 'jotai'
 import { useCallback, useEffect, useMemo } from 'react'
+import { Message } from '~app/components/Chat/ChatMessageInput'
 import { trackEvent } from '~app/plausible'
 import { chatFamily } from '~app/state'
 import { setConversationMessages } from '~services/chat-history'
@@ -24,11 +25,11 @@ export function useChat(botId: BotId, page = 'singleton') {
   )
 
   const sendMessage = useCallback(
-    async (input: string) => {
+    async ({ text, role }: Message) => {
       trackEvent('send_message', { botId })
       const botMessageId = uuid()
       setChatState((draft) => {
-        draft.messages.push({ id: uuid(), text: input, author: 'user' }, { id: botMessageId, text: '', author: botId })
+        draft.messages.push({ id: uuid(), text, author: 'user' }, { id: botMessageId, text: '', author: botId })
       })
       const abortController = new AbortController()
       setChatState((draft) => {
@@ -36,7 +37,8 @@ export function useChat(botId: BotId, page = 'singleton') {
         draft.abortController = abortController
       })
       await chatState.bot.sendMessage({
-        prompt: input,
+        prompt: text,
+        role,
         signal: abortController.signal,
         onEvent(event) {
           if (event.type === 'UPDATE_ANSWER') {

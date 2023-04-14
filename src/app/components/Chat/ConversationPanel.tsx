@@ -1,25 +1,25 @@
 import cx from 'classnames'
 import { FC, useCallback, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import clearIcon from '~/assets/icons/clear.svg'
 import historyIcon from '~/assets/icons/history.svg'
 import shareIcon from '~/assets/icons/share.svg'
 import { CHATBOTS } from '~app/consts'
 import { ConversationContext, ConversationContextValue } from '~app/context'
 import { trackEvent } from '~app/plausible'
-import ShareDialog from '../Share/Dialog'
 import { ChatMessageModel } from '~types'
 import { BotId } from '../../bots'
 import Button from '../Button'
 import HistoryDialog from '../History/Dialog'
+import ShareDialog from '../Share/Dialog'
 import SwitchBotDropdown from '../SwitchBotDropdown'
-import ChatMessageInput from './ChatMessageInput'
+import ChatMessageInput, { Message } from './ChatMessageInput'
 import ChatMessageList from './ChatMessageList'
-import { useTranslation } from 'react-i18next'
 
 interface Props {
   botId: BotId
   messages: ChatMessageModel[]
-  onUserSendMessage: (input: string, botId: BotId) => void
+  onUserSendMessage: (message: Message, botId: BotId) => void
   resetConversation: () => void
   generating: boolean
   stopGenerating: () => void
@@ -42,8 +42,8 @@ const ConversationPanel: FC<Props> = (props) => {
   }, [props.resetConversation])
 
   const onSubmit = useCallback(
-    async (input: string) => {
-      props.onUserSendMessage(input as string, props.botId)
+    async (message: Message) => {
+      props.onUserSendMessage(message, props.botId)
     },
     [props],
   )

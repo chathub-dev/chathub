@@ -16,7 +16,13 @@ export class ChatGPTApiBot extends AbstractBot {
   private conversationContext?: ConversationContext
 
   buildMessages(): ChatMessage[] {
-    return [SYSTEM_MESSAGE, ...this.conversationContext!.messages.slice(-(CONTEXT_SIZE + 1))]
+    let systemMessage = SYSTEM_MESSAGE
+    let otherMessages = this.conversationContext!.messages
+    if (this.conversationContext!.messages[0].role === 'system') {
+      systemMessage = this.conversationContext!.messages[0]
+      otherMessages = this.conversationContext!.messages.slice(1)
+    }
+    return [systemMessage, ...otherMessages.slice(-(CONTEXT_SIZE + 1))]
   }
 
   async doSendMessage(params: SendMessageParams) {
@@ -27,7 +33,7 @@ export class ChatGPTApiBot extends AbstractBot {
     if (!this.conversationContext) {
       this.conversationContext = { messages: [] }
     }
-    this.conversationContext.messages.push({ role: 'user', content: params.prompt })
+    this.conversationContext.messages.push({ role: params.role, content: params.prompt })
 
     const resp = await fetch(`${openaiApiHost}/v1/chat/completions`, {
       method: 'POST',

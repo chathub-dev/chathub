@@ -23,6 +23,7 @@ const resources = {
       Stop: 'Stop',
       Title: 'Title',
       Cotnent: 'Content',
+      PromptRoleWarning: 'Only available for ChatGPT using API',
     },
   },
   de: {
@@ -53,6 +54,7 @@ const resources = {
       'Export/Import All Data': 'Exportar/Importar todos los datos',
       'Data includes all your settings, chat histories, and local prompts':
         'Los datos incluyen todas tus configuraciones, historiales de chat y promociones locales',
+      PromptRoleWarning: 'Solo disponible para ChatGPT usando API',
     },
   },
   fr: {
