@@ -6,7 +6,7 @@ const PremiumEntry: FC = () => {
   return (
     <Link to="/premium">
       <div
-        className="flex flex-row items-center gap-[10px] rounded-[10px] px-5 py-[10px] cursor-pointer"
+        className="flex flex-row items-center gap-[10px] rounded-[10px] px-4 py-2 cursor-pointer"
         style={{
           background:
             'linear-gradient(275deg, rgb(var(--color-primary-purple)) 1.65%, rgb(var(--color-primary-blue)) 100%)',
