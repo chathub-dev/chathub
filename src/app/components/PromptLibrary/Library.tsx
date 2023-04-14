@@ -1,13 +1,21 @@
-import { Suspense, useCallback, useMemo, useState } from 'react'
+import { Suspense, useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BeatLoader } from 'react-spinners'
 import useSWR from 'swr'
 import closeIcon from '~/assets/icons/close.svg'
 import { trackEvent } from '~app/plausible'
-import { Prompt, loadLocalPrompts, loadRemotePrompts, removeLocalPrompt, saveLocalPrompt } from '~services/prompts'
+import {
+  Prompt,
+  PromptRole,
+  loadLocalPrompts,
+  loadRemotePrompts,
+  removeLocalPrompt,
+  saveLocalPrompt,
+} from '~services/prompts'
 import { uuid } from '~utils'
 import Button from '../Button'
 import { Input, Textarea } from '../Input'
+import Select from '../Select'
 import Tabs, { Tab } from '../Tabs'
 
 const ActionButton = (props: { text: string; onClick: () => void }) => {
@@ -58,8 +66,14 @@ const PromptItem = (props: {
   )
 }
 
+const PROMPT_ROLE_OPTIONS = [
+  { value: 'user', name: 'User' },
+  { value: 'system', name: 'System' },
+]
+
 function PromptForm(props: { initialData: Prompt; onSubmit: (data: Prompt) => void }) {
   const { t } = useTranslation()
+  const roleRef = useRef<HTMLInputElement>(null)
   const onSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
@@ -71,6 +85,7 @@ function PromptForm(props: { initialData: Prompt; onSubmit: (data: Prompt) => vo
           id: props.initialData.id,
           title: json.title as string,
           prompt: json.prompt as string,
+          role: json.role as PromptRole,
         })
       }
     },
@@ -81,6 +96,15 @@ function PromptForm(props: { initialData: Prompt; onSubmit: (data: Prompt) => vo
       <div className="w-full">
         <span className="text-sm font-semibold block mb-1 text-primary-text">Prompt {t('Title')}</span>
         <Input className="w-full" name="title" defaultValue={props.initialData.title} />
+      </div>
+      <div className="w-full">
+        <span className="text-sm font-semibold block mb-1 text-primary-text">Prompt {t('Role')}</span>
+        <input name="role" hidden ref={roleRef} />
+        <Select
+          options={PROMPT_ROLE_OPTIONS}
+          value={props.initialData.role ?? 'user'}
+          onChange={(value) => roleRef.current && (roleRef.current.value = value)}
+        ></Select>
       </div>
       <div className="w-full">
         <span className="text-sm font-semibold block mb-1 text-primary-text">Prompt {t('Content')}</span>
@@ -116,7 +140,7 @@ function LocalPrompts(props: { insertPrompt: (text: string) => void }) {
   )
 
   const create = useCallback(() => {
-    setFormData({ id: uuid(), title: '', prompt: '' })
+    setFormData({ id: uuid(), title: '', prompt: '', role: 'user' })
   }, [])
 
   return (
