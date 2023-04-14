@@ -147,6 +147,8 @@ const resources = {
       'Chat history full-text search': '全文搜索聊天记录',
       'Customize theme': '自定义主题',
       'More in the future': '享受未来所有功能更新',
+      'Enjoy ChatHub? Give us a 5-star rating!': '喜欢ChatHub吗？给我们个5星好评吧！',
+      'Write review': '去评价',
     },
   },
   'zh-TW': {
