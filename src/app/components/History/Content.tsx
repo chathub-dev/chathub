@@ -1,3 +1,5 @@
+import Fuse from 'fuse.js'
+import { flatMap } from 'lodash-es'
 import { FC, memo, useMemo, useRef } from 'react'
 import { ViewportList } from 'react-viewport-list'
 import useSWR from 'swr'
@@ -28,9 +30,16 @@ const Timestamp = memo((props: { timestamp: number }) => {
 
 Timestamp.displayName = 'Timestamp'
 
-const HistoryContent: FC<{ botId: BotId }> = ({ botId }) => {
+const HistoryContent: FC<{ botId: BotId; keyword: string }> = ({ botId, keyword }) => {
   const historyQuery = useSWR(`history:${botId}`, () => loadHistoryMessages(botId), { suspense: true })
   const ref = useRef<HTMLDivElement | null>(null)
+
+  const fuse = useMemo(() => {
+    return new Fuse(
+      flatMap(historyQuery.data, (c) => c.messages),
+      { keys: ['text'] },
+    )
+  }, [historyQuery.data])
 
   const items: ViewportListItem[] = useMemo(() => {
     const results: ViewportListItem[] = []
@@ -47,9 +56,22 @@ const HistoryContent: FC<{ botId: BotId }> = ({ botId }) => {
     return results
   }, [historyQuery.data])
 
+  const filteredItems: ViewportListItem[] = useMemo(() => {
+    if (!keyword) {
+      return []
+    }
+    const result = fuse.search(keyword)
+    return result.map((r) => ({ type: 'message', message: r.item, conversationId: '' }))
+  }, [fuse, keyword])
+
   return (
     <div className="flex flex-col overflow-y-auto" ref={ref}>
-      <ViewportList viewportRef={ref} items={items} initialAlignToTop={true} initialIndex={items.length}>
+      <ViewportList
+        viewportRef={ref}
+        items={filteredItems.length ? filteredItems : items}
+        initialAlignToTop={true}
+        initialIndex={filteredItems.length || items.length}
+      >
         {(item) => {
           if (item.type === 'conversation') {
             return (

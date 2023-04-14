@@ -37,7 +37,9 @@ const ChatMessage: FC<Props> = ({ botId, message, conversationId }) => {
         <span className="text-xs text-secondary-tex">
           {message.author === 'user' ? 'You' : CHATBOTS[message.author].name}
         </span>
-        <FiTrash2 className="invisible group-hover:visible cursor-pointer" onClick={deleteMessage} />
+        {!!conversationId && (
+          <FiTrash2 className="invisible group-hover:visible cursor-pointer" onClick={deleteMessage} />
+        )}
       </div>
       <Markdown>{message.text}</Markdown>
     </div>

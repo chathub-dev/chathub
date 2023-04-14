@@ -59,6 +59,7 @@
     "eventsource-parser": "^0.1.0",
     "expiry-map": "^2.0.0",
     "framer-motion": "^9.0.4",
+    "fuse.js": "^6.6.2",
     "github-markdown-css": "^5.2.0",
     "gpt3-tokenizer": "^1.1.5",
     "highlight.js": "^11.7.0",
