@@ -19,22 +19,19 @@ ChatHub adalah klien chatbot all-in-one
     
 ### Instal
     
-<a href="https://chrome.google.com/webstore/detail/chathub-all-in-one-chatbo/iaakpnchhognanibcahlpcplchdfmgma?utm_source=website"><img src="https://user-images.githubusercontent.com/585534/107280622-91a8ea80-6a26-11eb-8d07-77c548b28665.png" alt="Get ChatHub for Chromium"></a>
-<a href="https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga"><img src="https://user-images.githubusercontent.com/585534/107280673-a5ece780-6a26-11eb-9cc7-9fa9f9f81180.png" alt="Get ChatHub for Microsoft Edge"></a>
+<a href="https://chrome.google.com/webstore/detail/chathub-all-in-one-chatbo/iaakpnchhognanibcahlpcplchdfmgma?utm_source=website"><img src="https://user-images.githubusercontent.com/64502893/231991498-8df6dd63-727c-41d0-916f-c90c15127de3.png" width="200" alt="Dapatkan ChatHub untuk Chromium"></a>&nbsp;&nbsp;
+<a href="https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga"><img src="https://user-images.githubusercontent.com/64502893/231991158-1b54f831-2fdc-43b6-bf9a-f894000e5aa8.png" width="160" alt="Dapatkan ChatHub untuk Microsoft Edge"></a>
     
 ##
 
-[Tangkapan Layar](#-Tangkapan-Layar) &nbsp;&nbsp;|&nbsp;&nbsp; [Fitur](#-Fitur) &nbsp;&nbsp;|&nbsp;&nbsp; [Instalasi Manual](#-Instalasi-Manual) &nbsp;&nbsp;|&nbsp;&nbsp; [Roadmap](#%EF%B8%8F-roadmap) &nbsp;&nbsp;|&nbsp;&nbsp; [Changelog](#-Changelog)
+[Tangkapan Layar](#-tangkapan-layar) &nbsp;&nbsp;|&nbsp;&nbsp; [Fitur](#-fitur) &nbsp;&nbsp;|&nbsp;&nbsp; [Instalasi Manual](#-instalasi-manual) &nbsp;&nbsp;|&nbsp;&nbsp; [Membangun dari Source Code](#-membangun-dari-source-code) &nbsp;&nbsp;|&nbsp;&nbsp; [Roadmap](#%EF%B8%8F-roadmap) &nbsp;&nbsp;|&nbsp;&nbsp; [Changelog](#-changelog)
     
 [author-image]: https://img.shields.io/badge/author-wong2-blue.svg
 [author-url]: https://github.com/wong2
-    
 [license-image]: https://img.shields.io/github/license/chathub-dev/chathub?color=blue
 [license-url]: https://github.com/chathub-dev/chathub/blob/main/LICENSE
-
 [release-image]: https://img.shields.io/github/v/release/chathub-dev/chathub?color=blue
 [release-url]: https://github.com/chathub-dev/chathub/releases/latest
-   
 [last-commit-image]: https://img.shields.io/github/last-commit/chathub-dev/chathub?label=last%20commit
 [last-commit-url]: https://github.com/chathub-dev/chathub/commits
 
@@ -46,9 +43,11 @@ ChatHub adalah klien chatbot all-in-one
 
 ![Tangkapan Layar](screenshots/extension.png?raw=true)
 
+![Tangkapan Layar (Mode Gelap)](screenshots/dark.png?raw=true)
+
 ## ✨ Fitur
 
-- 🤖 Gunakan chatbot yang berbeda dalam satu aplikasi, saat ini mendukung ChatGPT, Bing Chat yang baru dan Google Bard, akan mengintegrasikan lebih banyak di masa depan
+- 🤖 Gunakan chatbot yang berbeda dalam satu aplikasi, saat ini mendukung ChatGPT, Bing Chat yang baru, Google Bard dan Claude (via Poe), akan mengintegrasikan lebih banyak di masa depan
 - 💬 Chat dengan beberapa chatbot secara bersamaan, sehingga mudah untuk membandingkan jawaban mereka
 - 🚀 Mendukung mode API ChatGPT, yang lebih cepat dan lebih hemat biaya daripada ChatGPT Plus
 - 📊 Statistik penggunaan token saat menggunakan mode API ChatGPT
@@ -68,6 +67,13 @@ ChatHub adalah klien chatbot all-in-one
 - Aktifkan Mode Pengembang
 - Seret folder yang telah diekstrak ke mana saja di halaman untuk mengimpor (jangan hapus folder setelah itu)
 
+## 🔨 Membangun dari Source Code
+
+- Clone source code
+- `yarn install`
+- `yarn build`
+- Muat folder `dist` ke browser dengan mengikuti langkah-langkah dalam _Instalasi Manual_
+
 ## 🗺️ Roadmap
 
 - [x] Riwayat percakapan
@@ -75,6 +81,10 @@ ChatHub adalah klien chatbot all-in-one
 - [x] Mode gelap
 
 ## 📜 Changelog
+
+### v1.11.0
+
+- Dukungan Claude (melalui Poe)
 
 ### v1.10.0
 

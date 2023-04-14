@@ -19,22 +19,19 @@
     
 ### 安装
     
-<a href="https://chrome.google.com/webstore/detail/chathub-all-in-one-chatbo/iaakpnchhognanibcahlpcplchdfmgma?utm_source=website"><img src="https://user-images.githubusercontent.com/585534/107280622-91a8ea80-6a26-11eb-8d07-77c548b28665.png" alt="获取 Chromium 版本的 ChatHub"></a>
-<a href="https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga"><img src="https://user-images.githubusercontent.com/585534/107280673-a5ece780-6a26-11eb-9cc7-9fa9f9f81180.png" alt="获取 Microsoft Edge 版本的 ChatHub"></a>
+<a href="https://chrome.google.com/webstore/detail/chathub-all-in-one-chatbo/iaakpnchhognanibcahlpcplchdfmgma?utm_source=website"><img src="https://user-images.githubusercontent.com/64502893/231991498-8df6dd63-727c-41d0-916f-c90c15127de3.png" width="200" alt="获取 Chromium 版本的 ChatHub"></a>&nbsp;&nbsp;
+<a href="https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga"><img src="https://user-images.githubusercontent.com/64502893/231991158-1b54f831-2fdc-43b6-bf9a-f894000e5aa8.png" width="160" alt="获取 Microsoft Edge 版本的 ChatHub"></a>
     
 ##
 
-[螢幕截圖](#-螢幕截圖) &nbsp;&nbsp;|&nbsp;&nbsp; [功能特色](#-功能特色) &nbsp;&nbsp;|&nbsp;&nbsp; [手動安裝](#-手動安裝) &nbsp;&nbsp;|&nbsp;&nbsp; [路線圖](#%EF%B8%8F-路線圖) &nbsp;&nbsp;|&nbsp;&nbsp; [更新日誌](#-更新日誌)
+[螢幕截圖](#-螢幕截圖) &nbsp;&nbsp;|&nbsp;&nbsp; [功能特色](#-功能特色) &nbsp;&nbsp;|&nbsp;&nbsp; [手動安裝](#-手動安裝) &nbsp;&nbsp;|&nbsp;&nbsp; [從原始碼建置](#-從原始碼建置) &nbsp;&nbsp;|&nbsp;&nbsp; [路線圖](#%EF%B8%8F-路線圖) &nbsp;&nbsp;|&nbsp;&nbsp; [更新日誌](#-更新日誌)
 
 [作者-image]: https://img.shields.io/badge/author-wong2-blue.svg
-[作者-url]: https://github.com/wong2
-    
+[作者-url]: https://github.com/wong2    
 [許可證-image]: https://img.shields.io/github/license/chathub-dev/chathub?color=blue
 [許可證-url]: https://github.com/chathub-dev/chathub/blob/main/LICENSE
-
 [發布-image]: https://img.shields.io/github/v/release/chathub-dev/chathub?color=blue
 [發布-url]: https://github.com/chathub-dev/chathub/releases/latest
-   
 [版本發佈-image]: https://img.shields.io/github/last-commit/chathub-dev/chathub?label=last%20commit
 [版本發佈-url]: https://github.com/chathub-dev/chathub/commits
 
@@ -46,9 +43,11 @@
 
 ![螢幕截圖](screenshots/extension.png?raw=true)
 
+![螢幕截圖 (暗模式)](screenshots/dark.png?raw=true)
+
 ## ✨ 功能特色
 
-- 🤖 支援多個聊天機器人，目前支援 ChatGPT、新的 Bing Chat 和 Google Bard，未來會整合更多
+- 🤖 支援多個聊天機器人，目前支援 ChatGPT、新的 Bing Chat, Google Bard 和 Claude (透過 Poe)，未來會整合更多
 - 💬 同時與多個聊天機器人聊天，方便比較其回答
 - 🚀 支援 ChatGPT API 模式，比 ChatGPT Plus 更快速和更省成本
 - 📊 在使用 ChatGPT API 模式時，可以查看令牌使用統計信息
@@ -68,6 +67,13 @@
 - 啟用開發人員模式
 - 拖動解壓縮後的文件夾到頁面上的任何位置以導入它 (導入後不要刪除文件夾)
 
+## 🔨 從原始碼建置
+
+- 複製原始碼
+- `yarn install`
+- `yarn build`
+- 按照「手動安裝」中的步驟將 `dist` _資料夾載入瀏覽器_
+
 ## 🗺️ 路線圖
 
 - [x] 對話歷史
@@ -76,10 +82,14 @@
 
 ## 📜 更新日誌
 
+### v1.11.0
+
+- 支援 Claude (透過 Poe)
+
 ### v1.10.0
 
 - 新增 Command + K 功能
-- 
+
 ### v1.9.4
 
 - 新增暗模式

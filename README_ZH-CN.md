@@ -19,12 +19,12 @@
 
 ### 安装
 
-<a href="https://chrome.google.com/webstore/detail/chathub-all-in-one-chatbo/iaakpnchhognanibcahlpcplchdfmgma?utm_source=website"><img src="https://user-images.githubusercontent.com/585534/107280622-91a8ea80-6a26-11eb-8d07-77c548b28665.png" alt="获取 Chromium 版 ChatHub"></a>
-<a href="https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga"><img src="https://user-images.githubusercontent.com/585534/107280673-a5ece780-6a26-11eb-9cc7-9fa9f9f81180.png" alt="获取 Microsoft Edge 版 ChatHub"></a>
+<a href="https://chrome.google.com/webstore/detail/chathub-all-in-one-chatbo/iaakpnchhognanibcahlpcplchdfmgma?utm_source=website"><img src="https://user-images.githubusercontent.com/64502893/231991498-8df6dd63-727c-41d0-916f-c90c15127de3.png" width="200" alt="获取 Chromium 版 ChatHub"></a>&nbsp;&nbsp;
+<a href="https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga"><img src="https://user-images.githubusercontent.com/64502893/231991158-1b54f831-2fdc-43b6-bf9a-f894000e5aa8.png" width="160" alt="获取 Microsoft Edge 版 ChatHub"></a>
 
 ##
 
-[截图](#-截图) &nbsp;&nbsp;|&nbsp;&nbsp; [特点](#-特点) &nbsp;&nbsp;|&nbsp;&nbsp; [手动安装](#-手动安装) &nbsp;&nbsp;|&nbsp;&nbsp; [路线图](#%EF%B8%8F-路线图) &nbsp;&nbsp;|&nbsp;&nbsp; [更新日志](#-更新日志)
+[截图](#-截图) &nbsp;&nbsp;|&nbsp;&nbsp; [特点](#-特点) &nbsp;&nbsp;|&nbsp;&nbsp; [手动安装](#-手动安装) &nbsp;&nbsp;|&nbsp;&nbsp; [从源代码构建](#-从源代码构建) &nbsp;&nbsp;|&nbsp;&nbsp; [路线图](#%EF%B8%8F-路线图) &nbsp;&nbsp;|&nbsp;&nbsp; [更新日志](#-更新日志)
 
 [作者-image]: https://img.shields.io/badge/author-wong2-blue.svg
 [作者-url]: https://github.com/wong2
@@ -41,11 +41,13 @@
 
 ## 📷 截图
 
-![#-截图](screenshots/extension.png?raw=true)
+![截图](screenshots/extension.png?raw=true)
+
+![截图 (暗黑模式)](screenshots/dark.png?raw=true)
 
 ## ✨ 特点
 
-- 🤖 在一个应用中使用不同的聊天机器人，目前支持 ChatGPT、新的 Bing Chat、Google Bard 和 Claude，未来将集成更多机器人
+- 🤖 在一个应用中使用不同的聊天机器人，目前支持 ChatGPT、新的 Bing Chat、Google Bard 和 Claude (via Poe)，未来将集成更多机器人
 - 💬 同时与多个聊天机器人聊天，方便比较它们的答案
 - 🚀 支持 ChatGPT API 模式，比 ChatGPT Plus 更快、更省成本
 - 📊 在使用 ChatGPT API 模式时，可以查看令牌使用统计信息
@@ -65,6 +67,13 @@
 - 启用开发者模式
 - 将解压后的文件夹拖到页面上的任何位置进行导入（导入后不要删除文件夹）
 
+## 🔨 从源代码构建
+
+- 克隆源代码
+- 运行 `yarn install`
+- 运行 `yarn build`
+- 按照 _手动安装_ 中的步骤将 `dist` _文件夹加载到浏览器中_
+
 ## 🗺️ 路线图
 
 - [x] 对话历史记录
@@ -75,7 +84,7 @@
 
 ### v1.11.0
 
-- 支持 Claude(via Poe)
+- 支持 Claude (via Poe)
 
 ### v1.10.0
 

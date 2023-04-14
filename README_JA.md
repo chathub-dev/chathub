@@ -19,22 +19,19 @@
     
 ### インストール
     
-<a href="https://chrome.google.com/webstore/detail/chathub-all-in-one-chatbo/iaakpnchhognanibcahlpcplchdfmgma?utm_source=website"><img src="https://user-images.githubusercontent.com/585534/107280622-91a8ea80-6a26-11eb-8d07-77c548b28665.png" alt="Get ChatHub for Chromium"></a>
-<a href="https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga"><img src="https://user-images.githubusercontent.com/585534/107280673-a5ece780-6a26-11eb-9cc7-9fa9f9f81180.png" alt="Get ChatHub for Microsoft Edge"></a>
+<a href="https://chrome.google.com/webstore/detail/chathub-all-in-one-chatbo/iaakpnchhognanibcahlpcplchdfmgma?utm_source=website"><img src="https://user-images.githubusercontent.com/64502893/231991498-8df6dd63-727c-41d0-916f-c90c15127de3.png" width="200" alt="クロム用の ChatHub を取得してください"></a>&nbsp;&nbsp;
+<a href="https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga"><img src="https://user-images.githubusercontent.com/64502893/231991158-1b54f831-2fdc-43b6-bf9a-f894000e5aa8.png" width="160" alt="Microsoft Edge 用の ChatHub を取得してください"></a>
     
 ##
 
-[スクリーンショット](#-Screenshot) &nbsp;&nbsp;|&nbsp;&nbsp; [特徴](#-Features) &nbsp;&nbsp;|&nbsp;&nbsp; [手動インストール](#-manual-installation) &nbsp;&nbsp;|&nbsp;&nbsp; [ロードマップ](#%EF%B8%8F-roadmap) &nbsp;&nbsp;|&nbsp;&nbsp; [変更ログ](#-Changelog)
+[スクリーンショット](#-スクリーンショット) &nbsp;&nbsp;|&nbsp;&nbsp; [特徴](#-特徴) &nbsp;&nbsp;|&nbsp;&nbsp; [手動インストール](#-手動インストール) &nbsp;&nbsp;|&nbsp;&nbsp; [ソースからのビルド](#-ソースからのビルド) &nbsp;&nbsp;|&nbsp;&nbsp; [ロードマップ](#%EF%B8%8F-ロードマップ) &nbsp;&nbsp;|&nbsp;&nbsp; [変更ログ](#-変更ログ)
 
 [author-image]: https://img.shields.io/badge/author-wong2-blue.svg
-[author-url]: https://github.com/wong2
-    
+[author-url]: https://github.com/wong2    
 [license-image]: https://img.shields.io/github/license/chathub-dev/chathub?color=blue
 [license-url]: https://github.com/chathub-dev/chathub/blob/main/LICENSE
-
 [release-image]: https://img.shields.io/github/v/release/chathub-dev/chathub?color=blue
-[release-url]: https://github.com/chathub-dev/chathub/releases/latest
-   
+[release-url]: https://github.com/chathub-dev/chathub/releases/latest   
 [last-commit-image]: https://img.shields.io/github/last-commit/chathub-dev/chathub?label=last%20commit
 [last-commit-url]: https://github.com/chathub-dev/chathub/commits
 
@@ -76,7 +73,7 @@
 - ソースコードをクローン
 - `yarn install`
 - `yarn build`
-- _マニュアルインストール_ の手順に従って、`dist` フォルダをブラウザに読み込みます
+- _マニュアルインストール_ の手順に従って、`dist` _フォルダをブラウザに読み込みます_
 
 ## 🗺️ ロードマップ
 
@@ -85,6 +82,10 @@
 - [x] ダークモード
 
 ## 📜 変更ログ
+
+### v1.11.0
+
+- クロードのサポートを追加 (Poe経由で)
 
 ### v1.10.0
 
