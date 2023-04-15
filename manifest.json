@@ -20,7 +20,7 @@
   "permissions": ["commands", "storage", "unlimitedStorage"],
   "content_scripts": [
     {
-      "matches": ["https://chat.openai.com/chat/*"],
+      "matches": ["https://chat.openai.com/*"],
       "js": ["src/content-script/chatgpt-inpage-proxy.ts"]
     }
   ],
