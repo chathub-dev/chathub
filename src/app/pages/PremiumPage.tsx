@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import Button from '~app/components/Button'
+import { trackEvent } from '~app/plausible'
 import checkIcon from '~assets/icons/check.svg'
 
 const FeatureItem: FC<{ text: string; comingsoon?: boolean }> = ({ text, comingsoon }) => {
@@ -37,6 +38,7 @@ function PremiumPage() {
         href="https://chathub.lemonsqueezy.com/checkout/buy/7f84853c-e84a-400e-94f4-ff0ca02fffb8"
         target="_blank"
         rel="noreferrer"
+        onClick={() => trackEvent('click_buy_premium')}
       >
         <Button text="Get premium license" color="primary" className="w-fit mt-8 py-3 rounded-lg" />
       </a>
