@@ -149,6 +149,8 @@ const resources = {
       'More in the future': '享受未来所有功能更新',
       'Enjoy ChatHub? Give us a 5-star rating!': '喜欢ChatHub吗？给我们个5星好评吧！',
       'Write review': '去评价',
+      'Activate license': '激活License',
+      '🎉 License activated': '🎉 License已激活',
     },
   },
   'zh-TW': {
