@@ -6,6 +6,7 @@ import NavLink from './NavLink'
 import CommandBar from '../CommandBar'
 import { CHATBOTS } from '~app/consts'
 import PremiumEntry from './PremiumEntry'
+import RatingModal from '../RatingModal'
 
 function IconButton(props: { icon: string }) {
   return (
@@ -40,6 +41,7 @@ function Sidebar() {
         </div>
       </div>
       <CommandBar />
+      <RatingModal />
     </aside>
   )
 }

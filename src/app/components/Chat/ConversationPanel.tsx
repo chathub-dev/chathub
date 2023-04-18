@@ -89,8 +89,8 @@ const ConversationPanel: FC<Props> = (props) => {
           </div>
         </div>
         <ChatMessageList botId={props.botId} messages={props.messages} className={marginClass} />
-        <div className={cx('mt-3 flex flex-col', marginClass, mode === 'full' ? 'mb-5' : 'mb-[10px]')}>
-          <div className={cx('flex flex-row items-center gap-[5px]', mode === 'full' ? 'mb-[15px]' : 'mb-0')}>
+        <div className={cx('mt-3 flex flex-col', marginClass, mode === 'full' ? 'mb-3' : 'mb-[10px]')}>
+          <div className={cx('flex flex-row items-center gap-[5px]', mode === 'full' ? 'mb-3' : 'mb-0')}>
             {mode === 'compact' && <span className="font-medium text-xs text-light-text">Send to {botInfo.name}</span>}
             <hr className="grow border-primary-border" />
           </div>

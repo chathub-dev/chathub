@@ -22,3 +22,5 @@ export const chatFamily = atomFamily(
 )
 
 export const compareBotsAtom = atomWithStorage<[BotId, BotId]>('compareBots', ['chatgpt', 'bing'])
+
+export const licenseKeyAtom = atomWithStorage('licenseKey', '')
