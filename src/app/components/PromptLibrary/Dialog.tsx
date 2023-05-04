@@ -1,10 +1,11 @@
 import PromptLibrary from './Library'
 import Dialog from '../Dialog'
+import { Prompt } from '~services/prompts'
 
 interface Props {
   isOpen: boolean
   onClose: () => void
-  insertPrompt: (text: string) => void
+  insertPrompt: (prompt: Prompt) => void
 }
 
 const PromptLibraryDialog = (props: Props) => {

@@ -1,10 +1,12 @@
-import Browser from 'webextension-polyfill'
 import { ofetch } from 'ofetch'
+import Browser from 'webextension-polyfill'
+import { ChatMessage } from '~app/bots/chatgpt-api/consts'
 
 export interface Prompt {
   id: string
   title: string
   prompt: string
+  role: ChatMessage['role']
 }
 
 export async function loadLocalPrompts() {
@@ -19,6 +21,7 @@ export async function saveLocalPrompt(prompt: Prompt) {
     if (p.id === prompt.id) {
       p.title = prompt.title
       p.prompt = prompt.prompt
+      p.role = prompt.role
       existed = true
       break
     }

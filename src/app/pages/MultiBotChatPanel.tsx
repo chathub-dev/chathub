@@ -1,13 +1,13 @@
 import { useAtomValue } from 'jotai'
 import { uniqBy } from 'lodash-es'
 import { FC, useCallback, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import Button from '~app/components/Button'
-import ChatMessageInput from '~app/components/Chat/ChatMessageInput'
+import ChatMessageInput, { Message } from '~app/components/Chat/ChatMessageInput'
 import { useChat } from '~app/hooks/use-chat'
 import { compareBotsAtom } from '~app/state'
 import { BotId } from '../bots'
 import ConversationPanel from '../components/Chat/ConversationPanel'
-import { useTranslation } from 'react-i18next'
 
 const MultiBotChatPanel: FC = () => {
   const { t } = useTranslation()
@@ -20,12 +20,12 @@ const MultiBotChatPanel: FC = () => {
   const generating = useMemo(() => chats.some((c) => c.generating), [chats])
 
   const onUserSendMessage = useCallback(
-    (input: string, botId?: BotId) => {
+    (message: Message, botId?: BotId) => {
       if (botId) {
         const chat = chats.find((c) => c.botId === botId)
-        chat?.sendMessage(input)
+        chat?.sendMessage(message)
       } else {
-        uniqBy(chats, (c) => c.botId).forEach((c) => c.sendMessage(input))
+        uniqBy(chats, (c) => c.botId).forEach((c) => c.sendMessage(message))
       }
     },
     [chats],

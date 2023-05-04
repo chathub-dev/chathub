@@ -1,13 +1,15 @@
-import { Suspense, useCallback, useMemo, useState } from 'react'
+import { Suspense, useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BeatLoader } from 'react-spinners'
 import useSWR from 'swr'
 import closeIcon from '~/assets/icons/close.svg'
+import { ChatMessage } from '~app/bots/chatgpt-api/consts'
 import { trackEvent } from '~app/plausible'
 import { Prompt, loadLocalPrompts, loadRemotePrompts, removeLocalPrompt, saveLocalPrompt } from '~services/prompts'
 import { uuid } from '~utils'
 import Button from '../Button'
 import { Input, Textarea } from '../Input'
+import Select from '../Select'
 import Tabs, { Tab } from '../Tabs'
 
 const ActionButton = (props: { text: string; onClick: () => void }) => {
@@ -23,11 +25,11 @@ const ActionButton = (props: { text: string; onClick: () => void }) => {
 
 const PromptItem = (props: {
   title: string
-  prompt: string
+  prompt: Prompt
   edit?: () => void
   remove?: () => void
   copyToLocal?: () => void
-  insertPrompt: (text: string) => void
+  insertPrompt: (prompt: Prompt) => void
 }) => {
   const { t } = useTranslation()
   const [saved, setSaved] = useState(false)
@@ -42,7 +44,12 @@ const PromptItem = (props: {
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-medium text-primary-text">{props.title}</p>
       </div>
-      <div className="flex flex-row gap-1">
+      <div className="flex flex-row gap-1 items-center">
+        {props.prompt.role === 'system' && (
+          <div className="h-6 w-6 rounded-full bg-secondary flex items-center justify-center">
+            <span className="text-sm text-secondary-text">$</span>
+          </div>
+        )}
         {props.edit && <ActionButton text={t('Edit')} onClick={props.edit} />}
         {props.copyToLocal && <ActionButton text={t(saved ? 'Saved' : 'Save')} onClick={copyToLocal} />}
         <ActionButton text={t('Use')} onClick={() => props.insertPrompt(props.prompt)} />
@@ -58,8 +65,14 @@ const PromptItem = (props: {
   )
 }
 
+const PROMPT_ROLE_OPTIONS = [
+  { value: 'user', name: 'User' },
+  { value: 'system', name: 'System' },
+]
+
 function PromptForm(props: { initialData: Prompt; onSubmit: (data: Prompt) => void }) {
   const { t } = useTranslation()
+  const roleRef = useRef<HTMLInputElement>(null)
   const onSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
@@ -71,6 +84,7 @@ function PromptForm(props: { initialData: Prompt; onSubmit: (data: Prompt) => vo
           id: props.initialData.id,
           title: json.title as string,
           prompt: json.prompt as string,
+          role: json.role as ChatMessage['role'],
         })
       }
     },
@@ -83,6 +97,17 @@ function PromptForm(props: { initialData: Prompt; onSubmit: (data: Prompt) => vo
         <Input className="w-full" name="title" defaultValue={props.initialData.title} />
       </div>
       <div className="w-full">
+        <span className="text-sm font-semibold block mb-1 text-primary-text">
+          Prompt {t('Role')} ({t('PromptRoleWarning')})
+        </span>
+        <input name="role" hidden ref={roleRef} value={props.initialData.role ?? 'user'} />
+        <Select
+          options={PROMPT_ROLE_OPTIONS}
+          value={props.initialData.role ?? 'user'}
+          onChange={(value) => roleRef.current && (roleRef.current.value = value)}
+        ></Select>
+      </div>
+      <div className="w-full">
         <span className="text-sm font-semibold block mb-1 text-primary-text">Prompt {t('Content')}</span>
         <Textarea className="w-full" name="prompt" defaultValue={props.initialData.prompt} />
       </div>
@@ -91,7 +116,7 @@ function PromptForm(props: { initialData: Prompt; onSubmit: (data: Prompt) => vo
   )
 }
 
-function LocalPrompts(props: { insertPrompt: (text: string) => void }) {
+function LocalPrompts(props: { insertPrompt: (prompt: Prompt) => void }) {
   const { t } = useTranslation()
   const [formData, setFormData] = useState<Prompt | null>(null)
   const localPromptsQuery = useSWR('local-prompts', () => loadLocalPrompts(), { suspense: true })
@@ -116,7 +141,7 @@ function LocalPrompts(props: { insertPrompt: (text: string) => void }) {
   )
 
   const create = useCallback(() => {
-    setFormData({ id: uuid(), title: '', prompt: '' })
+    setFormData({ id: uuid(), title: '', prompt: '', role: 'user' })
   }, [])
 
   return (
@@ -127,7 +152,7 @@ function LocalPrompts(props: { insertPrompt: (text: string) => void }) {
             <PromptItem
               key={prompt.id}
               title={prompt.title}
-              prompt={prompt.prompt}
+              prompt={prompt}
               edit={() => setFormData(prompt)}
               remove={() => removePrompt(prompt.id)}
               insertPrompt={props.insertPrompt}
@@ -150,7 +175,7 @@ function LocalPrompts(props: { insertPrompt: (text: string) => void }) {
   )
 }
 
-function CommunityPrompts(props: { insertPrompt: (text: string) => void }) {
+function CommunityPrompts(props: { insertPrompt: (prompt: Prompt) => void }) {
   const promptsQuery = useSWR('community-prompts', () => loadRemotePrompts(), { suspense: true })
 
   const copyToLocal = useCallback(async (prompt: Prompt) => {
@@ -164,7 +189,7 @@ function CommunityPrompts(props: { insertPrompt: (text: string) => void }) {
           <PromptItem
             key={index}
             title={prompt.title}
-            prompt={prompt.prompt}
+            prompt={prompt}
             insertPrompt={props.insertPrompt}
             copyToLocal={() => copyToLocal(prompt)}
           />
@@ -189,10 +214,10 @@ function CommunityPrompts(props: { insertPrompt: (text: string) => void }) {
   )
 }
 
-const PromptLibrary = (props: { insertPrompt: (text: string) => void }) => {
+const PromptLibrary = (props: { insertPrompt: (prompt: Prompt) => void }) => {
   const insertPrompt = useCallback(
-    (text: string) => {
-      props.insertPrompt(text)
+    (prompt: Prompt) => {
+      props.insertPrompt(prompt)
       trackEvent('use_prompt')
     },
     [props],
