@@ -20,7 +20,7 @@ export function usePremium() {
       revalidateOnFocus: false,
       fallbackData: LICENSE_KEY_VALIDATED_CACHE,
       onSuccess(data) {
-        if (data) {
+        if (licenseKey) {
           setLicenseKeyValidatedCache(data)
         }
       },
