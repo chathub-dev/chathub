@@ -45,9 +45,9 @@ function PremiumPage() {
         </div>
       )}
       <div className="mt-10 flex flex-col gap-4">
+        <FeatureItem text={t('Chat history full-text search')} />
         <FeatureItem text={t('Cloud syncing data')} comingsoon />
         <FeatureItem text={t('More bots in All-In-One mode')} comingsoon />
-        <FeatureItem text={t('Chat history full-text search')} comingsoon />
         <FeatureItem text={t('Customize theme')} comingsoon />
         <FeatureItem text={t('More in the future')} />
       </div>
