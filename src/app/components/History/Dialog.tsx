@@ -5,6 +5,7 @@ import { CHATBOTS } from '~app/consts'
 import { usePremium } from '~app/hooks/use-premium'
 import Dialog from '../Dialog'
 import HistoryContent from './Content'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   botId: BotId
@@ -14,8 +15,10 @@ interface Props {
 
 const HistoryDialog: FC<Props> = (props) => {
   const botName = useMemo(() => CHATBOTS[props.botId].name, [props.botId])
+  const { t } = useTranslation()
   const premiumState = usePremium()
   const [keyword, setKeyword] = useState('')
+
   return (
     <Dialog
       title={`History conversations with ${botName}`}
@@ -30,7 +33,7 @@ const HistoryDialog: FC<Props> = (props) => {
             <FiSearch size={18} className="mr-[6px] opacity-30" />
             <input
               className="bg-transparent w-full outline-none text-sm"
-              placeholder="Search"
+              placeholder={t('Search')!}
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
             />
