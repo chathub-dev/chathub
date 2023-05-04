@@ -6,7 +6,7 @@ import Button from '~app/components/Button'
 import { trackEvent } from '~app/plausible'
 import { licenseKeyAtom } from '~app/state'
 import checkIcon from '~assets/icons/check.svg'
-import { validateLicenseKey } from '~services/premium'
+import { loadLicenseKeyValidatedCache, setLicenseKeyValidatedCache, validateLicenseKey } from '~services/premium'
 
 const FeatureItem: FC<{ text: string; comingsoon?: boolean }> = ({ text, comingsoon }) => {
   return (
@@ -17,6 +17,8 @@ const FeatureItem: FC<{ text: string; comingsoon?: boolean }> = ({ text, comings
     </div>
   )
 }
+
+const LICENSE_KEY_VALIDATED_CACHE = loadLicenseKeyValidatedCache()
 
 function PremiumPage() {
   const { t } = useTranslation()
@@ -30,7 +32,15 @@ function PremiumPage() {
       }
       return validateLicenseKey(licenseKey)
     },
-    { revalidateOnFocus: false },
+    {
+      revalidateOnFocus: false,
+      fallbackData: LICENSE_KEY_VALIDATED_CACHE,
+      onSuccess(data) {
+        if (licenseKey) {
+          setLicenseKeyValidatedCache(data)
+        }
+      },
+    },
   )
 
   const activateLicense = useCallback(() => {
@@ -79,7 +89,7 @@ function PremiumPage() {
             color="flat"
             className="w-fit py-3 rounded-lg"
             onClick={activateLicense}
-            isLoading={activateQuery.isValidating}
+            isLoading={activateQuery.isLoading}
           />
         </div>
       )}

@@ -12,7 +12,7 @@ async function checkShouldShowRating() {
 
 const RatingModal: FC = () => {
   const { t } = useTranslation()
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     checkShouldShowRating().then((shouldShow) => setOpen(shouldShow))

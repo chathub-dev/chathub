@@ -7,3 +7,15 @@ export async function validateLicenseKey(key: string) {
   })
   return resp.valid
 }
+
+export function loadLicenseKeyValidatedCache() {
+  const value = localStorage.getItem('license_validated_cache')
+  if (value === null) {
+    return undefined
+  }
+  return JSON.parse(value)
+}
+
+export function setLicenseKeyValidatedCache(value: boolean) {
+  localStorage.setItem('license_validated_cache', JSON.stringify(value))
+}
