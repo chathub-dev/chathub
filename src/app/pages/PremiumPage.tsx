@@ -1,12 +1,11 @@
-import { useAtom } from 'jotai'
-import useSWR from 'swr'
+import { useSetAtom } from 'jotai'
 import { FC, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import Button from '~app/components/Button'
+import { usePremium } from '~app/hooks/use-premium'
 import { trackEvent } from '~app/plausible'
 import { licenseKeyAtom } from '~app/state'
 import checkIcon from '~assets/icons/check.svg'
-import { loadLicenseKeyValidatedCache, setLicenseKeyValidatedCache, validateLicenseKey } from '~services/premium'
 
 const FeatureItem: FC<{ text: string; comingsoon?: boolean }> = ({ text, comingsoon }) => {
   return (
@@ -18,30 +17,10 @@ const FeatureItem: FC<{ text: string; comingsoon?: boolean }> = ({ text, comings
   )
 }
 
-const LICENSE_KEY_VALIDATED_CACHE = loadLicenseKeyValidatedCache()
-
 function PremiumPage() {
   const { t } = useTranslation()
-  const [licenseKey, setLicenseKey] = useAtom(licenseKeyAtom)
-
-  const activateQuery = useSWR(
-    `license:${licenseKey}`,
-    async () => {
-      if (!licenseKey) {
-        return false
-      }
-      return validateLicenseKey(licenseKey)
-    },
-    {
-      revalidateOnFocus: false,
-      fallbackData: LICENSE_KEY_VALIDATED_CACHE,
-      onSuccess(data) {
-        if (licenseKey) {
-          setLicenseKeyValidatedCache(data)
-        }
-      },
-    },
-  )
+  const setLicenseKey = useSetAtom(licenseKeyAtom)
+  const premiumState = usePremium()
 
   const activateLicense = useCallback(() => {
     const key = window.prompt('Enter your license key', '')
@@ -53,12 +32,12 @@ function PremiumPage() {
   return (
     <div className="flex flex-col overflow-hidden bg-primary-background dark:text-primary-text rounded-[35px] h-full p-[50px]">
       <h1 className="font-bold text-[40px] leading-none text-primary-text">{t('Premium')}</h1>
-      {!activateQuery.data && (
+      {!premiumState.activated && (
         <p className="bg-[#FAE387] text-[#303030] w-fit rounded-[5px] px-2 py-[4px] text-sm font-semibold mt-9">
           {t('Presale discount')}
         </p>
       )}
-      {!activateQuery.data && (
+      {!premiumState.activated && (
         <div className="flex flex-row items-end mt-5 gap-3">
           <span className="text-[64px] leading-none font-bold text-primary-blue">$15</span>
           <span className="text-[50px] leading-none font-semibold text-secondary-text line-through">$30</span>
@@ -72,7 +51,7 @@ function PremiumPage() {
         <FeatureItem text={t('Customize theme')} comingsoon />
         <FeatureItem text={t('More in the future')} />
       </div>
-      {activateQuery.data ? (
+      {premiumState.activated ? (
         <Button text={t('🎉 License activated')} className="w-fit mt-8" />
       ) : (
         <div className="flex flex-row items-center gap-3 mt-8">
@@ -89,7 +68,7 @@ function PremiumPage() {
             color="flat"
             className="w-fit py-3 rounded-lg"
             onClick={activateLicense}
-            isLoading={activateQuery.isLoading}
+            isLoading={premiumState.isLoading}
           />
         </div>
       )}
