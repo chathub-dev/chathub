@@ -29,11 +29,10 @@ const GeneralChatPanel: FC<{ chats: ReturnType<typeof useChat>[] }> = ({ chats }
   )
 
   return (
-    <div className="flex flex-col overflow-hidden">
+    <div className="flex flex-col overflow-hidden h-full">
       <div
         className={cx(
-          'grid overflow-hidden grow auto-rows-fr',
-          chats.length > 2 ? 'gap-3 mb-3' : 'gap-5 mb-5',
+          'grid overflow-hidden grow auto-rows-fr gap-3 mb-3',
           chats.length === 3 ? 'grid-cols-3' : 'grid-cols-2',
         )}
       >
@@ -53,7 +52,7 @@ const GeneralChatPanel: FC<{ chats: ReturnType<typeof useChat>[] }> = ({ chats }
       </div>
       <ChatMessageInput
         mode="full"
-        className="rounded-[25px] bg-primary-background px-[20px] py-[10px]"
+        className="rounded-[20px] bg-primary-background px-5 py-[10px]"
         disabled={generating}
         placeholder="Send to all ..."
         onSubmit={onUserSendMessage}

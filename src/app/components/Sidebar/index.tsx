@@ -25,7 +25,12 @@ function IconButton(props: { icon: string }) {
 function Sidebar() {
   const [collapsed, setCollapsed] = useAtom(sidebarCollapsedAtom)
   return (
-    <aside className={cx('flex flex-col', collapsed ? 'items-center px-[15px]' : 'w-[230px] px-4')}>
+    <aside
+      className={cx(
+        'flex flex-col bg-primary-background bg-opacity-40',
+        collapsed ? 'items-center px-[15px]' : 'w-[230px] px-4',
+      )}
+    >
       <img
         src={collapseIcon}
         className={cx('w-6 h-6 cursor-pointer my-5', collapsed ? 'rotate-180' : 'self-end')}
