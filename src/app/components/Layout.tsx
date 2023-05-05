@@ -5,7 +5,7 @@ function Layout() {
   return (
     <main className="h-screen grid grid-cols-[auto_1fr] bg-[rgb(var(--color-primary-purple))]">
       <Sidebar />
-      <div className="p-[15px] h-full">
+      <div className="p-[15px] h-full overflow-hidden">
         <Outlet />
       </div>
     </main>
