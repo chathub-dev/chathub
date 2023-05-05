@@ -2,7 +2,7 @@ import { FC } from 'react'
 import premiumIcon from '~assets/icons/premium.svg'
 import { Link } from '@tanstack/react-router'
 
-const PremiumEntry: FC = () => {
+const PremiumEntry: FC<{ text: string }> = ({ text }) => {
   return (
     <Link to="/premium">
       <div
@@ -13,7 +13,7 @@ const PremiumEntry: FC = () => {
         }}
       >
         <img src={premiumIcon} className="w-8 h-8" />
-        <span className="text-white font-semibold text-base">Premium</span>
+        {!!text && <span className="text-white font-semibold text-base">{text}</span>}
       </div>
     </Link>
   )

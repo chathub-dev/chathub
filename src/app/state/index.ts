@@ -22,5 +22,5 @@ export const chatFamily = atomFamily(
 )
 
 export const multiPanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots', ['chatgpt', 'bing', 'claude', 'bard'])
-
 export const licenseKeyAtom = atomWithStorage('licenseKey', '')
+export const sidebarCollapsedAtom = atomWithStorage('sidebarCollapsed', false)
