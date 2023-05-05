@@ -21,6 +21,12 @@ export enum ChatGPTMode {
   Webapp = 'webapp',
 }
 
+export enum MultiPanelLayout {
+  Two = '2',
+  Three = '3',
+  Four = '4',
+}
+
 const userConfigWithDefaultValue = {
   openaiApiKey: '',
   openaiApiHost: 'https://api.openai.com',
@@ -30,6 +36,7 @@ const userConfigWithDefaultValue = {
   chatgptWebappModelName: 'default',
   startupPage: StartupPage.All,
   bingConversationStyle: BingConversationStyle.Balanced,
+  multiPanelLayout: MultiPanelLayout.Two,
 }
 
 export type UserConfig = typeof userConfigWithDefaultValue

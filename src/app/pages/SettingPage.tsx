@@ -12,12 +12,15 @@ import {
   BingConversationStyle,
   ChatGPTMode,
   getUserConfig,
+  MultiPanelLayout,
   StartupPage,
   updateUserConfig,
   UserConfig,
 } from '~services/user-config'
 import { getVersion } from '~utils'
 import PagePanel from '../components/Page'
+import { usePremium } from '~app/hooks/use-premium'
+import { Link } from '@tanstack/react-router'
 
 const BING_STYLE_OPTIONS = [
   { name: 'Precise', value: BingConversationStyle.Precise },
@@ -30,6 +33,7 @@ function SettingPage() {
   const [shortcuts, setShortcuts] = useState<string[]>([])
   const [userConfig, setUserConfig] = useState<UserConfig | undefined>(undefined)
   const [dirty, setDirty] = useState(false)
+  const premiumState = usePremium()
 
   useEffect(() => {
     Browser.commands.getAll().then((commands) => {
@@ -115,6 +119,28 @@ function SettingPage() {
               ]}
               value={userConfig.startupPage}
               onChange={(v) => updateConfigValue({ startupPage: v })}
+            />
+          </div>
+        </div>
+        <div className="flex flex-col gap-1">
+          <p className="font-bold text-xl">
+            {t('All-In-One Mode')}
+            {!premiumState.activated && (
+              <Link to="/premium" className="text-sm font-normal ml-2 underline italic">
+                ({t('Premium Feature')})
+              </Link>
+            )}
+          </p>
+          <div className="w-[200px]">
+            <Select
+              options={[
+                { name: t('Two in one'), value: MultiPanelLayout.Two },
+                { name: t('Three in one'), value: MultiPanelLayout.Three },
+                { name: t('Four in one'), value: MultiPanelLayout.Four },
+              ]}
+              value={userConfig.multiPanelLayout}
+              onChange={(v) => updateConfigValue({ multiPanelLayout: v })}
+              disabled={!premiumState.activated}
             />
           </div>
         </div>

@@ -8,13 +8,14 @@ interface Props<T> {
   value: T
   onChange: (value: T) => void
   size?: 'normal' | 'small'
+  disabled?: boolean
 }
 
 function Select<T extends string>(props: Props<T>) {
-  const { options, value, onChange, size = 'normal' } = props
+  const { options, value, onChange, size = 'normal', disabled } = props
   const selectedName = useMemo(() => options.find((o) => o.value === value)!.name, [options, value])
   return (
-    <Listbox value={value} onChange={onChange}>
+    <Listbox value={value} onChange={onChange} disabled={disabled}>
       {({ open }) => (
         <>
           <div className="relative">
@@ -22,6 +23,7 @@ function Select<T extends string>(props: Props<T>) {
               className={cx(
                 'relative w-full cursor-default rounded-md bg-white pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 leading-6',
                 size === 'normal' ? 'text-sm py-1.5' : 'text-xs py-1',
+                disabled && 'cursor-not-allowed opacity-50',
               )}
             >
               <span className="block truncate">{selectedName}</span>

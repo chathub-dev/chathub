@@ -21,6 +21,6 @@ export const chatFamily = atomFamily(
   (a, b) => a.botId === b.botId && a.page === b.page,
 )
 
-export const compareBotsAtom = atomWithStorage<[BotId, BotId]>('compareBots', ['chatgpt', 'bing'])
+export const multiPanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots', ['chatgpt', 'bing', 'claude', 'bard'])
 
 export const licenseKeyAtom = atomWithStorage('licenseKey', '')
