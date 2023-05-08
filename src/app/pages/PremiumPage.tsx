@@ -49,6 +49,7 @@ function PremiumPage() {
         <FeatureItem text={t('Chat history full-text search')} />
         <FeatureItem text={t('Cloud syncing data')} comingsoon />
         <FeatureItem text={t('Customize theme')} comingsoon />
+        <FeatureItem text={t('Activate up to 5 devices')} />
         <FeatureItem text={t('More in the future')} />
       </div>
       {premiumState.activated ? (

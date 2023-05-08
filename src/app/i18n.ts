@@ -37,6 +37,7 @@ const resources = {
       'Two in one': '二合一',
       'Three in one': '三合一',
       'Four in one': '四合一',
+      'Activate up to 5 devices': '最多可激活5台设备',
     },
   },
   de: {
