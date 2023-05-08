@@ -6,33 +6,79 @@ import { createConversation } from './api'
 import { ChatResponseMessage, ConversationInfo, InvocationEventType } from './types'
 import { convertMessageToMarkdown, websocketUtils } from './utils'
 
-const styleOptionMap: Record<BingConversationStyle, string> = {
-  [BingConversationStyle.Balanced]: 'harmonyv3',
-  [BingConversationStyle.Creative]: 'h3imaginative',
-  [BingConversationStyle.Precise]: 'h3precise',
+const styleOptionsMap: Record<BingConversationStyle, string[]> = {
+  [BingConversationStyle.Balanced]: [
+    'nlu_direct_response_filter',
+    'deepleo',
+    'disable_emoji_spoken_text',
+    'responsible_ai_policy_235',
+    'enablemm',
+    'galileo',
+    'dv3sugg',
+    'responseos',
+    'e2ecachewrite',
+    'cachewriteext',
+    'nodlcpcwrite',
+    'travelansgnd',
+    'nojbfedge',
+  ],
+  [BingConversationStyle.Creative]: [
+    'nlu_direct_response_filter',
+    'deepleo',
+    'disable_emoji_spoken_text',
+    'responsible_ai_policy_235',
+    'enablemm',
+    'h3imaginative',
+    'travelansgnd',
+    'dv3sugg',
+    'clgalileo',
+    'gencontentv3',
+    'dv3sugg',
+    'responseos',
+    'e2ecachewrite',
+    'cachewriteext',
+    'nodlcpcwrite',
+    'travelansgnd',
+    'nojbfedge',
+  ],
+  [BingConversationStyle.Precise]: [
+    'nlu_direct_response_filter',
+    'deepleo',
+    'disable_emoji_spoken_text',
+    'responsible_ai_policy_235',
+    'enablemm',
+    'galileo',
+    'dv3sugg',
+    'responseos',
+    'e2ecachewrite',
+    'cachewriteext',
+    'nodlcpcwrite',
+    'travelansgnd',
+    'h3precise',
+    'clgalileo',
+    'nojbfedge',
+  ],
 }
 
 export class BingWebBot extends AbstractBot {
   private conversationContext?: ConversationInfo
 
   private buildChatRequest(conversation: ConversationInfo, message: string) {
-    const styleOption = styleOptionMap[conversation.conversationStyle]
+    const optionsSets = styleOptionsMap[conversation.conversationStyle]
     return {
       arguments: [
         {
           source: 'cib',
-          optionsSets: [
-            'deepleo',
-            'nlu_direct_response_filter',
-            'disable_emoji_spoken_text',
-            'responsible_ai_policy_235',
-            'enablemm',
-            'dtappid',
-            'rai253',
-            'dv3sugg',
-            styleOption,
+          optionsSets,
+          allowedMessageTypes: [
+            'Chat',
+            'InternalSearchQuery',
+            'Disengaged',
+            'InternalLoaderMessage',
+            'SemanticSerp',
+            'GenerateContentQuery',
+            'SearchQuery',
           ],
-          allowedMessageTypes: ['Chat', 'InternalSearchQuery'],
           isStartOfSession: conversation.invocationId === 0,
           message: {
             author: 'user',
