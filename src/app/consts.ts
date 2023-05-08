@@ -2,6 +2,7 @@ import chatgptLogo from '~/assets/chatgpt-logo.svg'
 import bingLogo from '~/assets/bing-logo.svg'
 import bardLogo from '~/assets/bard-logo.svg'
 import claudeLogo from '~/assets/anthropic-logo.png'
+import xunfeiLogo from '~/assets/xunfei-logo.png'
 import { BotId } from './bots'
 
 export const CHATBOTS: Record<BotId, { name: string; avatar: any }> = {
@@ -20,6 +21,10 @@ export const CHATBOTS: Record<BotId, { name: string; avatar: any }> = {
   claude: {
     name: 'Claude',
     avatar: claudeLogo,
+  },
+  xunfei: {
+    name: '讯飞星火',
+    avatar: xunfeiLogo,
   },
 }
 

@@ -69,6 +69,7 @@
     "inter-ui": "^3.19.3",
     "jotai": "^2.0.2",
     "jotai-immer": "^0.2.0",
+    "js-base64": "^3.7.5",
     "lodash-es": "^4.17.21",
     "lucide-react": "^0.130.0",
     "md5": "^2.3.0",
