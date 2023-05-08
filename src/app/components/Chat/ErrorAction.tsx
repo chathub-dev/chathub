@@ -61,6 +61,13 @@ const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
       </a>
     )
   }
+  if (error.code === ErrorCode.XUNFEI_UNAUTHORIZED) {
+    return (
+      <a href="https://xinghuo.xfyun.cn" target="_blank" rel="noreferrer">
+        <Button color="primary" text="去登录" size="small" />
+      </a>
+    )
+  }
   if (error.code === ErrorCode.CHATGPT_CLOUDFLARE || error.code === ErrorCode.CHATGPT_UNAUTHORIZED) {
     return <ChatGPTAuthErrorAction />
   }
