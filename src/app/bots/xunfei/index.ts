@@ -49,6 +49,8 @@ export class XunfeiBot extends AbstractBot {
       if (message === '<end>') {
         done = true
         params.onEvent({ type: 'DONE' })
+      } else if (message === '<kx>') {
+        throw new ChatError('讯飞无法继续这个话题，请重启会话', ErrorCode.CONVERSATION_LIMIT)
       } else if (!done) {
         const decoded = Base64.decode(message)
         answer += decoded
