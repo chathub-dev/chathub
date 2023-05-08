@@ -77,7 +77,7 @@ function PromptForm(props: { initialData: Prompt; onSubmit: (data: Prompt) => vo
     [props],
   )
   return (
-    <form className="flex flex-col gap-2 w-1/2" onSubmit={onSubmit}>
+    <form className="flex flex-col gap-2 w-full" onSubmit={onSubmit}>
       <div className="w-full">
         <span className="text-sm font-semibold block mb-1 text-primary-text">Prompt {t('Title')}</span>
         <Input className="w-full" name="title" defaultValue={props.initialData.title} />
