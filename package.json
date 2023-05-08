@@ -51,7 +51,7 @@
     "@radix-ui/colors": "^0.1.8",
     "@radix-ui/react-dialog": "^1.0.3",
     "@radix-ui/react-tabs": "^1.0.3",
-    "@radix-ui/react-tooltip": "^1.0.4",
+    "@radix-ui/react-tooltip": "^1.0.5",
     "@tanstack/react-router": "^0.0.1-beta.83",
     "browser-fs-access": "^0.33.0",
     "classnames": "^2.3.2",
