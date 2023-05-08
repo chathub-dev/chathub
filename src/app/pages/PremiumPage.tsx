@@ -29,6 +29,13 @@ function PremiumPage() {
     }
   }, [setLicenseKey])
 
+  const deactivate = useCallback(() => {
+    if (!window.confirm('Are you sure you want to deactivate your license?')) {
+      return
+    }
+    setLicenseKey('')
+  }, [setLicenseKey])
+
   return (
     <div className="flex flex-col overflow-hidden bg-primary-background dark:text-primary-text rounded-[20px] h-full p-[50px]">
       <h1 className="font-bold text-[40px] leading-none text-primary-text">{t('Premium')}</h1>
@@ -53,7 +60,7 @@ function PremiumPage() {
         <FeatureItem text={t('More in the future')} />
       </div>
       {premiumState.activated ? (
-        <Button text={t('🎉 License activated')} className="w-fit mt-8" />
+        <Button text={t('🎉 License activated')} className="w-fit mt-8" onClick={deactivate} />
       ) : (
         <div className="flex flex-row items-center gap-3 mt-8">
           <a
