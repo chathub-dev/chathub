@@ -63,7 +63,7 @@
     "github-markdown-css": "^5.2.0",
     "gpt3-tokenizer": "^1.1.5",
     "highlight.js": "^11.7.0",
-    "i18next": "^22.4.12",
+    "i18next": "^22.4.15",
     "i18next-browser-languagedetector": "^7.0.1",
     "immer": "^9.0.19",
     "inter-ui": "^3.19.3",
