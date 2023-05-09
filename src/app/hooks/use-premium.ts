@@ -1,5 +1,5 @@
 import { useAtomValue } from 'jotai'
-import useSWR from 'swr'
+import useSWRImmutable from 'swr/immutable'
 import { licenseKeyAtom } from '~app/state'
 import { loadLicenseKeyValidatedCache, setLicenseKeyValidatedCache, validateLicenseKey } from '~services/premium'
 
@@ -8,7 +8,7 @@ const LICENSE_KEY_VALIDATED_CACHE = loadLicenseKeyValidatedCache()
 export function usePremium() {
   const licenseKey = useAtomValue(licenseKeyAtom)
 
-  const activateQuery = useSWR(
+  const activateQuery = useSWRImmutable(
     `license:${licenseKey}`,
     async () => {
       if (!licenseKey) {
@@ -22,7 +22,6 @@ export function usePremium() {
       }
     },
     {
-      revalidateOnFocus: false,
       fallbackData: LICENSE_KEY_VALIDATED_CACHE,
       onSuccess(data) {
         if (licenseKey) {
