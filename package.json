@@ -19,7 +19,7 @@
     "@types/md5": "^2.3.2",
     "@types/react": "^18.0.28",
     "@types/react-copy-to-clipboard": "^5.0.4",
-    "@types/react-dom": "^18.0.11",
+    "@types/react-dom": "^18.2.4",
     "@types/react-scroll-to-bottom": "^4.2.0",
     "@types/uuid": "^9.0.0",
     "@types/webextension-polyfill": "^0.10.0",
