@@ -14,7 +14,12 @@ export function usePremium() {
       if (!licenseKey) {
         return false
       }
-      return validateLicenseKey(licenseKey)
+      try {
+        return await validateLicenseKey(licenseKey)
+      } catch (err) {
+        console.error(err)
+        return false
+      }
     },
     {
       revalidateOnFocus: false,
