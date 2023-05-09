@@ -98,7 +98,7 @@
     "remark-parse": "^10.0.1",
     "remark-rehype": "^10.1.0",
     "remark-supersub": "^1.0.0",
-    "swr": "^2.1.0",
+    "swr": "^2.1.5",
     "unified": "^10.1.2",
     "use-immer": "^0.8.1",
     "uuid": "^9.0.0",
