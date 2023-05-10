@@ -1,6 +1,8 @@
 import { useAtom } from 'jotai'
+import { ofetch } from 'ofetch'
 import { FC, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import useImmutableSWR from 'swr/immutable'
 import Button from '~app/components/Button'
 import { usePremium } from '~app/hooks/use-premium'
 import { trackEvent } from '~app/plausible'
@@ -23,6 +25,11 @@ function PremiumPage() {
   const [licenseKey, setLicenseKey] = useAtom(licenseKeyAtom)
   const premiumState = usePremium()
   const [deactivating, setDeactivating] = useState(false)
+
+  const priceQuery = useImmutableSWR('premium-price', async () => {
+    const product = await ofetch('https://chathub.gg/api/premium/product')
+    return product.price / 100
+  })
 
   const activateLicense = useCallback(() => {
     const key = window.prompt('Enter your license key', '')
@@ -54,7 +61,9 @@ function PremiumPage() {
       )}
       {!premiumState.activated && (
         <div className="flex flex-row items-end mt-5 gap-3">
-          <span className="text-[64px] leading-none font-bold text-primary-blue">$15</span>
+          <span className="text-[64px] leading-none font-bold text-primary-blue">
+            {priceQuery.data ? `$${priceQuery.data}` : '$$$'}
+          </span>
           <span className="text-[50px] leading-none font-semibold text-secondary-text line-through">$30</span>
           <span className="text-secondary-text font-semibold pb-1">/ Lifetime license</span>
         </div>
