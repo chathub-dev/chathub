@@ -19,7 +19,7 @@ export async function deactivateLicenseKey(key: string) {
   localStorage.removeItem('license_validated_cache')
 }
 
-export function loadLicenseKeyValidatedCache() {
+export function loadLicenseKeyValidatedCache(): boolean | undefined {
   const value = localStorage.getItem('license_validated_cache')
   if (value === null) {
     return undefined

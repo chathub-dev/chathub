@@ -8,7 +8,7 @@ const LICENSE_KEY_VALIDATED_CACHE = loadLicenseKeyValidatedCache()
 export function usePremium() {
   const licenseKey = useAtomValue(licenseKeyAtom)
 
-  const activateQuery = useSWR(
+  const activateQuery = useSWR<{ valid: boolean }>(
     `license:${licenseKey}`,
     async () => {
       if (!licenseKey) {
@@ -22,7 +22,7 @@ export function usePremium() {
       }
     },
     {
-      fallbackData: LICENSE_KEY_VALIDATED_CACHE,
+      fallbackData: LICENSE_KEY_VALIDATED_CACHE === undefined ? undefined : { valid: LICENSE_KEY_VALIDATED_CACHE },
       revalidateOnFocus: false,
       onSuccess(data) {
         if (licenseKey) {
@@ -33,7 +33,7 @@ export function usePremium() {
   )
 
   return {
-    activated: activateQuery.data.valid,
+    activated: activateQuery.data?.valid,
     isLoading: activateQuery.isLoading,
   }
 }
