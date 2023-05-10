@@ -44,15 +44,21 @@ export class ChatGPTApiBot extends AbstractBot {
       }),
     })
 
+    let done = false
     const result: ChatMessage = { role: 'assistant', content: '' }
+
+    const finish = () => {
+      done = true
+      params.onEvent({ type: 'DONE' })
+      const messages = this.conversationContext!.messages
+      messages.push(result)
+      updateTokenUsage(messages).catch(console.error)
+    }
 
     await parseSSEResponse(resp, (message) => {
       console.debug('chatgpt sse message', message)
       if (message === '[DONE]') {
-        params.onEvent({ type: 'DONE' })
-        const messages = this.conversationContext!.messages
-        messages.push(result)
-        updateTokenUsage(messages).catch(console.error)
+        finish()
         return
       }
       let data
@@ -73,6 +79,10 @@ export class ChatGPTApiBot extends AbstractBot {
         }
       }
     })
+
+    if (!done) {
+      finish()
+    }
   }
 
   resetConversation() {
