@@ -38,6 +38,8 @@ const resources = {
       'Three in one': '三合一',
       'Four in one': '四合一',
       'Activate up to 5 devices': '最多可激活5台设备',
+      Deactivate: '反激活',
+      'Get premium license': '购买 premium license',
     },
   },
   de: {

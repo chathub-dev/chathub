@@ -1,11 +1,12 @@
-import { useSetAtom } from 'jotai'
-import { FC, useCallback } from 'react'
+import { useAtom } from 'jotai'
+import { FC, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Button from '~app/components/Button'
 import { usePremium } from '~app/hooks/use-premium'
 import { trackEvent } from '~app/plausible'
 import { licenseKeyAtom } from '~app/state'
 import checkIcon from '~assets/icons/check.svg'
+import { deactivateLicenseKey } from '~services/premium'
 
 const FeatureItem: FC<{ text: string; comingsoon?: boolean }> = ({ text, comingsoon }) => {
   return (
@@ -19,8 +20,9 @@ const FeatureItem: FC<{ text: string; comingsoon?: boolean }> = ({ text, comings
 
 function PremiumPage() {
   const { t } = useTranslation()
-  const setLicenseKey = useSetAtom(licenseKeyAtom)
+  const [licenseKey, setLicenseKey] = useAtom(licenseKeyAtom)
   const premiumState = usePremium()
+  const [deactivating, setDeactivating] = useState(false)
 
   const activateLicense = useCallback(() => {
     const key = window.prompt('Enter your license key', '')
@@ -28,6 +30,19 @@ function PremiumPage() {
       setLicenseKey(key)
     }
   }, [setLicenseKey])
+
+  const deactivateLicense = useCallback(async () => {
+    if (!licenseKey) {
+      return
+    }
+    if (!window.confirm('Are you sure to deactivate this device?')) {
+      return
+    }
+    setDeactivating(true)
+    await deactivateLicenseKey(licenseKey)
+    setLicenseKey('')
+    setTimeout(() => location.reload(), 500)
+  }, [licenseKey, setLicenseKey])
 
   return (
     <div className="flex flex-col overflow-hidden bg-primary-background dark:text-primary-text rounded-[20px] h-full p-[50px]">
@@ -53,7 +68,10 @@ function PremiumPage() {
         <FeatureItem text={t('More in the future')} />
       </div>
       {premiumState.activated ? (
-        <Button text={t('🎉 License activated')} className="w-fit mt-8" />
+        <div className="flex flex-row items-center gap-3 mt-8">
+          <Button text={t('🎉 License activated')} color="primary" className="w-fit" />
+          <Button text={t('Deactivate')} className="w-fit" onClick={deactivateLicense} isLoading={deactivating} />
+        </div>
       ) : (
         <div className="flex flex-row items-center gap-3 mt-8">
           <a
