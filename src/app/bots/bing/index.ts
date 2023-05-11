@@ -136,8 +136,11 @@ export class BingWebBot extends AbstractBot {
       unpackMessage: websocketUtils.unpackMessage,
     })
 
+    let receivedAnswer = false
+
     wsp.onUnpackedMessage.addListener((events) => {
       for (const event of events) {
+        console.debug('bing ws event', event)
         if (JSON.stringify(event) === '{}') {
           wsp.sendPacked({ type: 6 })
           wsp.sendPacked(this.buildChatRequest(conversation, params.prompt))
@@ -149,8 +152,12 @@ export class BingWebBot extends AbstractBot {
           wsp.removeAllListeners()
           wsp.close()
         } else if (event.type === 1) {
-          const text = convertMessageToMarkdown(event.arguments[0].messages[0])
-          params.onEvent({ type: 'UPDATE_ANSWER', data: { text } })
+          const messages = event.arguments[0].messages
+          if (messages) {
+            receivedAnswer = true
+            const text = convertMessageToMarkdown(messages[0])
+            params.onEvent({ type: 'UPDATE_ANSWER', data: { text } })
+          }
         } else if (event.type === 2) {
           const messages = event.item.messages as ChatResponseMessage[]
           const limited = messages.some((message) => message.contentOrigin === 'TurnLimiter')
@@ -162,6 +169,16 @@ export class BingWebBot extends AbstractBot {
                 ErrorCode.CONVERSATION_LIMIT,
               ),
             })
+          } else if (!receivedAnswer) {
+            const message = event.item.messages[event.item.firstNewMessageIndex] as ChatResponseMessage
+            if (message) {
+              receivedAnswer = true
+              const text = convertMessageToMarkdown(message)
+              params.onEvent({
+                type: 'UPDATE_ANSWER',
+                data: { text },
+              })
+            }
           }
         }
       }
