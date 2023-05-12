@@ -26,3 +26,4 @@ export const multiPanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots', ['c
 export const licenseKeyAtom = atomWithStorage('licenseKey', '')
 export const sidebarCollapsedAtom = atomWithStorage('sidebarCollapsed', false)
 export const themeColorAtom = atomWithStorage('themeColor', getDefaultThemeColor())
+export const followArcThemeAtom = atomWithStorage('followArcTheme', false)
