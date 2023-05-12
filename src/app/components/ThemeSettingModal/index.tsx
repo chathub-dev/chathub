@@ -52,7 +52,12 @@ const ThemeSettingModal: FC<Props> = (props) => {
   )
 
   return (
-    <Dialog title={t('Theme Settings')} open={props.open} onClose={props.onClose} className="rounded-xl w-[600px]">
+    <Dialog
+      title={t('Theme Settings')}
+      open={props.open}
+      onClose={props.onClose}
+      className="rounded-xl w-[600px] min-h-[300px]"
+    >
       <div className="p-5 pb-10 flex flex-col gap-5">
         <div className="w-[300px]">
           <p className="font-bold text-lg mb-3">{t('Theme Mode')}</p>
