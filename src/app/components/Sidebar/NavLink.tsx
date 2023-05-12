@@ -12,7 +12,7 @@ function NavLink(props: LinkPropsOptions & { text: string; icon: any; iconOnly?:
       activeOptions={{ exact: true }}
       activeProps={{ className: 'bg-white text-primary-text dark:bg-primary-blue' }}
       inactiveProps={{
-        className: 'bg-secondary bg-opacity-20 text-white opacity-90 hover:opacity-100',
+        className: 'bg-secondary bg-opacity-20 text-primary-text opacity-80 hover:opacity-100',
       }}
       title={text}
       {...linkProps}

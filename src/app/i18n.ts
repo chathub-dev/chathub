@@ -40,6 +40,9 @@ const resources = {
       'Activate up to 5 devices': '最多可激活5台设备',
       Deactivate: '反激活',
       'Get premium license': '购买 premium license',
+      'Theme Settings': '主题设置',
+      'Theme Mode': '主题模式',
+      'Theme Color': '主题色',
     },
   },
   de: {
