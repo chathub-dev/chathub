@@ -5,6 +5,7 @@ import allInOneIcon from '~/assets/all-in-one.svg'
 import collapseIcon from '~/assets/icons/collapse.svg'
 import feedbackIcon from '~/assets/icons/feedback.svg'
 import settingIcon from '~/assets/icons/setting.svg'
+import themeIcon from '~/assets/icons/theme.svg'
 import logo from '~/assets/logo.svg'
 import minimalLogo from '~/assets/minimal-logo.svg'
 import { CHATBOTS } from '~app/consts'
@@ -13,10 +14,15 @@ import CommandBar from '../CommandBar'
 import RatingModal from '../RatingModal'
 import NavLink from './NavLink'
 import PremiumEntry from './PremiumEntry'
+import ThemeSettingModal from '../ThemeSettingModal'
+import { useState } from 'react'
 
-function IconButton(props: { icon: string }) {
+function IconButton(props: { icon: string; onClick?: () => void }) {
   return (
-    <div className="p-[6px] rounded-[10px] w-fit cursor-pointer hover:opacity-80 bg-secondary dark:bg-transparent bg-opacity-20">
+    <div
+      className="p-[6px] rounded-[10px] w-fit cursor-pointer hover:opacity-80 bg-secondary dark:bg-transparent bg-opacity-20"
+      onClick={props.onClick}
+    >
       <img src={props.icon} className="w-6 h-6" />
     </div>
   )
@@ -24,6 +30,7 @@ function IconButton(props: { icon: string }) {
 
 function Sidebar() {
   const [collapsed, setCollapsed] = useAtom(sidebarCollapsedAtom)
+  const [themeSettingModalOpen, setThemeSettingModalOpen] = useState(false)
   return (
     <aside
       className={cx(
@@ -64,10 +71,12 @@ function Sidebar() {
           <Link to="/setting">
             <IconButton icon={settingIcon} />
           </Link>
+          <IconButton icon={themeIcon} onClick={() => setThemeSettingModalOpen(true)} />
         </div>
       </div>
       <CommandBar />
       <RatingModal />
+      {themeSettingModalOpen && <ThemeSettingModal open={true} onClose={() => setThemeSettingModalOpen(false)} />}
     </aside>
   )
 }
