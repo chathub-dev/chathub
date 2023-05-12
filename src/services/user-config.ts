@@ -1,14 +1,6 @@
 import { defaults } from 'lodash-es'
 import Browser from 'webextension-polyfill'
-import { CHATGPT_API_MODELS } from '~app/consts'
-
-export enum StartupPage {
-  All = 'all',
-  ChatGPT = 'chatgpt',
-  Bing = 'bing',
-  Bard = 'bard',
-  Claude = 'claude',
-}
+import { ALL_IN_ONE_PAGE_ID, CHATGPT_API_MODELS } from '~app/consts'
 
 export enum BingConversationStyle {
   Creative = 'creative',
@@ -34,7 +26,7 @@ const userConfigWithDefaultValue = {
   chatgptApiTemperature: 1,
   chatgptMode: ChatGPTMode.Webapp,
   chatgptWebappModelName: 'default',
-  startupPage: StartupPage.All,
+  startupPage: ALL_IN_ONE_PAGE_ID,
   bingConversationStyle: BingConversationStyle.Balanced,
   multiPanelLayout: MultiPanelLayout.Two,
 }

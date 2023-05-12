@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { useCallback, useEffect, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
@@ -7,20 +8,19 @@ import Button from '~app/components/Button'
 import Select from '~app/components/Select'
 import ChatGPTAPISettings from '~app/components/Settings/ChatGPTAPISettings'
 import KDB from '~app/components/Settings/KDB'
+import { ALL_IN_ONE_PAGE_ID, CHATBOTS } from '~app/consts'
+import { usePremium } from '~app/hooks/use-premium'
 import { exportData, importData } from '~app/utils/export'
 import {
   BingConversationStyle,
   ChatGPTMode,
-  getUserConfig,
   MultiPanelLayout,
-  StartupPage,
-  updateUserConfig,
   UserConfig,
+  getUserConfig,
+  updateUserConfig,
 } from '~services/user-config'
 import { getVersion } from '~utils'
 import PagePanel from '../components/Page'
-import { usePremium } from '~app/hooks/use-premium'
-import { Link } from '@tanstack/react-router'
 
 const BING_STYLE_OPTIONS = [
   { name: 'Precise', value: BingConversationStyle.Precise },
@@ -111,11 +111,8 @@ function SettingPage() {
           <div className="w-[200px]">
             <Select
               options={[
-                { name: 'All-In-One', value: StartupPage.All },
-                { name: 'ChatGPT', value: StartupPage.ChatGPT },
-                { name: 'Bing', value: StartupPage.Bing },
-                { name: 'Bard', value: StartupPage.Bard },
-                { name: 'Claude', value: StartupPage.Claude },
+                { name: 'All-In-One', value: ALL_IN_ONE_PAGE_ID },
+                ...Object.entries(CHATBOTS).map(([botId, bot]) => ({ name: bot.name, value: botId })),
               ]}
               value={userConfig.startupPage}
               onChange={(v) => updateConfigValue({ startupPage: v })}
