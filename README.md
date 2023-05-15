@@ -82,6 +82,22 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 
 ## 📜 Changelog
 
+### v1.16.0
+
+- Add custom theme setting
+
+### v1.15.0
+
+- Add Xunfei Spark bot
+
+### v1.14.0
+
+- Support more bots in all-in-one mode for premium users
+
+### v1.12.0
+
+- Add premium license
+
 ### v1.11.0
 
 - Support Claude (via Poe)
