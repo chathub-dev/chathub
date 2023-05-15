@@ -3,8 +3,7 @@ import { requestHostPermission } from '~app/utils/permissions'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
 import { GRAPHQL_QUERIES, PoeSettings, getChatId, getPoeSettings, gqlRequest } from './api'
 import { ChatError, ErrorCode } from '~utils/errors'
-
-const BOT_ID = 'a2' // Claude-instant
+import { getUserConfig } from '~services/user-config'
 
 interface ChatMessage {
   id: string
@@ -27,6 +26,7 @@ interface WebsocketMessage {
 
 interface ConversationContext {
   poeSettings: PoeSettings
+  botId: string // bot model id
   chatId: number // user specific chat id for the bot
   wsp: WebSocketAsPromised
 }
@@ -44,10 +44,12 @@ export class PoeWebBot extends AbstractBot {
     }
 
     if (!this.conversationContext) {
-      const { poeSettings, chatId } = await this.getChatInfo()
+      const { poeModel: botId } = await getUserConfig()
+      console.log('Using poe model', botId)
+      const { poeSettings, chatId } = await this.getChatInfo(botId)
       const wsp = await this.connectWebsocket(poeSettings)
       await this.subscribe(poeSettings)
-      this.conversationContext = { chatId, poeSettings, wsp }
+      this.conversationContext = { botId, chatId, poeSettings, wsp }
     }
 
     const wsp = this.conversationContext.wsp
@@ -72,9 +74,15 @@ export class PoeWebBot extends AbstractBot {
     }
 
     wsp.onUnpackedMessage.addListener(onUnpackedMessageListener)
-
     await wsp.open()
-    await this.sendMessageRequest(params.prompt)
+
+    try {
+      await this.sendMessageRequest(params.prompt)
+    } catch (err) {
+      wsp.removeAllListeners()
+      wsp.close()
+      throw err
+    }
   }
 
   resetConversation() {
@@ -88,18 +96,18 @@ export class PoeWebBot extends AbstractBot {
     this.conversationContext = undefined
   }
 
-  private async getChatInfo() {
+  private async getChatInfo(botId: string) {
     const poeSettings = await getPoeSettings()
-    const chatId = await getChatId(BOT_ID, poeSettings)
+    const chatId = await getChatId(botId, poeSettings)
     return { poeSettings, chatId }
   }
 
   private async sendMessageRequest(message: string) {
-    const { poeSettings, chatId } = this.conversationContext!
-    await gqlRequest(
+    const { poeSettings, botId, chatId } = this.conversationContext!
+    const resp = await gqlRequest(
       'SendMessageMutation',
       {
-        bot: BOT_ID,
+        bot: botId,
         chatId,
         query: message,
         source: null,
@@ -107,6 +115,9 @@ export class PoeWebBot extends AbstractBot {
       },
       poeSettings,
     )
+    if (!resp.data.messageEdgeCreate.message) {
+      throw new Error('You’ve reached the daily free message limit for this model')
+    }
   }
 
   private async sendChatBreak() {

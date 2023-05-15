@@ -23,6 +23,7 @@ const resources = {
       Title: '标题',
       Content: '内容',
       Search: '搜索',
+      Model: '模型',
       'Presale discount': '预售折扣',
       'Cloud syncing data': '数据云同步',
       'More bots in All-In-One mode': '在All-In-One模式下使用更多chatbot',

@@ -15,6 +15,7 @@ import {
   BingConversationStyle,
   ChatGPTMode,
   MultiPanelLayout,
+  PoeModel,
   UserConfig,
   getUserConfig,
   updateUserConfig,
@@ -26,6 +27,12 @@ const BING_STYLE_OPTIONS = [
   { name: 'Precise', value: BingConversationStyle.Precise },
   { name: 'Balanced', value: BingConversationStyle.Balanced },
   { name: 'Creative', value: BingConversationStyle.Creative },
+]
+
+const POE_MODEL_OPTIONS = [
+  { name: 'Claude-Instant', value: PoeModel.ClaudeInstant },
+  { name: 'Claude+', value: PoeModel.ClaudePlus },
+  { name: 'Claude-instant-100k', value: PoeModel.ClaudeInstant100k },
 ]
 
 function SettingPage() {
@@ -163,8 +170,8 @@ function SettingPage() {
           {userConfig.chatgptMode === ChatGPTMode.API ? (
             <ChatGPTAPISettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
           ) : (
-            <div className="flex flex-col gap-1 w-[200px]">
-              <p className="font-medium text-sm">Model</p>
+            <div className="flex flex-col gap-1 w-[250px]">
+              <p className="font-medium text-sm">{t('Model')}</p>
               <Select
                 options={[
                   { name: 'Default', value: 'default' },
@@ -178,13 +185,26 @@ function SettingPage() {
         </div>
         <div className="flex flex-col gap-1">
           <p className="font-bold text-xl">Bing</p>
-          <div className="flex flex-row gap-3 items-center">
+          <div className="flex flex-row gap-3 items-center justify-between w-[250px]">
             <p className="font-medium text-base">{t('Conversation style')}</p>
             <div className="w-[150px]">
               <Select
                 options={BING_STYLE_OPTIONS}
                 value={userConfig.bingConversationStyle}
                 onChange={(v) => updateConfigValue({ bingConversationStyle: v })}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col gap-1">
+          <p className="font-bold text-xl">Claude</p>
+          <div className="flex flex-row gap-3 items-center justify-between w-[250px]">
+            <p className="font-medium text-base">{t('Model')}</p>
+            <div className="w-[200px]">
+              <Select
+                options={POE_MODEL_OPTIONS}
+                value={userConfig.poeModel}
+                onChange={(v) => updateConfigValue({ poeModel: v })}
               />
             </div>
           </div>

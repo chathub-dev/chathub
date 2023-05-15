@@ -19,6 +19,12 @@ export enum MultiPanelLayout {
   Four = '4',
 }
 
+export enum PoeModel {
+  ClaudeInstant = 'a2',
+  ClaudePlus = 'a2_2',
+  ClaudeInstant100k = 'a2_100k',
+}
+
 const userConfigWithDefaultValue = {
   openaiApiKey: '',
   openaiApiHost: 'https://api.openai.com',
@@ -29,6 +35,7 @@ const userConfigWithDefaultValue = {
   startupPage: ALL_IN_ONE_PAGE_ID,
   bingConversationStyle: BingConversationStyle.Balanced,
   multiPanelLayout: MultiPanelLayout.Two,
+  poeModel: PoeModel.ClaudePlus,
 }
 
 export type UserConfig = typeof userConfigWithDefaultValue
