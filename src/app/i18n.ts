@@ -8,7 +8,7 @@ const resources = {
       'Shortcut to open this app': '打开ChatHub的快捷键',
       Settings: '设置',
       'Startup page': '启动页面',
-      'Conversation style': '会话风格',
+      'Chat style': '会话风格',
       'Change shortcut': '修改快捷键',
       Save: '保存',
       Saved: '已保存',

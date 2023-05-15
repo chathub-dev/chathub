@@ -186,7 +186,7 @@ function SettingPage() {
         <div className="flex flex-col gap-1">
           <p className="font-bold text-xl">Bing</p>
           <div className="flex flex-row gap-3 items-center justify-between w-[250px]">
-            <p className="font-medium text-base">{t('Conversation style')}</p>
+            <p className="font-medium text-base">{t('Chat style')}</p>
             <div className="w-[150px]">
               <Select
                 options={BING_STYLE_OPTIONS}
