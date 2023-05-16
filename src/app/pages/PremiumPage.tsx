@@ -1,6 +1,7 @@
 import { useAtom } from 'jotai'
 import { ofetch } from 'ofetch'
 import { FC, useCallback, useState } from 'react'
+import { Toaster } from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
 import useImmutableSWR from 'swr/immutable'
 import Button from '~app/components/Button'
@@ -100,6 +101,7 @@ function PremiumPage() {
           />
         </div>
       )}
+      <Toaster position="top-right" />
     </div>
   )
 }

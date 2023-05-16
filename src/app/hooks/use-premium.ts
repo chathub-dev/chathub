@@ -1,4 +1,6 @@
 import { useAtomValue } from 'jotai'
+import { FetchError } from 'ofetch'
+import { toast } from 'react-hot-toast'
 import useSWR from 'swr'
 import { licenseKeyAtom } from '~app/state'
 import { loadLicenseKeyValidatedCache, setLicenseKeyValidatedCache, validateLicenseKey } from '~services/premium'
@@ -18,6 +20,9 @@ export function usePremium() {
         return await validateLicenseKey(licenseKey)
       } catch (err) {
         console.error(err)
+        if (err instanceof FetchError && err.data.error) {
+          toast.error(err.data.error)
+        }
         return { valid: false }
       }
     },
