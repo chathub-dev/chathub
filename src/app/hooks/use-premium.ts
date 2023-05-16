@@ -29,6 +29,7 @@ export function usePremium() {
     {
       fallbackData: LICENSE_KEY_VALIDATED_CACHE === undefined ? undefined : { valid: LICENSE_KEY_VALIDATED_CACHE },
       revalidateOnFocus: false,
+      dedupingInterval: 10 * 60 * 1000,
       onSuccess(data) {
         if (licenseKey) {
           setLicenseKeyValidatedCache(data.valid)
