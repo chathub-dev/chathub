@@ -1,5 +1,4 @@
 import { ThemeMode } from '~services/theme'
-import tinycolor from 'tinycolor2'
 
 const COLOR_SCHEME_QUERY = '(prefers-color-scheme: dark)'
 
@@ -49,10 +48,7 @@ function applyThemeMode(mode: ThemeMode) {
 }
 
 function getDefaultThemeColor() {
-  const color = getComputedStyle(document.documentElement).getPropertyValue('--color-primary-purple')
-  const [r, g, b] = color.split(' ')
-  const c = tinycolor({ r, g, b })
-  return c.toHexString()
+  return isSystemDarkMode() ? '#39298D' : '#6756BD'
 }
 
 export { applyThemeMode, getDefaultThemeColor }
