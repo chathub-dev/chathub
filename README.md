@@ -76,6 +76,10 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 
 ## 📜 Changelog
 
+### v1.16.5
+
+- Add Azure OpenAI service support
+
 ### v1.16.0
 
 - Add custom theme setting
