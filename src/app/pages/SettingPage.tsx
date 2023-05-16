@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { useCallback, useEffect, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
@@ -7,17 +8,21 @@ import Button from '~app/components/Button'
 import Select from '~app/components/Select'
 import ChatGPTAPISettings from '~app/components/Settings/ChatGPTAPISettings'
 import KDB from '~app/components/Settings/KDB'
+import { ALL_IN_ONE_PAGE_ID, CHATBOTS } from '~app/consts'
+import { usePremium } from '~app/hooks/use-premium'
 import { exportData, importData } from '~app/utils/export'
 import {
   BingConversationStyle,
   ChatGPTMode,
-  getUserConfig,
-  StartupPage,
-  updateUserConfig,
+  MultiPanelLayout,
+  PoeModel,
   UserConfig,
+  getUserConfig,
+  updateUserConfig,
 } from '~services/user-config'
 import { getVersion } from '~utils'
 import PagePanel from '../components/Page'
+import ChatGPTAzureSettings from '~app/components/Settings/ChatGPTAzureSettings'
 
 const BING_STYLE_OPTIONS = [
   { name: 'Precise', value: BingConversationStyle.Precise },
@@ -25,11 +30,18 @@ const BING_STYLE_OPTIONS = [
   { name: 'Creative', value: BingConversationStyle.Creative },
 ]
 
+const POE_MODEL_OPTIONS = [
+  { name: 'Claude-Instant', value: PoeModel.ClaudeInstant },
+  { name: 'Claude+', value: PoeModel.ClaudePlus },
+  { name: 'Claude-instant-100k', value: PoeModel.ClaudeInstant100k },
+]
+
 function SettingPage() {
   const { t } = useTranslation()
   const [shortcuts, setShortcuts] = useState<string[]>([])
   const [userConfig, setUserConfig] = useState<UserConfig | undefined>(undefined)
   const [dirty, setDirty] = useState(false)
+  const premiumState = usePremium()
 
   useEffect(() => {
     Browser.commands.getAll().then((commands) => {
@@ -107,20 +119,39 @@ function SettingPage() {
           <div className="w-[200px]">
             <Select
               options={[
-                { name: 'All-In-One', value: StartupPage.All },
-                { name: 'ChatGPT', value: StartupPage.ChatGPT },
-                { name: 'Bing', value: StartupPage.Bing },
-                { name: 'Bard', value: StartupPage.Bard },
-                { name: 'Claude', value: StartupPage.Claude },
+                { name: 'All-In-One', value: ALL_IN_ONE_PAGE_ID },
+                ...Object.entries(CHATBOTS).map(([botId, bot]) => ({ name: bot.name, value: botId })),
               ]}
               value={userConfig.startupPage}
               onChange={(v) => updateConfigValue({ startupPage: v })}
             />
           </div>
         </div>
+        <div className="flex flex-col gap-1">
+          <p className="font-bold text-xl">
+            {t('All-In-One Mode')}
+            {!premiumState.activated && (
+              <Link to="/premium" className="text-sm font-normal ml-2 underline italic">
+                ({t('Premium Feature')})
+              </Link>
+            )}
+          </p>
+          <div className="w-[200px]">
+            <Select
+              options={[
+                { name: t('Two in one'), value: MultiPanelLayout.Two },
+                { name: t('Three in one'), value: MultiPanelLayout.Three },
+                { name: t('Four in one'), value: MultiPanelLayout.Four },
+              ]}
+              value={userConfig.multiPanelLayout}
+              onChange={(v) => updateConfigValue({ multiPanelLayout: v })}
+              disabled={!premiumState.activated}
+            />
+          </div>
+        </div>
         <div className="flex flex-col gap-2">
           <p className="font-bold text-xl">ChatGPT</p>
-          <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10 mb-1">
+          <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-4 mb-1">
             {(Object.keys(ChatGPTMode) as (keyof typeof ChatGPTMode)[]).map((k) => (
               <div className="flex items-center" key={k}>
                 <input
@@ -131,7 +162,7 @@ function SettingPage() {
                   value={ChatGPTMode[k]}
                   onChange={(e) => updateConfigValue({ chatgptMode: e.currentTarget.value as ChatGPTMode })}
                 />
-                <label htmlFor={k} className="ml-3 block text-sm font-medium leading-6">
+                <label htmlFor={k} className="ml-2 block text-sm font-medium leading-6">
                   {k} Mode
                 </label>
               </div>
@@ -139,9 +170,11 @@ function SettingPage() {
           </div>
           {userConfig.chatgptMode === ChatGPTMode.API ? (
             <ChatGPTAPISettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
+          ) : userConfig.chatgptMode === ChatGPTMode.Azure ? (
+            <ChatGPTAzureSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
           ) : (
-            <div className="flex flex-col gap-1 w-[200px]">
-              <p className="font-medium text-sm">Model</p>
+            <div className="flex flex-col gap-1 w-[250px]">
+              <p className="font-medium text-sm">{t('Model')}</p>
               <Select
                 options={[
                   { name: 'Default', value: 'default' },
@@ -155,13 +188,26 @@ function SettingPage() {
         </div>
         <div className="flex flex-col gap-1">
           <p className="font-bold text-xl">Bing</p>
-          <div className="flex flex-row gap-3 items-center">
-            <p className="font-medium text-base">{t('Conversation style')}</p>
+          <div className="flex flex-row gap-3 items-center justify-between w-[250px]">
+            <p className="font-medium text-base">{t('Chat style')}</p>
             <div className="w-[150px]">
               <Select
                 options={BING_STYLE_OPTIONS}
                 value={userConfig.bingConversationStyle}
                 onChange={(v) => updateConfigValue({ bingConversationStyle: v })}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col gap-1">
+          <p className="font-bold text-xl">Claude</p>
+          <div className="flex flex-row gap-3 items-center justify-between w-[250px]">
+            <p className="font-medium text-base">{t('Model')}</p>
+            <div className="w-[200px]">
+              <Select
+                options={POE_MODEL_OPTIONS}
+                value={userConfig.poeModel}
+                onChange={(v) => updateConfigValue({ poeModel: v })}
               />
             </div>
           </div>

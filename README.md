@@ -19,8 +19,8 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 
 ### Install
 
-<a href="https://chrome.google.com/webstore/detail/chathub-all-in-one-chatbo/iaakpnchhognanibcahlpcplchdfmgma?utm_source=website"><img src="https://user-images.githubusercontent.com/64502893/231991498-8df6dd63-727c-41d0-916f-c90c15127de3.png" width="200" alt="Get ChatHub for Chromium"></a>
-<a href="https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga"><img src="https://user-images.githubusercontent.com/64502893/231991158-1b54f831-2fdc-43b6-bf9a-f894000e5aa8.png" width="160" alt="Get ChatHub for Microsoft Edge"></a>
+<a href="https://chrome.google.com/webstore/detail/chathub-all-in-one-chatbo/iaakpnchhognanibcahlpcplchdfmgma?utm_source=github"><img src="https://user-images.githubusercontent.com/64502893/231991498-8df6dd63-727c-41d0-916f-c90c15127de3.png" width="200" alt="Get ChatHub for Chromium"></a>
+<a href="https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga?utm_source=github"><img src="https://user-images.githubusercontent.com/64502893/231991158-1b54f831-2fdc-43b6-bf9a-f894000e5aa8.png" width="160" alt="Get ChatHub for Microsoft Edge"></a>
 
 ##
 
@@ -74,13 +74,27 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 - `yarn build`
 - Load `dist` folder to browser by following steps in _Manual Installation_
 
-## 🗺️ Roadmap
-
-- [x] Conversation history
-- [x] Share conversation to markdown
-- [x] Dark mode
-
 ## 📜 Changelog
+
+### v1.16.5
+
+- Add Azure OpenAI service support
+
+### v1.16.0
+
+- Add custom theme setting
+
+### v1.15.0
+
+- Add Xunfei Spark bot
+
+### v1.14.0
+
+- Support more bots in all-in-one mode for premium users
+
+### v1.12.0
+
+- Add premium license
 
 ### v1.11.0
 

@@ -4,7 +4,7 @@ import { BotId } from '~app/bots'
 import { CHATBOTS } from '~app/consts'
 import dropdownIcon from '~/assets/icons/dropdown.svg'
 import { useSetAtom } from 'jotai'
-import { compareBotsAtom } from '~app/state'
+import { multiPanelBotsAtom } from '~app/state'
 import { trackEvent } from '~app/plausible'
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 }
 
 const SwitchBotDropdown: FC<Props> = (props) => {
-  const setCompareBots = useSetAtom(compareBotsAtom)
+  const setCompareBots = useSetAtom(multiPanelBotsAtom)
 
   const onSelect = useCallback(
     (botId: BotId) => {

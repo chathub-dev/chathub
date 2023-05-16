@@ -1,5 +1,6 @@
 import Browser from 'webextension-polyfill'
-import { getUserConfig, StartupPage } from '~services/user-config'
+import { ALL_IN_ONE_PAGE_ID } from '~app/consts'
+import { getUserConfig } from '~services/user-config'
 
 async function openAppPage() {
   const tabs = await Browser.tabs.query({})
@@ -10,7 +11,7 @@ async function openAppPage() {
     return
   }
   const { startupPage } = await getUserConfig()
-  const hash = startupPage === StartupPage.All ? '' : `#/chat/${startupPage}`
+  const hash = startupPage === ALL_IN_ONE_PAGE_ID ? '' : `#/chat/${startupPage}`
   await Browser.tabs.create({ url: `app.html${hash}` })
 }
 

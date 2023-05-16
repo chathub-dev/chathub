@@ -1,12 +1,15 @@
 import { useAtom } from 'jotai'
-import useSWR from 'swr'
-import { FC, useCallback } from 'react'
+import { ofetch } from 'ofetch'
+import { FC, useCallback, useState } from 'react'
+import { Toaster } from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
+import useImmutableSWR from 'swr/immutable'
 import Button from '~app/components/Button'
+import { usePremium } from '~app/hooks/use-premium'
 import { trackEvent } from '~app/plausible'
 import { licenseKeyAtom } from '~app/state'
 import checkIcon from '~assets/icons/check.svg'
-import { validateLicenseKey } from '~services/premium'
+import { deactivateLicenseKey } from '~services/premium'
 
 const FeatureItem: FC<{ text: string; comingsoon?: boolean }> = ({ text, comingsoon }) => {
   return (
@@ -21,17 +24,13 @@ const FeatureItem: FC<{ text: string; comingsoon?: boolean }> = ({ text, comings
 function PremiumPage() {
   const { t } = useTranslation()
   const [licenseKey, setLicenseKey] = useAtom(licenseKeyAtom)
+  const premiumState = usePremium()
+  const [deactivating, setDeactivating] = useState(false)
 
-  const activateQuery = useSWR(
-    `license:${licenseKey}`,
-    async () => {
-      if (!licenseKey) {
-        return false
-      }
-      return validateLicenseKey(licenseKey)
-    },
-    { revalidateOnFocus: false },
-  )
+  const priceQuery = useImmutableSWR('premium-price', async () => {
+    const product = await ofetch('https://chathub.gg/api/premium/product')
+    return product.price / 100
+  })
 
   const activateLicense = useCallback(() => {
     const key = window.prompt('Enter your license key', '')
@@ -40,30 +39,49 @@ function PremiumPage() {
     }
   }, [setLicenseKey])
 
+  const deactivateLicense = useCallback(async () => {
+    if (!licenseKey) {
+      return
+    }
+    if (!window.confirm('Are you sure to deactivate this device?')) {
+      return
+    }
+    setDeactivating(true)
+    await deactivateLicenseKey(licenseKey)
+    setLicenseKey('')
+    setTimeout(() => location.reload(), 500)
+  }, [licenseKey, setLicenseKey])
+
   return (
-    <div className="flex flex-col overflow-hidden bg-primary-background dark:text-primary-text rounded-[35px] h-full p-[50px]">
+    <div className="flex flex-col overflow-hidden bg-primary-background dark:text-primary-text rounded-[20px] h-full p-[50px]">
       <h1 className="font-bold text-[40px] leading-none text-primary-text">{t('Premium')}</h1>
-      {!activateQuery.data && (
+      {!premiumState.activated && (
         <p className="bg-[#FAE387] text-[#303030] w-fit rounded-[5px] px-2 py-[4px] text-sm font-semibold mt-9">
           {t('Presale discount')}
         </p>
       )}
-      {!activateQuery.data && (
+      {!premiumState.activated && (
         <div className="flex flex-row items-end mt-5 gap-3">
-          <span className="text-[64px] leading-none font-bold text-primary-blue">$15</span>
+          <span className="text-[64px] leading-none font-bold text-primary-blue">
+            {priceQuery.data ? `$${priceQuery.data}` : '$$$'}
+          </span>
           <span className="text-[50px] leading-none font-semibold text-secondary-text line-through">$30</span>
           <span className="text-secondary-text font-semibold pb-1">/ Lifetime license</span>
         </div>
       )}
       <div className="mt-10 flex flex-col gap-4">
+        <FeatureItem text={t('More bots in All-In-One mode')} />
+        <FeatureItem text={t('Chat history full-text search')} />
+        <FeatureItem text={t('Customize theme')} />
         <FeatureItem text={t('Cloud syncing data')} comingsoon />
-        <FeatureItem text={t('More bots in All-In-One mode')} comingsoon />
-        <FeatureItem text={t('Chat history full-text search')} comingsoon />
-        <FeatureItem text={t('Customize theme')} comingsoon />
+        <FeatureItem text={t('Activate up to 5 devices')} />
         <FeatureItem text={t('More in the future')} />
       </div>
-      {activateQuery.data ? (
-        <Button text={t('🎉 License activated')} className="w-fit mt-8" />
+      {premiumState.activated ? (
+        <div className="flex flex-row items-center gap-3 mt-8">
+          <Button text={t('🎉 License activated')} color="primary" className="w-fit" />
+          <Button text={t('Deactivate')} className="w-fit" onClick={deactivateLicense} isLoading={deactivating} />
+        </div>
       ) : (
         <div className="flex flex-row items-center gap-3 mt-8">
           <a
@@ -79,10 +97,11 @@ function PremiumPage() {
             color="flat"
             className="w-fit py-3 rounded-lg"
             onClick={activateLicense}
-            isLoading={activateQuery.isValidating}
+            isLoading={premiumState.isLoading}
           />
         </div>
       )}
+      <Toaster position="top-right" />
     </div>
   )
 }

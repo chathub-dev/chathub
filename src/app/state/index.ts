@@ -2,6 +2,7 @@ import { atomWithImmer } from 'jotai-immer'
 import { atomWithStorage } from 'jotai/utils'
 import { atomFamily } from 'jotai/utils'
 import { createBotInstance, BotId } from '~app/bots'
+import { getDefaultThemeColor } from '~app/utils/color-scheme'
 import { ChatMessageModel } from '~types'
 import { uuid } from '~utils'
 
@@ -21,6 +22,8 @@ export const chatFamily = atomFamily(
   (a, b) => a.botId === b.botId && a.page === b.page,
 )
 
-export const compareBotsAtom = atomWithStorage<[BotId, BotId]>('compareBots', ['chatgpt', 'bing'])
-
+export const multiPanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots', ['chatgpt', 'bing', 'claude', 'bard'])
 export const licenseKeyAtom = atomWithStorage('licenseKey', '')
+export const sidebarCollapsedAtom = atomWithStorage('sidebarCollapsed', false)
+export const themeColorAtom = atomWithStorage('themeColor', getDefaultThemeColor())
+export const followArcThemeAtom = atomWithStorage('followArcTheme', false)

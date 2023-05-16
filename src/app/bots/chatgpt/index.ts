@@ -10,7 +10,7 @@ export class ChatGPTBot extends AbstractBot {
     super()
     this.#bot = new ChatGPTWebBot()
     getUserConfig().then(({ chatgptMode }) => {
-      if (chatgptMode === ChatGPTMode.API) {
+      if (chatgptMode === ChatGPTMode.API || chatgptMode === ChatGPTMode.Azure) {
         this.#bot = new ChatGPTApiBot()
       }
     })

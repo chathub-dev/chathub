@@ -8,6 +8,7 @@ interface Props {
   open: boolean
   onClose: () => void
   className?: string
+  borderless?: boolean
 }
 
 const Dialog: FC<PropsWithChildren<Props>> = (props) => {
@@ -21,7 +22,12 @@ const Dialog: FC<PropsWithChildren<Props>> = (props) => {
             props.className,
           )}
         >
-          <HeadlessDialog.Title className="border-b border-solid border-primary-border flex flex-row justify-center items-center py-4 px-5">
+          <HeadlessDialog.Title
+            className={cx(
+              !props.borderless && 'border-b',
+              'border-solid border-primary-border flex flex-row justify-center items-center py-4 px-5',
+            )}
+          >
             <span className="ml-auto" />
             <span className="font-bold text-primary-text text-base">{props.title}</span>
             <img src={closeIcon} className="w-4 h-4 ml-auto mr-[10px] cursor-pointer" onClick={props.onClose} />
