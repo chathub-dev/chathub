@@ -6,7 +6,7 @@
 
 <div align="center">
 
-ChatHub adalah klien chatbot all-in-one
+### ChatHub adalah klien chatbot all-in-one
 
 [![author][author-image]][author-url]
 [![license][license-image]][license-url]
@@ -74,13 +74,27 @@ ChatHub adalah klien chatbot all-in-one
 - `yarn build`
 - Muat folder `dist` ke browser dengan mengikuti langkah-langkah dalam _Instalasi Manual_
 
-## 🗺️ Roadmap
-
-- [x] Riwayat percakapan
-- [x] Bagikan percakapan ke markdown
-- [x] Mode gelap
-
 ## 📜 Changelog
+
+### v1.16.5
+
+- Menambahkan dukungan layanan Azure OpenAI
+
+### v1.16.0
+
+- Menambahkan pengaturan tema kustom
+
+### v1.15.0
+
+- Menambahkan bot Xunfei Spark
+
+### v1.14.0
+
+- Mendukung lebih banyak bot dalam mode all-in-one untuk pengguna premium
+
+### v1.12.0
+
+- Menambahkan lisensi premium
 
 ### v1.11.0
 
