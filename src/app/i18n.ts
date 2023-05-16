@@ -46,6 +46,10 @@ const resources = {
       'Theme Color': '主题色',
       'Follow Arc browser theme': '跟随Arc浏览器主题色',
       'iFlytek Spark': '讯飞星火',
+      'You need to login to Poe first': '需要先登录Poe账号',
+      'Login at bing.com': '去 bing.com 登录',
+      'Login at poe.com': '去 poe.com 登录',
+      'Login at xfyun.cn': '登录讯飞账号',
     },
   },
   de: {

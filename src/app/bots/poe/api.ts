@@ -7,6 +7,7 @@ import SubscriptionsMutation from './graphql/SubscriptionsMutation.graphql?raw'
 import MessageAddedSubscription from './graphql/MessageAddedSubscription.graphql?raw'
 import ViewerStateUpdatedSubscription from './graphql/ViewerStateUpdatedSubscription.graphql?raw'
 import { ChatError, ErrorCode } from '~utils/errors'
+import i18n from '~app/i18n'
 
 export const GRAPHQL_QUERIES = {
   AddMessageBreakMutation,
@@ -81,7 +82,7 @@ export async function gqlRequest(queryName: keyof typeof GRAPHQL_QUERIES, variab
 export async function getChatId(bot: string, poeSettings: PoeSettings): Promise<number> {
   const resp = await gqlRequest('ChatViewQuery', { bot }, poeSettings)
   if (!resp.data) {
-    throw new ChatError('You need to login to Poe first', ErrorCode.POE_UNAUTHORIZED)
+    throw new ChatError(i18n.t('You need to login to Poe first'), ErrorCode.POE_UNAUTHORIZED)
   }
   return resp.data.chatOfBot.chatId
 }

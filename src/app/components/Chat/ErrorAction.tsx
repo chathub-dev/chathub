@@ -5,6 +5,7 @@ import { ConversationContext } from '~app/context'
 import { ChatError, ErrorCode } from '~utils/errors'
 import Button from '../Button'
 import MessageBubble from './MessageBubble'
+import { useTranslation } from 'react-i18next'
 
 const ChatGPTAuthErrorAction = () => {
   const [fixing, setFixing] = useState(false)
@@ -39,11 +40,12 @@ const ChatGPTAuthErrorAction = () => {
 
 const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
   const conversation = useContext(ConversationContext)
+  const { t } = useTranslation()
 
   if (error.code === ErrorCode.BING_UNAUTHORIZED) {
     return (
       <a href="https://bing.com" target="_blank" rel="noreferrer">
-        <Button color="primary" text="Login at bing.com" size="small" />
+        <Button color="primary" text={t('Login at bing.com')} size="small" />
       </a>
     )
   }
@@ -57,14 +59,14 @@ const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
   if (error.code === ErrorCode.POE_UNAUTHORIZED) {
     return (
       <a href="https://poe.com" target="_blank" rel="noreferrer">
-        <Button color="primary" text="Login at poe.com" size="small" />
+        <Button color="primary" text={t('Login at poe.com')} size="small" />
       </a>
     )
   }
   if (error.code === ErrorCode.XUNFEI_UNAUTHORIZED) {
     return (
       <a href="https://xinghuo.xfyun.cn" target="_blank" rel="noreferrer">
-        <Button color="primary" text="去登录" size="small" />
+        <Button color="primary" text={t('Login at xfyun.cn')} size="small" />
       </a>
     )
   }
