@@ -6,7 +6,7 @@
 
 <div align="center">
 
-ChatHub adalah klien chatbot all-in-one
+### ChatHub adalah klien chatbot all-in-one
 
 [![author][author-image]][author-url]
 [![license][license-image]][license-url]
@@ -19,8 +19,8 @@ ChatHub adalah klien chatbot all-in-one
     
 ### Instal
     
-<a href="https://chrome.google.com/webstore/detail/chathub-all-in-one-chatbo/iaakpnchhognanibcahlpcplchdfmgma?utm_source=website"><img src="https://user-images.githubusercontent.com/64502893/231991498-8df6dd63-727c-41d0-916f-c90c15127de3.png" width="200" alt="Dapatkan ChatHub untuk Chromium"></a>&nbsp;&nbsp;
-<a href="https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga"><img src="https://user-images.githubusercontent.com/64502893/231991158-1b54f831-2fdc-43b6-bf9a-f894000e5aa8.png" width="160" alt="Dapatkan ChatHub untuk Microsoft Edge"></a>
+<a href="https://chrome.google.com/webstore/detail/chathub-all-in-one-chatbo/iaakpnchhognanibcahlpcplchdfmgma?utm_source=github"><img src="https://user-images.githubusercontent.com/64502893/231991498-8df6dd63-727c-41d0-916f-c90c15127de3.png" width="200" alt="Dapatkan ChatHub untuk Chromium"></a>
+<a href="https://microsoftedge.microsoft.com/addons/detail/chathub-allinone-chat/kdlmggoacmfoombiokflpeompajfljga?utm_source=github"><img src="https://user-images.githubusercontent.com/64502893/231991158-1b54f831-2fdc-43b6-bf9a-f894000e5aa8.png" width="160" alt="Dapatkan ChatHub untuk Microsoft Edge"></a>
     
 ##
 
@@ -74,13 +74,27 @@ ChatHub adalah klien chatbot all-in-one
 - `yarn build`
 - Muat folder `dist` ke browser dengan mengikuti langkah-langkah dalam _Instalasi Manual_
 
-## 🗺️ Roadmap
-
-- [x] Riwayat percakapan
-- [x] Bagikan percakapan ke markdown
-- [x] Mode gelap
-
 ## 📜 Changelog
+
+### v1.16.5
+
+- Menambahkan dukungan layanan Azure OpenAI
+
+### v1.16.0
+
+- Menambahkan pengaturan tema kustom
+
+### v1.15.0
+
+- Menambahkan bot Xunfei Spark
+
+### v1.14.0
+
+- Mendukung lebih banyak bot dalam mode all-in-one untuk pengguna premium
+
+### v1.12.0
+
+- Menambahkan lisensi premium
 
 ### v1.11.0
 
