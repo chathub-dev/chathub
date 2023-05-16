@@ -10,12 +10,12 @@ type ActivateResponse =
     }
   | { activated: false; error: string }
 
-async function activateLicense(key: string) {
+async function activateLicense(key: string, instanceName: string) {
   const resp = await ofetch<ActivateResponse>('https://api.lemonsqueezy.com/v1/licenses/activate', {
     method: 'POST',
     body: {
       license_key: key,
-      instance_name: 'Instance',
+      instance_name: instanceName,
     },
   })
   if (!resp.activated) {
