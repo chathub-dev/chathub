@@ -1,9 +1,10 @@
-import chatgptLogo from '~/assets/chatgpt-logo.svg'
-import bingLogo from '~/assets/bing-logo.svg'
-import bardLogo from '~/assets/bard-logo.svg'
 import claudeLogo from '~/assets/anthropic-logo.png'
+import bardLogo from '~/assets/bard-logo.svg'
+import bingLogo from '~/assets/bing-logo.svg'
+import chatgptLogo from '~/assets/chatgpt-logo.svg'
 import xunfeiLogo from '~/assets/xunfei-logo.png'
 import { BotId } from './bots'
+import i18n from './i18n'
 
 export const CHATBOTS: Record<BotId, { name: string; avatar: any }> = {
   chatgpt: {
@@ -23,7 +24,7 @@ export const CHATBOTS: Record<BotId, { name: string; avatar: any }> = {
     avatar: claudeLogo,
   },
   xunfei: {
-    name: '讯飞星火',
+    name: i18n.t('iFlytek Spark'),
     avatar: xunfeiLogo,
   },
 }

@@ -45,6 +45,7 @@ const resources = {
       'Theme Mode': '主题模式',
       'Theme Color': '主题色',
       'Follow Arc browser theme': '跟随Arc浏览器主题色',
+      'iFlytek Spark': '讯飞星火',
     },
   },
   de: {
