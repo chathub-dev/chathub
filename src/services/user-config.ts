@@ -9,8 +9,9 @@ export enum BingConversationStyle {
 }
 
 export enum ChatGPTMode {
-  API = 'api',
   Webapp = 'webapp',
+  API = 'api',
+  Azure = 'azure',
 }
 
 export enum MultiPanelLayout {
@@ -36,6 +37,9 @@ const userConfigWithDefaultValue = {
   bingConversationStyle: BingConversationStyle.Balanced,
   multiPanelLayout: MultiPanelLayout.Two,
   poeModel: PoeModel.ClaudePlus,
+  azureOpenAIApiKey: '',
+  azureOpenAIApiInstanceName: '',
+  azureOpenAIApiDeploymentName: '',
 }
 
 export type UserConfig = typeof userConfigWithDefaultValue

@@ -22,6 +22,7 @@ import {
 } from '~services/user-config'
 import { getVersion } from '~utils'
 import PagePanel from '../components/Page'
+import ChatGPTAzureSettings from '~app/components/Settings/ChatGPTAzureSettings'
 
 const BING_STYLE_OPTIONS = [
   { name: 'Precise', value: BingConversationStyle.Precise },
@@ -150,7 +151,7 @@ function SettingPage() {
         </div>
         <div className="flex flex-col gap-2">
           <p className="font-bold text-xl">ChatGPT</p>
-          <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10 mb-1">
+          <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-4 mb-1">
             {(Object.keys(ChatGPTMode) as (keyof typeof ChatGPTMode)[]).map((k) => (
               <div className="flex items-center" key={k}>
                 <input
@@ -161,7 +162,7 @@ function SettingPage() {
                   value={ChatGPTMode[k]}
                   onChange={(e) => updateConfigValue({ chatgptMode: e.currentTarget.value as ChatGPTMode })}
                 />
-                <label htmlFor={k} className="ml-3 block text-sm font-medium leading-6">
+                <label htmlFor={k} className="ml-2 block text-sm font-medium leading-6">
                   {k} Mode
                 </label>
               </div>
@@ -169,6 +170,8 @@ function SettingPage() {
           </div>
           {userConfig.chatgptMode === ChatGPTMode.API ? (
             <ChatGPTAPISettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
+          ) : userConfig.chatgptMode === ChatGPTMode.Azure ? (
+            <ChatGPTAzureSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
           ) : (
             <div className="flex flex-col gap-1 w-[250px]">
               <p className="font-medium text-sm">{t('Model')}</p>
