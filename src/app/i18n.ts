@@ -50,6 +50,7 @@ const resources = {
       'Login at bing.com': '去 bing.com 登录',
       'Login at poe.com': '去 poe.com 登录',
       'Login at xfyun.cn': '登录讯飞账号',
+      'Lifetime license': '终身授权',
     },
   },
   de: {
@@ -109,7 +110,8 @@ const resources = {
       Export: 'Ekspor',
       Import: 'Impor',
       'Export/Import All Data': 'Ekspor/Impor Seluruh Data',
-      'Data includes all your settings, chat histories, and local prompts': 'Data mencakup semua pengaturan, riwayat percakapan, dan prompt lokal Anda',
+      'Data includes all your settings, chat histories, and local prompts':
+        'Data mencakup semua pengaturan, riwayat percakapan, dan prompt lokal Anda',
       Edit: 'Edit',
       Use: 'Gunakan',
       Send: 'Kirim',

@@ -66,7 +66,7 @@ function PremiumPage() {
             {priceQuery.data ? `$${priceQuery.data}` : '$$$'}
           </span>
           <span className="text-[50px] leading-none font-semibold text-secondary-text line-through">$30</span>
-          <span className="text-secondary-text font-semibold pb-1">/ Lifetime license</span>
+          <span className="text-secondary-text font-semibold pb-1">/ {t('Lifetime license')}</span>
         </div>
       )}
       <div className="mt-10 flex flex-col gap-4">
