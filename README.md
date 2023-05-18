@@ -8,6 +8,8 @@
 
 ### ChatHub is an all-in-one chatbot client
 
+> The difference is that it's free
+
 [![author][author-image]][author-url]
 [![license][license-image]][license-url]
 [![release][release-image]][release-url]
