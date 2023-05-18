@@ -79,7 +79,9 @@ function PremiumPage() {
       </div>
       {premiumState.activated ? (
         <div className="flex flex-row items-center gap-3 mt-8">
-          <Button text={t('🎉 License activated')} color="primary" className="w-fit" />
+          <a href="https://app.lemonsqueezy.com/my-orders/" target="_blank" rel="noreferrer">
+            <Button text={t('🎉 License activated')} color="primary" className="w-fit" />
+          </a>
           <Button text={t('Deactivate')} className="w-fit" onClick={deactivateLicense} isLoading={deactivating} />
         </div>
       ) : (
