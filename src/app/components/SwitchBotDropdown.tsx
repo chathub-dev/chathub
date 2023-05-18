@@ -1,30 +1,20 @@
 import { Menu, Transition } from '@headlessui/react'
 import { FC, Fragment, useCallback } from 'react'
+import dropdownIcon from '~/assets/icons/dropdown.svg'
 import { BotId } from '~app/bots'
 import { CHATBOTS } from '~app/consts'
-import dropdownIcon from '~/assets/icons/dropdown.svg'
-import { useSetAtom } from 'jotai'
-import { multiPanelBotsAtom } from '~app/state'
-import { trackEvent } from '~app/plausible'
 
 interface Props {
   excludeBotId: BotId
-  index: number
+  onChange: (botId: BotId) => void
 }
 
 const SwitchBotDropdown: FC<Props> = (props) => {
-  const setCompareBots = useSetAtom(multiPanelBotsAtom)
-
   const onSelect = useCallback(
     (botId: BotId) => {
-      trackEvent('switch_bot', { botId })
-      setCompareBots((bots) => {
-        const newBots = [...bots] as [BotId, BotId]
-        newBots[props.index] = botId
-        return newBots
-      })
+      props.onChange(botId)
     },
-    [props.index, setCompareBots],
+    [props],
   )
 
   return (

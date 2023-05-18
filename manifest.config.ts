@@ -20,7 +20,7 @@ export default defineManifest(async (env) => {
     action: {},
     host_permissions: ['https://*.bing.com/', 'https://*.openai.com/', 'https://bard.google.com/'],
     optional_host_permissions: ['https://*/*'],
-    permissions: ['storage', 'unlimitedStorage'],
+    permissions: ['storage', 'unlimitedStorage', 'sidePanel'],
     content_scripts: [
       {
         matches: ['https://chat.openai.com/*'],
@@ -37,6 +37,9 @@ export default defineManifest(async (env) => {
         },
         description: 'Open ChatHub app',
       },
+    },
+    side_panel: {
+      default_path: 'sidepanel.html',
     },
   }
 })

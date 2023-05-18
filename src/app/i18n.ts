@@ -67,6 +67,8 @@ const resources = {
       'Share conversation': '分享会话',
       'Clear conversation': '清空会话',
       'View history': '查看历史消息',
+      'Premium Feature': '高级功能',
+      'Upgrade to unlock': '升级解锁',
     },
   },
   de: {
