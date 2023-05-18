@@ -3,6 +3,11 @@ import { getUserConfig } from '~services/user-config'
 import { parseSSEResponse } from '~utils/sse'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
 import { chatGPTClient } from './client'
+import { ResponseContent } from './types'
+
+function removeCitations(text: string) {
+  return text.replaceAll(/\u3010\d+\u2020source\u3011/g, '')
+}
 
 interface ConversationContext {
   conversationId: string
@@ -86,7 +91,19 @@ export class ChatGPTWebBot extends AbstractBot {
         console.error(err)
         return
       }
-      const text = data.message?.content?.parts?.[0]
+      const content = data.message?.content as ResponseContent | undefined
+      if (!content) {
+        return
+      }
+      let text: string
+      if (content.content_type === 'text') {
+        text = content.parts[0]
+        text = removeCitations(text)
+      } else if (content.content_type === 'code') {
+        text = '_' + content.text + '_'
+      } else {
+        return
+      }
       if (text) {
         this.conversationContext = {
           conversationId: data.conversation_id,

@@ -179,6 +179,7 @@ function SettingPage() {
                 options={[
                   { name: 'Default', value: 'default' },
                   { name: 'GPT-4 (requires Plus)', value: 'gpt-4' },
+                  { name: 'GPT-4 Browsing', value: 'gpt-4-browsing' },
                 ]}
                 value={userConfig.chatgptWebappModelName}
                 onChange={(v) => updateConfigValue({ chatgptWebappModelName: v })}
