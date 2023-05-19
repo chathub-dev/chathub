@@ -13,7 +13,7 @@ const ChatGPWebSettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
   return (
     <div className="flex flex-col gap-1">
       <p className="font-medium text-sm">{t('Model')}</p>
-      <div className="w-[250px]">
+      <div className="w-[250px] mb-1">
         <Select
           options={Object.entries(ChatGPTWebModels).map(([k, v]) => ({ name: k, value: v }))}
           value={userConfig.chatgptWebappModelName}
@@ -21,10 +21,10 @@ const ChatGPWebSettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
         />
       </div>
       {userConfig.chatgptWebappModelName.startsWith('gpt-4') && (
-        <p className="text-sm mt-1 text-secondary-text">{t('GPT-4 models require ChatGPT Plus')}</p>
+        <p className="text-sm text-secondary-text">{t('GPT-4 models require ChatGPT Plus')}</p>
       )}
       {userConfig.chatgptWebappModelName.includes('mobile') && (
-        <p className="text-sm mt-1 text-secondary-text">{t('Model used by ChatGPT iOS app, potentially faster')}</p>
+        <p className="text-sm text-secondary-text">{t('Model used by ChatGPT iOS app, potentially faster')}</p>
       )}
     </div>
   )
