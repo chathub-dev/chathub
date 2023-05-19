@@ -48,7 +48,7 @@ export class ChatGPTApiBot extends AbstractBot {
     if (!openaiApiKey) {
       throw new ChatError('OpenAI API key not set', ErrorCode.API_KEY_NOT_SET)
     }
-    return fetch(`${openaiApiHost}/v1/chat/completions`, {
+    const resp = await fetch(`${openaiApiHost}/v1/chat/completions`, {
       method: 'POST',
       signal,
       headers: {
@@ -62,6 +62,10 @@ export class ChatGPTApiBot extends AbstractBot {
         stream: true,
       }),
     })
+    if (!resp.ok && resp.status === 404 && chatgptApiModel.includes('gpt-4')) {
+      throw new ChatError(`Access to ${chatgptApiModel} not available`, ErrorCode.GPT4_MODEL_WAITLIST)
+    }
+    return resp
   }
 
   async doSendMessage(params: SendMessageParams) {

@@ -51,6 +51,7 @@ const resources = {
       'Login at poe.com': '去 poe.com 登录',
       'Login at xfyun.cn': '登录讯飞账号',
       'Lifetime license': '终身授权',
+      'Join the waitlist': '加入waitlist',
     },
   },
   de: {
