@@ -202,6 +202,12 @@ function SettingPage() {
               />
             </div>
           </div>
+          {userConfig.poeModel === PoeModel.ClaudePlus && (
+            <p className="text-sm mt-1 text-secondary-text">{t('Limited Access')}</p>
+          )}
+          {userConfig.poeModel === PoeModel.ClaudeInstant100k && (
+            <p className="text-sm mt-1 text-secondary-text">{t('Available to Poe subscribers only')}</p>
+          )}
         </div>
       </div>
       <Button color={dirty ? 'primary' : 'flat'} text={t('Save')} className="w-fit mt-10 mb-5" onClick={save} />

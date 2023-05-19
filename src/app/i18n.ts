@@ -53,6 +53,7 @@ const resources = {
       'Lifetime license': '终身授权',
       'Join the waitlist': '加入waitlist',
       'GPT-4 models require ChatGPT Plus': 'ChatGPT Plus账号可使用',
+      'Available to Poe subscribers only': 'Poe订阅会员可使用',
     },
   },
   de: {
