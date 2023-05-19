@@ -23,6 +23,7 @@ import {
 import { getVersion } from '~utils'
 import PagePanel from '../components/Page'
 import ChatGPTAzureSettings from '~app/components/Settings/ChatGPTAzureSettings'
+import ChatGPWebSettings from '~app/components/Settings/ChatGPTWebSettings'
 
 const BING_STYLE_OPTIONS = [
   { name: 'Precise', value: BingConversationStyle.Precise },
@@ -173,18 +174,7 @@ function SettingPage() {
           ) : userConfig.chatgptMode === ChatGPTMode.Azure ? (
             <ChatGPTAzureSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
           ) : (
-            <div className="flex flex-col gap-1 w-[250px]">
-              <p className="font-medium text-sm">{t('Model')}</p>
-              <Select
-                options={[
-                  { name: 'Default', value: 'default' },
-                  { name: 'GPT-4 (requires Plus)', value: 'gpt-4' },
-                  { name: 'GPT-4 Browsing', value: 'gpt-4-browsing' },
-                ]}
-                value={userConfig.chatgptWebappModelName}
-                onChange={(v) => updateConfigValue({ chatgptWebappModelName: v })}
-              />
-            </div>
+            <ChatGPWebSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
           )}
         </div>
         <div className="flex flex-col gap-1">

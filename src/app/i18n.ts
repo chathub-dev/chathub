@@ -52,6 +52,7 @@ const resources = {
       'Login at xfyun.cn': '登录讯飞账号',
       'Lifetime license': '终身授权',
       'Join the waitlist': '加入waitlist',
+      'GPT-4 models require ChatGPT Plus': 'ChatGPT Plus账号可使用',
     },
   },
   de: {

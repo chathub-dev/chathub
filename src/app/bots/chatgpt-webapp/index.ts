@@ -4,6 +4,7 @@ import { parseSSEResponse } from '~utils/sse'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
 import { chatGPTClient } from './client'
 import { ResponseContent } from './types'
+import { CHATGPT_WEB_3_5_MODEL } from '~app/consts'
 
 function removeCitations(text: string) {
   return text.replaceAll(/\u3010\d+\u2020source\u3011/g, '')
@@ -34,16 +35,10 @@ export class ChatGPTWebBot extends AbstractBot {
 
   private async getModelName(): Promise<string> {
     const { chatgptWebappModelName } = await getUserConfig()
-    if (chatgptWebappModelName !== 'default') {
-      return chatgptWebappModelName
+    if (chatgptWebappModelName === 'default') {
+      return CHATGPT_WEB_3_5_MODEL
     }
-    try {
-      const modelNames = await this.fetchModelNames()
-      return modelNames[0]
-    } catch (err) {
-      console.error(err)
-      return 'text-davinci-002-render'
-    }
+    return chatgptWebappModelName
   }
 
   async doSendMessage(params: SendMessageParams) {
