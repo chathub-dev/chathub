@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import { getUserConfig } from '~services/user-config'
+import { ChatGPTWebModels, getUserConfig } from '~services/user-config'
 import { parseSSEResponse } from '~utils/sse'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
 import { chatGPTClient } from './client'
@@ -35,10 +35,13 @@ export class ChatGPTWebBot extends AbstractBot {
 
   private async getModelName(): Promise<string> {
     const { chatgptWebappModelName } = await getUserConfig()
-    if ('gpt-3.5' === chatgptWebappModelName) {
-      return CHATGPT_WEB_3_5_MODEL
+    if (chatgptWebappModelName === ChatGPTWebModels['GPT-4']) {
+      return 'gpt-4'
     }
-    return chatgptWebappModelName
+    if (chatgptWebappModelName === ChatGPTWebModels['GPT-4 Browsing']) {
+      return 'gpt-4-browsing'
+    }
+    return 'text-davinci-002-render-sha'
   }
 
   async doSendMessage(params: SendMessageParams) {
