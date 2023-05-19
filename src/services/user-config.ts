@@ -16,7 +16,9 @@ export enum ChatGPTMode {
 
 export enum ChatGPTWebModels {
   'GPT-3.5' = 'gpt-3.5',
+  'GPT-3.5 (Mobile)' = 'gpt-3.5-mobile',
   'GPT-4' = 'gpt-4',
+  'GPT-4 (Mobile)' = 'gpt-4-mobile',
   'GPT-4 Browsing' = 'gpt-4-browsing',
 }
 

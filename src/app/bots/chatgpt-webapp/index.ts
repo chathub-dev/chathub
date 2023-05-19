@@ -40,6 +40,12 @@ export class ChatGPTWebBot extends AbstractBot {
     if (chatgptWebappModelName === ChatGPTWebModels['GPT-4 Browsing']) {
       return 'gpt-4-browsing'
     }
+    if (chatgptWebappModelName === ChatGPTWebModels['GPT-3.5 (Mobile)']) {
+      return 'text-davinci-002-render-sha-mobile'
+    }
+    if (chatgptWebappModelName === ChatGPTWebModels['GPT-4 (Mobile)']) {
+      return 'gpt-4-mobile'
+    }
     return 'text-davinci-002-render-sha'
   }
 
