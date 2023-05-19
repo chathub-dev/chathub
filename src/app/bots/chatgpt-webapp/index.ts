@@ -35,7 +35,7 @@ export class ChatGPTWebBot extends AbstractBot {
 
   private async getModelName(): Promise<string> {
     const { chatgptWebappModelName } = await getUserConfig()
-    if (chatgptWebappModelName === 'default') {
+    if ('gpt-3.5' === chatgptWebappModelName) {
       return CHATGPT_WEB_3_5_MODEL
     }
     return chatgptWebappModelName

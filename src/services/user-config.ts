@@ -32,7 +32,7 @@ const userConfigWithDefaultValue = {
   chatgptApiModel: CHATGPT_API_MODELS[0],
   chatgptApiTemperature: 1,
   chatgptMode: ChatGPTMode.Webapp,
-  chatgptWebappModelName: 'default',
+  chatgptWebappModelName: 'gpt-3.5',
   startupPage: ALL_IN_ONE_PAGE_ID,
   bingConversationStyle: BingConversationStyle.Balanced,
   multiPanelLayout: MultiPanelLayout.Two,
@@ -48,6 +48,9 @@ export async function getUserConfig(): Promise<UserConfig> {
   const result = await Browser.storage.sync.get(Object.keys(userConfigWithDefaultValue))
   if (!result.chatgptMode && result.openaiApiKey) {
     result.chatgptMode = ChatGPTMode.API
+  }
+  if (result.chatgptWebappModelName === 'default') {
+    result.chatgptWebappModelName = 'gpt-3.5'
   }
   return defaults(result, userConfigWithDefaultValue)
 }
