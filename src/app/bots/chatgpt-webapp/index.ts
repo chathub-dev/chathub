@@ -4,7 +4,6 @@ import { parseSSEResponse } from '~utils/sse'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
 import { chatGPTClient } from './client'
 import { ResponseContent } from './types'
-import { CHATGPT_WEB_3_5_MODEL } from '~app/consts'
 
 function removeCitations(text: string) {
   return text.replaceAll(/\u3010\d+\u2020source\u3011/g, '')
