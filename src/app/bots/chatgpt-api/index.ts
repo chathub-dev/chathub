@@ -63,7 +63,7 @@ export class ChatGPTApiBot extends AbstractBot {
       }),
     })
     if (!resp.ok && resp.status === 404 && chatgptApiModel.includes('gpt-4')) {
-      throw new ChatError(`Access to ${chatgptApiModel} not available`, ErrorCode.GPT4_MODEL_WAITLIST)
+      throw new ChatError(`You don't have API access to ${chatgptApiModel} model`, ErrorCode.GPT4_MODEL_WAITLIST)
     }
     return resp
   }
