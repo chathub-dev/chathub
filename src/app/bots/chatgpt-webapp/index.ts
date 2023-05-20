@@ -1,8 +1,13 @@
 import { v4 as uuidv4 } from 'uuid'
-import { getUserConfig } from '~services/user-config'
+import { ChatGPTWebModels, getUserConfig } from '~services/user-config'
 import { parseSSEResponse } from '~utils/sse'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
 import { chatGPTClient } from './client'
+import { ResponseContent } from './types'
+
+function removeCitations(text: string) {
+  return text.replaceAll(/\u3010\d+\u2020source\u3011/g, '')
+}
 
 interface ConversationContext {
   conversationId: string
@@ -29,16 +34,19 @@ export class ChatGPTWebBot extends AbstractBot {
 
   private async getModelName(): Promise<string> {
     const { chatgptWebappModelName } = await getUserConfig()
-    if (chatgptWebappModelName !== 'default') {
-      return chatgptWebappModelName
+    if (chatgptWebappModelName === ChatGPTWebModels['GPT-4']) {
+      return 'gpt-4'
     }
-    try {
-      const modelNames = await this.fetchModelNames()
-      return modelNames[0]
-    } catch (err) {
-      console.error(err)
-      return 'text-davinci-002-render'
+    if (chatgptWebappModelName === ChatGPTWebModels['GPT-4 Browsing']) {
+      return 'gpt-4-browsing'
     }
+    if (chatgptWebappModelName === ChatGPTWebModels['GPT-3.5 (Mobile)']) {
+      return 'text-davinci-002-render-sha-mobile'
+    }
+    if (chatgptWebappModelName === ChatGPTWebModels['GPT-4 (Mobile)']) {
+      return 'gpt-4-mobile'
+    }
+    return 'text-davinci-002-render-sha'
   }
 
   async doSendMessage(params: SendMessageParams) {
@@ -86,7 +94,19 @@ export class ChatGPTWebBot extends AbstractBot {
         console.error(err)
         return
       }
-      const text = data.message?.content?.parts?.[0]
+      const content = data.message?.content as ResponseContent | undefined
+      if (!content) {
+        return
+      }
+      let text: string
+      if (content.content_type === 'text') {
+        text = content.parts[0]
+        text = removeCitations(text)
+      } else if (content.content_type === 'code') {
+        text = '_' + content.text + '_'
+      } else {
+        return
+      }
       if (text) {
         this.conversationContext = {
           conversationId: data.conversation_id,

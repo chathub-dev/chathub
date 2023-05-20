@@ -23,6 +23,7 @@ import {
 import { getVersion } from '~utils'
 import PagePanel from '../components/Page'
 import ChatGPTAzureSettings from '~app/components/Settings/ChatGPTAzureSettings'
+import ChatGPWebSettings from '~app/components/Settings/ChatGPTWebSettings'
 
 const BING_STYLE_OPTIONS = [
   { name: 'Precise', value: BingConversationStyle.Precise },
@@ -173,17 +174,7 @@ function SettingPage() {
           ) : userConfig.chatgptMode === ChatGPTMode.Azure ? (
             <ChatGPTAzureSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
           ) : (
-            <div className="flex flex-col gap-1 w-[250px]">
-              <p className="font-medium text-sm">{t('Model')}</p>
-              <Select
-                options={[
-                  { name: 'Default', value: 'default' },
-                  { name: 'GPT-4 (requires Plus)', value: 'gpt-4' },
-                ]}
-                value={userConfig.chatgptWebappModelName}
-                onChange={(v) => updateConfigValue({ chatgptWebappModelName: v })}
-              />
-            </div>
+            <ChatGPWebSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
           )}
         </div>
         <div className="flex flex-col gap-1">
@@ -211,6 +202,12 @@ function SettingPage() {
               />
             </div>
           </div>
+          {userConfig.poeModel === PoeModel.ClaudePlus && (
+            <p className="text-sm mt-1 text-secondary-text">{t('Limited Access')}</p>
+          )}
+          {userConfig.poeModel === PoeModel.ClaudeInstant100k && (
+            <p className="text-sm mt-1 text-secondary-text">{t('Available to Poe subscribers only')}</p>
+          )}
         </div>
       </div>
       <Button color={dirty ? 'primary' : 'flat'} text={t('Save')} className="w-fit mt-10 mb-5" onClick={save} />

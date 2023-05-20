@@ -70,6 +70,13 @@ const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
       </a>
     )
   }
+  if (error.code === ErrorCode.GPT4_MODEL_WAITLIST) {
+    return (
+      <a href="https://openai.com/waitlist/gpt-4-api" target="_blank" rel="noreferrer">
+        <Button color="primary" text={t('Join the waitlist')} size="small" />
+      </a>
+    )
+  }
   if (error.code === ErrorCode.CHATGPT_CLOUDFLARE || error.code === ErrorCode.CHATGPT_UNAUTHORIZED) {
     return <ChatGPTAuthErrorAction />
   }

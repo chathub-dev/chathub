@@ -50,6 +50,11 @@ const resources = {
       'Login at bing.com': '去 bing.com 登录',
       'Login at poe.com': '去 poe.com 登录',
       'Login at xfyun.cn': '登录讯飞账号',
+      'Lifetime license': '终身授权',
+      'Join the waitlist': '加入waitlist',
+      'GPT-4 models require ChatGPT Plus': 'ChatGPT Plus账号可使用',
+      'Available to Poe subscribers only': 'Poe订阅会员可使用',
+      'Model used by ChatGPT iOS app, potentially faster': 'ChatGPT iOS app使用的模型，可能更快',
     },
   },
   de: {

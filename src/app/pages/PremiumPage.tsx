@@ -66,7 +66,7 @@ function PremiumPage() {
             {priceQuery.data ? `$${priceQuery.data}` : '$$$'}
           </span>
           <span className="text-[50px] leading-none font-semibold text-secondary-text line-through">$30</span>
-          <span className="text-secondary-text font-semibold pb-1">/ Lifetime license</span>
+          <span className="text-secondary-text font-semibold pb-1">/ {t('Lifetime license')}</span>
         </div>
       )}
       <div className="mt-10 flex flex-col gap-4">
@@ -79,7 +79,9 @@ function PremiumPage() {
       </div>
       {premiumState.activated ? (
         <div className="flex flex-row items-center gap-3 mt-8">
-          <Button text={t('🎉 License activated')} color="primary" className="w-fit" />
+          <a href="https://app.lemonsqueezy.com/my-orders/" target="_blank" rel="noreferrer">
+            <Button text={t('🎉 License activated')} color="primary" className="w-fit" />
+          </a>
           <Button text={t('Deactivate')} className="w-fit" onClick={deactivateLicense} isLoading={deactivating} />
         </div>
       ) : (

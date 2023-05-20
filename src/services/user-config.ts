@@ -14,6 +14,14 @@ export enum ChatGPTMode {
   Azure = 'azure',
 }
 
+export enum ChatGPTWebModels {
+  'GPT-3.5' = 'gpt-3.5',
+  'GPT-3.5 (Mobile)' = 'gpt-3.5-mobile',
+  'GPT-4' = 'gpt-4',
+  'GPT-4 (Mobile)' = 'gpt-4-mobile',
+  'GPT-4 Browsing' = 'gpt-4-browsing',
+}
+
 export enum MultiPanelLayout {
   Two = '2',
   Three = '3',
@@ -32,7 +40,7 @@ const userConfigWithDefaultValue = {
   chatgptApiModel: CHATGPT_API_MODELS[0],
   chatgptApiTemperature: 1,
   chatgptMode: ChatGPTMode.Webapp,
-  chatgptWebappModelName: 'default',
+  chatgptWebappModelName: ChatGPTWebModels['GPT-3.5'],
   startupPage: ALL_IN_ONE_PAGE_ID,
   bingConversationStyle: BingConversationStyle.Balanced,
   multiPanelLayout: MultiPanelLayout.Two,
@@ -48,6 +56,9 @@ export async function getUserConfig(): Promise<UserConfig> {
   const result = await Browser.storage.sync.get(Object.keys(userConfigWithDefaultValue))
   if (!result.chatgptMode && result.openaiApiKey) {
     result.chatgptMode = ChatGPTMode.API
+  }
+  if (result.chatgptWebappModelName === 'default') {
+    result.chatgptWebappModelName = ChatGPTWebModels['GPT-3.5']
   }
   return defaults(result, userConfigWithDefaultValue)
 }
