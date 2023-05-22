@@ -8,7 +8,7 @@ function Layout() {
   const followArcTheme = useAtomValue(followArcThemeAtom)
   return (
     <main
-      className="min-h-screen grid grid-cols-[auto_1fr]"
+      className="h-screen grid grid-cols-[auto_1fr]"
       style={{ backgroundColor: followArcTheme ? 'var(--arc-palette-foregroundPrimary)' : themeColor }}
     >
       <Sidebar />
