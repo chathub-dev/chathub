@@ -34,7 +34,7 @@ function Sidebar() {
   return (
     <aside
       className={cx(
-        'flex flex-col bg-primary-background bg-opacity-40',
+        'flex flex-col bg-primary-background bg-opacity-40 overflow-hidden',
         collapsed ? 'items-center px-[15px]' : 'w-[230px] px-4',
       )}
     >
@@ -44,7 +44,7 @@ function Sidebar() {
         onClick={() => setCollapsed((c) => !c)}
       />
       {collapsed ? <img src={minimalLogo} className="w-[30px]" /> : <img src={logo} className="w-[79px]" />}
-      <div className="flex flex-col gap-3 mt-12">
+      <div className="flex flex-col gap-3 mt-12 overflow-y-auto">
         <NavLink to="/" text={'All-In-One'} icon={allInOneIcon} iconOnly={collapsed} />
         {Object.entries(CHATBOTS).map(([botId, bot]) => (
           <NavLink
@@ -57,7 +57,7 @@ function Sidebar() {
           />
         ))}
       </div>
-      <div className="mt-auto">
+      <div className="mt-auto pt-2">
         {!collapsed && <hr className="border-[#ffffff4d]" />}
         {!collapsed && (
           <div className="my-5">
