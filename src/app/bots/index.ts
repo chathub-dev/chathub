@@ -1,10 +1,11 @@
 import { BardBot } from './bard'
 import { BingWebBot } from './bing'
 import { ChatGPTBot } from './chatgpt'
+import { LMSYSBot } from './lmsys'
 import { PoeWebBot } from './poe'
 import { XunfeiBot } from './xunfei'
 
-export type BotId = 'chatgpt' | 'bing' | 'bard' | 'claude' | 'xunfei'
+export type BotId = 'chatgpt' | 'bing' | 'bard' | 'claude' | 'xunfei' | 'vicuna' | 'alpaca' | 'chatglm'
 
 export function createBotInstance(botId: BotId) {
   switch (botId) {
@@ -18,5 +19,11 @@ export function createBotInstance(botId: BotId) {
       return new PoeWebBot()
     case 'xunfei':
       return new XunfeiBot()
+    case 'vicuna':
+      return new LMSYSBot('vicuna-13b')
+    case 'alpaca':
+      return new LMSYSBot('alpaca-13b')
+    case 'chatglm':
+      return new LMSYSBot('chatglm-6b')
   }
 }

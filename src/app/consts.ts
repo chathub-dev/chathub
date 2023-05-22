@@ -1,7 +1,10 @@
+import alpacaLogo from '~/assets/alpaca-logo.png'
 import claudeLogo from '~/assets/anthropic-logo.png'
 import bardLogo from '~/assets/bard-logo.svg'
 import bingLogo from '~/assets/bing-logo.svg'
+import chatglmLogo from '~/assets/chatglm-logo.svg'
 import chatgptLogo from '~/assets/chatgpt-logo.svg'
+import vicunaLogo from '~/assets/vicuna-logo.jpg'
 import xunfeiLogo from '~/assets/xunfei-logo.png'
 import { BotId } from './bots'
 import i18n from './i18n'
@@ -26,6 +29,18 @@ export const CHATBOTS: Record<BotId, { name: string; avatar: any }> = {
   xunfei: {
     name: i18n.t('iFlytek Spark'),
     avatar: xunfeiLogo,
+  },
+  chatglm: {
+    name: 'ChatGLM',
+    avatar: chatglmLogo,
+  },
+  alpaca: {
+    name: 'Alpaca',
+    avatar: alpacaLogo,
+  },
+  vicuna: {
+    name: 'Vicuna',
+    avatar: vicunaLogo,
   },
 }
 
