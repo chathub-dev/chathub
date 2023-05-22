@@ -159,7 +159,10 @@ export class BingWebBot extends AbstractBot {
             params.onEvent({ type: 'UPDATE_ANSWER', data: { text } })
           }
         } else if (event.type === 2) {
-          const messages = event.item.messages as ChatResponseMessage[]
+          const messages = event.item.messages as ChatResponseMessage[] | undefined
+          if (!messages) {
+            throw new Error(event.item.result.error || 'Unknown error')
+          }
           const limited = messages.some((message) => message.contentOrigin === 'TurnLimiter')
           if (limited) {
             params.onEvent({
