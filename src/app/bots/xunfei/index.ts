@@ -52,7 +52,12 @@ export class XunfeiBot extends AbstractBot {
       } else if (message === '<kx>') {
         throw new ChatError('讯飞无法继续这个话题，请重启会话', ErrorCode.CONVERSATION_LIMIT)
       } else if (!done) {
-        const decoded = Base64.decode(message)
+        let decoded: string
+        try {
+          decoded = Base64.decode(message)
+        } catch (err) {
+          throw new ChatError('讯飞无法回答该问题', ErrorCode.CONVERSATION_LIMIT)
+        }
         answer += decoded
         params.onEvent({ type: 'UPDATE_ANSWER', data: { text: answer } })
       }
