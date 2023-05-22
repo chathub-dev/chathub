@@ -560,10 +560,10 @@
   resolved "https://registry.yarnpkg.com/@fortaine/fetch-event-source/-/fetch-event-source-3.0.6.tgz#b8552a2ca2c5202f5699b93a92be0188d422b06e"
   integrity sha512-621GAuLMvKtyZQ3IA6nlDWhV1V/7PGOTNIGLUifxt0KzM+dZIweJ6F3XvQF3QnqeNfS1N7WQ0Kil1Di/lhChEw==
 
-"@headlessui/react@^1.7.13":
-  version "1.7.13"
-  resolved "https://registry.yarnpkg.com/@headlessui/react/-/react-1.7.13.tgz#fd150b394954e9f1d86ed2340cffd1217d6e7628"
-  integrity sha512-9n+EQKRtD9266xIHXdY5MfiXPDfYwl7zBM7KOx2Ae3Gdgxy8QML1FkCMjq6AsOf0l6N9uvI4HcFtuFlenaldKg==
+"@headlessui/react@^1.7.14":
+  version "1.7.14"
+  resolved "https://registry.yarnpkg.com/@headlessui/react/-/react-1.7.14.tgz#75f19552c535113640fe8a3a40e71474f49e89c9"
+  integrity sha512-znzdq9PG8rkwcu9oQ2FwIy0ZFtP9Z7ycS+BAqJ3R5EIqC/0bJGvhT7193rFf+45i9nnPsYvCQVW4V/bB9Xc+gA==
   dependencies:
     client-only "^0.0.1"
 
