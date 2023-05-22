@@ -58,6 +58,18 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 - 🔗 Share conversation to markdown
 - 🌙 Dark mode
 
+## 🤖 Supported bots
+
+* ChatGPT (via Webapp/API/Azure/Poe)
+* Bing Chat
+* Google Bard
+* Claude (via Poe)
+* iFlytek Spark
+* ChatGLM
+* Alpaca
+* Vicuna
+* ...
+
 ## 🔧 Manual Installation
 
 - Download chathub.zip from [Releases](https://github.com/chathub-dev/chathub/releases)
