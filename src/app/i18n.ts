@@ -26,7 +26,7 @@ const resources = {
       Model: '模型',
       'Presale discount': '预售折扣',
       'Cloud syncing data': '数据云同步',
-      'More bots in All-In-One mode': '在All-In-One模式下使用更多chatbot',
+      'More bots in All-In-One mode': '在All-In-One模式下使用更多chatbot（三合一、四合一）',
       'Chat history full-text search': '全文搜索聊天记录',
       'Customize theme': '自定义主题',
       'More in the future': '享受未来所有功能更新',
