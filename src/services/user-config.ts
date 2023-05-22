@@ -12,6 +12,7 @@ export enum ChatGPTMode {
   Webapp = 'webapp',
   API = 'api',
   Azure = 'azure',
+  Poe = 'poe',
 }
 
 export enum ChatGPTWebModels {
@@ -28,7 +29,12 @@ export enum MultiPanelLayout {
   Four = '4',
 }
 
-export enum PoeModel {
+export enum PoeGPTModel {
+  'GPT-3.5' = 'chinchilla',
+  'GPT-4' = 'beaver',
+}
+
+export enum PoeClaudeModel {
   ClaudeInstant = 'a2',
   ClaudePlus = 'a2_2',
   ClaudeInstant100k = 'a2_100k',
@@ -41,10 +47,11 @@ const userConfigWithDefaultValue = {
   chatgptApiTemperature: 1,
   chatgptMode: ChatGPTMode.Webapp,
   chatgptWebappModelName: ChatGPTWebModels['GPT-3.5'],
+  chatgptPoeModelName: PoeGPTModel['GPT-3.5'],
   startupPage: ALL_IN_ONE_PAGE_ID,
   bingConversationStyle: BingConversationStyle.Balanced,
   multiPanelLayout: MultiPanelLayout.Two,
-  poeModel: PoeModel.ClaudePlus,
+  poeModel: PoeClaudeModel.ClaudePlus,
   azureOpenAIApiKey: '',
   azureOpenAIApiInstanceName: '',
   azureOpenAIApiDeploymentName: '',

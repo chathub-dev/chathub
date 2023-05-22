@@ -39,3 +39,12 @@ export abstract class AbstractBot {
   abstract doSendMessage(params: SendMessageParams): Promise<void>
   abstract resetConversation(): void
 }
+
+export class DummyBot extends AbstractBot {
+  async doSendMessage(_params: SendMessageParams) {
+    // dummy
+  }
+  resetConversation() {
+    // dummy
+  }
+}

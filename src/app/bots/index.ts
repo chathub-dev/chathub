@@ -1,8 +1,8 @@
 import { BardBot } from './bard'
 import { BingWebBot } from './bing'
 import { ChatGPTBot } from './chatgpt'
+import { ClaudeBot } from './claude'
 import { LMSYSBot } from './lmsys'
-import { PoeWebBot } from './poe'
 import { XunfeiBot } from './xunfei'
 
 export type BotId = 'chatgpt' | 'bing' | 'bard' | 'claude' | 'xunfei' | 'vicuna' | 'alpaca' | 'chatglm'
@@ -16,7 +16,7 @@ export function createBotInstance(botId: BotId) {
     case 'bard':
       return new BardBot()
     case 'claude':
-      return new PoeWebBot()
+      return new ClaudeBot()
     case 'xunfei':
       return new XunfeiBot()
     case 'vicuna':

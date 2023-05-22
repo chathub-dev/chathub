@@ -1,9 +1,8 @@
 import WebSocketAsPromised from 'websocket-as-promised'
 import { requestHostPermission } from '~app/utils/permissions'
+import { ChatError, ErrorCode } from '~utils/errors'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
 import { GRAPHQL_QUERIES, PoeSettings, getChatId, getPoeSettings, gqlRequest } from './api'
-import { ChatError, ErrorCode } from '~utils/errors'
-import { getUserConfig } from '~services/user-config'
 
 interface ChatMessage {
   id: string
@@ -26,16 +25,17 @@ interface WebsocketMessage {
 
 interface ConversationContext {
   poeSettings: PoeSettings
-  botId: string // bot model id
   chatId: number // user specific chat id for the bot
   wsp: WebSocketAsPromised
 }
 
 export class PoeWebBot extends AbstractBot {
+  public botId: string
   private conversationContext?: ConversationContext
 
-  constructor() {
+  constructor(botId: string) {
     super()
+    this.botId = botId
   }
 
   async doSendMessage(params: SendMessageParams) {
@@ -44,36 +44,39 @@ export class PoeWebBot extends AbstractBot {
     }
 
     if (!this.conversationContext) {
-      const { poeModel: botId } = await getUserConfig()
-      console.log('Using poe model', botId)
-      const { poeSettings, chatId } = await this.getChatInfo(botId)
+      console.log('Using poe model', this.botId)
+      const { poeSettings, chatId } = await this.getChatInfo()
       const wsp = await this.connectWebsocket(poeSettings)
       await this.subscribe(poeSettings)
-      this.conversationContext = { botId, chatId, poeSettings, wsp }
+      this.conversationContext = { chatId, poeSettings, wsp }
     }
 
     const wsp = this.conversationContext.wsp
 
     const onUnpackedMessageListener = (data: any) => {
-      console.debug('onUnpackedMessage', data)
+      console.debug(this.botId, 'onUnpackedMessage', data)
       const messages: WebsocketMessage[] = data.messages.map((s: string) => JSON.parse(s))
       for (const m of messages) {
         if (m.message_type === 'subscriptionUpdate' && m.payload.subscription_name === 'messageAdded') {
           const chatMessage = m.payload.data.messageAdded
-          console.log(chatMessage)
+          if (chatMessage.author !== this.botId) {
+            continue
+          }
           params.onEvent({
             type: 'UPDATE_ANSWER',
-            data: { text: chatMessage.text },
+            data: { text: chatMessage.text.trimStart() },
           })
           if (chatMessage.state === 'complete') {
             params.onEvent({ type: 'DONE' })
-            wsp.onUnpackedMessage.removeAllListeners()
+            wsp.removeAllListeners()
           }
         }
       }
     }
 
     wsp.onUnpackedMessage.addListener(onUnpackedMessageListener)
+    wsp.onError.addListener(console.error)
+
     await wsp.open()
 
     try {
@@ -96,18 +99,18 @@ export class PoeWebBot extends AbstractBot {
     this.conversationContext = undefined
   }
 
-  private async getChatInfo(botId: string) {
+  private async getChatInfo() {
     const poeSettings = await getPoeSettings()
-    const chatId = await getChatId(botId, poeSettings)
+    const chatId = await getChatId(this.botId, poeSettings)
     return { poeSettings, chatId }
   }
 
   private async sendMessageRequest(message: string) {
-    const { poeSettings, botId, chatId } = this.conversationContext!
+    const { poeSettings, chatId } = this.conversationContext!
     const resp = await gqlRequest(
       'SendMessageMutation',
       {
-        bot: botId,
+        bot: this.botId,
         chatId,
         query: message,
         source: null,

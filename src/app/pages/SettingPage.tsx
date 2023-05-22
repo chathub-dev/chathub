@@ -15,7 +15,7 @@ import {
   BingConversationStyle,
   ChatGPTMode,
   MultiPanelLayout,
-  PoeModel,
+  PoeClaudeModel,
   UserConfig,
   getUserConfig,
   updateUserConfig,
@@ -24,6 +24,7 @@ import { getVersion } from '~utils'
 import PagePanel from '../components/Page'
 import ChatGPTAzureSettings from '~app/components/Settings/ChatGPTAzureSettings'
 import ChatGPWebSettings from '~app/components/Settings/ChatGPTWebSettings'
+import ChatGPTPoeSettings from '~app/components/Settings/ChatGPTPoeSettings'
 
 const BING_STYLE_OPTIONS = [
   { name: 'Precise', value: BingConversationStyle.Precise },
@@ -32,9 +33,9 @@ const BING_STYLE_OPTIONS = [
 ]
 
 const POE_MODEL_OPTIONS = [
-  { name: 'Claude-Instant', value: PoeModel.ClaudeInstant },
-  { name: 'Claude+', value: PoeModel.ClaudePlus },
-  { name: 'Claude-instant-100k', value: PoeModel.ClaudeInstant100k },
+  { name: 'Claude-Instant', value: PoeClaudeModel.ClaudeInstant },
+  { name: 'Claude+', value: PoeClaudeModel.ClaudePlus },
+  { name: 'Claude-instant-100k', value: PoeClaudeModel.ClaudeInstant100k },
 ]
 
 function SettingPage() {
@@ -152,7 +153,7 @@ function SettingPage() {
         </div>
         <div className="flex flex-col gap-2">
           <p className="font-bold text-xl">ChatGPT</p>
-          <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-4 mb-1">
+          <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3 mb-1">
             {(Object.keys(ChatGPTMode) as (keyof typeof ChatGPTMode)[]).map((k) => (
               <div className="flex items-center" key={k}>
                 <input
@@ -173,6 +174,8 @@ function SettingPage() {
             <ChatGPTAPISettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
           ) : userConfig.chatgptMode === ChatGPTMode.Azure ? (
             <ChatGPTAzureSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
+          ) : userConfig.chatgptMode === ChatGPTMode.Poe ? (
+            <ChatGPTPoeSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
           ) : (
             <ChatGPWebSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
           )}
@@ -202,11 +205,11 @@ function SettingPage() {
               />
             </div>
           </div>
-          {userConfig.poeModel === PoeModel.ClaudePlus && (
+          {userConfig.poeModel === PoeClaudeModel.ClaudePlus && (
             <p className="text-sm mt-1 text-secondary-text">{t('Limited Access')}</p>
           )}
-          {userConfig.poeModel === PoeModel.ClaudeInstant100k && (
-            <p className="text-sm mt-1 text-secondary-text">{t('Available to Poe subscribers only')}</p>
+          {userConfig.poeModel === PoeClaudeModel.ClaudeInstant100k && (
+            <p className="text-sm mt-1 text-secondary-text">{t('Poe subscribers only')}</p>
           )}
         </div>
       </div>
