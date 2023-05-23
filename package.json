@@ -74,7 +74,7 @@
     "js-base64": "^3.7.5",
     "langchain": "^0.0.78",
     "lodash-es": "^4.17.21",
-    "lucide-react": "^0.130.0",
+    "lucide-react": "^0.220.0",
     "md5": "^2.3.0",
     "ofetch": "^1.0.1",
     "plausible-tracker": "^0.3.8",
