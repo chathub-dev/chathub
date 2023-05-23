@@ -1,10 +1,10 @@
+import { Link } from '@tanstack/react-router'
 import { FC, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Browser from 'webextension-polyfill'
+import { usePremium } from '~app/hooks/use-premium'
 import Button from './Button'
 import Dialog from './Dialog'
-import { usePremium } from '~app/hooks/use-premium'
-import { Link } from '@tanstack/react-router'
 
 async function incrOpenTimes() {
   const { openTimes = 0 } = await Browser.storage.sync.get('openTimes')
