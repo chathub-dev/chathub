@@ -34,7 +34,7 @@ export function usePremium() {
   )
 
   return {
-    activated: true,
+    activated: activateQuery.data?.valid,
     isLoading: activateQuery.isLoading,
   }
 }
