@@ -21,17 +21,16 @@ export async function deactivateLicenseKey(key: string) {
   }
   await deactivateLicense(key, instanceId)
   localStorage.removeItem(`license_instance_id:${key}`)
-  localStorage.removeItem('license_validated_cache')
 }
 
-export function loadLicenseKeyValidatedCache(): boolean | undefined {
-  const value = localStorage.getItem('license_validated_cache')
-  if (value === null) {
-    return undefined
+export function getLicenseInstanceId(key: string) {
+  return localStorage.getItem(`license_instance_id:${key}`)
+}
+
+export function clearLicenseInstances() {
+  for (const k of Object.keys(localStorage)) {
+    if (k.startsWith('license_instance_id:')) {
+      localStorage.removeItem(k)
+    }
   }
-  return JSON.parse(value)
-}
-
-export function setLicenseKeyValidatedCache(value: boolean) {
-  localStorage.setItem('license_validated_cache', JSON.stringify(value))
 }
