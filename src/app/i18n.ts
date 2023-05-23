@@ -55,6 +55,8 @@ const resources = {
       'Model used by ChatGPT iOS app, potentially faster': 'ChatGPT iOS app使用的模型，可能更快',
       'Poe subscribers only': 'Poe订阅会员可用',
       'Quick access in Chrome side bar': '在Chrome侧边栏快速访问',
+      'You have opened ChatHub {{openTimes}} times, consider unlock all features?':
+        '哇！你已经打开ChatHub {{openTimes}}次了，是否要解锁全部功能呢？🥺',
     },
   },
   de: {

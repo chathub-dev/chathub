@@ -11,7 +11,7 @@ import minimalLogo from '~/assets/minimal-logo.svg'
 import { CHATBOTS } from '~app/consts'
 import { sidebarCollapsedAtom } from '~app/state'
 import CommandBar from '../CommandBar'
-import RatingModal from '../RatingModal'
+import GuideModal from '../GuideModal'
 import NavLink from './NavLink'
 import PremiumEntry from './PremiumEntry'
 import ThemeSettingModal from '../ThemeSettingModal'
@@ -75,7 +75,7 @@ function Sidebar() {
         </div>
       </div>
       <CommandBar />
-      <RatingModal />
+      <GuideModal />
       {themeSettingModalOpen && <ThemeSettingModal open={true} onClose={() => setThemeSettingModalOpen(false)} />}
     </aside>
   )
