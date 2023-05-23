@@ -27,6 +27,7 @@ interface ConversationContext {
   poeSettings: PoeSettings
   chatId: number // user specific chat id for the bot
   wsp: WebSocketAsPromised
+  minMessageId?: number
 }
 
 export class PoeWebBot extends AbstractBot {
@@ -54,12 +55,18 @@ export class PoeWebBot extends AbstractBot {
     const wsp = this.conversationContext.wsp
 
     const onUnpackedMessageListener = (data: any) => {
-      console.debug(this.botId, 'onUnpackedMessage', data)
       const messages: WebsocketMessage[] = data.messages.map((s: string) => JSON.parse(s))
       for (const m of messages) {
         if (m.message_type === 'subscriptionUpdate' && m.payload.subscription_name === 'messageAdded') {
           const chatMessage = m.payload.data.messageAdded
+          console.debug('poe ws chat message', chatMessage)
           if (chatMessage.author !== this.botId) {
+            continue
+          }
+          if (
+            this.conversationContext?.minMessageId &&
+            chatMessage.messageId <= this.conversationContext.minMessageId
+          ) {
             continue
           }
           params.onEvent({
@@ -67,6 +74,7 @@ export class PoeWebBot extends AbstractBot {
             data: { text: chatMessage.text.trimStart() },
           })
           if (chatMessage.state === 'complete') {
+            this.conversationContext!.minMessageId = chatMessage.messageId
             params.onEvent({ type: 'DONE' })
             wsp.removeAllListeners()
           }
@@ -118,6 +126,9 @@ export class PoeWebBot extends AbstractBot {
       },
       poeSettings,
     )
+    if (!resp.data) {
+      throw new Error(JSON.stringify(resp.errors))
+    }
     if (!resp.data.messageEdgeCreate.message) {
       throw new Error('You’ve reached the daily free message limit for this model')
     }
