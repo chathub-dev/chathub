@@ -176,7 +176,9 @@ export class BingWebBot extends AbstractBot {
                 ErrorCode.CONVERSATION_LIMIT,
               ),
             })
-          } else if (!receivedAnswer) {
+            return
+          }
+          if (!receivedAnswer) {
             const message = event.item.messages[event.item.firstNewMessageIndex] as ChatResponseMessage
             if (message) {
               receivedAnswer = true
