@@ -20,12 +20,12 @@ const GuideModal: FC = () => {
 
   useEffect(() => {
     incrOpenTimes().then((t) => {
-      setOpen(t === 5 || (t > 0 && t % 50 === 0))
+      setOpen(t === 15 || (t > 0 && t % 50 === 0))
       setOpenTimes(t)
     })
   }, [])
 
-  if (openTimes === 5) {
+  if (openTimes === 15) {
     return (
       <Dialog title="🌟🌟🌟🌟🌟" open={open} onClose={() => setOpen(false)} className="rounded-2xl w-[600px]">
         <div className="flex flex-col items-center gap-4 py-6">
