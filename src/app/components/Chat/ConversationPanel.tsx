@@ -97,7 +97,7 @@ const ConversationPanel: FC<Props> = (props) => {
           <ChatMessageInput
             mode={mode}
             disabled={props.generating}
-            placeholder={mode === 'compact' ? '' : 'Ask me anything...'}
+            placeholder={mode === 'compact' ? '' : undefined}
             onSubmit={onSubmit}
             autoFocus={mode === 'full'}
             actionButton={

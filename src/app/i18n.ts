@@ -58,6 +58,8 @@ const resources = {
       'Quick access in Chrome side bar': '在Chrome侧边栏快速访问',
       'You have opened ChatHub {{openTimes}} times, consider unlock all features?':
         '哇！你已经打开ChatHub {{openTimes}}次了，是否要解锁全部功能呢？🥺',
+      'Open Prompt Library': '管理提示词',
+      'Use / to select prompts, Shift+Enter to add new line': '使用 / 选择提示词，Shift+Enter添加换行',
     },
   },
   de: {

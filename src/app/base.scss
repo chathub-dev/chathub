@@ -32,6 +32,10 @@ body {
   font-size: 100%;
 }
 
+:focus-visible {
+  outline: none;
+}
+
 @mixin light-theme {
   color-scheme: light;
   --color-primary-blue: 73 135 252; // #4987FC
