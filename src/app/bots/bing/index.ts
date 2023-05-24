@@ -161,7 +161,11 @@ export class BingWebBot extends AbstractBot {
         } else if (event.type === 2) {
           const messages = event.item.messages as ChatResponseMessage[] | undefined
           if (!messages) {
-            throw new Error(event.item.result.error || 'Unknown error')
+            params.onEvent({
+              type: 'ERROR',
+              error: new ChatError(event.item.result.error || 'Unknown error', ErrorCode.UNKOWN_ERROR),
+            })
+            return
           }
           const limited = messages.some((message) => message.contentOrigin === 'TurnLimiter')
           if (limited) {
