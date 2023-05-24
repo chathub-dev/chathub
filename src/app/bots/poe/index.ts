@@ -50,6 +50,7 @@ export class PoeWebBot extends AbstractBot {
       const wsp = await this.connectWebsocket(poeSettings)
       await this.subscribe(poeSettings)
       this.conversationContext = { chatId, poeSettings, wsp }
+      await this.sendChatBreak().catch(console.error)
     }
 
     const wsp = this.conversationContext.wsp
