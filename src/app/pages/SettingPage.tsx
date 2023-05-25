@@ -105,15 +105,17 @@ function SettingPage() {
             <Button size="small" text={t('Import')} icon={<BiImport />} onClick={importData} />
           </div>
         </div>
-        <div className="flex flex-row justify-between items-center">
-          <div>
-            <p className="font-bold mb-2 text-xl">{t('Shortcut to open this app')}</p>
-            <div className="flex flex-row gap-1">
-              {shortcuts.length ? shortcuts.map((s) => <KDB key={s} text={s} />) : 'Not set'}
-            </div>
-          </div>
-          <div>
-            <Button text={t('Change shortcut')} size="normal" onClick={openShortcutPage} />
+        <div className="flex flex-col gap-2">
+          <p className="font-bold text-xl">{t('Shortcut to open this app')}</p>
+          <div className="flex flex-row gap-2 items-center">
+            {shortcuts.length > 0 && (
+              <div className="flex flex-row gap-1">
+                {shortcuts.map((s) => (
+                  <KDB key={s} text={s} />
+                ))}
+              </div>
+            )}
+            <Button text={t('Change shortcut')} size="small" onClick={openShortcutPage} />
           </div>
         </div>
         <div>
