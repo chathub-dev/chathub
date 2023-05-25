@@ -24,7 +24,7 @@
     
 ##
 
-[螢幕截圖](#-螢幕截圖) &nbsp;&nbsp;|&nbsp;&nbsp; [功能特色](#-功能特色) &nbsp;&nbsp;|&nbsp;&nbsp; [手動安裝](#-手動安裝) &nbsp;&nbsp;|&nbsp;&nbsp; [從原始碼建置](#-從原始碼建置) &nbsp;&nbsp;|&nbsp;&nbsp; [路線圖](#%EF%B8%8F-路線圖) &nbsp;&nbsp;|&nbsp;&nbsp; [更新日誌](#-更新日誌)
+[螢幕截圖](#-螢幕截圖) &nbsp;&nbsp;|&nbsp;&nbsp; [功能特色](#-功能特色) &nbsp;&nbsp;|&nbsp;&nbsp; [支援的聊天機器人](#-支援的聊天機器人) &nbsp;&nbsp;|&nbsp;&nbsp; [手動安裝](#-手動安裝) &nbsp;&nbsp;|&nbsp;&nbsp; [從原始碼建立](#-從原始碼建立) &nbsp;&nbsp;|&nbsp;&nbsp; [路線圖](#%EF%B8%8F-路線圖) &nbsp;&nbsp;|&nbsp;&nbsp; [更新日誌](#-更新日誌)
 
 [作者-image]: https://img.shields.io/badge/author-wong2-blue.svg
 [作者-url]: https://github.com/wong2    
