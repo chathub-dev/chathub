@@ -87,6 +87,10 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 
 ## 📜 Changelog
 
+### v1.19.0
+
+- Quick access to prompts
+
 ### v1.18.0
 
 - Support Alpaca, Vicuna and ChatGLM
