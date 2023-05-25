@@ -57,6 +57,7 @@ const ChatMessageInput: FC<Props> = (props) => {
   const handleSelect = useCallback((p: Prompt) => {
     if (p.id === 'PROMPT_LIBRARY') {
       setIsPromptLibraryDialogOpen(true)
+      setIsComboboxOpen(false)
       trackEvent('open_prompt_library', { source: 'combobox' })
     } else {
       setValue(p.prompt)
