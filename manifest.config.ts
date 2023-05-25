@@ -20,7 +20,7 @@ export default defineManifest(async (env) => {
     action: {},
     host_permissions: ['https://*.bing.com/', 'https://*.openai.com/', 'https://bard.google.com/'],
     optional_host_permissions: ['https://*/*'],
-    permissions: ['commands', 'storage', 'unlimitedStorage'],
+    permissions: ['storage', 'unlimitedStorage'],
     content_scripts: [
       {
         matches: ['https://chat.openai.com/*'],
