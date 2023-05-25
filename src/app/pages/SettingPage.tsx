@@ -96,7 +96,7 @@ function SettingPage() {
 
   return (
     <PagePanel title={`${t('Settings')} (v${getVersion()})`}>
-      <div className="flex flex-col gap-8 mt-3 pr-3">
+      <div className="flex flex-col gap-5 mt-3">
         <div>
           <p className="font-bold mb-1 text-xl">{t('Export/Import All Data')}</p>
           <p className="mb-3 opacity-80">{t('Data includes all your settings, chat histories, and local prompts')}</p>
@@ -105,15 +105,17 @@ function SettingPage() {
             <Button size="small" text={t('Import')} icon={<BiImport />} onClick={importData} />
           </div>
         </div>
-        <div className="flex flex-row justify-between items-center">
-          <div>
-            <p className="font-bold mb-2 text-xl">{t('Shortcut to open this app')}</p>
-            <div className="flex flex-row gap-1">
-              {shortcuts.length ? shortcuts.map((s) => <KDB key={s} text={s} />) : 'Not set'}
-            </div>
-          </div>
-          <div>
-            <Button text={t('Change shortcut')} size="normal" onClick={openShortcutPage} />
+        <div className="flex flex-col gap-2">
+          <p className="font-bold text-xl">{t('Shortcut to open this app')}</p>
+          <div className="flex flex-row gap-2 items-center">
+            {shortcuts.length > 0 && (
+              <div className="flex flex-row gap-1">
+                {shortcuts.map((s) => (
+                  <KDB key={s} text={s} />
+                ))}
+              </div>
+            )}
+            <Button text={t('Change shortcut')} size="small" onClick={openShortcutPage} />
           </div>
         </div>
         <div>
@@ -213,7 +215,7 @@ function SettingPage() {
           )}
         </div>
       </div>
-      <Button color={dirty ? 'primary' : 'flat'} text={t('Save')} className="w-fit mt-10 mb-5" onClick={save} />
+      <Button color={dirty ? 'primary' : 'flat'} text={t('Save')} className="w-fit my-8" onClick={save} />
       <Toaster position="top-right" />
     </PagePanel>
   )
