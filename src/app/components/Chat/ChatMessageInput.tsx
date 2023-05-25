@@ -97,10 +97,10 @@ const ChatMessageInput: FC<Props> = (props) => {
   }, [props.autoFocus, props.disabled])
 
   useEffect(() => {
-    if (!props.disabled && !isComboboxOpen) {
+    if (!props.disabled && !isComboboxOpen && props.mode === 'full') {
       inputRef.current?.focus()
     }
-  }, [setIsComboboxOpen, props.disabled, isComboboxOpen])
+  }, [setIsComboboxOpen, props.disabled, isComboboxOpen, props.mode])
 
   const onFormSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
