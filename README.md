@@ -47,10 +47,9 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 
 ## ✨ Features
 
-- 🤖 Use different chatbots in one app, currently supporting ChatGPT, new Bing Chat, Google Bard and Claude (via Poe), will integrate more in the future
+- 🤖 Use different chatbots in one app, currently supporting ChatGPT, new Bing Chat, Google Bard, Claude (via Poe), Alpaca, Vicuna, ChatGLM, and will integrate more in the future
 - 💬 Chat with multiple chatbots at the same time, making it easy to compare their answers
-- 🚀 Support ChatGPT API mode, which is faster and more cost-effective than ChatGPT Plus
-- 📊 Token usage stats when using ChatGPT API mode
+- 🚀 Support ChatGPT API and GPT-4 Browsing
 - 🔍 Shortcut to quickly activate the app anywhere in the browser
 - 🎨 Markdown and code highlight support
 - 📚 Prompt Library for custom prompts and community prompts
@@ -58,6 +57,18 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 - 📥 Export and Import all your data
 - 🔗 Share conversation to markdown
 - 🌙 Dark mode
+
+## 🤖 Supported bots
+
+* ChatGPT (via Webapp/API/Azure/Poe)
+* Bing Chat
+* Google Bard
+* Claude (via Poe)
+* iFlytek Spark
+* ChatGLM
+* Alpaca
+* Vicuna
+* ...
 
 ## 🔧 Manual Installation
 
@@ -75,6 +86,14 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 - Load `dist` folder to browser by following steps in _Manual Installation_
 
 ## 📜 Changelog
+
+### v1.19.0
+
+- Quick access to prompts
+
+### v1.18.0
+
+- Support Alpaca, Vicuna and ChatGLM
 
 ### v1.17.0
 

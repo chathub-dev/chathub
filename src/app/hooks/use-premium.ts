@@ -1,12 +1,11 @@
-import { useAtomValue } from 'jotai'
+import { useAtom } from 'jotai'
+import { FetchError } from 'ofetch'
 import useSWR from 'swr'
 import { licenseKeyAtom } from '~app/state'
-import { loadLicenseKeyValidatedCache, setLicenseKeyValidatedCache, validateLicenseKey } from '~services/premium'
-
-const LICENSE_KEY_VALIDATED_CACHE = loadLicenseKeyValidatedCache()
+import { clearLicenseInstances, getLicenseInstanceId, validateLicenseKey } from '~services/premium'
 
 export function usePremium() {
-  const licenseKey = useAtomValue(licenseKeyAtom)
+  const [licenseKey, setLicenseKey] = useAtom(licenseKeyAtom)
 
   const activateQuery = useSWR<{ valid: boolean }>(
     `license:${licenseKey}`,
@@ -14,20 +13,18 @@ export function usePremium() {
       if (!licenseKey) {
         return { valid: false }
       }
-      try {
-        return await validateLicenseKey(licenseKey)
-      } catch (err) {
-        console.error(err)
-        return { valid: false }
-      }
+      return validateLicenseKey(licenseKey)
     },
     {
-      fallbackData: LICENSE_KEY_VALIDATED_CACHE === undefined ? undefined : { valid: LICENSE_KEY_VALIDATED_CACHE },
+      fallbackData: getLicenseInstanceId(licenseKey) ? { valid: true } : undefined,
       revalidateOnFocus: false,
       dedupingInterval: 10 * 60 * 1000,
-      onSuccess(data) {
-        if (licenseKey) {
-          setLicenseKeyValidatedCache(data.valid)
+      onError(err) {
+        if (err instanceof FetchError) {
+          if (err.status === 404) {
+            clearLicenseInstances()
+            setLicenseKey('')
+          }
         }
       },
     },

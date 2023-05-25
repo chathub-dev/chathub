@@ -190,6 +190,8 @@ function CommunityPrompts(props: { insertPrompt: (text: string) => void }) {
 }
 
 const PromptLibrary = (props: { insertPrompt: (text: string) => void }) => {
+  const { t } = useTranslation()
+
   const insertPrompt = useCallback(
     (text: string) => {
       props.insertPrompt(text)
@@ -200,10 +202,10 @@ const PromptLibrary = (props: { insertPrompt: (text: string) => void }) => {
 
   const tabs = useMemo<Tab[]>(
     () => [
-      { name: 'Your Prompts', value: 'local' },
-      { name: 'Community Prompts', value: 'community' },
+      { name: t('Your Prompts'), value: 'local' },
+      { name: t('Community Prompts'), value: 'community' },
     ],
-    [],
+    [t],
   )
 
   return (

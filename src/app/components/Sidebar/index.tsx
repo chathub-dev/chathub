@@ -11,7 +11,7 @@ import minimalLogo from '~/assets/minimal-logo.svg'
 import { CHATBOTS } from '~app/consts'
 import { sidebarCollapsedAtom } from '~app/state'
 import CommandBar from '../CommandBar'
-import RatingModal from '../RatingModal'
+import GuideModal from '../GuideModal'
 import NavLink from './NavLink'
 import PremiumEntry from './PremiumEntry'
 import ThemeSettingModal from '../ThemeSettingModal'
@@ -34,7 +34,7 @@ function Sidebar() {
   return (
     <aside
       className={cx(
-        'flex flex-col bg-primary-background bg-opacity-40',
+        'flex flex-col bg-primary-background bg-opacity-40 overflow-hidden',
         collapsed ? 'items-center px-[15px]' : 'w-[230px] px-4',
       )}
     >
@@ -44,7 +44,7 @@ function Sidebar() {
         onClick={() => setCollapsed((c) => !c)}
       />
       {collapsed ? <img src={minimalLogo} className="w-[30px]" /> : <img src={logo} className="w-[79px]" />}
-      <div className="flex flex-col gap-3 mt-12">
+      <div className="flex flex-col gap-3 mt-12 overflow-y-auto scrollbar-none">
         <NavLink to="/" text={'All-In-One'} icon={allInOneIcon} iconOnly={collapsed} />
         {Object.entries(CHATBOTS).map(([botId, bot]) => (
           <NavLink
@@ -57,7 +57,7 @@ function Sidebar() {
           />
         ))}
       </div>
-      <div className="mt-auto">
+      <div className="mt-auto pt-2">
         {!collapsed && <hr className="border-[#ffffff4d]" />}
         {!collapsed && (
           <div className="my-5">
@@ -75,7 +75,7 @@ function Sidebar() {
         </div>
       </div>
       <CommandBar />
-      <RatingModal />
+      <GuideModal />
       {themeSettingModalOpen && <ThemeSettingModal open={true} onClose={() => setThemeSettingModalOpen(false)} />}
     </aside>
   )

@@ -54,7 +54,6 @@ const GeneralChatPanel: FC<{ chats: ReturnType<typeof useChat>[] }> = ({ chats }
         mode="full"
         className="rounded-[20px] bg-primary-background px-5 py-[10px]"
         disabled={generating}
-        placeholder="Send to all ..."
         onSubmit={onUserSendMessage}
         actionButton={!generating && <Button text={t('Send')} color="primary" type="submit" />}
         autoFocus={true}

@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "build": "tsc && vite build"
   },
   "devDependencies": {
     "@crxjs/vite-plugin": "^2.0.0-beta.12",
@@ -22,9 +21,10 @@
     "@types/react-copy-to-clipboard": "^5.0.4",
     "@types/react-dom": "^18.2.4",
     "@types/react-scroll-to-bottom": "^4.2.0",
+    "@types/turndown": "^5.0.1",
     "@types/uuid": "^9.0.0",
     "@types/webextension-polyfill": "^0.10.0",
-    "@typescript-eslint/eslint-plugin": "^5.59.2",
+    "@typescript-eslint/eslint-plugin": "^5.59.7",
     "@typescript-eslint/parser": "^5.52.0",
     "@vitejs/plugin-react": "^3.1.0",
     "autoprefixer": "^10.4.14",
@@ -47,7 +47,8 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.11.0",
-    "@headlessui/react": "^1.7.13",
+    "@floating-ui/react": "^0.24.1",
+    "@headlessui/react": "^1.7.14",
     "@heroicons/react": "^2.0.16",
     "@radix-ui/colors": "^0.1.8",
     "@radix-ui/react-dialog": "^1.0.3",
@@ -71,7 +72,7 @@
     "jotai": "^2.0.2",
     "jotai-immer": "^0.2.0",
     "js-base64": "^3.7.5",
-    "langchain": "^0.0.75",
+    "langchain": "^0.0.78",
     "lodash-es": "^4.17.21",
     "lucide-react": "^0.130.0",
     "md5": "^2.3.0",
@@ -102,6 +103,7 @@
     "remark-rehype": "^10.1.0",
     "remark-supersub": "^1.0.0",
     "swr": "^2.1.5",
+    "turndown": "^7.1.2",
     "unified": "^10.1.2",
     "use-immer": "^0.8.1",
     "uuid": "^9.0.0",

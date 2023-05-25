@@ -57,7 +57,7 @@ const SwitchBotDropdown: FC<Props> = (props) => {
                   <div className="w-4 h-4">
                     <img src={bot.avatar} className="w-4 h-4" />
                   </div>
-                  <p className="text-sm">{bot.name}</p>
+                  <p className="text-sm whitespace-nowrap">{bot.name}</p>
                 </div>
               </Menu.Item>
             )

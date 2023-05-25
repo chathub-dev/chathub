@@ -159,7 +159,14 @@ export class BingWebBot extends AbstractBot {
             params.onEvent({ type: 'UPDATE_ANSWER', data: { text } })
           }
         } else if (event.type === 2) {
-          const messages = event.item.messages as ChatResponseMessage[]
+          const messages = event.item.messages as ChatResponseMessage[] | undefined
+          if (!messages) {
+            params.onEvent({
+              type: 'ERROR',
+              error: new ChatError(event.item.result.error || 'Unknown error', ErrorCode.UNKOWN_ERROR),
+            })
+            return
+          }
           const limited = messages.some((message) => message.contentOrigin === 'TurnLimiter')
           if (limited) {
             params.onEvent({
@@ -169,7 +176,9 @@ export class BingWebBot extends AbstractBot {
                 ErrorCode.CONVERSATION_LIMIT,
               ),
             })
-          } else if (!receivedAnswer) {
+            return
+          }
+          if (!receivedAnswer) {
             const message = event.item.messages[event.item.firstNewMessageIndex] as ChatResponseMessage
             if (message) {
               receivedAnswer = true

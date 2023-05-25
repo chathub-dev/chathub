@@ -1,5 +1,6 @@
-import Browser from 'webextension-polyfill'
+import i18next from 'i18next'
 import { ofetch } from 'ofetch'
+import Browser from 'webextension-polyfill'
 
 export interface Prompt {
   id: string
@@ -36,7 +37,9 @@ export async function removeLocalPrompt(id: string) {
 }
 
 export async function loadRemotePrompts() {
-  return ofetch<Prompt[]>('https://chathub.gg/api/community-prompts').catch((err) => {
+  return ofetch<Prompt[]>('https://chathub.gg/api/community-prompts', {
+    params: { language: i18next.language, languages: i18next.languages },
+  }).catch((err) => {
     console.error('Failed to load remote prompts', err)
     return []
   })
