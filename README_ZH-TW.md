@@ -24,7 +24,7 @@
     
 ##
 
-[螢幕截圖](#-螢幕截圖) &nbsp;&nbsp;|&nbsp;&nbsp; [功能特色](#-功能特色) &nbsp;&nbsp;|&nbsp;&nbsp; [手動安裝](#-手動安裝) &nbsp;&nbsp;|&nbsp;&nbsp; [從原始碼建置](#-從原始碼建置) &nbsp;&nbsp;|&nbsp;&nbsp; [路線圖](#%EF%B8%8F-路線圖) &nbsp;&nbsp;|&nbsp;&nbsp; [更新日誌](#-更新日誌)
+[螢幕截圖](#-螢幕截圖) &nbsp;&nbsp;|&nbsp;&nbsp; [功能特色](#-功能特色) &nbsp;&nbsp;|&nbsp;&nbsp; [支援的聊天機器人](#-支援的聊天機器人) &nbsp;&nbsp;|&nbsp;&nbsp; [手動安裝](#-手動安裝) &nbsp;&nbsp;|&nbsp;&nbsp; [從原始碼建立](#-從原始碼建立) &nbsp;&nbsp;|&nbsp;&nbsp; [更新日誌](#-更新日誌)
 
 [作者-image]: https://img.shields.io/badge/author-wong2-blue.svg
 [作者-url]: https://github.com/wong2    
@@ -47,17 +47,28 @@
 
 ## ✨ 功能特色
 
-- 🤖 支援多個聊天機器人，目前支援 ChatGPT、新的 Bing Chat, Google Bard 和 Claude (透過 Poe)，未來會整合更多
-- 💬 同時與多個聊天機器人聊天，方便比較其回答
-- 🚀 支援 ChatGPT API 模式，比 ChatGPT Plus 更快速和更省成本
-- 📊 在使用 ChatGPT API 模式時，可以查看令牌使用統計信息
-- 🔍 快捷方式可在任何瀏覽器中快速啟動應用程序
+- 🤖 在一個應用程式中使用不同的聊天機器人，目前支援 ChatGPT、新的 Bing Chat、Google Bard、Claude（通過 Poe）、Alpaca、Vicuna、ChatGLM，並將來會整合更多
+- 💬 同時與多個聊天機器人進行對話，輕鬆比較它們的回答
+- 🚀 支援 ChatGPT API 和 GPT-4 瀏覽
+- 🔍 快速啟動應用程式的捷徑，可在瀏覽器中的任何地方使用
 - 🎨 支援 Markdown 和程式碼高亮顯示
-- 📚 支援自定義提示和社區提示的提示庫
+- 📚 自訂提示和社群提示的提示庫
 - 💾 本地保存對話歷史
-- 📥 匯出和匯入所有數據
-- 🔗 將對話分享到 Markdown 中
-- 🌙 暗模式
+- 📥 匯出和匯入所有資料
+- 🔗 將對話分享為 Markdown 格式
+- 🌙 黑暗模式
+
+## 🤖 支援的聊天機器人
+
+* ChatGPT（透過網頁應用程式/API/Azure/Poe）
+* Bing Chat
+* Google Bard
+* Claude（透過 Poe）
+* iFlytek Spark
+* ChatGLM
+* Alpaca
+* Vicuna
+* ...
 
 ## 🔧 手動安裝
 
@@ -67,7 +78,7 @@
 - 啟用開發人員模式
 - 拖動解壓縮後的文件夾到頁面上的任何位置以導入它 (導入後不要刪除文件夾)
 
-## 🔨 從原始碼建置
+## 🔨 從原始碼建立
 
 - 複製原始碼
 - `yarn install`
@@ -75,6 +86,18 @@
 - 按照「手動安裝」中的步驟將 `dist` _資料夾載入瀏覽器_
 
 ## 📜 更新日誌
+
+### v1.19.0
+
+- 快速存取提示
+
+### v1.18.0
+
+- 支援 Alpaca、Vicuna 和 ChatGLM
+
+### v1.17.0
+
+- 支援 GPT-4 瀏覽模型
 
 ### v1.16.5
 
