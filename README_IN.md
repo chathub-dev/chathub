@@ -24,7 +24,7 @@
     
 ##
 
-[Tangkapan Layar](#-tangkapan-layar) &nbsp;&nbsp;|&nbsp;&nbsp; [Fitur](#-fitur) &nbsp;&nbsp;|&nbsp;&nbsp; [Instalasi Manual](#-instalasi-manual) &nbsp;&nbsp;|&nbsp;&nbsp; [Membangun dari Source Code](#-membangun-dari-source-code) &nbsp;&nbsp;|&nbsp;&nbsp; [Roadmap](#%EF%B8%8F-roadmap) &nbsp;&nbsp;|&nbsp;&nbsp; [Changelog](#-changelog)
+[Tangkapan Layar](#-tangkapan-layar) &nbsp;&nbsp;|&nbsp;&nbsp; [Fitur](#-fitur) &nbsp;&nbsp;|&nbsp;&nbsp; [Bot yang Didukung](#-supported-bots) &nbsp;&nbsp;|&nbsp;&nbsp; [Instalasi Manual](#-instalasi-manual) &nbsp;&nbsp;|&nbsp;&nbsp; [Membangun dari Source Code](#-membangun-dari-source-code) &nbsp;&nbsp;|&nbsp;&nbsp; [Changelog](#-changelog)
     
 [author-image]: https://img.shields.io/badge/author-wong2-blue.svg
 [author-url]: https://github.com/wong2
@@ -47,10 +47,9 @@
 
 ## ✨ Fitur
 
-- 🤖 Gunakan chatbot yang berbeda dalam satu aplikasi, saat ini mendukung ChatGPT, Bing Chat yang baru, Google Bard dan Claude (via Poe), akan mengintegrasikan lebih banyak di masa depan
+- 🤖 Gunakan chatbot yang berbeda dalam satu aplikasi, saat ini mendukung ChatGPT, Bing Chat yang baru, Claude (melalui Poe), Alpaca, Vicuna, ChatGLM,  dan akan mengintegrasikan lebih banyak di masa depan
 - 💬 Chat dengan beberapa chatbot secara bersamaan, sehingga mudah untuk membandingkan jawaban mereka
-- 🚀 Mendukung mode API ChatGPT, yang lebih cepat dan lebih hemat biaya daripada ChatGPT Plus
-- 📊 Statistik penggunaan token saat menggunakan mode API ChatGPT
+- 🚀 Mendukung API ChatGPT dan Browsing GPT-4
 - 🔍 Pintasan untuk dengan cepat mengaktifkan aplikasi di mana saja di browser
 - 🎨 Mendukung penyorotan markdown dan kode
 - 📚 Perpustakaan Prompt untuk prompt kustom dan prompt komunitas
@@ -58,6 +57,18 @@
 - 📥 Ekspor dan Impor semua data Anda
 - 🔗 Bagikan percakapan ke markdown
 - 🌙 Mode gelap
+
+## 🤖 Bot yang Didukung
+
+* ChatGPT (melalui Webapp/API/Azure/Poe)
+* Bing Chat
+* Google Bard
+* Claude (melalui Poe)
+* iFlytek Spark
+* ChatGLM
+* Alpaca
+* Vicuna
+* ...
 
 ## 🔧 Instalasi Manual
 
@@ -75,6 +86,18 @@
 - Muat folder `dist` ke browser dengan mengikuti langkah-langkah dalam _Instalasi Manual_
 
 ## 📜 Changelog
+
+### v1.19.0
+
+- Akses cepat ke prompts
+
+### v1.18.0
+
+- Mendukung Alpaca, Vicuna, dan ChatGLM
+
+### v1.17.0
+
+- Mendukung model Browsing GPT-4
 
 ### v1.16.5
 
