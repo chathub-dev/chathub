@@ -96,7 +96,7 @@ function SettingPage() {
 
   return (
     <PagePanel title={`${t('Settings')} (v${getVersion()})`}>
-      <div className="flex flex-col gap-8 mt-3">
+      <div className="flex flex-col gap-5 mt-3">
         <div>
           <p className="font-bold mb-1 text-xl">{t('Export/Import All Data')}</p>
           <p className="mb-3 opacity-80">{t('Data includes all your settings, chat histories, and local prompts')}</p>
@@ -215,7 +215,7 @@ function SettingPage() {
           )}
         </div>
       </div>
-      <Button color={dirty ? 'primary' : 'flat'} text={t('Save')} className="w-fit mt-10 mb-5" onClick={save} />
+      <Button color={dirty ? 'primary' : 'flat'} text={t('Save')} className="w-fit my-8" onClick={save} />
       <Toaster position="top-right" />
     </PagePanel>
   )
