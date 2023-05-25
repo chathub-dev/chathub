@@ -24,7 +24,7 @@
     
 ##
 
-[Tangkapan Layar](#-tangkapan-layar) &nbsp;&nbsp;|&nbsp;&nbsp; [Fitur](#-fitur) &nbsp;&nbsp;|&nbsp;&nbsp; [Bot yang Didukung](#-supported-bots) &nbsp;&nbsp;|&nbsp;&nbsp; [Instalasi Manual](#-instalasi-manual) &nbsp;&nbsp;|&nbsp;&nbsp; [Membangun dari Source Code](#-membangun-dari-source-code) &nbsp;&nbsp;|&nbsp;&nbsp; [Changelog](#-changelog)
+[Tangkapan Layar](#-tangkapan-layar) &nbsp;&nbsp;|&nbsp;&nbsp; [Fitur](#-fitur) &nbsp;&nbsp;|&nbsp;&nbsp; [Bot yang Didukung](#-supported-bots) &nbsp;&nbsp;|&nbsp;&nbsp; [Instalasi Manual](#-instalasi-manual) &nbsp;&nbsp;|&nbsp;&nbsp; [Membangun dari Source](#-membangun-dari-source) &nbsp;&nbsp;|&nbsp;&nbsp; [Changelog](#-changelog)
     
 [author-image]: https://img.shields.io/badge/author-wong2-blue.svg
 [author-url]: https://github.com/wong2
@@ -78,7 +78,7 @@
 - Aktifkan Mode Pengembang
 - Seret folder yang telah diekstrak ke mana saja di halaman untuk mengimpor (jangan hapus folder setelah itu)
 
-## 🔨 Membangun dari Source Code
+## 🔨 Membangun dari Source
 
 - Clone source code
 - `yarn install`
