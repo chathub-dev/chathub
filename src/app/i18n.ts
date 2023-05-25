@@ -60,6 +60,9 @@ const resources = {
         '哇！你已经打开ChatHub {{openTimes}}次了，是否要解锁全部功能呢？🥺',
       'Open Prompt Library': '管理提示词',
       'Use / to select prompts, Shift+Enter to add new line': '使用 / 选择提示词，Shift+Enter添加换行',
+      'Your Prompts': '你的提示词',
+      'Community Prompts': '提示词社区',
+      'Create new prompt': '创建提示词',
     },
   },
   de: {
