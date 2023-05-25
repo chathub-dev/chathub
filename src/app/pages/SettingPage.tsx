@@ -96,7 +96,7 @@ function SettingPage() {
 
   return (
     <PagePanel title={`${t('Settings')} (v${getVersion()})`}>
-      <div className="flex flex-col gap-8 mt-3 pr-3">
+      <div className="flex flex-col gap-8 mt-3">
         <div>
           <p className="font-bold mb-1 text-xl">{t('Export/Import All Data')}</p>
           <p className="mb-3 opacity-80">{t('Data includes all your settings, chat histories, and local prompts')}</p>
