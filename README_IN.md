@@ -89,7 +89,7 @@
 
 ### v1.19.0
 
-- Akses cepat ke prompts
+- Akses cepat ke prompt
 
 ### v1.18.0
 
