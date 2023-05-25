@@ -73,6 +73,7 @@ const ChatMessageInput: FC<Props> = (props) => {
     onNavigate: setActiveIndex,
     loop: true,
     focusItemOnOpen: true,
+    openOnArrowKeyDown: false,
   })
 
   const dismiss = useDismiss(context)
