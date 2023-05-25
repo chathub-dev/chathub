@@ -47,17 +47,28 @@
 
 ## ✨ 特点
 
-- 🤖 在一个应用中使用不同的聊天机器人，目前支持 ChatGPT、新的 Bing Chat、Google Bard 和 Claude (via Poe)，未来将集成更多机器人
-- 💬 同时与多个聊天机器人聊天，方便比较它们的答案
-- 🚀 支持 ChatGPT API 模式，比 ChatGPT Plus 更快、更省成本
-- 📊 在使用 ChatGPT API 模式时，可以查看令牌使用统计信息
-- 🔍 快捷方式，可以快速在浏览器中的任何位置激活应用程序
+- 🤖 在一个应用中使用不同的聊天机器人，目前支持 ChatGPT、新的 Bing Chat、Google Bard、Claude（通过 Poe）、Alpaca、Vicuna、ChatGLM，并将来会集成更多的机器人
+- 💬 同时与多个聊天机器人进行对话，方便比较它们的回答
+- 🚀 支持 ChatGPT API 和 GPT-4 浏览
+- 🔍 快捷方式，可在浏览器的任何位置快速激活应用
 - 🎨 支持 Markdown 和代码高亮显示
-- 📚 自定义提示和社区提示的 Prompt 库
-- 💾 本地保存对话历史记录
-- 📥 导入和导出所有数据
-- 🔗 将对话分享为 Markdown
+- 📚 自定义提示和社区提示的提示库
+- 💾 本地保存对话历史
+- 📥 导出和导入所有数据
+- 🔗 将对话转为 Markdown 并分享
 - 🌙 暗黑模式
+
+## 🤖 支持的聊天机器人
+
+* ChatGPT（通过 Web 应用/API/Azure/Poe）
+* Bing Chat
+* Google Bard
+* Claude（通过 Poe）
+* iFlytek Spark
+* ChatGLM
+* Alpaca
+* Vicuna
+* ...
 
 ## 🔧 手动安装
 
@@ -75,6 +86,18 @@
 - 按照 _手动安装_ 中的步骤将 `dist` _文件夹加载到浏览器中_
 
 ## 📜 更新日志
+
+### v1.19.0
+
+- 快速访问提示
+
+### v1.18.0
+
+- 支持 Alpaca、Vicuna 和 ChatGLM
+
+### v1.17.0
+
+- 支持 GPT-4 浏览模型
 
 ### v1.16.5
 
