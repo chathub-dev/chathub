@@ -1,6 +1,6 @@
-import Browser, { i18n } from 'webextension-polyfill'
-import { ofetch } from 'ofetch'
 import i18next from 'i18next'
+import { ofetch } from 'ofetch'
+import Browser from 'webextension-polyfill'
 
 export interface Prompt {
   id: string
