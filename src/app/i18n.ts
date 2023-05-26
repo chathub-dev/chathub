@@ -63,6 +63,10 @@ const resources = {
       'Your Prompts': '你的提示词',
       'Community Prompts': '提示词社区',
       'Create new prompt': '创建提示词',
+      'Earlybird price': '早鸟价格',
+      'Share conversation': '分享会话',
+      'Clear conversation': '清空会话',
+      'View history': '查看历史消息',
     },
   },
   de: {
@@ -122,7 +126,8 @@ const resources = {
       Export: 'Ekspor',
       Import: 'Impor',
       'Export/Import All Data': 'Ekspor/Impor Semua Data',
-      'Data includes all your settings, chat histories, and local prompts': 'Data mencakup semua pengaturan, riwayat percakapan, dan prompt lokal Anda',
+      'Data includes all your settings, chat histories, and local prompts':
+        'Data mencakup semua pengaturan, riwayat percakapan, dan prompt lokal Anda',
       Edit: 'Edit',
       Use: 'Gunakan',
       Send: 'Kirim',
@@ -160,13 +165,15 @@ const resources = {
       'Lifetime license': 'Lisensi seumur hidup',
       'Join the waitlist': 'Gabung dalam daftar tunggu',
       'GPT-4 models require ChatGPT Plus': 'Model GPT-4 membutuhkan ChatGPT Plus',
-      'Model used by ChatGPT iOS app, potentially faster': 'Model yang digunakan oleh aplikasi ChatGPT iOS, mungkin lebih cepat',
+      'Model used by ChatGPT iOS app, potentially faster':
+        'Model yang digunakan oleh aplikasi ChatGPT iOS, mungkin lebih cepat',
       'Poe subscribers only': 'Hanya pelanggan Poe',
       'Quick access in Chrome side bar': 'Akses cepat di sisi bilah Chrome',
       'You have opened ChatHub {{openTimes}} times, consider unlock all features?':
         'Wow! Anda telah membuka ChatHub sebanyak {{openTimes}} kali, pertimbangkan untuk membuka semua fitur?',
       'Open Prompt Library': 'Buka Perpustakaan Prompt',
-      'Use / to select prompts, Shift+Enter to add new line': 'Gunakan / untuk memilih prompt, Shift+Enter untuk menambahkan baris baru',
+      'Use / to select prompts, Shift+Enter to add new line':
+        'Gunakan / untuk memilih prompt, Shift+Enter untuk menambahkan baris baru',
       'Your Prompts': 'Prompt Anda',
       'Community Prompts': 'Prompt Komunitas',
       'Create new prompt': 'Buat prompt baru',
