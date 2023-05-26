@@ -88,7 +88,7 @@ function PremiumPage() {
       ) : (
         <div className="flex flex-row items-center gap-3 mt-8">
           <a
-            href="https://chathub.lemonsqueezy.com/checkout/buy/7f84853c-e84a-400e-94f4-ff0ca02fffb8"
+            href="https://chathub.gg/api/premium/redirect"
             target="_blank"
             rel="noreferrer"
             onClick={() => trackEvent('click_buy_premium')}
