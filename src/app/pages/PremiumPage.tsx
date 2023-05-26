@@ -57,7 +57,7 @@ function PremiumPage() {
       <h1 className="font-bold text-[40px] leading-none text-primary-text">{t('Premium')}</h1>
       {!premiumState.activated && (
         <p className="bg-[#FAE387] text-[#303030] w-fit rounded-[5px] px-2 py-[4px] text-sm font-semibold mt-9">
-          {t('Presale discount')}
+          {t('Earlybird price')}
         </p>
       )}
       {!premiumState.activated && (
