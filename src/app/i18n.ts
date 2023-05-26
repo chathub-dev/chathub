@@ -64,6 +64,9 @@ const resources = {
       'Community Prompts': '提示词社区',
       'Create new prompt': '创建提示词',
       'Earlybird price': '早鸟价格',
+      'Share conversation': '分享会话',
+      'Clear conversation': '清空会话',
+      'View history': '查看历史消息',
     },
   },
   de: {
