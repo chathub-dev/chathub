@@ -18,6 +18,7 @@ const resources = {
       'Data includes all your settings, chat histories, and local prompts': '数据包括所有设置、聊天记录和本地prompts',
       Edit: '编辑',
       Use: '使用',
+      "Cancel use": '取消使用',
       Send: '发送',
       Stop: '停止',
       Title: '标题',
@@ -63,6 +64,9 @@ const resources = {
       'Your Prompts': '你的提示词',
       'Community Prompts': '提示词社区',
       'Create new prompt': '创建提示词',
+      'Your Magisk': '你的预设',
+      'Create new magisk': '创建预设',
+      'Community Magisk': '预设社区',
     },
   },
   de: {

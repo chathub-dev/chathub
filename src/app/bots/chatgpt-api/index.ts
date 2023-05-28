@@ -4,19 +4,26 @@ import { parseSSEResponse } from '~utils/sse'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
 import { CHATGPT_SYSTEM_MESSAGE, ChatMessage } from './consts'
 import { updateTokenUsage } from './usage'
+import { loadUsedMagisk } from '~services/magisk'
+
 
 interface ConversationContext {
   messages: ChatMessage[]
 }
 
-const SYSTEM_MESSAGE: ChatMessage = { role: 'system', content: CHATGPT_SYSTEM_MESSAGE }
+const getChatGptSystemMessage = () => {
+  const magiskInfo = loadUsedMagisk()
+  const magisk = magiskInfo.magisk ?? CHATGPT_SYSTEM_MESSAGE
+  return magisk
+}
 const CONTEXT_SIZE = 10
 
 export class ChatGPTApiBot extends AbstractBot {
   private conversationContext?: ConversationContext
 
   buildMessages(): ChatMessage[] {
-    return [SYSTEM_MESSAGE, ...this.conversationContext!.messages.slice(-(CONTEXT_SIZE + 1))]
+    const systemMessage: ChatMessage = { role: 'system', content: getChatGptSystemMessage() }
+    return [systemMessage, ...this.conversationContext!.messages.slice(-(CONTEXT_SIZE + 1))]
   }
 
   async fetchAzureCompletionApi(userConfig: UserConfig, signal?: AbortSignal) {

@@ -5,6 +5,7 @@ import useSWR from 'swr'
 import closeIcon from '~/assets/icons/close.svg'
 import { trackEvent } from '~app/plausible'
 import { Prompt, loadLocalPrompts, loadRemotePrompts, removeLocalPrompt, saveLocalPrompt } from '~services/prompts'
+import { Magisk, loadUsedMagisk, useMagisk, loadLocalMagiskList, loadRemoteMagiskList, removeLocalMagisk, saveLocalMagisk } from '~services/magisk'
 import { uuid } from '~utils'
 import Button from '../Button'
 import { Input, Textarea } from '../Input'
@@ -226,6 +227,228 @@ const PromptLibrary = (props: { insertPrompt: (text: string) => void }) => {
             </Suspense>
           )
         }
+      }}
+    />
+  )
+}
+
+const MagiskItem = (props: {
+  id: string
+  title: string
+  magisk: string
+  edit?: () => void
+  remove?: () => void
+  copyToLocal?: () => void
+  setUseMagisk: (magisk: Magisk) => void
+}) => {
+  const { t } = useTranslation()
+  const [saved, setSaved] = useState(false)
+  const usedMagiskQuery = useSWR('used-magisk', () => loadUsedMagisk(), { suspense: true })  
+  const copyToLocal = useCallback(() => {
+    props.copyToLocal?.()
+    setSaved(true)
+  }, [props])
+  const emptyMagisk = {
+    id: '',
+    title: '',
+    magisk: ''
+  }
+  return (
+    <div className="group relative flex items-center space-x-3 rounded-lg border border-primary-border bg-primary-background px-5 py-4 shadow-sm hover:border-gray-400">
+      <div className="min-w-0 flex-1">
+        <p className="truncate text-sm font-medium text-primary-text">{props.title}</p>
+      </div>
+      <div className="flex flex-row gap-1">
+        {props.edit && <ActionButton text={t('Edit')} onClick={props.edit} />}
+        {props.copyToLocal && <ActionButton text={t(saved ? 'Saved' : 'Save')} onClick={copyToLocal} />}
+        {!props.copyToLocal && !(usedMagiskQuery.data.id === props.id) && <ActionButton text={t('Use')} onClick={() => {props.setUseMagisk(props)}} />}
+        {!props.copyToLocal && (usedMagiskQuery.data.id === props.id) && <ActionButton text={t('Cancel use')} onClick={() => {props.setUseMagisk(emptyMagisk)}} />}
+      </div>
+      {props.remove && (
+        <img
+          src={closeIcon}
+          className="hidden group-hover:block absolute right-[-8px] top-[-8px] cursor-pointer w-4 h-4 rounded-full bg-primary-background"
+          onClick={props.remove}
+        />
+      )}
+    </div>
+  )
+}
+
+function MagiskForm(props: { initialData: Magisk; onSubmit: (data: Magisk) => void }) {
+  const { t } = useTranslation()
+  const onSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
+      e.stopPropagation()
+      const formdata = new FormData(e.currentTarget)
+      
+      const json = Object.fromEntries(formdata.entries())
+      
+      if (json.title && json.magisk) {
+        props.onSubmit({
+          id: props.initialData.id,
+          title: json.title as string,
+          magisk: json.magisk as string,
+        })
+      }
+    },
+    [props],
+  )
+  return (
+    <form className="flex flex-col gap-2 w-full" onSubmit={onSubmit}>
+      <div className="w-full">
+        <span className="text-sm font-semibold block mb-1 text-primary-text">Magisk {t('Title')}</span>
+        <Input className="w-full" name="title" defaultValue={props.initialData.title} />
+      </div>
+      <div className="w-full">
+        <span className="text-sm font-semibold block mb-1 text-primary-text">Magisk {t('Content')}</span>
+        <Textarea className="w-full" name="magisk" defaultValue={props.initialData.magisk} />
+      </div>
+      <Button color="primary" text={t('Save')} className="w-fit" size="small" type="submit" />
+    </form>
+  )
+}
+
+
+function LocalMagisk() {
+  const { t } = useTranslation()
+  const [formData, setFormData] = useState<Magisk | null>(null)
+  const localMagiskListQuery = useSWR('local-magisk-list', () => loadLocalMagiskList(), { suspense: true })
+  const usedMagiskQuery = useSWR('used-magisk', () => loadUsedMagisk(), { suspense: true })  
+  const saveMagisk = useCallback(
+    async (magisk: Magisk) => {
+      const existed = await saveLocalMagisk(magisk)
+      localMagiskListQuery.mutate()
+      setFormData(null)
+      trackEvent(existed ? 'edit_local_magisk' : 'add_local_magisk')
+    },
+    [localMagiskListQuery],
+  )
+
+  const setUseMagisk = useCallback(
+    async (magisk: Magisk) => {      
+      await useMagisk(magisk)
+      usedMagiskQuery.mutate()
+      trackEvent(magisk.id === '' ? 'used_magisk' : 'cancel_used_magisk')
+    }, 
+    [usedMagiskQuery]
+  )
+
+  const removeMagisk = useCallback(
+    async (id: string) => {
+      await removeLocalMagisk(id)
+      localMagiskListQuery.mutate()
+      trackEvent('remove_local_magisk')
+    },
+    [localMagiskListQuery],
+  )
+
+  const create = useCallback(() => {
+    setFormData({ id: uuid(), title: '', magisk: '' })
+  }, [])
+
+  return (
+    <>
+      {localMagiskListQuery.data.length ? (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 pt-2">
+          {localMagiskListQuery.data.map((magisk) => (            
+            <MagiskItem
+              key={magisk.id}
+              id={magisk.id}
+              title={magisk.title}
+              magisk={magisk.magisk}
+              edit={() => setFormData(magisk)}
+              setUseMagisk={(magisk: Magisk) => setUseMagisk(magisk)}
+              remove={() => removeMagisk(magisk.id)}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-3 text-center text-sm mt-5 text-primary-text">
+          You have no magisk.
+        </div>
+      )}
+      <div className="mt-5">
+        {formData ? (
+          <MagiskForm initialData={formData} onSubmit={saveMagisk} />
+        ) : (
+          <Button text={t('Create new magisk')} size="small" onClick={create} />
+        )}
+      </div>
+    </>
+  )
+}
+
+function CommunityMagiskList() {
+  const magiskListQuery = useSWR('community-magisk-list', () => loadRemoteMagiskList(), { suspense: true })
+
+  const copyToLocal = useCallback(async (magisk: Magisk) => {
+    await saveLocalMagisk({ ...magisk, id: uuid() })
+  }, [])
+
+  return (
+    <>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 pt-2">
+        {magiskListQuery.data.map((magisk, index) => (
+          <MagiskItem
+            id=''
+            key={index + ''}
+            title={magisk.title}
+            magisk={magisk.magisk}
+            setUseMagisk={(magisk: Magisk) => {}}
+            copyToLocal={() => copyToLocal(magisk)}
+          />
+        ))}
+      </div>
+      <span className="text-sm mt-5 block text-primary-text">
+        Contribute on{' '}
+        <a
+          href="https://github.com/chathub-dev/community-prompts"
+          target="_blank"
+          rel="noreferrer"
+          className="underline"
+        >
+          GitHub
+        </a>{' '}
+        or{' '}
+        <a href="https://openprompt.co/?utm_source=chathub" target="_blank" rel="noreferrer" className="underline">
+          OpenMagisk
+        </a>
+      </span>
+    </>
+  )
+}
+
+export const MagiskLibrary = () => {
+  const { t } = useTranslation()
+
+  const tabs = useMemo<Tab[]>(
+    () => [
+      { name: t('Your Magisk'), value: 'local' },
+      // { name: t('Community Magisk'), value: 'community' },
+    ],
+    [t],
+  )
+
+  return (
+    <Tabs
+      tabs={tabs}
+      renderTab={(tab: (typeof tabs)[0]['value']) => {
+        if (tab === 'local') {
+          return (
+            <Suspense fallback={<BeatLoader size={10} className="mt-5" color="rgb(var(--primary-text))" />}>
+              <LocalMagisk  />
+            </Suspense>
+          )
+        }
+        // if (tab === 'community') {
+        //   return (
+        //     <Suspense fallback={<BeatLoader size={10} className="mt-5" color="rgb(var(--primary-text))" />}>
+        //       <CommunityMagisk />
+        //     </Suspense>
+        //   )
+        // }
       }}
     />
   )

@@ -15,11 +15,12 @@ import cx from 'classnames'
 import { FC, memo, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GoBook } from 'react-icons/go'
+import { SiMagisk } from 'react-icons/si'
 import { trackEvent } from '~app/plausible'
 import { Prompt } from '~services/prompts'
 import Button from '../Button'
 import PromptCombobox, { ComboboxContext } from '../PromptCombobox'
-import PromptLibraryDialog from '../PromptLibrary/Dialog'
+import { PromptLibraryDialog, MagiskLibraryDialog} from '../PromptLibrary/Dialog'
 import TextInput from './TextInput'
 
 interface Props {
@@ -40,6 +41,7 @@ const ChatMessageInput: FC<Props> = (props) => {
   const formRef = useRef<HTMLFormElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const [isPromptLibraryDialogOpen, setIsPromptLibraryDialogOpen] = useState(false)
+  const [isMagiskLibraryDialogOpen, setIsMagiskLibraryDialogOpen] = useState(false)
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
   const [isComboboxOpen, setIsComboboxOpen] = useState(false)
@@ -136,6 +138,11 @@ const ChatMessageInput: FC<Props> = (props) => {
     trackEvent('open_prompt_library')
   }, [])
 
+  const openMagiskLibrary = useCallback(() => {
+    setIsMagiskLibraryDialogOpen(true)
+    trackEvent('open_magisk_library')
+  }, [])
+
   return (
     <form className={cx('flex flex-row items-center gap-3', props.className)} onSubmit={onFormSubmit} ref={formRef}>
       {props.mode === 'full' && (
@@ -146,6 +153,14 @@ const ChatMessageInput: FC<Props> = (props) => {
               isOpen={true}
               onClose={() => setIsPromptLibraryDialogOpen(false)}
               insertPrompt={insertTextAtCursor}
+            />
+          )}
+          <SiMagisk size={22} color="#707070" className="cursor-pointer" onClick={openMagiskLibrary} />
+          {isMagiskLibraryDialogOpen && (
+            <MagiskLibraryDialog
+              isOpen={true}
+              onClose={() => setIsMagiskLibraryDialogOpen(false)}
+              insertMagisk={insertTextAtCursor}
             />
           )}
           <ComboboxContext.Provider value={comboboxContext}>
