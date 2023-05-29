@@ -98,7 +98,7 @@ function SettingPage() {
     <PagePanel title={`${t('Settings')} (v${getVersion()})`}>
       <div className="flex flex-col gap-5 mt-3">
         <div>
-          <p className="font-bold mb-1 text-xl">{t('Export/Import All Data')}</p>
+          <p className="font-bold mb-1 text-lg">{t('Export/Import All Data')}</p>
           <p className="mb-3 opacity-80">{t('Data includes all your settings, chat histories, and local prompts')}</p>
           <div className="flex flex-row gap-3">
             <Button size="small" text={t('Export')} icon={<BiExport />} onClick={exportData} />
@@ -106,7 +106,7 @@ function SettingPage() {
           </div>
         </div>
         <div className="flex flex-col gap-2">
-          <p className="font-bold text-xl">{t('Shortcut to open this app')}</p>
+          <p className="font-bold text-lg">{t('Shortcut to open this app')}</p>
           <div className="flex flex-row gap-2 items-center">
             {shortcuts.length > 0 && (
               <div className="flex flex-row gap-1">
@@ -119,7 +119,7 @@ function SettingPage() {
           </div>
         </div>
         <div>
-          <p className="font-bold mb-2 text-xl">{t('Startup page')}</p>
+          <p className="font-bold mb-2 text-lg">{t('Startup page')}</p>
           <div className="w-[200px]">
             <Select
               options={[
@@ -132,7 +132,7 @@ function SettingPage() {
           </div>
         </div>
         <div className="flex flex-col gap-1">
-          <p className="font-bold text-xl">
+          <p className="font-bold text-lg">
             {t('All-In-One Mode')}
             {!premiumState.activated && (
               <Link to="/premium" className="text-sm font-normal ml-2 underline italic">
@@ -154,7 +154,7 @@ function SettingPage() {
           </div>
         </div>
         <div className="flex flex-col gap-2">
-          <p className="font-bold text-xl">ChatGPT</p>
+          <p className="font-bold text-lg">ChatGPT</p>
           <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3 mb-1">
             {(Object.keys(ChatGPTMode) as (keyof typeof ChatGPTMode)[]).map((k) => (
               <div className="flex items-center" key={k}>
@@ -183,7 +183,7 @@ function SettingPage() {
           )}
         </div>
         <div className="flex flex-col gap-1">
-          <p className="font-bold text-xl">Bing</p>
+          <p className="font-bold text-lg">Bing</p>
           <div className="flex flex-row gap-3 items-center justify-between w-[250px]">
             <p className="font-medium text-base">{t('Chat style')}</p>
             <div className="w-[150px]">
@@ -196,7 +196,7 @@ function SettingPage() {
           </div>
         </div>
         <div className="flex flex-col gap-1">
-          <p className="font-bold text-xl">Claude</p>
+          <p className="font-bold text-lg">Claude</p>
           <div className="flex flex-row gap-3 items-center justify-between w-[250px]">
             <p className="font-medium text-base">{t('Model')}</p>
             <div className="w-[200px]">
