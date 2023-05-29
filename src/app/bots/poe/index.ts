@@ -31,12 +31,10 @@ interface ConversationContext {
 }
 
 export class PoeWebBot extends AbstractBot {
-  public botId: string
   private conversationContext?: ConversationContext
 
-  constructor(botId: string) {
+  constructor(public botId: string) {
     super()
-    this.botId = botId
   }
 
   async doSendMessage(params: SendMessageParams) {

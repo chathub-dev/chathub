@@ -40,11 +40,33 @@ export abstract class AbstractBot {
   abstract resetConversation(): void
 }
 
-export class DummyBot extends AbstractBot {
+class DummyBot extends AbstractBot {
   async doSendMessage(_params: SendMessageParams) {
     // dummy
   }
   resetConversation() {
     // dummy
+  }
+}
+
+export abstract class AsyncAbstractBot extends AbstractBot {
+  #bot: AbstractBot
+
+  constructor() {
+    super()
+    this.#bot = new DummyBot()
+    this.initializeBot().then((bot) => {
+      this.#bot = bot
+    })
+  }
+
+  abstract initializeBot(): Promise<AbstractBot>
+
+  doSendMessage(params: SendMessageParams) {
+    return this.#bot.doSendMessage(params)
+  }
+
+  resetConversation() {
+    return this.#bot.resetConversation()
   }
 }

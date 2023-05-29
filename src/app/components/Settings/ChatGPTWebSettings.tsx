@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChatGPTWebModels, UserConfig } from '~services/user-config'
+import { ChatGPTWebModel, UserConfig } from '~services/user-config'
 import Select from '../Select'
 
 interface Props {
@@ -15,7 +15,7 @@ const ChatGPWebSettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
       <p className="font-medium text-sm">{t('Model')}</p>
       <div className="w-[250px] mb-1">
         <Select
-          options={Object.entries(ChatGPTWebModels).map(([k, v]) => ({ name: k, value: v }))}
+          options={Object.entries(ChatGPTWebModel).map(([k, v]) => ({ name: k, value: v }))}
           value={userConfig.chatgptWebappModelName}
           onChange={(v) => updateConfigValue({ chatgptWebappModelName: v })}
         />
