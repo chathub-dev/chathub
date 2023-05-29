@@ -4,6 +4,7 @@ import { BotId } from '~app/bots'
 import { CHATBOTS } from '~app/consts'
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from './Command'
 import { Columns } from 'lucide-react'
+import allInOneIcon from '~/assets/all-in-one.svg'
 
 function CommandBar() {
   const [open, setOpen] = useState(false)
@@ -37,9 +38,9 @@ function CommandBar() {
       <CommandInput placeholder="Type to search..." />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
-        <CommandGroup heading="Chat">
+        <CommandGroup>
           <CommandItem onSelect={() => onSelectBot()}>
-            <Columns className="w-5 h-5 mr-2" color="rgb(var(--color-primary-blue))" />
+            <img src={allInOneIcon} className="w-5 h-5 mr-2" />
             <span>All-In-One</span>
           </CommandItem>
           {Object.keys(CHATBOTS).map((key) => {
