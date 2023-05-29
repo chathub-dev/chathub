@@ -103,4 +103,8 @@ export class ChatGPTApiBot extends AbstractChatGPTApiBot {
     }
     return resp
   }
+
+  get name() {
+    return `ChatGPT (API/${this.config.chatgptApiModel})`
+  }
 }
