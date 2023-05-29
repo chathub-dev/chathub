@@ -13,6 +13,7 @@ const SingleBotChatPanel: FC<Props> = ({ botId }) => {
     <div className="overflow-hidden h-full">
       <ConversationPanel
         botId={botId}
+        bot={chat.bot}
         messages={chat.messages}
         onUserSendMessage={chat.sendMessage}
         generating={chat.generating}

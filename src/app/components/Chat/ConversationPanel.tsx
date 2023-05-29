@@ -10,7 +10,7 @@ import { ConversationContext, ConversationContextValue } from '~app/context'
 import { trackEvent } from '~app/plausible'
 import { multiPanelBotsAtom } from '~app/state'
 import { ChatMessageModel } from '~types'
-import { BotId } from '../../bots'
+import { BotId, BotInstance } from '../../bots'
 import Button from '../Button'
 import HistoryDialog from '../History/Dialog'
 import ShareDialog from '../Share/Dialog'
@@ -20,6 +20,7 @@ import ChatMessageList from './ChatMessageList'
 
 interface Props {
   botId: BotId
+  bot: BotInstance
   messages: ChatMessageModel[]
   onUserSendMessage: (input: string, botId: BotId) => void
   resetConversation: () => void
@@ -93,7 +94,7 @@ const ConversationPanel: FC<Props> = (props) => {
         >
           <div className="flex flex-row items-center gap-2">
             <img src={botInfo.avatar} className="w-5 h-5 object-contain rounded-full" />
-            <span className="font-semibold text-primary-text text-sm">{botInfo.name}</span>
+            <span className="font-semibold text-primary-text text-sm">{props.bot.name || botInfo.name}</span>
             {mode === 'compact' && <SwitchBotDropdown excludeBotId={props.botId} onChange={onSwitchBot} />}
           </div>
           <div className="flex flex-row items-center gap-3">

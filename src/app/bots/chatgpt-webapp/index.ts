@@ -112,4 +112,8 @@ export class ChatGPTWebBot extends AbstractBot {
   resetConversation() {
     this.conversationContext = undefined
   }
+
+  get name() {
+    return `ChatGPT (webapp/${this.model})`
+  }
 }

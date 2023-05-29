@@ -36,6 +36,10 @@ export abstract class AbstractBot {
     }
   }
 
+  get name(): string | undefined {
+    return undefined
+  }
+
   abstract doSendMessage(params: SendMessageParams): Promise<void>
   abstract resetConversation(): void
 }
@@ -46,6 +50,9 @@ class DummyBot extends AbstractBot {
   }
   resetConversation() {
     // dummy
+  }
+  get name() {
+    return ''
   }
 }
 
@@ -68,5 +75,9 @@ export abstract class AsyncAbstractBot extends AbstractBot {
 
   resetConversation() {
     return this.#bot.resetConversation()
+  }
+
+  get name() {
+    return this.#bot.name
   }
 }
