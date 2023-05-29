@@ -1,3 +1,5 @@
+import { Link } from '@tanstack/react-router'
+import cx from 'classnames'
 import { useAtom } from 'jotai'
 import { FC, useCallback, useState } from 'react'
 import { ColorResult, TwitterPicker } from 'react-color'
@@ -6,10 +8,10 @@ import { usePremium } from '~app/hooks/use-premium'
 import { trackEvent } from '~app/plausible'
 import { followArcThemeAtom, themeColorAtom } from '~app/state'
 import { applyThemeMode, getDefaultThemeColor } from '~app/utils/color-scheme'
+import { isArcBrowser } from '~app/utils/env'
 import { ThemeMode, getUserThemeMode, setUserThemeMode } from '~services/theme'
 import Dialog from '../Dialog'
 import Select from '../Select'
-import { isArcBrowser } from '~app/utils/env'
 
 const THEME_COLORS = [
   getDefaultThemeColor(),
@@ -71,9 +73,16 @@ const ThemeSettingModal: FC<Props> = (props) => {
             onChange={onThemeModeChange}
           />
         </div>
-        {premiumState.activated && (
-          <div>
-            <p className="font-bold text-lg mb-3">{t('Theme Color')} </p>
+        <div>
+          <p className="font-bold text-lg mb-3">
+            {t('Theme Color')}{' '}
+            {!premiumState.activated && (
+              <Link to="/premium" className="text-sm font-normal ml-1 underline italic" onClick={() => props.onClose()}>
+                ({t('Premium Feature')})
+              </Link>
+            )}
+          </p>
+          <div className={cx(!premiumState.activated && 'opacity-50 pointer-events-none')}>
             {isArcBrowser() && (
               <div className="mb-3 flex flex-row items-center gap-2">
                 <input
@@ -81,6 +90,7 @@ const ThemeSettingModal: FC<Props> = (props) => {
                   id="arc-theme-check"
                   checked={followArcTheme}
                   onChange={(e) => setFollowArcTheme(e.target.checked)}
+                  disabled={!premiumState.activated}
                 />
                 <label htmlFor="arc-theme-check">{t('Follow Arc browser theme')}</label>
               </div>
@@ -95,7 +105,7 @@ const ThemeSettingModal: FC<Props> = (props) => {
               />
             )}
           </div>
-        )}
+        </div>
       </div>
     </Dialog>
   )
