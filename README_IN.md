@@ -87,6 +87,10 @@
 
 ## 📜 Changelog
 
+### v1.20.0
+
+- Akses dari panel samping Chrome
+
 ### v1.19.0
 
 - Akses cepat ke prompt
