@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import { ChatGPTWebModels, getUserConfig } from '~services/user-config'
+import { ChatGPTWebModel } from '~services/user-config'
 import { parseSSEResponse } from '~utils/sse'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
 import { chatGPTClient } from './client'
@@ -17,33 +17,22 @@ interface ConversationContext {
 export class ChatGPTWebBot extends AbstractBot {
   private accessToken?: string
   private conversationContext?: ConversationContext
-  private cachedModelNames?: string[]
 
-  constructor() {
+  constructor(public model: ChatGPTWebModel) {
     super()
   }
 
-  private async fetchModelNames(): Promise<string[]> {
-    if (this.cachedModelNames) {
-      return this.cachedModelNames
-    }
-    const resp = await chatGPTClient.getModels(this.accessToken!)
-    this.cachedModelNames = resp.map((r) => r.slug).filter((slug) => !slug.includes('plugins'))
-    return this.cachedModelNames
-  }
-
   private async getModelName(): Promise<string> {
-    const { chatgptWebappModelName } = await getUserConfig()
-    if (chatgptWebappModelName === ChatGPTWebModels['GPT-4']) {
+    if (this.model === ChatGPTWebModel['GPT-4']) {
       return 'gpt-4'
     }
-    if (chatgptWebappModelName === ChatGPTWebModels['GPT-4 Browsing']) {
+    if (this.model === ChatGPTWebModel['GPT-4 Browsing']) {
       return 'gpt-4-browsing'
     }
-    if (chatgptWebappModelName === ChatGPTWebModels['GPT-3.5 (Mobile)']) {
+    if (this.model === ChatGPTWebModel['GPT-3.5 (Mobile)']) {
       return 'text-davinci-002-render-sha-mobile'
     }
-    if (chatgptWebappModelName === ChatGPTWebModels['GPT-4 (Mobile)']) {
+    if (this.model === ChatGPTWebModel['GPT-4 (Mobile)']) {
       return 'gpt-4-mobile'
     }
     return 'text-davinci-002-render-sha'
@@ -122,5 +111,9 @@ export class ChatGPTWebBot extends AbstractBot {
 
   resetConversation() {
     this.conversationContext = undefined
+  }
+
+  get name() {
+    return `ChatGPT (webapp/${this.model})`
   }
 }

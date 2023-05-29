@@ -27,3 +27,5 @@ export function createBotInstance(botId: BotId) {
       return new LMSYSBot('chatglm-6b')
   }
 }
+
+export type BotInstance = ReturnType<typeof createBotInstance>

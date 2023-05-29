@@ -1,23 +1,26 @@
 import cx from 'classnames'
+import { useSetAtom } from 'jotai'
 import { FC, useCallback, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import clearIcon from '~/assets/icons/clear.svg'
 import historyIcon from '~/assets/icons/history.svg'
 import shareIcon from '~/assets/icons/share.svg'
 import { CHATBOTS } from '~app/consts'
 import { ConversationContext, ConversationContextValue } from '~app/context'
 import { trackEvent } from '~app/plausible'
-import ShareDialog from '../Share/Dialog'
+import { multiPanelBotsAtom } from '~app/state'
 import { ChatMessageModel } from '~types'
-import { BotId } from '../../bots'
+import { BotId, BotInstance } from '../../bots'
 import Button from '../Button'
 import HistoryDialog from '../History/Dialog'
+import ShareDialog from '../Share/Dialog'
 import SwitchBotDropdown from '../SwitchBotDropdown'
 import ChatMessageInput from './ChatMessageInput'
 import ChatMessageList from './ChatMessageList'
-import { useTranslation } from 'react-i18next'
 
 interface Props {
   botId: BotId
+  bot: BotInstance
   messages: ChatMessageModel[]
   onUserSendMessage: (input: string, botId: BotId) => void
   resetConversation: () => void
@@ -34,6 +37,7 @@ const ConversationPanel: FC<Props> = (props) => {
   const marginClass = 'mx-5'
   const [showHistory, setShowHistory] = useState(false)
   const [showShareDialog, setShowShareDialog] = useState(false)
+  const setCompareBots = useSetAtom(multiPanelBotsAtom)
 
   const context: ConversationContextValue = useMemo(() => {
     return {
@@ -64,6 +68,21 @@ const ConversationPanel: FC<Props> = (props) => {
     trackEvent('open_share_dialog', { botId: props.botId })
   }, [props.botId])
 
+  const onSwitchBot = useCallback(
+    (botId: BotId) => {
+      if (props.index === undefined) {
+        return
+      }
+      trackEvent('switch_bot', { botId })
+      setCompareBots((bots) => {
+        const newBots = [...bots]
+        newBots[props.index!] = botId
+        return newBots
+      })
+    },
+    [props.index, setCompareBots],
+  )
+
   return (
     <ConversationContext.Provider value={context}>
       <div className={cx('flex flex-col overflow-hidden bg-primary-background h-full rounded-[20px]')}>
@@ -75,8 +94,8 @@ const ConversationPanel: FC<Props> = (props) => {
         >
           <div className="flex flex-row items-center gap-2">
             <img src={botInfo.avatar} className="w-5 h-5 object-contain rounded-full" />
-            <span className="font-semibold text-primary-text text-sm">{botInfo.name}</span>
-            {mode === 'compact' && <SwitchBotDropdown excludeBotId={props.botId} index={props.index!} />}
+            <span className="font-semibold text-primary-text text-sm">{props.bot.name || botInfo.name}</span>
+            {mode === 'compact' && <SwitchBotDropdown excludeBotId={props.botId} onChange={onSwitchBot} />}
           </div>
           <div className="flex flex-row items-center gap-3">
             <img

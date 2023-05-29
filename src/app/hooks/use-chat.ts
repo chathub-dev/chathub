@@ -97,13 +97,22 @@ export function useChat(botId: BotId) {
   const chat = useMemo(
     () => ({
       botId,
+      bot: chatState.bot,
       messages: chatState.messages,
       sendMessage,
       resetConversation,
       generating: !!chatState.generatingMessageId,
       stopGenerating,
     }),
-    [botId, chatState.generatingMessageId, chatState.messages, resetConversation, sendMessage, stopGenerating],
+    [
+      botId,
+      chatState.bot,
+      chatState.generatingMessageId,
+      chatState.messages,
+      resetConversation,
+      sendMessage,
+      stopGenerating,
+    ],
   )
 
   return chat

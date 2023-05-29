@@ -1,4 +1,4 @@
-import { ChatGPTMode, UserConfig, getUserConfig } from '~services/user-config'
+import { UserConfig } from '~services/user-config'
 import { ChatError, ErrorCode } from '~utils/errors'
 import { parseSSEResponse } from '~utils/sse'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
@@ -12,60 +12,11 @@ interface ConversationContext {
 const SYSTEM_MESSAGE: ChatMessage = { role: 'system', content: CHATGPT_SYSTEM_MESSAGE }
 const CONTEXT_SIZE = 10
 
-export class ChatGPTApiBot extends AbstractBot {
+export abstract class AbstractChatGPTApiBot extends AbstractBot {
   private conversationContext?: ConversationContext
 
   buildMessages(): ChatMessage[] {
     return [SYSTEM_MESSAGE, ...this.conversationContext!.messages.slice(-(CONTEXT_SIZE + 1))]
-  }
-
-  async fetchAzureCompletionApi(userConfig: UserConfig, signal?: AbortSignal) {
-    const { azureOpenAIApiInstanceName, azureOpenAIApiDeploymentName, azureOpenAIApiKey } = userConfig
-    if (!azureOpenAIApiInstanceName || !azureOpenAIApiDeploymentName || !azureOpenAIApiKey) {
-      throw new Error('Please check your Azure OpenAI API configuration')
-    }
-    const endpoint = `https://${azureOpenAIApiInstanceName}.openai.azure.com/openai/deployments/${azureOpenAIApiDeploymentName}/chat/completions?api-version=2023-03-15-preview`
-    return fetch(endpoint, {
-      method: 'POST',
-      signal,
-      headers: {
-        'Content-Type': 'application/json',
-        'api-key': azureOpenAIApiKey,
-      },
-      body: JSON.stringify({
-        messages: this.buildMessages(),
-        stream: true,
-      }),
-    })
-  }
-
-  async fetchCompletionApi(signal?: AbortSignal) {
-    const userConfig = await getUserConfig()
-    if (userConfig.chatgptMode === ChatGPTMode.Azure) {
-      return this.fetchAzureCompletionApi(userConfig, signal)
-    }
-    const { openaiApiKey, openaiApiHost, chatgptApiModel, chatgptApiTemperature } = userConfig
-    if (!openaiApiKey) {
-      throw new ChatError('OpenAI API key not set', ErrorCode.API_KEY_NOT_SET)
-    }
-    const resp = await fetch(`${openaiApiHost}/v1/chat/completions`, {
-      method: 'POST',
-      signal,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${openaiApiKey}`,
-      },
-      body: JSON.stringify({
-        model: chatgptApiModel,
-        messages: this.buildMessages(),
-        temperature: chatgptApiTemperature,
-        stream: true,
-      }),
-    })
-    if (!resp.ok && resp.status === 404 && chatgptApiModel.includes('gpt-4')) {
-      throw new ChatError(`You don't have API access to ${chatgptApiModel} model`, ErrorCode.GPT4_MODEL_WAITLIST)
-    }
-    return resp
   }
 
   async doSendMessage(params: SendMessageParams) {
@@ -119,5 +70,41 @@ export class ChatGPTApiBot extends AbstractBot {
 
   resetConversation() {
     this.conversationContext = undefined
+  }
+
+  abstract fetchCompletionApi(signal?: AbortSignal): Promise<Response>
+}
+
+export class ChatGPTApiBot extends AbstractChatGPTApiBot {
+  constructor(
+    private config: Pick<UserConfig, 'openaiApiKey' | 'openaiApiHost' | 'chatgptApiModel' | 'chatgptApiTemperature'>,
+  ) {
+    super()
+  }
+
+  async fetchCompletionApi(signal?: AbortSignal) {
+    const { openaiApiKey, openaiApiHost, chatgptApiModel, chatgptApiTemperature } = this.config
+    const resp = await fetch(`${openaiApiHost}/v1/chat/completions`, {
+      method: 'POST',
+      signal,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${openaiApiKey}`,
+      },
+      body: JSON.stringify({
+        model: chatgptApiModel,
+        messages: this.buildMessages(),
+        temperature: chatgptApiTemperature,
+        stream: true,
+      }),
+    })
+    if (!resp.ok && resp.status === 404 && chatgptApiModel.includes('gpt-4')) {
+      throw new ChatError(`You don't have API access to ${chatgptApiModel} model`, ErrorCode.GPT4_MODEL_WAITLIST)
+    }
+    return resp
+  }
+
+  get name() {
+    return `ChatGPT (API/${this.config.chatgptApiModel})`
   }
 }

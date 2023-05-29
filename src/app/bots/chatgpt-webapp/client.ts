@@ -1,6 +1,6 @@
 import { RequestInitSubset } from '~types/messaging'
 import { ChatError, ErrorCode } from '~utils/errors'
-import { globalFetchRequester, proxyFetchRequester, Requester } from './requesters'
+import { Requester, globalFetchRequester, proxyFetchRequester } from './requesters'
 
 class ChatGPTClient {
   requester: Requester

@@ -3,6 +3,7 @@ import { requestHostPermission } from '~app/utils/permissions'
 import { ChatError, ErrorCode } from '~utils/errors'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
 import { GRAPHQL_QUERIES, PoeSettings, getChatId, getPoeSettings, gqlRequest } from './api'
+import { PoeClaudeModel, PoeGPTModel } from '~services/user-config'
 
 interface ChatMessage {
   id: string
@@ -31,12 +32,10 @@ interface ConversationContext {
 }
 
 export class PoeWebBot extends AbstractBot {
-  public botId: string
   private conversationContext?: ConversationContext
 
-  constructor(botId: string) {
+  constructor(public botId: string) {
     super()
-    this.botId = botId
   }
 
   async doSendMessage(params: SendMessageParams) {
@@ -171,5 +170,23 @@ export class PoeWebBot extends AbstractBot {
     })
 
     return wsp
+  }
+
+  get name() {
+    if (this.botId === PoeGPTModel['GPT-3.5']) {
+      return 'ChatGPT (poe/gpt-3.5)'
+    }
+    if (this.botId === PoeGPTModel['GPT-4']) {
+      return 'ChatGPT (poe/gpt-4)'
+    }
+    if (this.botId === PoeClaudeModel['ClaudeInstant']) {
+      return 'Claude (poe/claude-instant)'
+    }
+    if (this.botId === PoeClaudeModel['ClaudePlus']) {
+      return 'Claude (poe/claude+)'
+    }
+    if (this.botId === PoeClaudeModel['ClaudeInstant100k']) {
+      return 'Claude (poe/claude-100k)'
+    }
   }
 }

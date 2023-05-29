@@ -73,7 +73,7 @@ function PremiumPage() {
         <FeatureItem text={t('More bots in All-In-One mode')} />
         <FeatureItem text={t('Chat history full-text search')} />
         <FeatureItem text={t('Customize theme')} />
-        <FeatureItem text={t('Quick access in Chrome side bar')} comingsoon />
+        <FeatureItem text={t('Quick access in Chrome side bar')} />
         <FeatureItem text={t('Activate up to 5 devices')} />
         <FeatureItem text={t('More features in the future')} />
         <FeatureItem text={t('Support the development of ChatHub')} />

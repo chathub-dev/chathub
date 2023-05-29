@@ -15,7 +15,7 @@ export enum ChatGPTMode {
   Poe = 'poe',
 }
 
-export enum ChatGPTWebModels {
+export enum ChatGPTWebModel {
   'GPT-3.5' = 'gpt-3.5',
   'GPT-3.5 (Mobile)' = 'gpt-3.5-mobile',
   'GPT-4' = 'gpt-4',
@@ -46,7 +46,7 @@ const userConfigWithDefaultValue = {
   chatgptApiModel: CHATGPT_API_MODELS[0],
   chatgptApiTemperature: 1,
   chatgptMode: ChatGPTMode.Webapp,
-  chatgptWebappModelName: ChatGPTWebModels['GPT-3.5'],
+  chatgptWebappModelName: ChatGPTWebModel['GPT-3.5'],
   chatgptPoeModelName: PoeGPTModel['GPT-3.5'],
   startupPage: ALL_IN_ONE_PAGE_ID,
   bingConversationStyle: BingConversationStyle.Balanced,
@@ -65,7 +65,7 @@ export async function getUserConfig(): Promise<UserConfig> {
     result.chatgptMode = ChatGPTMode.API
   }
   if (result.chatgptWebappModelName === 'default') {
-    result.chatgptWebappModelName = ChatGPTWebModels['GPT-3.5']
+    result.chatgptWebappModelName = ChatGPTWebModel['GPT-3.5']
   }
   return defaults(result, userConfigWithDefaultValue)
 }

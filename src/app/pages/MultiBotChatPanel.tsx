@@ -40,6 +40,7 @@ const GeneralChatPanel: FC<{ chats: ReturnType<typeof useChat>[] }> = ({ chats }
           <ConversationPanel
             key={`${chat.botId}-${index}`}
             botId={chat.botId}
+            bot={chat.bot}
             messages={chat.messages}
             onUserSendMessage={onUserSendMessage}
             generating={chat.generating}
