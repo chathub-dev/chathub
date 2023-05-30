@@ -15,6 +15,7 @@ import Button from '../Button'
 import HistoryDialog from '../History/Dialog'
 import ShareDialog from '../Share/Dialog'
 import SwitchBotDropdown from '../SwitchBotDropdown'
+import Tooltip from '../Tooltip'
 import ChatMessageInput from './ChatMessageInput'
 import ChatMessageList from './ChatMessageList'
 
@@ -94,7 +95,9 @@ const ConversationPanel: FC<Props> = (props) => {
         >
           <div className="flex flex-row items-center gap-2">
             <img src={botInfo.avatar} className="w-5 h-5 object-contain rounded-full" />
-            <span className="font-semibold text-primary-text text-sm">{props.bot.name || botInfo.name}</span>
+            <Tooltip content={props.bot.name || botInfo.name}>
+              <span className="font-semibold text-primary-text text-sm cursor-default">{botInfo.name}</span>
+            </Tooltip>
             {mode === 'compact' && <SwitchBotDropdown excludeBotId={props.botId} onChange={onSwitchBot} />}
           </div>
           <div className="flex flex-row items-center gap-3">
