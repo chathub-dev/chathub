@@ -101,24 +101,19 @@ const ConversationPanel: FC<Props> = (props) => {
             {mode === 'compact' && <SwitchBotDropdown excludeBotId={props.botId} onChange={onSwitchBot} />}
           </div>
           <div className="flex flex-row items-center gap-3">
-            <img
-              src={shareIcon}
-              className="w-5 h-5 cursor-pointer"
-              onClick={openShareDialog}
-              title={t('Share conversation')!}
-            />
-            <img
-              src={clearIcon}
-              className={cx('w-5 h-5', props.generating ? 'cursor-not-allowed' : 'cursor-pointer')}
-              onClick={resetConversation}
-              title={t('Clear conversation')!}
-            />
-            <img
-              src={historyIcon}
-              className="w-5 h-5 cursor-pointer"
-              onClick={openHistoryDialog}
-              title={t('View history')!}
-            />
+            <Tooltip content={t('Share conversation')}>
+              <img src={shareIcon} className="w-5 h-5 cursor-pointer" onClick={openShareDialog} />
+            </Tooltip>
+            <Tooltip content={t('Clear conversation')}>
+              <img
+                src={clearIcon}
+                className={cx('w-5 h-5', props.generating ? 'cursor-not-allowed' : 'cursor-pointer')}
+                onClick={resetConversation}
+              />
+            </Tooltip>
+            <Tooltip content={t('View history')}>
+              <img src={historyIcon} className="w-5 h-5 cursor-pointer" onClick={openHistoryDialog} />
+            </Tooltip>
           </div>
         </div>
         <ChatMessageList botId={props.botId} messages={props.messages} className={marginClass} />
