@@ -53,7 +53,7 @@ const GeneralChatPanel: FC<{ chats: ReturnType<typeof useChat>[] }> = ({ chats }
       </div>
       <ChatMessageInput
         mode="full"
-        className="rounded-[20px] bg-primary-background px-5 py-[10px]"
+        className="rounded-[20px] bg-primary-background px-4 py-2"
         disabled={generating}
         onSubmit={onUserSendMessage}
         actionButton={!generating && <Button text={t('Send')} color="primary" type="submit" />}

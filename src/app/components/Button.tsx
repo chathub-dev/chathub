@@ -20,7 +20,8 @@ const Button: FC<Props> = (props) => {
     <button
       type={type}
       className={cx(
-        size === 'normal' ? 'rounded-[60px] text-base font-medium px-8 py-2' : 'rounded-[30px] text-sm px-4 py-1',
+        'rounded-full',
+        size === 'normal' ? 'text-base font-medium px-6 py-[5px]' : 'text-sm px-4 py-1',
         props.color === 'primary' ? 'text-white bg-primary-blue' : 'text-primary-text bg-secondary',
         props.className,
       )}
