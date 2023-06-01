@@ -87,7 +87,12 @@ export class LMSYSBot extends AbstractBot {
       })
     }
 
-    await wsp.open()
+    try {
+      await wsp.open()
+    } catch (err) {
+      console.error('lmsys ws open error', err)
+      throw new ChatError('Failed to establish websocket connection.', ErrorCode.NETWORK_ERROR)
+    }
 
     return wsp
   }

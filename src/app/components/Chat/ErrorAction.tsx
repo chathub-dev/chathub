@@ -90,8 +90,11 @@ const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
       </a>
     )
   }
-  if (error.code === ErrorCode.UNKOWN_ERROR && error.message.includes('Failed to fetch')) {
-    return <p className="ml-2 text-secondary-text">{t('Please check your network connection')}</p>
+  if (
+    error.code === ErrorCode.NETWORK_ERROR ||
+    (error.code === ErrorCode.UNKOWN_ERROR && error.message.includes('Failed to fetch'))
+  ) {
+    return <p className="ml-2 text-secondary-text text-sm">{t('Please check your network connection')}</p>
   }
   return null
 }

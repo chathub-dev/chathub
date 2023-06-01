@@ -69,7 +69,7 @@ const resources = {
       'View history': '查看历史消息',
       'Premium Feature': '高级功能',
       'Upgrade to unlock': '升级解锁',
-      'Please check your network connection': '请检查您的网络连接，中国用户请科学上网',
+      'Please check your network connection': '请检查您的网络连接，中国用户可能需要科学上网',
     },
   },
   de: {
