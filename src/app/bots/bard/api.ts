@@ -14,14 +14,22 @@ export async function fetchRequestParams() {
   return { atValue, blValue }
 }
 
-export function parseBartResponse(resp: string) {
+export function parseBardResponse(resp: string) {
   const data = JSON.parse(resp.split('\n')[3])
   const payload = JSON.parse(data[0][2])
   if (!payload) {
     throw new ChatError('Failed to access Bard', ErrorCode.BARD_EMPTY_RESPONSE)
   }
   console.debug('bard response payload', payload)
-  const text = payload[0][0]
+
+  let text = payload[0][0] as string
+
+  const images = payload[4][0][4] || []
+  for (const image of images) {
+    const [media, source, placeholder] = image
+    text = text.replace(placeholder, `[![${media[4]}](${media[0][0]})](${source[0][0]})`)
+  }
+
   return {
     text,
     ids: [...payload[1], payload[4][0][0]] as [string, string, string],

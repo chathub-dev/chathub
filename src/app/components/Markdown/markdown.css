@@ -23,4 +23,8 @@
     white-space: pre-wrap;
     padding: 10px;
   }
+  & img {
+    max-width: min(80%, 300px);
+    margin-top: 5px;
+  }
 }

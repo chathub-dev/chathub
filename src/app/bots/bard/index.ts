@@ -1,6 +1,6 @@
 import { ofetch } from 'ofetch'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
-import { fetchRequestParams, parseBartResponse } from './api'
+import { fetchRequestParams, parseBardResponse } from './api'
 
 function generateReqId() {
   return Math.floor(Math.random() * 900000) + 100000
@@ -39,7 +39,7 @@ export class BardBot extends AbstractBot {
         parseResponse: (txt) => txt,
       },
     )
-    const { text, ids } = parseBartResponse(resp)
+    const { text, ids } = parseBardResponse(resp)
     this.conversationContext.contextIds = ids
     params.onEvent({
       type: 'UPDATE_ANSWER',
