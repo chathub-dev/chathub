@@ -21,7 +21,7 @@ function Select<T extends string>(props: Props<T>) {
           <div className="relative">
             <Listbox.Button
               className={cx(
-                'relative w-full cursor-default rounded-md bg-white pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 leading-6',
+                'relative w-full cursor-default rounded-md bg-white pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none leading-6',
                 size === 'normal' ? 'text-sm py-1.5' : 'text-xs py-1',
                 disabled && 'cursor-not-allowed opacity-50',
               )}
