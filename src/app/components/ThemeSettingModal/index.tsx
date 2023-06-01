@@ -69,6 +69,7 @@ const ThemeSettingModal: FC<Props> = (props) => {
       }
       Browser.tabs.setZoom(newZoom)
       setZoomLevel(newZoom)
+      trackEvent('change_zoom_level', { zoom: newZoom })
     },
     [zoomLevel],
   )
