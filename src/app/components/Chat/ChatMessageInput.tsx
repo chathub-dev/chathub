@@ -119,6 +119,12 @@ const ChatMessageInput: FC<Props> = (props) => {
     setIsComboboxOpen(v === '/')
   }, [])
 
+  useEffect(() => {
+    if (isComboboxOpen) {
+      trackEvent('open_prompt_combobox')
+    }
+  }, [isComboboxOpen])
+
   const insertTextAtCursor = useCallback(
     (text: string) => {
       const cursorPosition = inputRef.current?.selectionStart || 0
