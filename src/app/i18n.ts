@@ -73,6 +73,8 @@ const resources = {
       'Display size': '显示大小',
       'You’ve reached the daily free message limit for this model': '你已经达到了该模型今日免费消息上限',
       'This is a limitation set by poe.com': '这是poe.com的限制',
+      Feedback: '反馈',
+      Theme: '主题',
     },
   },
   de: {
