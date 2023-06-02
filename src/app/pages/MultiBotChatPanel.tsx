@@ -7,6 +7,7 @@ import Button from '~app/components/Button'
 import ChatMessageInput from '~app/components/Chat/ChatMessageInput'
 import { useChat } from '~app/hooks/use-chat'
 import { useUserConfig } from '~app/hooks/use-user-config'
+import { trackEvent } from '~app/plausible'
 import { multiPanelBotsAtom } from '~app/state'
 import { MultiPanelLayout } from '~services/user-config'
 import { BotId } from '../bots'
@@ -24,6 +25,7 @@ const GeneralChatPanel: FC<{ chats: ReturnType<typeof useChat>[] }> = ({ chats }
       } else {
         uniqBy(chats, (c) => c.botId).forEach((c) => c.sendMessage(input))
       }
+      trackEvent('send_messages', { count: chats.length })
     },
     [chats],
   )
