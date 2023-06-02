@@ -71,6 +71,8 @@ const resources = {
       'Upgrade to unlock': '升级解锁',
       'Please check your network connection': '请检查您的网络连接，中国用户可能需要科学上网',
       'Display size': '显示大小',
+      'You’ve reached the daily free message limit for this model': '你已经达到了该模型今日免费消息上限',
+      'This is a limitation set by poe.com': '这是poe.com的限制',
     },
   },
   de: {

@@ -96,6 +96,9 @@ const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
   ) {
     return <p className="ml-2 text-secondary-text text-sm">{t('Please check your network connection')}</p>
   }
+  if (error.code === ErrorCode.POE_MESSAGE_LIMIT) {
+    return <p className="ml-2 text-secondary-text text-sm">{t('This is a limitation set by poe.com')}</p>
+  }
   return null
 }
 
