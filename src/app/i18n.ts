@@ -40,7 +40,7 @@ const resources = {
       'Four in one': '四合一',
       'Activate up to 5 devices': '最多可激活5台设备',
       Deactivate: '反激活',
-      'Get premium license': '购买 premium license',
+      'Get premium license': '购买会员',
       'Theme Settings': '主题设置',
       'Theme Mode': '主题模式',
       'Theme Color': '主题色',
@@ -75,6 +75,7 @@ const resources = {
       'This is a limitation set by poe.com': '这是poe.com的限制',
       Feedback: '反馈',
       Theme: '主题',
+      Premium: '付费会员',
     },
   },
   de: {

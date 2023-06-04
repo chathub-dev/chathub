@@ -64,7 +64,7 @@ function Sidebar() {
         {!collapsed && <hr className="border-[#ffffff4d]" />}
         {!collapsed && (
           <div className="my-5">
-            <PremiumEntry text="Premium" />
+            <PremiumEntry text={t('Premium')} />
           </div>
         )}
         <div className={cx('flex mt-5 gap-[10px] mb-4', collapsed ? 'flex-col' : 'flex-row ')}>
