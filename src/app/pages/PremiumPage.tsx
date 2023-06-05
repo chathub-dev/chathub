@@ -93,9 +93,9 @@ function PremiumPage() {
       {premiumState.activated ? (
         <div className="flex flex-row items-center gap-3 mt-8">
           <a href="https://app.lemonsqueezy.com/my-orders/" target="_blank" rel="noreferrer">
-            <Button text={t('🎉 License activated')} color="primary" className="w-fit" />
+            <Button text={t('🎉 License activated')} color="primary" className="w-fit !py-2" />
           </a>
-          <Button text={t('Deactivate')} className="w-fit" onClick={deactivateLicense} isLoading={deactivating} />
+          <Button text={t('Deactivate')} className="w-fit !py-2" onClick={deactivateLicense} isLoading={deactivating} />
         </div>
       ) : (
         <div className="flex flex-row items-center gap-3 mt-8">
@@ -105,12 +105,12 @@ function PremiumPage() {
             rel="noreferrer"
             onClick={() => trackEvent('click_buy_premium')}
           >
-            <Button text={t('Get premium license')} color="primary" className="w-fit py-3 rounded-lg" />
+            <Button text={t('Get premium license')} color="primary" className="w-fit !py-2 rounded-lg" />
           </a>
           <Button
             text={t('Activate license')}
             color="flat"
-            className="w-fit py-3 rounded-lg"
+            className="w-fit !py-2 rounded-lg"
             onClick={activateLicense}
             isLoading={premiumState.isLoading}
           />
