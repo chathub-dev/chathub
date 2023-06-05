@@ -84,7 +84,7 @@ function PremiumPage() {
         <FeatureItem text={t('Customize theme')} />
         <FeatureItem
           text={t('Quick access in Chrome side bar')}
-          link="https://github.com/chathub-dev/chathub/wiki/Access-ChatHub-from-Chrome-side-panel"
+          link="https://github.com/chathub-dev/chathub/wiki/Access-from-Chrome-side-panel"
         />
         <FeatureItem text={t('Activate up to 5 devices')} />
         <FeatureItem text={t('More features in the future')} />
