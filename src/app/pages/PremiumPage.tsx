@@ -3,19 +3,29 @@ import { ofetch } from 'ofetch'
 import { FC, useCallback, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
+import { BsQuestionCircle } from 'react-icons/bs'
 import useImmutableSWR from 'swr/immutable'
 import Button from '~app/components/Button'
+import Tooltip from '~app/components/Tooltip'
 import { usePremium } from '~app/hooks/use-premium'
 import { trackEvent } from '~app/plausible'
 import { licenseKeyAtom } from '~app/state'
 import checkIcon from '~assets/icons/check.svg'
 import { deactivateLicenseKey } from '~services/premium'
 
-const FeatureItem: FC<{ text: string }> = ({ text }) => {
+const FeatureItem: FC<{ text: string; link?: string }> = ({ text, link }) => {
+  const { t } = useTranslation()
   return (
     <div className="flex flex-row items-center gap-2">
       <img src={checkIcon} className="w-6 h-6" />
       <span className="text-primary-text font-medium">{text}</span>
+      {!!link && (
+        <Tooltip content={t('Learn more')}>
+          <a href={link} target="_blank" rel="noreferrer">
+            <BsQuestionCircle className="cursor-pointer" />
+          </a>
+        </Tooltip>
+      )}
     </div>
   )
 }
@@ -72,7 +82,10 @@ function PremiumPage() {
         <FeatureItem text={t('More bots in All-In-One mode')} />
         <FeatureItem text={t('Chat history full-text search')} />
         <FeatureItem text={t('Customize theme')} />
-        <FeatureItem text={t('Quick access in Chrome side bar')} />
+        <FeatureItem
+          text={t('Quick access in Chrome side bar')}
+          link="https://github.com/chathub-dev/chathub/wiki/Access-ChatHub-from-Chrome-side-panel"
+        />
         <FeatureItem text={t('Activate up to 5 devices')} />
         <FeatureItem text={t('More features in the future')} />
         <FeatureItem text={t('Support the development of ChatHub')} />
