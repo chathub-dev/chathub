@@ -90,6 +90,13 @@ const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
       </a>
     )
   }
+  if (error.code === ErrorCode.BING_CAPTCHA) {
+    return (
+      <a href="https://www.bing.com/turing/captcha/challenge" target="_blank" rel="noreferrer">
+        <Button color="primary" text={t('Verify')} size="small" />
+      </a>
+    )
+  }
   if (
     error.code === ErrorCode.NETWORK_ERROR ||
     (error.code === ErrorCode.UNKOWN_ERROR && error.message.includes('Failed to fetch'))
