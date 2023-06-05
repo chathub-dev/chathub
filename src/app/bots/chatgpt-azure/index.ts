@@ -28,6 +28,6 @@ export class ChatGPTAzureApiBot extends AbstractChatGPTApiBot {
   }
 
   get name() {
-    return `ChatGPT (azure/gpt-3.5})`
+    return `ChatGPT (azure/gpt-3.5)`
   }
 }
