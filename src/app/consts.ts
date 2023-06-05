@@ -6,6 +6,12 @@ import chatglmLogo from '~/assets/chatglm-logo.svg'
 import chatgptLogo from '~/assets/chatgpt-logo.svg'
 import vicunaLogo from '~/assets/vicuna-logo.jpg'
 import xunfeiLogo from '~/assets/xunfei-logo.png'
+import koalaLogo from '~/assets/koala-logo.jpg'
+import dollyLogo from '~/assets/dolly-logo.png'
+import llamaLogo from '~/assets/llama-logo.png'
+import stablelmLogo from '~/assets/stablelm-logo.png'
+import oasstLogo from '~/assets/oasst-logo.svg'
+import rwkvLogo from '~/assets/rwkv-logo.png'
 import { BotId } from './bots'
 import i18n from './i18n'
 
@@ -41,6 +47,30 @@ export const CHATBOTS: Record<BotId, { name: string; avatar: any }> = {
   vicuna: {
     name: 'Vicuna',
     avatar: vicunaLogo,
+  },
+  koala: {
+    name: 'Koala',
+    avatar: koalaLogo,
+  },
+  dolly: {
+    name: 'Dolly',
+    avatar: dollyLogo,
+  },
+  llama: {
+    name: 'LLaMA',
+    avatar: llamaLogo,
+  },
+  stablelm: {
+    name: 'StableLM',
+    avatar: stablelmLogo,
+  },
+  oasst: {
+    name: 'OpenAssistant',
+    avatar: oasstLogo,
+  },
+  rwkv: {
+    name: 'ChatRWKV',
+    avatar: rwkvLogo,
   },
 }
 

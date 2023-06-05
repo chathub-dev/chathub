@@ -52,11 +52,11 @@ const userConfigWithDefaultValue = {
   startupPage: ALL_IN_ONE_PAGE_ID,
   bingConversationStyle: BingConversationStyle.Balanced,
   multiPanelLayout: MultiPanelLayout.Two,
-  poeModel: PoeClaudeModel.ClaudePlus,
+  poeModel: PoeClaudeModel.ClaudeInstant,
   azureOpenAIApiKey: '',
   azureOpenAIApiInstanceName: '',
   azureOpenAIApiDeploymentName: '',
-  enabledBots: Object.keys(CHATBOTS) as BotId[],
+  enabledBots: Object.keys(CHATBOTS).slice(0, 8) as BotId[],
 }
 
 export type UserConfig = typeof userConfigWithDefaultValue
