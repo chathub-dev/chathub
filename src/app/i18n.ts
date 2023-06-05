@@ -76,6 +76,7 @@ const resources = {
       Feedback: '反馈',
       Theme: '主题',
       Premium: '付费会员',
+      Chatbots: '聊天机器人',
     },
   },
   de: {

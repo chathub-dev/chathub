@@ -25,6 +25,7 @@ import PagePanel from '../components/Page'
 import ChatGPTAzureSettings from '~app/components/Settings/ChatGPTAzureSettings'
 import ChatGPWebSettings from '~app/components/Settings/ChatGPTWebSettings'
 import ChatGPTPoeSettings from '~app/components/Settings/ChatGPTPoeSettings'
+import EnabledBotsSettings from '~app/components/Settings/EnabledBotsSettings'
 
 const BING_STYLE_OPTIONS = [
   { name: 'Precise', value: BingConversationStyle.Precise },
@@ -152,6 +153,10 @@ function SettingPage() {
               disabled={!premiumState.activated}
             />
           </div>
+        </div>
+        <div className="flex flex-col gap-2">
+          <p className="font-bold text-lg">{t('Chatbots')}</p>
+          <EnabledBotsSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
         </div>
         <div className="flex flex-col gap-2">
           <p className="font-bold text-lg">ChatGPT</p>

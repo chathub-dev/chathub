@@ -18,6 +18,7 @@ import ThemeSettingModal from '../ThemeSettingModal'
 import Tooltip from '../Tooltip'
 import NavLink from './NavLink'
 import PremiumEntry from './PremiumEntry'
+import { useEnabledBots } from '~app/hooks/use-enabled-bots'
 
 function IconButton(props: { icon: string; onClick?: () => void }) {
   return (
@@ -34,6 +35,7 @@ function Sidebar() {
   const { t } = useTranslation()
   const [collapsed, setCollapsed] = useAtom(sidebarCollapsedAtom)
   const [themeSettingModalOpen, setThemeSettingModalOpen] = useState(false)
+  const enabledBots = useEnabledBots()
   return (
     <aside
       className={cx(
@@ -49,7 +51,7 @@ function Sidebar() {
       {collapsed ? <img src={minimalLogo} className="w-[30px]" /> : <img src={logo} className="w-[79px]" />}
       <div className="flex flex-col gap-3 mt-12 overflow-y-auto scrollbar-none">
         <NavLink to="/" text={'All-In-One'} icon={allInOneIcon} iconOnly={collapsed} />
-        {Object.entries(CHATBOTS).map(([botId, bot]) => (
+        {enabledBots.map(({ botId, bot }) => (
           <NavLink
             key={botId}
             to="/chat/$botId"

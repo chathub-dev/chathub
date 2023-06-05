@@ -2,7 +2,7 @@ import { Menu, Transition } from '@headlessui/react'
 import { FC, Fragment, useCallback } from 'react'
 import dropdownIcon from '~/assets/icons/dropdown.svg'
 import { BotId } from '~app/bots'
-import { CHATBOTS } from '~app/consts'
+import { useEnabledBots } from '~app/hooks/use-enabled-bots'
 
 interface Props {
   excludeBotId: BotId
@@ -10,6 +10,8 @@ interface Props {
 }
 
 const SwitchBotDropdown: FC<Props> = (props) => {
+  const enabledBots = useEnabledBots()
+
   const onSelect = useCallback(
     (botId: BotId) => {
       props.onChange(botId)
@@ -32,14 +34,12 @@ const SwitchBotDropdown: FC<Props> = (props) => {
         leaveTo="transform opacity-0 scale-95"
       >
         <Menu.Items className="absolute left-0 z-10 mt-2 rounded-md bg-secondary shadow-lg focus:outline-none">
-          {Object.keys(CHATBOTS).map((key) => {
-            const botId = key as BotId
+          {enabledBots.map(({ botId, bot }) => {
             if (botId === props.excludeBotId) {
               return null
             }
-            const bot = CHATBOTS[botId]
             return (
-              <Menu.Item key={key}>
+              <Menu.Item key={botId}>
                 <div
                   className="px-4 py-2 ui-active:bg-primary-blue ui-active:text-white ui-not-active:text-secondary-text cursor-pointer flex flex-row items-center gap-3 pr-8"
                   onClick={() => onSelect(botId)}
