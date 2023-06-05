@@ -93,6 +93,10 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 
 ## 📜 Changelog
 
+### v1.21.0
+
+- Add more open-source models
+
 ### v1.20.0
 
 - Access from Chrome side panel
