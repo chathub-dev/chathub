@@ -15,7 +15,7 @@ const ChatGPTAzureSettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
         <Input
           className="w-[300px]"
           value={userConfig.azureOpenAIApiInstanceName}
-          onChange={(e) => updateConfigValue({ azureOpenAIApiInstanceName: e.currentTarget.value })}
+          onChange={(e) => updateConfigValue({ azureOpenAIApiInstanceName: e.currentTarget.value.trim() })}
         />
       </div>
       <div className="flex flex-col gap-1">
@@ -23,7 +23,7 @@ const ChatGPTAzureSettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
         <Input
           className="w-[300px]"
           value={userConfig.azureOpenAIApiKey}
-          onChange={(e) => updateConfigValue({ azureOpenAIApiKey: e.currentTarget.value })}
+          onChange={(e) => updateConfigValue({ azureOpenAIApiKey: e.currentTarget.value.trim() })}
           type="password"
         />
       </div>
@@ -32,7 +32,7 @@ const ChatGPTAzureSettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
         <Input
           className="w-[300px]"
           value={userConfig.azureOpenAIApiDeploymentName}
-          onChange={(e) => updateConfigValue({ azureOpenAIApiDeploymentName: e.currentTarget.value })}
+          onChange={(e) => updateConfigValue({ azureOpenAIApiDeploymentName: e.currentTarget.value.trim() })}
         />
       </div>
     </div>
