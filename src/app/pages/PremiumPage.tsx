@@ -11,12 +11,11 @@ import { licenseKeyAtom } from '~app/state'
 import checkIcon from '~assets/icons/check.svg'
 import { deactivateLicenseKey } from '~services/premium'
 
-const FeatureItem: FC<{ text: string; comingsoon?: boolean }> = ({ text, comingsoon }) => {
+const FeatureItem: FC<{ text: string }> = ({ text }) => {
   return (
     <div className="flex flex-row items-center gap-2">
       <img src={checkIcon} className="w-6 h-6" />
       <span className="text-primary-text font-medium">{text}</span>
-      {comingsoon && <span className="text-xs text-secondary-text">(Coming soon)</span>}
     </div>
   )
 }
