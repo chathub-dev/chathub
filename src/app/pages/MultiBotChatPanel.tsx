@@ -35,7 +35,7 @@ const GeneralChatPanel: FC<{ chats: ReturnType<typeof useChat>[] }> = ({ chats }
       <div
         className={cx(
           'grid overflow-hidden grow auto-rows-fr gap-3 mb-3',
-          chats.length === 3 ? 'grid-cols-3' : 'grid-cols-2',
+          chats.length % 3 === 0 ? 'grid-cols-3' : 'grid-cols-2'
         )}
       >
         {chats.map((chat, index) => (
@@ -92,8 +92,70 @@ const FourBotChatPanel: FC = () => {
   return <GeneralChatPanel chats={chats} />
 }
 
+const FiveBotChatPanel: FC = () => {
+  const multiPanelBotIds = useAtomValue(multiPanelBotsAtom)
+  const chat1 = useChat(multiPanelBotIds[0])
+  const chat2 = useChat(multiPanelBotIds[1])
+  const chat3 = useChat(multiPanelBotIds[2])
+  const chat4 = useChat(multiPanelBotIds[3])
+  const chat5 = useChat(multiPanelBotIds[4])
+  const chats = useMemo(() => [chat1, chat2, chat3, chat4, chat5], [chat1, chat2, chat3, chat4, chat5])
+  return <GeneralChatPanel chats={chats} />
+}
+
+const SixBotChatPanel: FC = () => {
+  const multiPanelBotIds = useAtomValue(multiPanelBotsAtom)
+  const chat1 = useChat(multiPanelBotIds[0])
+  const chat2 = useChat(multiPanelBotIds[1])
+  const chat3 = useChat(multiPanelBotIds[2])
+  const chat4 = useChat(multiPanelBotIds[3])
+  const chat5 = useChat(multiPanelBotIds[4])
+  const chat6 = useChat(multiPanelBotIds[5])
+  const chats = useMemo(() => [chat1, chat2, chat3, chat4, chat5, chat6], [chat1, chat2, chat3, chat4, chat5, chat6])
+  return <GeneralChatPanel chats={chats} />
+}
+
+const SevenBotChatPanel: FC = () => {
+  const multiPanelBotIds = useAtomValue(multiPanelBotsAtom)
+  const chat1 = useChat(multiPanelBotIds[0])
+  const chat2 = useChat(multiPanelBotIds[1])
+  const chat3 = useChat(multiPanelBotIds[2])
+  const chat4 = useChat(multiPanelBotIds[3])
+  const chat5 = useChat(multiPanelBotIds[4])
+  const chat6 = useChat(multiPanelBotIds[5])
+  const chat7 = useChat(multiPanelBotIds[6])
+  const chats = useMemo(() => [chat1, chat2, chat3, chat4, chat5, chat6, chat7], [chat1, chat2, chat3, chat4, chat5, chat6, chat7])
+  return <GeneralChatPanel chats={chats} />
+}
+
+const EightBotChatPanel: FC = () => {
+  const multiPanelBotIds = useAtomValue(multiPanelBotsAtom)
+  const chat1 = useChat(multiPanelBotIds[0])
+  const chat2 = useChat(multiPanelBotIds[1])
+  const chat3 = useChat(multiPanelBotIds[2])
+  const chat4 = useChat(multiPanelBotIds[3])
+  const chat5 = useChat(multiPanelBotIds[4])
+  const chat6 = useChat(multiPanelBotIds[5])
+  const chat7 = useChat(multiPanelBotIds[6])
+  const chat8 = useChat(multiPanelBotIds[7])
+  const chats = useMemo(() => [chat1, chat2, chat3, chat4, chat5, chat6, chat7, chat8], [chat1, chat2, chat3, chat4, chat5, chat6, chat7, chat8])
+  return <GeneralChatPanel chats={chats} />
+}
+
 const MultiBotChatPanel: FC = () => {
   const { multiPanelLayout } = useUserConfig()
+  if (multiPanelLayout === MultiPanelLayout.Eight) {
+    return <EightBotChatPanel />
+  }
+  if (multiPanelLayout === MultiPanelLayout.Seven) {
+    return <SevenBotChatPanel />
+  }
+  if (multiPanelLayout === MultiPanelLayout.Six) {
+    return <SixBotChatPanel />
+  }
+  if (multiPanelLayout === MultiPanelLayout.Five) {
+    return <FiveBotChatPanel />
+  }
   if (multiPanelLayout === MultiPanelLayout.Four) {
     return <FourBotChatPanel />
   }

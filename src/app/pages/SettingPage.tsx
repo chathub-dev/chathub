@@ -144,6 +144,10 @@ function SettingPage() {
                 { name: t('Two in one'), value: MultiPanelLayout.Two },
                 { name: t('Three in one'), value: MultiPanelLayout.Three },
                 { name: t('Four in one'), value: MultiPanelLayout.Four },
+                { name: t('Five in one'), value: MultiPanelLayout.Five },
+                { name: t('Six in one'), value: MultiPanelLayout.Six },
+                { name: t('Seven in one'), value: MultiPanelLayout.Seven },
+                { name: t('Eight in one'), value: MultiPanelLayout.Eight },
               ]}
               value={userConfig.multiPanelLayout}
               onChange={(v) => updateConfigValue({ multiPanelLayout: v })}
