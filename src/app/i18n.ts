@@ -24,6 +24,7 @@ const resources = {
       Content: '内容',
       Search: '搜索',
       Model: '模型',
+      Cancel: '取消',
       'Presale discount': '预售折扣',
       'More bots in All-In-One mode': '在All-In-One模式下使用更多chatbot（三合一、四合一）',
       'Chat history full-text search': '全文搜索聊天记录',
