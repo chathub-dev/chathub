@@ -14,6 +14,7 @@ import { exportData, importData } from '~app/utils/export'
 import {
   BingConversationStyle,
   ChatGPTMode,
+  ClaudeMode,
   MultiPanelLayout,
   PoeClaudeModel,
   UserConfig,
@@ -26,17 +27,13 @@ import ChatGPTAzureSettings from '~app/components/Settings/ChatGPTAzureSettings'
 import ChatGPWebSettings from '~app/components/Settings/ChatGPTWebSettings'
 import ChatGPTPoeSettings from '~app/components/Settings/ChatGPTPoeSettings'
 import EnabledBotsSettings from '~app/components/Settings/EnabledBotsSettings'
+import ClaudePoeSettings from '~app/components/Settings/ClaudePoeSettings'
+import ClaudeAPISettings from '~app/components/Settings/ClaudeAPISettings'
 
 const BING_STYLE_OPTIONS = [
   { name: 'Precise', value: BingConversationStyle.Precise },
   { name: 'Balanced', value: BingConversationStyle.Balanced },
   { name: 'Creative', value: BingConversationStyle.Creative },
-]
-
-const POE_MODEL_OPTIONS = [
-  { name: 'Claude-Instant', value: PoeClaudeModel.ClaudeInstant },
-  { name: 'Claude+', value: PoeClaudeModel.ClaudePlus },
-  { name: 'Claude-instant-100k', value: PoeClaudeModel.ClaudeInstant100k },
 ]
 
 function SettingPage() {
@@ -158,20 +155,20 @@ function SettingPage() {
           <p className="font-bold text-lg">{t('Chatbots')}</p>
           <EnabledBotsSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-1">
           <p className="font-bold text-lg">ChatGPT</p>
           <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3 mb-1">
             {(Object.keys(ChatGPTMode) as (keyof typeof ChatGPTMode)[]).map((k) => (
-              <div className="flex items-center" key={k}>
+              <div className="flex items-center" key={`chatgpt-${k}`}>
                 <input
-                  id={k}
+                  id={`chatgpt-${k}`}
                   type="radio"
                   checked={userConfig.chatgptMode === ChatGPTMode[k]}
                   className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                   value={ChatGPTMode[k]}
                   onChange={(e) => updateConfigValue({ chatgptMode: e.currentTarget.value as ChatGPTMode })}
                 />
-                <label htmlFor={k} className="ml-2 block text-sm font-medium leading-6">
+                <label htmlFor={`chatgpt-${k}`} className="ml-2 block text-sm font-medium leading-6">
                   {k} Mode
                 </label>
               </div>
@@ -188,6 +185,31 @@ function SettingPage() {
           )}
         </div>
         <div className="flex flex-col gap-1">
+          <p className="font-bold text-lg">Claude</p>
+          <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3 mb-1">
+            {(Object.keys(ClaudeMode) as (keyof typeof ClaudeMode)[]).map((k) => (
+              <div className="flex items-center" key={`claude-${k}`}>
+                <input
+                  id={`claude-${k}`}
+                  type="radio"
+                  checked={userConfig.claudeMode === ClaudeMode[k]}
+                  className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                  value={ClaudeMode[k]}
+                  onChange={(e) => updateConfigValue({ claudeMode: e.currentTarget.value as ClaudeMode })}
+                />
+                <label htmlFor={`claude-${k}`} className="ml-2 block text-sm font-medium leading-6">
+                  {k} Mode
+                </label>
+              </div>
+            ))}
+          </div>
+          {userConfig.claudeMode === ClaudeMode.API ? (
+            <ClaudeAPISettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
+          ) : (
+            <ClaudePoeSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
+          )}
+        </div>
+        <div className="flex flex-col gap-1">
           <p className="font-bold text-lg">Bing</p>
           <div className="flex flex-row gap-3 items-center justify-between w-[250px]">
             <p className="font-medium text-base">{t('Chat style')}</p>
@@ -199,25 +221,6 @@ function SettingPage() {
               />
             </div>
           </div>
-        </div>
-        <div className="flex flex-col gap-1">
-          <p className="font-bold text-lg">Claude</p>
-          <div className="flex flex-row gap-3 items-center justify-between w-[250px]">
-            <p className="font-medium text-base">{t('Model')}</p>
-            <div className="w-[200px]">
-              <Select
-                options={POE_MODEL_OPTIONS}
-                value={userConfig.poeModel}
-                onChange={(v) => updateConfigValue({ poeModel: v })}
-              />
-            </div>
-          </div>
-          {userConfig.poeModel === PoeClaudeModel.ClaudePlus && (
-            <p className="text-sm mt-1 text-secondary-text">{t('Limited Access')}</p>
-          )}
-          {userConfig.poeModel === PoeClaudeModel.ClaudeInstant100k && (
-            <p className="text-sm mt-1 text-secondary-text">{t('Poe subscribers only')}</p>
-          )}
         </div>
       </div>
       <Button color={dirty ? 'primary' : 'flat'} text={t('Save')} className="w-fit my-8" onClick={save} />

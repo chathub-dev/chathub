@@ -47,13 +47,7 @@ async function getFormkey() {
 }
 
 export async function getPoeSettings(): Promise<PoeSettings> {
-  const [settings, formkey] = await Promise.all([
-    ofetch<PoeSettings>('https://poe.com/api/settings'),
-    getFormkey().catch((err) => {
-      console.error(err)
-      throw new Error('Failed to get formkey')
-    }),
-  ])
+  const [settings, formkey] = await Promise.all([ofetch<PoeSettings>('https://poe.com/api/settings'), getFormkey()])
   console.debug('poe formkey', formkey)
   settings.formkey = formkey
   return settings

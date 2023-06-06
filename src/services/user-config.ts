@@ -36,9 +36,21 @@ export enum PoeGPTModel {
 }
 
 export enum PoeClaudeModel {
-  ClaudeInstant = 'a2',
-  ClaudePlus = 'a2_2',
-  ClaudeInstant100k = 'a2_100k',
+  'claude-instant' = 'a2',
+  'claude+' = 'a2_2',
+  'claude-instant-100k' = 'a2_100k',
+}
+
+export enum ClaudeMode {
+  Poe = 'poe',
+  API = 'api',
+}
+
+export enum ClaudeAPIModel {
+  'claude-instant-v1' = 'claude-instant-v1',
+  'claude-v1' = 'claude-v1',
+  'claude-v1-100k' = 'claude-v1-100k',
+  'claude-instant-v1-100k' = 'claude-instant-v1-100k',
 }
 
 const userConfigWithDefaultValue = {
@@ -52,11 +64,14 @@ const userConfigWithDefaultValue = {
   startupPage: ALL_IN_ONE_PAGE_ID,
   bingConversationStyle: BingConversationStyle.Balanced,
   multiPanelLayout: MultiPanelLayout.Two,
-  poeModel: PoeClaudeModel.ClaudeInstant,
+  poeModel: PoeClaudeModel['claude-instant'],
   azureOpenAIApiKey: '',
   azureOpenAIApiInstanceName: '',
   azureOpenAIApiDeploymentName: '',
   enabledBots: Object.keys(CHATBOTS).slice(0, 8) as BotId[],
+  claudeApiKey: '',
+  claudeMode: ClaudeMode.Poe,
+  claudeApiModel: ClaudeAPIModel['claude-instant-v1'],
 }
 
 export type UserConfig = typeof userConfigWithDefaultValue
