@@ -93,6 +93,10 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 
 ## 📜 Changelog
 
+### v1.22.0
+
+- Support Claude API
+
 ### v1.21.0
 
 - Add more open-source models
