@@ -83,7 +83,7 @@ export class ChatGPTApiBot extends AbstractChatGPTApiBot {
   }
 
   async fetchCompletionApi(signal?: AbortSignal) {
-    const { openaiApiKey, openaiApiHost, chatgptApiModel, chatgptApiTemperature } = this.config
+    const { openaiApiKey, openaiApiHost, chatgptApiModel } = this.config
     const resp = await fetch(`${openaiApiHost}/v1/chat/completions`, {
       method: 'POST',
       signal,
@@ -94,7 +94,6 @@ export class ChatGPTApiBot extends AbstractChatGPTApiBot {
       body: JSON.stringify({
         model: chatgptApiModel,
         messages: this.buildMessages(),
-        temperature: chatgptApiTemperature,
         stream: true,
       }),
     })
