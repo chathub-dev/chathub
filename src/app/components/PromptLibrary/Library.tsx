@@ -133,7 +133,7 @@ function LocalPrompts(props: { insertPrompt: (text: string) => void }) {
               key={prompt.id}
               title={prompt.title}
               prompt={prompt.prompt}
-              edit={() => setFormData(prompt)}
+              edit={() => !formData && setFormData(prompt)}
               remove={() => removePrompt(prompt.id)}
               insertPrompt={props.insertPrompt}
             />
