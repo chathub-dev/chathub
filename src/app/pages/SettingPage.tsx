@@ -5,8 +5,15 @@ import { useTranslation } from 'react-i18next'
 import { BiExport, BiImport } from 'react-icons/bi'
 import Browser from 'webextension-polyfill'
 import Button from '~app/components/Button'
+import RadioGroup from '~app/components/RadioGroup'
 import Select from '~app/components/Select'
 import ChatGPTAPISettings from '~app/components/Settings/ChatGPTAPISettings'
+import ChatGPTAzureSettings from '~app/components/Settings/ChatGPTAzureSettings'
+import ChatGPTPoeSettings from '~app/components/Settings/ChatGPTPoeSettings'
+import ChatGPWebSettings from '~app/components/Settings/ChatGPTWebSettings'
+import ClaudeAPISettings from '~app/components/Settings/ClaudeAPISettings'
+import ClaudePoeSettings from '~app/components/Settings/ClaudePoeSettings'
+import EnabledBotsSettings from '~app/components/Settings/EnabledBotsSettings'
 import KDB from '~app/components/Settings/KDB'
 import { ALL_IN_ONE_PAGE_ID, CHATBOTS } from '~app/consts'
 import { usePremium } from '~app/hooks/use-premium'
@@ -16,19 +23,12 @@ import {
   ChatGPTMode,
   ClaudeMode,
   MultiPanelLayout,
-  PoeClaudeModel,
   UserConfig,
   getUserConfig,
   updateUserConfig,
 } from '~services/user-config'
 import { getVersion } from '~utils'
 import PagePanel from '../components/Page'
-import ChatGPTAzureSettings from '~app/components/Settings/ChatGPTAzureSettings'
-import ChatGPWebSettings from '~app/components/Settings/ChatGPTWebSettings'
-import ChatGPTPoeSettings from '~app/components/Settings/ChatGPTPoeSettings'
-import EnabledBotsSettings from '~app/components/Settings/EnabledBotsSettings'
-import ClaudePoeSettings from '~app/components/Settings/ClaudePoeSettings'
-import ClaudeAPISettings from '~app/components/Settings/ClaudeAPISettings'
 
 const BING_STYLE_OPTIONS = [
   { name: 'Precise', value: BingConversationStyle.Precise },
@@ -157,23 +157,11 @@ function SettingPage() {
         </div>
         <div className="flex flex-col gap-1">
           <p className="font-bold text-lg">ChatGPT</p>
-          <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3 mb-1">
-            {(Object.keys(ChatGPTMode) as (keyof typeof ChatGPTMode)[]).map((k) => (
-              <div className="flex items-center" key={`chatgpt-${k}`}>
-                <input
-                  id={`chatgpt-${k}`}
-                  type="radio"
-                  checked={userConfig.chatgptMode === ChatGPTMode[k]}
-                  className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                  value={ChatGPTMode[k]}
-                  onChange={(e) => updateConfigValue({ chatgptMode: e.currentTarget.value as ChatGPTMode })}
-                />
-                <label htmlFor={`chatgpt-${k}`} className="ml-2 block text-sm font-medium leading-6">
-                  {k} Mode
-                </label>
-              </div>
-            ))}
-          </div>
+          <RadioGroup
+            options={Object.entries(ChatGPTMode).map(([k, v]) => ({ label: `${k} Mode`, value: v }))}
+            value={userConfig.chatgptMode}
+            onChange={(v) => updateConfigValue({ chatgptMode: v as ChatGPTMode })}
+          />
           {userConfig.chatgptMode === ChatGPTMode.API ? (
             <ChatGPTAPISettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
           ) : userConfig.chatgptMode === ChatGPTMode.Azure ? (
@@ -186,23 +174,11 @@ function SettingPage() {
         </div>
         <div className="flex flex-col gap-1">
           <p className="font-bold text-lg">Claude</p>
-          <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3 mb-1">
-            {(Object.keys(ClaudeMode) as (keyof typeof ClaudeMode)[]).map((k) => (
-              <div className="flex items-center" key={`claude-${k}`}>
-                <input
-                  id={`claude-${k}`}
-                  type="radio"
-                  checked={userConfig.claudeMode === ClaudeMode[k]}
-                  className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                  value={ClaudeMode[k]}
-                  onChange={(e) => updateConfigValue({ claudeMode: e.currentTarget.value as ClaudeMode })}
-                />
-                <label htmlFor={`claude-${k}`} className="ml-2 block text-sm font-medium leading-6">
-                  {k} Mode
-                </label>
-              </div>
-            ))}
-          </div>
+          <RadioGroup
+            options={Object.entries(ClaudeMode).map(([k, v]) => ({ label: `${k} Mode`, value: v }))}
+            value={userConfig.claudeMode}
+            onChange={(v) => updateConfigValue({ claudeMode: v as ClaudeMode })}
+          />
           {userConfig.claudeMode === ClaudeMode.API ? (
             <ClaudeAPISettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
           ) : (
