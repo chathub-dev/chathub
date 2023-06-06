@@ -48,7 +48,7 @@
 
 ## ✨ 特徴
 
-- 🤖 アプリ内で異なるチャットボットを使用します。現在は ChatGPT、新しい Bing Chat、Google Bard、Claude（Poe 経由）、Alpaca、Vicuna、ChatGLM をサポートしており、将来的にはさらに統合されます
+- 🤖 アプリ内で異なるチャットボットを使用できます。現在は ChatGPT、新しい Bing Chat、Google Bard、Claude、および Alpaca、Vicuna、ChatGLM などを含む10以上のオープンソースモデルをサポートしています
 - 💬 複数のチャットボットと同時にチャットすることで、回答を比較しやすくします
 - 🚀 ChatGPT API および GPT-4 Browsing をサポートします
 - 🔍 ブラウザのどこからでもアプリを素早くアクティブにするためのショートカット
@@ -69,6 +69,12 @@
 * ChatGLM
 * Alpaca
 * Vicuna
+* Koala
+* Dolly
+* LLaMA
+* StableLM
+* OpenAssistant
+* ChatRWKV
 * ...
 
 ## 🔧 手動インストール
@@ -87,6 +93,14 @@
 - _マニュアルインストール_ の手順に従って、`dist` _フォルダをブラウザに読み込みます_
 
 ## 📜 変更ログ
+
+### v1.22.0
+
+- Claude API のサポートを追加
+
+### v1.21.0
+
+- より多くのオープンソースモデルを追加
 
 ### v1.20.0
 
