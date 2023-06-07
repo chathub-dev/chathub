@@ -47,7 +47,7 @@
 
 ## ✨ 特点
 
-- 🤖 在一个应用中使用不同的聊天机器人，目前支持 ChatGPT、新的 Bing Chat、Google Bard、Claude（通过 Poe）、Alpaca、Vicuna、ChatGLM，并将来会集成更多的机器人
+- 🤖 在一个应用中使用不同的聊天机器人，目前支持 ChatGPT、新的 Bing Chat、Google Bard、Claude 以及包括 Alpaca、Vicuna、ChatGLM 等在内的 10 多个开源模型
 - 💬 同时与多个聊天机器人进行对话，方便比较它们的回答
 - 🚀 支持 ChatGPT API 和 GPT-4 浏览
 - 🔍 快捷方式，可在浏览器的任何位置快速激活应用
@@ -68,6 +68,12 @@
 * ChatGLM
 * Alpaca
 * Vicuna
+* Koala
+* Dolly
+* LLaMA
+* StableLM
+* OpenAssistant
+* ChatRWKV
 * ...
 
 ## 🔧 手动安装
@@ -86,6 +92,14 @@
 - 按照 _手动安装_ 中的步骤将 `dist` _文件夹加载到浏览器中_
 
 ## 📜 更新日志
+
+### v1.22.0
+
+- 支持 Claude API
+
+### v1.21.0
+
+- 添加更多开源模型
 
 ### v1.20.0
 

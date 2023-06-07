@@ -47,7 +47,7 @@
 
 ## ✨ Fitur
 
-- 🤖 Gunakan chatbot yang berbeda dalam satu aplikasi, saat ini mendukung ChatGPT, Bing Chat yang baru, Claude (melalui Poe), Alpaca, Vicuna, ChatGLM,  dan akan mengintegrasikan lebih banyak di masa depan
+- 🤖 Gunakan chatbot yang berbeda dalam satu aplikasi, saat ini mendukung ChatGPT, Bing Chat baru, Google Bard, Claude, dan 10+ model open-source termasuk Alpaca, Vicuna, ChatGLM, dll
 - 💬 Chat dengan beberapa chatbot secara bersamaan, sehingga mudah untuk membandingkan jawaban mereka
 - 🚀 Mendukung API ChatGPT dan Browsing GPT-4
 - 🔍 Pintasan untuk dengan cepat mengaktifkan aplikasi di mana saja di browser
@@ -68,6 +68,12 @@
 * ChatGLM
 * Alpaca
 * Vicuna
+* Koala
+* Dolly
+* LLaMA
+* StableLM
+* OpenAssistant
+* ChatRWKV
 * ...
 
 ## 🔧 Instalasi Manual
@@ -86,6 +92,14 @@
 - Muat folder `dist` ke browser dengan mengikuti langkah-langkah dalam _Instalasi Manual_
 
 ## 📜 Changelog
+
+### v1.22.0
+
+- Mendukung Claude API
+
+### v1.21.0
+
+- Menambahkan lebih banyak model open-source
 
 ### v1.20.0
 
