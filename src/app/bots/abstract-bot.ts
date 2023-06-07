@@ -1,3 +1,4 @@
+import { Sentry } from '~services/sentry'
 import { ChatError, ErrorCode } from '~utils/errors'
 
 export type Event =
@@ -26,13 +27,13 @@ export abstract class AbstractBot {
     try {
       await this.doSendMessage(params)
     } catch (err) {
-      console.error(err)
       if (err instanceof ChatError) {
         params.onEvent({ type: 'ERROR', error: err })
       } else if (!params.signal?.aborted) {
         // ignore user abort exception
         params.onEvent({ type: 'ERROR', error: new ChatError((err as Error).message, ErrorCode.UNKOWN_ERROR) })
       }
+      Sentry.captureException(err)
     }
   }
 

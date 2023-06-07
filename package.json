@@ -55,6 +55,7 @@
     "@radix-ui/react-dialog": "^1.0.4",
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/react-tooltip": "^1.0.6",
+    "@sentry/react": "^7.54.0",
     "@tanstack/react-router": "^0.0.1-beta.83",
     "browser-fs-access": "^0.34.1",
     "classnames": "^2.3.2",

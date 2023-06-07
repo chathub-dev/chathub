@@ -8,3 +8,7 @@ export function uuid() {
 export function getVersion() {
   return Browser.runtime.getManifest().version
 }
+
+export function isProduction() {
+  return !import.meta.env.DEV
+}
