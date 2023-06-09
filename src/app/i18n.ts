@@ -3,7 +3,7 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
 
 const resources = {
-  zh: {
+  'zh-CN': {
     translation: {
       'Shortcut to open this app': '打开ChatHub的快捷键',
       Settings: '设置',
