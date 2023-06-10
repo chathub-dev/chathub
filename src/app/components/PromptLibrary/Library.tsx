@@ -40,7 +40,7 @@ const PromptItem = (props: {
   return (
     <div className="group relative flex items-center space-x-3 rounded-lg border border-primary-border bg-primary-background px-5 py-4 shadow-sm hover:border-gray-400">
       <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-medium text-primary-text">{props.title}</p>
+        <p title={props.prompt} className="truncate text-sm font-medium text-primary-text">{props.title}</p>
       </div>
       <div className="flex flex-row gap-1">
         {props.edit && <ActionButton text={t('Edit')} onClick={props.edit} />}
