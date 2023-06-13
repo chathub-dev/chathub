@@ -78,6 +78,7 @@ const resources = {
       Theme: '主题',
       Premium: '付费会员',
       Chatbots: '聊天机器人',
+      'Manage order and devices': '管理订单与设备',
     },
   },
   de: {

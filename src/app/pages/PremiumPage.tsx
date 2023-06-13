@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { useAtom } from 'jotai'
 import { ofetch } from 'ofetch'
 import { FC, useCallback, useState } from 'react'
@@ -91,12 +92,25 @@ function PremiumPage() {
         <FeatureItem text={t('Support the development of ChatHub')} />
       </div>
       {premiumState.activated ? (
-        <div className="flex flex-row items-center gap-3 mt-8">
-          <a href="https://app.lemonsqueezy.com/my-orders/" target="_blank" rel="noreferrer">
+        <>
+          <div className="flex flex-row items-center gap-3 mt-8">
             <Button text={t('🎉 License activated')} color="primary" className="w-fit !py-2" />
+            <Button
+              text={t('Deactivate')}
+              className="w-fit !py-2"
+              onClick={deactivateLicense}
+              isLoading={deactivating}
+            />
+          </div>
+          <a
+            href="https://app.lemonsqueezy.com/my-orders/"
+            target="_blank"
+            rel="noreferrer"
+            className="underline mt-5 text-sm text-secondary-text font-medium w-fit"
+          >
+            {t('Manage order and devices')}
           </a>
-          <Button text={t('Deactivate')} className="w-fit !py-2" onClick={deactivateLicense} isLoading={deactivating} />
-        </div>
+        </>
       ) : (
         <div className="flex flex-row items-center gap-3 mt-8">
           <a
