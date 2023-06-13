@@ -83,6 +83,13 @@ const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
       </a>
     )
   }
+  if (error.code === ErrorCode.CHATGPT_AUTH) {
+    return (
+      <a href="https://chat.openai.com" target="_blank" rel="noreferrer">
+        <Button color="primary" text={t('Login to ChatGPT')} size="small" />
+      </a>
+    )
+  }
   if (error.code === ErrorCode.CHATGPT_CLOUDFLARE || error.code === ErrorCode.CHATGPT_UNAUTHORIZED) {
     return <ChatGPTAuthErrorAction />
   }
