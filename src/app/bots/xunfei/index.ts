@@ -34,6 +34,7 @@ export class XunfeiBot extends AbstractBot {
     form.append('clientType', '1')
     form.append('GtToken', this.conversationContext.geeToken)
     form.append('fd', generateFD())
+    form.append('isBot', '0')
 
     const resp = await fetch('https://xinghuo.xfyun.cn/iflygpt/u/chat_message/chat', {
       method: 'POST',
@@ -51,6 +52,11 @@ export class XunfeiBot extends AbstractBot {
         params.onEvent({ type: 'DONE' })
       } else if (message === '<kx>') {
         throw new ChatError('讯飞无法继续这个话题，请重启会话', ErrorCode.CONVERSATION_LIMIT)
+      } else if (/\[.*\]/.test(message)) {
+        return
+      } else if (message.includes('descr')) {
+        const payload = JSON.parse(message)
+        throw new Error(payload.descr)
       } else if (!done) {
         let decoded: string
         try {
