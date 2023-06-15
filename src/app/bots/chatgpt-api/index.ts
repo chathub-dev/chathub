@@ -92,7 +92,7 @@ export class ChatGPTApiBot extends AbstractChatGPTApiBot {
         Authorization: `Bearer ${openaiApiKey}`,
       },
       body: JSON.stringify({
-        model: chatgptApiModel,
+        model: this.getModelName(),
         messages: this.buildMessages(),
         stream: true,
       }),
@@ -101,6 +101,20 @@ export class ChatGPTApiBot extends AbstractChatGPTApiBot {
       throw new ChatError(`You don't have API access to ${chatgptApiModel} model`, ErrorCode.GPT4_MODEL_WAITLIST)
     }
     return resp
+  }
+
+  private getModelName() {
+    const { chatgptApiModel } = this.config
+    if (chatgptApiModel === 'gpt-3.5-turbo') {
+      return 'gpt-3.5-turbo-0613'
+    }
+    if (chatgptApiModel === 'gpt-4') {
+      return 'gpt-4-0613'
+    }
+    if (chatgptApiModel === 'gpt-4-32k') {
+      return 'gpt-4-32k-0613'
+    }
+    return chatgptApiModel
   }
 
   get name() {
