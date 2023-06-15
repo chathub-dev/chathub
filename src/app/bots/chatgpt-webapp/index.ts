@@ -25,7 +25,7 @@ export class ChatGPTWebBot extends AbstractBot {
 
   private async getModelName(): Promise<string> {
     if (this.model === ChatGPTWebModel['GPT-4']) {
-      return 'gpt-4'
+      return 'gpt-4-mobile'
     }
     if (this.model === ChatGPTWebModel['GPT-4 Browsing']) {
       return 'gpt-4-browsing'
