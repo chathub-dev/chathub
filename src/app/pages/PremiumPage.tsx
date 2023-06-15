@@ -63,7 +63,7 @@ function PremiumPage() {
   }, [licenseKey, setLicenseKey])
 
   return (
-    <div className="flex flex-col overflow-hidden bg-primary-background dark:text-primary-text rounded-[20px] h-full p-[50px]">
+    <div className="flex flex-col bg-primary-background dark:text-primary-text rounded-[20px] h-full p-[50px] overflow-y-auto">
       <h1 className="font-bold text-[40px] leading-none text-primary-text">{t('Premium')}</h1>
       {!premiumState.activated && (
         <p className="bg-[#FAE387] text-[#303030] w-fit rounded-[5px] px-2 py-[4px] text-sm font-semibold mt-9">
