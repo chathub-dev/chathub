@@ -10,7 +10,7 @@ import settingIcon from '~/assets/icons/setting.svg'
 import themeIcon from '~/assets/icons/theme.svg'
 import logo from '~/assets/logo.svg'
 import minimalLogo from '~/assets/minimal-logo.svg'
-import { CHATBOTS } from '~app/consts'
+import { useEnabledBots } from '~app/hooks/use-enabled-bots'
 import { sidebarCollapsedAtom } from '~app/state'
 import CommandBar from '../CommandBar'
 import GuideModal from '../GuideModal'
@@ -18,7 +18,6 @@ import ThemeSettingModal from '../ThemeSettingModal'
 import Tooltip from '../Tooltip'
 import NavLink from './NavLink'
 import PremiumEntry from './PremiumEntry'
-import { useEnabledBots } from '~app/hooks/use-enabled-bots'
 
 function IconButton(props: { icon: string; onClick?: () => void }) {
   return (
