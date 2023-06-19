@@ -133,7 +133,7 @@ function SettingPage() {
           <p className="font-bold text-lg">
             {t('All-In-One Mode')}
             {!premiumState.activated && (
-              <Link to="/premium" className="text-sm font-normal ml-2 underline italic">
+              <Link to="/premium" search={{ source: 'settings' }} className="text-sm font-normal ml-2 underline italic">
                 ({t('Premium Feature')})
               </Link>
             )}

@@ -22,7 +22,12 @@ const PremiumFeatureModal: FC<Props> = (props) => {
         <p className="font-semibold text-primary-text text-center w-[70%]">
           {t('Upgrade to premium to chat with more than two bots at once')}
         </p>
-        <Link to="/premium" onClick={() => props.setOpen(false)} className="focus-visible:outline-none">
+        <Link
+          to="/premium"
+          search={{ source: 'all-in-one-modal' }}
+          onClick={() => props.setOpen(false)}
+          className="focus-visible:outline-none"
+        >
           <Button color="primary" text={t('Upgrade')} />
         </Link>
       </div>
