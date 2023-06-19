@@ -11,12 +11,10 @@ import PremiumFeatureModal from '~app/components/PremiumFeatureModal'
 import { useChat } from '~app/hooks/use-chat'
 import { usePremium } from '~app/hooks/use-premium'
 import { trackEvent } from '~app/plausible'
-import { getAllInOneLayout, setAllInOneLayout } from '~services/storage/all-in-one-layout'
 import { BotId } from '../bots'
 import ConversationPanel from '../components/Chat/ConversationPanel'
 
-type OnLayoutChange = (layout: number) => void
-
+const layoutAtom = atomWithStorage<number>('multiPanelLayout', 2, undefined, { unstable_getOnInit: true })
 const twoPanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:2', ['chatgpt', 'bing'])
 const threePanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:3', ['chatgpt', 'bing', 'bard'])
 const fourPanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:4', ['chatgpt', 'bing', 'claude', 'bard'])
@@ -24,11 +22,12 @@ const fourPanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:4', ['chatgpt
 const GeneralChatPanel: FC<{
   chats: ReturnType<typeof useChat>[]
   botsAtom: typeof twoPanelBotsAtom
-  onLayoutChange: OnLayoutChange
-}> = ({ chats, botsAtom, onLayoutChange }) => {
+}> = ({ chats, botsAtom }) => {
   const { t } = useTranslation()
   const generating = useMemo(() => chats.some((c) => c.generating), [chats])
   const setBots = useSetAtom(botsAtom)
+  const setLayout = useSetAtom(layoutAtom)
+
   const [premiumModalOpen, setPremiumModalOpen] = useState(false)
   const premiumState = usePremium()
   const disabled = useMemo(() => !premiumState.isLoading && !premiumState.activated, [premiumState])
@@ -92,7 +91,7 @@ const GeneralChatPanel: FC<{
         ))}
       </div>
       <div className="flex flex-row gap-3">
-        <LayoutSwitch layout={chats.length} onChange={onLayoutChange} />
+        <LayoutSwitch layout={chats.length} onChange={setLayout} />
         <ChatMessageInput
           mode="full"
           className="rounded-[15px] bg-primary-background px-4 py-2 grow"
@@ -107,48 +106,42 @@ const GeneralChatPanel: FC<{
   )
 }
 
-const TwoBotChatPanel: FC<{ onLayoutChange: OnLayoutChange }> = (props) => {
+const TwoBotChatPanel = () => {
   const multiPanelBotIds = useAtomValue(twoPanelBotsAtom)
   const chat1 = useChat(multiPanelBotIds[0])
   const chat2 = useChat(multiPanelBotIds[1])
   const chats = useMemo(() => [chat1, chat2], [chat1, chat2])
-  return <GeneralChatPanel chats={chats} botsAtom={twoPanelBotsAtom} onLayoutChange={props.onLayoutChange} />
+  return <GeneralChatPanel chats={chats} botsAtom={twoPanelBotsAtom} />
 }
 
-const ThreeBotChatPanel: FC<{ onLayoutChange: OnLayoutChange }> = (props) => {
+const ThreeBotChatPanel = () => {
   const multiPanelBotIds = useAtomValue(threePanelBotsAtom)
   const chat1 = useChat(multiPanelBotIds[0])
   const chat2 = useChat(multiPanelBotIds[1])
   const chat3 = useChat(multiPanelBotIds[2])
   const chats = useMemo(() => [chat1, chat2, chat3], [chat1, chat2, chat3])
-  return <GeneralChatPanel chats={chats} botsAtom={threePanelBotsAtom} onLayoutChange={props.onLayoutChange} />
+  return <GeneralChatPanel chats={chats} botsAtom={threePanelBotsAtom} />
 }
 
-const FourBotChatPanel: FC<{ onLayoutChange: OnLayoutChange }> = (props) => {
+const FourBotChatPanel = () => {
   const multiPanelBotIds = useAtomValue(fourPanelBotsAtom)
   const chat1 = useChat(multiPanelBotIds[0])
   const chat2 = useChat(multiPanelBotIds[1])
   const chat3 = useChat(multiPanelBotIds[2])
   const chat4 = useChat(multiPanelBotIds[3])
   const chats = useMemo(() => [chat1, chat2, chat3, chat4], [chat1, chat2, chat3, chat4])
-  return <GeneralChatPanel chats={chats} botsAtom={fourPanelBotsAtom} onLayoutChange={props.onLayoutChange} />
+  return <GeneralChatPanel chats={chats} botsAtom={fourPanelBotsAtom} />
 }
 
 const MultiBotChatPanel: FC = () => {
-  const [layout, setLayout] = useState(() => getAllInOneLayout())
-
-  const onLayoutChange = useCallback((layout: number) => {
-    setLayout(layout)
-    setAllInOneLayout(layout)
-  }, [])
-
+  const layout = useAtomValue(layoutAtom)
   if (layout === 4) {
-    return <FourBotChatPanel onLayoutChange={onLayoutChange} />
+    return <FourBotChatPanel />
   }
   if (layout === 3) {
-    return <ThreeBotChatPanel onLayoutChange={onLayoutChange} />
+    return <ThreeBotChatPanel />
   }
-  return <TwoBotChatPanel onLayoutChange={onLayoutChange} />
+  return <TwoBotChatPanel />
 }
 
 const MultiBotChatPanelPage: FC = () => {
