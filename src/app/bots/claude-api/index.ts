@@ -61,7 +61,9 @@ export class ClaudeApiBot extends AbstractBot {
       }
       const data = JSON.parse(message) as { completion: string }
       result = data.completion
-      params.onEvent({ type: 'UPDATE_ANSWER', data: { text: result.trimStart() } })
+      if (result) {
+        params.onEvent({ type: 'UPDATE_ANSWER', data: { text: result.trimStart() } })
+      }
     })
 
     if (!done) {
