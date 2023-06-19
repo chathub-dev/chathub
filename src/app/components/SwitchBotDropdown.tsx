@@ -5,7 +5,7 @@ import { BotId } from '~app/bots'
 import { useEnabledBots } from '~app/hooks/use-enabled-bots'
 
 interface Props {
-  excludeBotId: BotId
+  selectedBotId: BotId
   onChange: (botId: BotId) => void
 }
 
@@ -35,7 +35,7 @@ const SwitchBotDropdown: FC<Props> = (props) => {
       >
         <Menu.Items className="absolute left-0 z-10 mt-2 rounded-md bg-secondary shadow-lg focus:outline-none">
           {enabledBots.map(({ botId, bot }) => {
-            if (botId === props.excludeBotId) {
+            if (botId === props.selectedBotId) {
               return null
             }
             return (

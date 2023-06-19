@@ -2,9 +2,9 @@ import { createHashHistory, ReactRouter, RootRoute, Route, useParams } from '@ta
 import { BotId } from './bots'
 import Layout from './components/Layout'
 import MultiBotChatPanel from './pages/MultiBotChatPanel'
+import PremiumPage from './pages/PremiumPage'
 import SettingPage from './pages/SettingPage'
 import SingleBotChatPanel from './pages/SingleBotChatPanel'
-import PremiumPage from './pages/PremiumPage'
 
 const rootRoute = new RootRoute()
 

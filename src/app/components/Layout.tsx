@@ -12,7 +12,7 @@ function Layout() {
       style={{ backgroundColor: followArcTheme ? 'var(--arc-palette-foregroundPrimary)' : themeColor }}
     >
       <Sidebar />
-      <div className="p-[15px] h-full overflow-hidden">
+      <div className="px-[15px] py-3 h-full overflow-hidden">
         <Outlet />
       </div>
     </main>

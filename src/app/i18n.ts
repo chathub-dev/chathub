@@ -79,6 +79,8 @@ const resources = {
       Premium: '付费会员',
       Chatbots: '聊天机器人',
       'Manage order and devices': '管理订单与设备',
+      'Upgrade to premium to chat with more than two bots at once': '升级会员，同时和两个以上的机器人聊天',
+      Upgrade: '升级',
     },
   },
   de: {

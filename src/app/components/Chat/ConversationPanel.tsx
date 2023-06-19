@@ -1,5 +1,4 @@
 import cx from 'classnames'
-import { useSetAtom } from 'jotai'
 import { FC, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import clearIcon from '~/assets/icons/clear.svg'
@@ -8,7 +7,6 @@ import shareIcon from '~/assets/icons/share.svg'
 import { CHATBOTS } from '~app/consts'
 import { ConversationContext, ConversationContextValue } from '~app/context'
 import { trackEvent } from '~app/plausible'
-import { multiPanelBotsAtom } from '~app/state'
 import { ChatMessageModel } from '~types'
 import { BotId, BotInstance } from '../../bots'
 import Button from '../Button'
@@ -28,7 +26,7 @@ interface Props {
   generating: boolean
   stopGenerating: () => void
   mode?: 'full' | 'compact'
-  index?: number
+  onSwitchBot?: (botId: BotId) => void
 }
 
 const ConversationPanel: FC<Props> = (props) => {
@@ -38,7 +36,6 @@ const ConversationPanel: FC<Props> = (props) => {
   const marginClass = 'mx-5'
   const [showHistory, setShowHistory] = useState(false)
   const [showShareDialog, setShowShareDialog] = useState(false)
-  const setCompareBots = useSetAtom(multiPanelBotsAtom)
 
   const context: ConversationContextValue = useMemo(() => {
     return {
@@ -69,21 +66,6 @@ const ConversationPanel: FC<Props> = (props) => {
     trackEvent('open_share_dialog', { botId: props.botId })
   }, [props.botId])
 
-  const onSwitchBot = useCallback(
-    (botId: BotId) => {
-      if (props.index === undefined) {
-        return
-      }
-      trackEvent('switch_bot', { botId })
-      setCompareBots((bots) => {
-        const newBots = [...bots]
-        newBots[props.index!] = botId
-        return newBots
-      })
-    },
-    [props.index, setCompareBots],
-  )
-
   return (
     <ConversationContext.Provider value={context}>
       <div className={cx('flex flex-col overflow-hidden bg-primary-background h-full rounded-[20px]')}>
@@ -98,7 +80,9 @@ const ConversationPanel: FC<Props> = (props) => {
             <Tooltip content={props.bot.name || botInfo.name}>
               <span className="font-semibold text-primary-text text-sm cursor-default">{botInfo.name}</span>
             </Tooltip>
-            {mode === 'compact' && <SwitchBotDropdown excludeBotId={props.botId} onChange={onSwitchBot} />}
+            {mode === 'compact' && props.onSwitchBot && (
+              <SwitchBotDropdown selectedBotId={props.botId} onChange={props.onSwitchBot} />
+            )}
           </div>
           <div className="flex flex-row items-center gap-3">
             <Tooltip content={t('Share conversation')}>

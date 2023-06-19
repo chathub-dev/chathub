@@ -44,7 +44,7 @@ function SidePanelPage() {
           <div className="flex flex-row items-center gap-2">
             <img src={botInfo.avatar} className="w-4 h-4 object-contain rounded-full" />
             <span className="font-semibold text-primary-text text-xs">{botInfo.name}</span>
-            <SwitchBotDropdown excludeBotId={botId} onChange={setBotId} />
+            <SwitchBotDropdown selectedBotId={botId} onChange={setBotId} />
           </div>
           <div className="flex flex-row items-center gap-3">
             <img

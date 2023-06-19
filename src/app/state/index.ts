@@ -22,8 +22,7 @@ export const chatFamily = atomFamily(
   (a, b) => a.botId === b.botId && a.page === b.page,
 )
 
-export const multiPanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots', ['chatgpt', 'bing', 'claude', 'bard'])
-export const licenseKeyAtom = atomWithStorage('licenseKey', '')
+export const licenseKeyAtom = atomWithStorage('licenseKey', '', undefined, { unstable_getOnInit: true })
 export const sidebarCollapsedAtom = atomWithStorage('sidebarCollapsed', false)
 export const themeColorAtom = atomWithStorage('themeColor', getDefaultThemeColor())
 export const followArcThemeAtom = atomWithStorage('followArcTheme', false)
