@@ -1,4 +1,5 @@
 import Plausible from 'plausible-tracker'
+import { getVersion } from '~utils'
 
 export const plausible = Plausible({
   domain: 'chathub.gg',
@@ -8,7 +9,12 @@ export const plausible = Plausible({
 
 export function trackEvent(name: string, props?: { [propName: string]: string | number | boolean }) {
   try {
-    plausible.trackEvent(name, { props })
+    plausible.trackEvent(name, {
+      props: {
+        version: getVersion(),
+        ...(props || {}),
+      },
+    })
   } catch (err) {
     console.error('plausible.trackEvent error', err)
   }
