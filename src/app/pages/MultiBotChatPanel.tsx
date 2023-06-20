@@ -67,6 +67,14 @@ const GeneralChatPanel: FC<{
     [chats.length, setBots],
   )
 
+  const onLayoutChange = useCallback(
+    (v: number) => {
+      trackEvent('switch_all_in_one_layout', { layout: v })
+      setLayout(v)
+    },
+    [setLayout],
+  )
+
   return (
     <div className="flex flex-col overflow-hidden h-full">
       <div
@@ -91,7 +99,7 @@ const GeneralChatPanel: FC<{
         ))}
       </div>
       <div className="flex flex-row gap-3">
-        <LayoutSwitch layout={chats.length} onChange={setLayout} />
+        <LayoutSwitch layout={chats.length} onChange={onLayoutChange} />
         <ChatMessageInput
           mode="full"
           className="rounded-[15px] bg-primary-background px-4 py-2 grow"
