@@ -70,16 +70,20 @@ function Sidebar() {
           </div>
         )}
         <div className={cx('flex mt-5 gap-[10px] mb-4', collapsed ? 'flex-col' : 'flex-row ')}>
-          <Tooltip content={t('GitHub')}>
-            <a href="https://github.com/chathub-dev/chathub?utm_source=extension" target="_blank" rel="noreferrer">
-              <IconButton icon={githubIcon} />
-            </a>
-          </Tooltip>
-          <Tooltip content={t('Feedback')}>
-            <a href="https://github.com/chathub-dev/chathub/issues" target="_blank" rel="noreferrer">
-              <IconButton icon={feedbackIcon} />
-            </a>
-          </Tooltip>
+          {!collapsed && (
+            <Tooltip content={t('GitHub')}>
+              <a href="https://github.com/chathub-dev/chathub?utm_source=extension" target="_blank" rel="noreferrer">
+                <IconButton icon={githubIcon} />
+              </a>
+            </Tooltip>
+          )}
+          {!collapsed && (
+            <Tooltip content={t('Feedback')}>
+              <a href="https://github.com/chathub-dev/chathub/issues" target="_blank" rel="noreferrer">
+                <IconButton icon={feedbackIcon} />
+              </a>
+            </Tooltip>
+          )}
           <Tooltip content={t('Theme')}>
             <a onClick={() => setThemeSettingModalOpen(true)}>
               <IconButton icon={themeIcon} />
