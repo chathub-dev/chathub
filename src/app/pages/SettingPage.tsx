@@ -1,4 +1,3 @@
-import { Link } from '@tanstack/react-router'
 import { useCallback, useEffect, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
@@ -22,7 +21,6 @@ import {
   BingConversationStyle,
   ChatGPTMode,
   ClaudeMode,
-  MultiPanelLayout,
   UserConfig,
   getUserConfig,
   updateUserConfig,
@@ -126,28 +124,6 @@ function SettingPage() {
               ]}
               value={userConfig.startupPage}
               onChange={(v) => updateConfigValue({ startupPage: v })}
-            />
-          </div>
-        </div>
-        <div className="flex flex-col gap-1">
-          <p className="font-bold text-lg">
-            {t('All-In-One Mode')}
-            {!premiumState.activated && (
-              <Link to="/premium" search={{ source: 'settings' }} className="text-sm font-normal ml-2 underline italic">
-                ({t('Premium Feature')})
-              </Link>
-            )}
-          </p>
-          <div className="w-[200px]">
-            <Select
-              options={[
-                { name: t('Two in one'), value: MultiPanelLayout.Two },
-                { name: t('Three in one'), value: MultiPanelLayout.Three },
-                { name: t('Four in one'), value: MultiPanelLayout.Four },
-              ]}
-              value={userConfig.multiPanelLayout}
-              onChange={(v) => updateConfigValue({ multiPanelLayout: v })}
-              disabled={!premiumState.activated}
             />
           </div>
         </div>
