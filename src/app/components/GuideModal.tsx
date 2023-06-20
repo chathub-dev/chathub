@@ -1,5 +1,4 @@
 import { Link } from '@tanstack/react-router'
-import i18next from 'i18next'
 import { FC, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Browser from 'webextension-polyfill'
@@ -26,13 +25,6 @@ const GuideModal: FC = () => {
       }
       setOpenTimes(t)
     })
-  }, [])
-
-  useEffect(() => {
-    if (localStorage.getItem('618promoShowed') !== 'true') {
-      localStorage.setItem('618promoShowed', 'true')
-      setOpen(true)
-    }
   }, [])
 
   if (openTimes === 15) {
@@ -66,26 +58,6 @@ const GuideModal: FC = () => {
             className="focus-visible:outline-none"
           >
             <Button color="primary" text={t('Checkout premium features')} />
-          </Link>
-        </div>
-      </Dialog>
-    )
-  }
-
-  if (i18next.language === 'zh-CN' && !premiumState.isLoading && !premiumState.activated) {
-    return (
-      <Dialog title="🧨 终身会员618特惠" open={open} onClose={() => setOpen(false)} className="rounded-2xl w-[600px]">
-        <div className="flex flex-col items-center gap-4 py-6">
-          <p className="font-medium text-primary-text w-[300px] text-center">
-            支付时discount code输入 <span className="font-black italic">618</span> 立享8折
-          </p>
-          <Link
-            to="/premium"
-            search={{ source: '618' }}
-            onClick={() => setOpen(false)}
-            className="focus-visible:outline-none"
-          >
-            <Button color="primary" text="查看会员权益" />
           </Link>
         </div>
       </Dialog>
