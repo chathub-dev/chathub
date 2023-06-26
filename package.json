@@ -51,7 +51,7 @@
     "@floating-ui/react": "^0.24.2",
     "@headlessui/react": "^1.7.14",
     "@heroicons/react": "^2.0.18",
-    "@radix-ui/colors": "^0.1.8",
+    "@radix-ui/colors": "^1.0.0",
     "@radix-ui/react-dialog": "^1.0.4",
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/react-tooltip": "^1.0.6",

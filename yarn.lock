@@ -1505,10 +1505,10 @@
     "@parcel/utils" "2.9.1"
     nullthrows "^1.1.1"
 
-"@radix-ui/colors@^0.1.8":
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/@radix-ui/colors/-/colors-0.1.8.tgz#b08c62536fc462a87632165fb28e9b18f9bd047e"
-  integrity sha512-jwRMXYwC0hUo0mv6wGpuw254Pd9p/R6Td5xsRpOmaWkUHlooNWqVcadgyzlRumMq3xfOTXwJReU0Jv+EIy4Jbw==
+"@radix-ui/colors@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@radix-ui/colors/-/colors-1.0.0.tgz#3ec423748d5ba8f5ae9e2ad1b91c796c726dc000"
+  integrity sha512-l8Rfw7zR6sfPsbXrBq3Xit96Xo+CSFyRFqRX/ls8W/w+HXzbwc5dbVvl+qRjsSIRoC9EiTMRV/QpJHziuTjoqg==
 
 "@radix-ui/primitive@1.0.0":
   version "1.0.0"
