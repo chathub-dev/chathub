@@ -22,7 +22,7 @@ export function parseBardResponse(resp: string) {
   }
   console.debug('bard response payload', payload)
 
-  let text = payload[0][0] as string
+  let text = payload[4][0][1][0] as string
 
   const images = payload[4][0][4] || []
   for (const image of images) {
