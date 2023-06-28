@@ -41,10 +41,10 @@ export enum ClaudeMode {
 }
 
 export enum ClaudeAPIModel {
-  'claude-instant-v1' = 'claude-instant-v1',
-  'claude-v1' = 'claude-v1',
-  'claude-v1-100k' = 'claude-v1-100k',
-  'claude-instant-v1-100k' = 'claude-instant-v1-100k',
+  'claude-instant-1' = 'claude-instant-v1',
+  'claude-1' = 'claude-v1',
+  'claude-1-100k' = 'claude-v1-100k',
+  'claude-instant-1-100k' = 'claude-instant-v1-100k',
 }
 
 const userConfigWithDefaultValue = {
@@ -64,7 +64,7 @@ const userConfigWithDefaultValue = {
   enabledBots: Object.keys(CHATBOTS).slice(0, 8) as BotId[],
   claudeApiKey: '',
   claudeMode: ClaudeMode.Poe,
-  claudeApiModel: ClaudeAPIModel['claude-instant-v1'],
+  claudeApiModel: ClaudeAPIModel['claude-instant-1'],
 }
 
 export type UserConfig = typeof userConfigWithDefaultValue

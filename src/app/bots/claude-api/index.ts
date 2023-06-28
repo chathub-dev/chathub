@@ -1,5 +1,5 @@
 import { requestHostPermission } from '~app/utils/permissions'
-import { UserConfig } from '~services/user-config'
+import { ClaudeAPIModel, UserConfig } from '~services/user-config'
 import { ChatError, ErrorCode } from '~utils/errors'
 import { parseSSEResponse } from '~utils/sse'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
@@ -20,12 +20,13 @@ export class ClaudeApiBot extends AbstractBot {
       method: 'POST',
       signal,
       headers: {
-        'Content-Type': 'application/json',
-        'X-API-Key': this.config.claudeApiKey,
+        'content-type': 'application/json',
+        'x-api-key': this.config.claudeApiKey,
+        'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
         prompt,
-        model: this.config.claudeApiModel,
+        model: this.getModelName(),
         max_tokens_to_sample: 100_000,
         stream: true,
       }),
@@ -44,30 +45,31 @@ export class ClaudeApiBot extends AbstractBot {
 
     const resp = await this.fetchCompletionApi(this.conversationContext.prompt, params.signal)
 
-    let done = false
     let result = ''
-
-    const finish = () => {
-      done = true
-      params.onEvent({ type: 'DONE' })
-      this.conversationContext!.prompt += result
-    }
 
     await parseSSEResponse(resp, (message) => {
       console.debug('claude sse message', message)
-      if (message === '[DONE]') {
-        finish()
-        return
-      }
       const data = JSON.parse(message) as { completion: string }
-      result = data.completion
-      if (result) {
+      if (data.completion) {
+        result += data.completion
         params.onEvent({ type: 'UPDATE_ANSWER', data: { text: result.trimStart() } })
       }
     })
 
-    if (!done) {
-      finish()
+    params.onEvent({ type: 'DONE' })
+    this.conversationContext!.prompt += result
+  }
+
+  private getModelName() {
+    switch (this.config.claudeApiModel) {
+      case ClaudeAPIModel['claude-instant-1']:
+        return 'claude-instant-1'
+      case ClaudeAPIModel['claude-1']:
+        return 'claude-1'
+      case ClaudeAPIModel['claude-instant-1-100k']:
+        return 'claude-instant-1-100k'
+      case ClaudeAPIModel['claude-1-100k']:
+        return 'claude-1-100k'
     }
   }
 
