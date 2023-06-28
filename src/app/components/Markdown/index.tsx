@@ -2,7 +2,6 @@
 
 import cx from 'classnames'
 import 'github-markdown-css'
-import 'katex/dist/katex.min.css'
 import { FC, ReactNode, useEffect, useMemo, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { BsClipboard } from 'react-icons/bs'
