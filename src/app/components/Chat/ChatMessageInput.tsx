@@ -91,18 +91,6 @@ const ChatMessageInput: FC<Props> = (props) => {
     [activeIndex, getItemProps, handleSelect],
   )
 
-  useEffect(() => {
-    if (!props.disabled && props.autoFocus) {
-      inputRef.current?.focus()
-    }
-  }, [props.autoFocus, props.disabled])
-
-  useEffect(() => {
-    if (!props.disabled && !isComboboxOpen && props.mode === 'full') {
-      inputRef.current?.focus()
-    }
-  }, [setIsComboboxOpen, props.disabled, isComboboxOpen, props.mode])
-
   const onFormSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
@@ -182,6 +170,7 @@ const ChatMessageInput: FC<Props> = (props) => {
           placeholder={placeholder as string}
           value={value}
           onValueChange={onValueChange}
+          autoFocus={props.autoFocus}
         />
       </div>
       {props.actionButton || (
