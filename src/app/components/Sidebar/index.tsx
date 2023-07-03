@@ -84,11 +84,13 @@ function Sidebar() {
               </a>
             </Tooltip>
           )}
-          <Tooltip content={t('Theme')}>
-            <a onClick={() => setThemeSettingModalOpen(true)}>
-              <IconButton icon={themeIcon} />
-            </a>
-          </Tooltip>
+          {!collapsed && (
+            <Tooltip content={t('Theme')}>
+              <a onClick={() => setThemeSettingModalOpen(true)}>
+                <IconButton icon={themeIcon} />
+              </a>
+            </Tooltip>
+          )}
           <Tooltip content={t('Settings')}>
             <Link to="/setting">
               <IconButton icon={settingIcon} />
