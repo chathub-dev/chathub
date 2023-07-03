@@ -68,15 +68,22 @@ export class LMSYSBot extends AbstractBot {
         if (event.success && event.output.data) {
           if (fnIndex === FnIndex.Receive) {
             const outputData = event.output.data
-            const html = outputData[1][outputData[1].length - 1][1]
-            const text = html2md(html)
-            onEvent({ type: 'UPDATE_ANSWER', data: { text } })
+            if (outputData[1].length > 0) {
+              const html = outputData[1][outputData[1].length - 1][1]
+              const text = html2md(html)
+              onEvent({ type: 'UPDATE_ANSWER', data: { text } })
+            }
           }
         } else {
           onEvent({ type: 'ERROR', error: new ChatError(event.output.error, ErrorCode.UNKOWN_ERROR) })
         }
       } else if (event.msg === 'queue_full') {
         onEvent({ type: 'ERROR', error: new ChatError('queue_full', ErrorCode.UNKOWN_ERROR) })
+      } else if (event.msg === 'process_completed' && fnIndex === FnIndex.Receive && !event.output.data[1].length) {
+        onEvent({
+          type: 'ERROR',
+          error: new ChatError('Session has been inactive for too long', ErrorCode.LMSYS_SESSION_EXPIRED),
+        })
       }
     })
 
