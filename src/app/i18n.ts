@@ -81,6 +81,8 @@ const resources = {
       'Manage order and devices': '管理订单与设备',
       'Upgrade to premium to chat with more than two bots at once': '升级会员，同时和两个以上的机器人聊天',
       Upgrade: '升级',
+      'This usually mean you need to add a payment method to your OpenAI account, checkout: ':
+        '这通常意味着您需要在OpenAI账户中添加付款方式，请查看：',
     },
   },
   de: {

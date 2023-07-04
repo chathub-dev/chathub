@@ -100,6 +100,12 @@ export class ChatGPTApiBot extends AbstractChatGPTApiBot {
     if (!resp.ok && resp.status === 404 && chatgptApiModel.includes('gpt-4')) {
       throw new ChatError(`You don't have API access to ${chatgptApiModel} model`, ErrorCode.GPT4_MODEL_WAITLIST)
     }
+    if (!resp.ok) {
+      const error = await resp.text()
+      if (error.includes('insufficient_quota')) {
+        throw new ChatError('Insufficient ChatGPT API usage quota', ErrorCode.CHATGPT_INSUFFICIENT_QUOTA)
+      }
+    }
     return resp
   }
 
