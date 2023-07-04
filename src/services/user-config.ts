@@ -18,10 +18,7 @@ export enum ChatGPTMode {
 
 export enum ChatGPTWebModel {
   'GPT-3.5' = 'gpt-3.5',
-  'GPT-3.5 (Mobile)' = 'gpt-3.5-mobile',
   'GPT-4' = 'gpt-4',
-  'GPT-4 (Mobile)' = 'gpt-4-mobile',
-  'GPT-4 Browsing' = 'gpt-4-browsing',
 }
 
 export enum PoeGPTModel {
@@ -76,6 +73,12 @@ export async function getUserConfig(): Promise<UserConfig> {
   }
   if (result.chatgptWebappModelName === 'default') {
     result.chatgptWebappModelName = ChatGPTWebModel['GPT-3.5']
+  } else if (result.chatgptWebappModelName === 'gpt-4-browsing') {
+    result.chatgptWebappModelName = ChatGPTWebModel['GPT-4']
+  } else if (result.chatgptWebappModelName === 'gpt-3.5-mobile') {
+    result.chatgptWebappModelName = ChatGPTWebModel['GPT-3.5']
+  } else if (result.chatgptWebappModelName === 'gpt-4-mobile') {
+    result.chatgptWebappModelName = ChatGPTWebModel['GPT-4']
   }
   return defaults(result, userConfigWithDefaultValue)
 }
