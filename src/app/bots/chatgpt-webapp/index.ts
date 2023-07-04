@@ -28,15 +28,6 @@ export class ChatGPTWebBot extends AbstractBot {
     if (this.model === ChatGPTWebModel['GPT-4']) {
       return 'gpt-4'
     }
-    if (this.model === ChatGPTWebModel['GPT-4 Browsing']) {
-      return 'gpt-4-browsing'
-    }
-    if (this.model === ChatGPTWebModel['GPT-3.5 (Mobile)']) {
-      return 'text-davinci-002-render-sha-mobile'
-    }
-    if (this.model === ChatGPTWebModel['GPT-4 (Mobile)']) {
-      return 'gpt-4-mobile'
-    }
     return 'text-davinci-002-render-sha'
   }
 
