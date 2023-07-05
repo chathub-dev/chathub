@@ -48,7 +48,7 @@ function applyThemeMode(mode: ThemeMode) {
 }
 
 function getDefaultThemeColor() {
-  return isSystemDarkMode() ? '#39298D' : '#6756BD'
+  return '#7EB8D6FF'
 }
 
 export { applyThemeMode, getDefaultThemeColor }
