@@ -18,7 +18,12 @@ export default defineManifest(async (env) => {
       type: 'module',
     },
     action: {},
-    host_permissions: ['https://*.bing.com/', 'https://*.openai.com/', 'https://bard.google.com/'],
+    host_permissions: [
+      'https://*.bing.com/',
+      'https://*.openai.com/',
+      'https://bard.google.com/',
+      'https://*.chathub.gg/',
+    ],
     optional_host_permissions: ['https://*/*'],
     permissions: ['storage', 'unlimitedStorage', 'sidePanel'],
     content_scripts: [

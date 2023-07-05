@@ -1,6 +1,7 @@
 import Browser from 'webextension-polyfill'
 import { ALL_IN_ONE_PAGE_ID } from '~app/consts'
 import { getUserConfig } from '~services/user-config'
+import { trackInstallSource } from './source'
 
 async function openAppPage() {
   const tabs = await Browser.tabs.query({})
@@ -22,6 +23,7 @@ Browser.action.onClicked.addListener(() => {
 Browser.runtime.onInstalled.addListener((details) => {
   if (details.reason === 'install') {
     openAppPage()
+    trackInstallSource()
   }
 })
 
