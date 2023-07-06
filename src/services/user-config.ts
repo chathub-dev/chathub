@@ -1,7 +1,7 @@
 import { defaults } from 'lodash-es'
 import Browser from 'webextension-polyfill'
 import { BotId } from '~app/bots'
-import { ALL_IN_ONE_PAGE_ID, CHATBOTS, CHATGPT_API_MODELS } from '~app/consts'
+import { ALL_IN_ONE_PAGE_ID, CHATBOTS, CHATGPT_API_MODELS, DEFAULT_CHATGPT_SYSTEM_MESSAGE } from '~app/consts'
 
 export enum BingConversationStyle {
   Creative = 'creative',
@@ -49,6 +49,7 @@ const userConfigWithDefaultValue = {
   openaiApiHost: 'https://api.openai.com',
   chatgptApiModel: CHATGPT_API_MODELS[0] as (typeof CHATGPT_API_MODELS)[number],
   chatgptApiTemperature: 1,
+  chatgptApiSystemMessage: DEFAULT_CHATGPT_SYSTEM_MESSAGE,
   chatgptMode: ChatGPTMode.Webapp,
   chatgptWebappModelName: ChatGPTWebModel['GPT-3.5'],
   chatgptPoeModelName: PoeGPTModel['GPT-3.5'],

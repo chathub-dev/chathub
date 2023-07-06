@@ -18,6 +18,7 @@ export class ChatGPTBot extends AsyncAbstractBot {
         openaiApiHost: config.openaiApiHost,
         chatgptApiModel: config.chatgptApiModel,
         chatgptApiTemperature: config.chatgptApiTemperature,
+        chatgptApiSystemMessage: config.chatgptApiSystemMessage,
       })
     }
     if (chatgptMode === ChatGPTMode.Azure) {
