@@ -6,65 +6,35 @@ import { createConversation } from './api'
 import { ChatResponseMessage, ConversationInfo, InvocationEventType } from './types'
 import { convertMessageToMarkdown, websocketUtils } from './utils'
 
-const styleOptionsMap: Record<BingConversationStyle, string[]> = {
-  [BingConversationStyle.Balanced]: [
-    'nlu_direct_response_filter',
-    'deepleo',
-    'disable_emoji_spoken_text',
-    'responsible_ai_policy_235',
-    'enablemm',
-    'galileo',
-    'dv3sugg',
-    'responseos',
-    'e2ecachewrite',
-    'cachewriteext',
-    'nodlcpcwrite',
-    'travelansgnd',
-    'nojbfedge',
-  ],
-  [BingConversationStyle.Creative]: [
-    'nlu_direct_response_filter',
-    'deepleo',
-    'disable_emoji_spoken_text',
-    'responsible_ai_policy_235',
-    'enablemm',
-    'h3imaginative',
-    'travelansgnd',
-    'dv3sugg',
-    'clgalileo',
-    'gencontentv3',
-    'dv3sugg',
-    'responseos',
-    'e2ecachewrite',
-    'cachewriteext',
-    'nodlcpcwrite',
-    'travelansgnd',
-    'nojbfedge',
-  ],
-  [BingConversationStyle.Precise]: [
-    'nlu_direct_response_filter',
-    'deepleo',
-    'disable_emoji_spoken_text',
-    'responsible_ai_policy_235',
-    'enablemm',
-    'galileo',
-    'dv3sugg',
-    'responseos',
-    'e2ecachewrite',
-    'cachewriteext',
-    'nodlcpcwrite',
-    'travelansgnd',
-    'h3precise',
-    'clgalileo',
-    'nojbfedge',
-  ],
-}
+const OPTIONS_SETS = [
+  'nlu_direct_response_filter',
+  'deepleo',
+  'disable_emoji_spoken_text',
+  'responsible_ai_policy_235',
+  'enablemm',
+  'iycapbing',
+  'iyxapbing',
+  'objopinion',
+  'rweasgv2',
+  'dagslnv1',
+  'dv3sugg',
+  'autosave',
+  'iyoloxap',
+  'iyoloneutral',
+  'clgalileo',
+  'gencontentv3',
+]
 
 export class BingWebBot extends AbstractBot {
   private conversationContext?: ConversationInfo
 
   private buildChatRequest(conversation: ConversationInfo, message: string) {
-    const optionsSets = styleOptionsMap[conversation.conversationStyle]
+    const optionsSets = OPTIONS_SETS
+    if (conversation.conversationStyle === BingConversationStyle.Precise) {
+      optionsSets.push('h3precise')
+    } else if (conversation.conversationStyle === BingConversationStyle.Creative) {
+      optionsSets.push('h3imaginative')
+    }
     return {
       arguments: [
         {
@@ -80,24 +50,25 @@ export class BingWebBot extends AbstractBot {
             'SearchQuery',
           ],
           sliceIds: [
-            'chk1cf',
-            'nopreloadsscf',
-            'winlongmsg2tf',
-            'perfimpcomb',
-            'sugdivdis',
-            'sydnoinputt',
-            'wpcssopt',
-            'wintone2tf',
-            '0404sydicnbs0',
-            '405suggbs0',
-            'scctl',
+            'winmuid1tf',
+            'anssupfor_c',
+            'imgchatgptv2',
+            'tts2cf',
+            'contansperf',
+            'mlchatpc8500w',
+            'mlchatpc2',
+            'ctrlworkpay',
+            'winshortmsgtf',
+            'cibctrl',
+            'sydtransctrl',
+            'sydconfigoptc',
+            '0705trt4',
+            '517opinion',
+            '628ajcopus0',
             '330uaugs0',
-            '0329resp',
-            'udscahrfon',
-            'udstrblm5',
-            '404e2ewrt',
-            '408nodedups0',
-            '403tvlansgnd',
+            '529rwea',
+            '0626snptrcs0',
+            '424dagslnv1',
           ],
           isStartOfSession: conversation.invocationId === 0,
           message: {
