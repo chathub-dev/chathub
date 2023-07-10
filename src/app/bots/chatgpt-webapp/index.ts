@@ -3,7 +3,7 @@ import { ChatGPTWebModel } from '~services/user-config'
 import { ChatError, ErrorCode } from '~utils/errors'
 import { parseSSEResponse } from '~utils/sse'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
-import { fetchArkoseToken } from './arkose'
+import { getArkoseToken } from './arkose'
 import { chatGPTClient } from './client'
 import { ResponseContent } from './types'
 
@@ -40,7 +40,7 @@ export class ChatGPTWebBot extends AbstractBot {
 
     let arkoseToken: string | undefined
     if (modelName.startsWith('gpt-4')) {
-      arkoseToken = await fetchArkoseToken()
+      arkoseToken = await getArkoseToken()
     }
 
     const resp = await chatGPTClient.fetch('https://chat.openai.com/backend-api/conversation', {
