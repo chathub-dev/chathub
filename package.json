@@ -8,7 +8,7 @@
     "build": "tsc && vite build"
   },
   "devDependencies": {
-    "@crxjs/vite-plugin": "^2.0.0-beta.17",
+    "@crxjs/vite-plugin": "^2.0.0-beta.18",
     "@headlessui/tailwindcss": "^0.1.3",
     "@types/lodash-es": "^4.17.7",
     "@types/md5": "^2.3.2",

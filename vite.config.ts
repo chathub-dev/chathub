@@ -9,7 +9,7 @@ export default defineConfig({
   plugins: [tsconfigPaths(), react(), crx({ manifest })],
   build: {
     rollupOptions: {
-      input: ['app.html', 'sidepanel.html'],
+      input: ['app.html'],
     },
   },
 })
