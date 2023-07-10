@@ -3,12 +3,13 @@ import { createRoot } from 'react-dom/client'
 import { useTranslation } from 'react-i18next'
 import Browser from 'webextension-polyfill'
 import premiumIcon from '~/assets/icons/premium.svg'
-import './base.scss'
 import Button from './components/Button'
 import { usePremium } from './hooks/use-premium'
 import './i18n'
 import SidePanelPage from './pages/SidePanelPage'
 import { trackEvent } from './plausible'
+import './base.scss'
+import './sidepanel.css'
 
 function PremiumOnly() {
   const { t } = useTranslation()

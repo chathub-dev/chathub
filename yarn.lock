@@ -277,10 +277,10 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
-"@crxjs/vite-plugin@^2.0.0-beta.17":
-  version "2.0.0-beta.17"
-  resolved "https://registry.yarnpkg.com/@crxjs/vite-plugin/-/vite-plugin-2.0.0-beta.17.tgz#e6d6a57a9e346ae335c3eb5c0c2cc8a75f4d777e"
-  integrity sha512-44CavnsY01jvF2uHfRdqA3j6bg6IcVc+ZrSayYS+H7eqb6BHWh619A2jJ3Y0eHVh9H65041ob4g6I1VMxWx4qw==
+"@crxjs/vite-plugin@^2.0.0-beta.18":
+  version "2.0.0-beta.18"
+  resolved "https://registry.npmmirror.com/@crxjs/vite-plugin/-/vite-plugin-2.0.0-beta.18.tgz#2097f268712172440644cae8dd7668bb3674958f"
+  integrity sha512-3jW20cUE04wTTg8HtoQD7bIL4Nhu91pRX4PHazMu2/tzzSTaR4stW5DHRIJOjFuRpOSCNNpyamyXwxS6qOv7Bg==
   dependencies:
     "@rollup/pluginutils" "^4.1.2"
     "@webcomponents/custom-elements" "^1.5.0"
