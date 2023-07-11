@@ -3,6 +3,7 @@ import { BingWebBot } from './bing'
 import { ChatGPTBot } from './chatgpt'
 import { ClaudeBot } from './claude'
 import { LMSYSBot } from './lmsys'
+import { PiBot } from './pi'
 import { XunfeiBot } from './xunfei'
 
 export type BotId =
@@ -20,6 +21,7 @@ export type BotId =
   | 'stablelm'
   | 'oasst'
   | 'rwkv'
+  | 'pi'
 
 export function createBotInstance(botId: BotId) {
   switch (botId) {
@@ -51,6 +53,8 @@ export function createBotInstance(botId: BotId) {
       return new LMSYSBot('oasst-pythia-12b')
     case 'rwkv':
       return new LMSYSBot('RWKV-4-Raven-14B')
+    case 'pi':
+      return new PiBot()
   }
 }
 

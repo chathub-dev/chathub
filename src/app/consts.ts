@@ -12,6 +12,7 @@ import llamaLogo from '~/assets/llama-logo.png'
 import stablelmLogo from '~/assets/stablelm-logo.png'
 import oasstLogo from '~/assets/oasst-logo.svg'
 import rwkvLogo from '~/assets/rwkv-logo.png'
+import piLogo from '~/assets/pi-logo.png'
 import { BotId } from './bots'
 import i18n from './i18n'
 
@@ -39,6 +40,10 @@ export const CHATBOTS: Record<BotId, { name: string; avatar: any }> = {
   chatglm: {
     name: 'ChatGLM',
     avatar: chatglmLogo,
+  },
+  pi: {
+    name: 'Pi',
+    avatar: piLogo,
   },
   alpaca: {
     name: 'Alpaca',
