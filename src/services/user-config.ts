@@ -35,6 +35,7 @@ export enum PoeClaudeModel {
 export enum ClaudeMode {
   Poe = 'poe',
   API = 'api',
+  Webapp = 'webapp',
 }
 
 export enum ClaudeAPIModel {

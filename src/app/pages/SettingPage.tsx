@@ -27,6 +27,7 @@ import {
 } from '~services/user-config'
 import { getVersion } from '~utils'
 import PagePanel from '../components/Page'
+import ClaudeWebappSettings from '~app/components/Settings/ClaudeWebappSettings'
 
 const BING_STYLE_OPTIONS = [
   { name: 'Precise', value: BingConversationStyle.Precise },
@@ -157,6 +158,8 @@ function SettingPage() {
           />
           {userConfig.claudeMode === ClaudeMode.API ? (
             <ClaudeAPISettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
+          ) : userConfig.claudeMode === ClaudeMode.Webapp ? (
+            <ClaudeWebappSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
           ) : (
             <ClaudePoeSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
           )}
