@@ -3,10 +3,21 @@ import { ChatError, ErrorCode } from '~utils/errors'
 import { parseSSEResponse } from '~utils/sse'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
 
+interface ConversationContext {
+  initialized: boolean
+}
+
 export class PiBot extends AbstractBot {
+  private conversationContext?: ConversationContext
+
   async doSendMessage(params: SendMessageParams) {
     if (!(await requestHostPermission('https://*.pi.ai/'))) {
       throw new ChatError('Missing pi.ai permission', ErrorCode.MISSING_HOST_PERMISSION)
+    }
+
+    if (!this.conversationContext?.initialized) {
+      await fetch('https://pi.ai/api/chat/start', { method: 'POST' })
+      this.conversationContext = { initialized: true }
     }
 
     const resp = await fetch('https://pi.ai/api/chat', {
@@ -30,6 +41,6 @@ export class PiBot extends AbstractBot {
   }
 
   resetConversation() {
-    // TODO
+    this.conversationContext = undefined
   }
 }
