@@ -28,8 +28,8 @@ export enum PoeGPTModel {
 
 export enum PoeClaudeModel {
   'claude-instant' = 'a2',
-  'claude+' = 'a2_2',
   'claude-instant-100k' = 'a2_100k',
+  'claude-2-100k' = 'a2_2',
 }
 
 export enum ClaudeMode {
@@ -43,6 +43,7 @@ export enum ClaudeAPIModel {
   'claude-1' = 'claude-v1',
   'claude-1-100k' = 'claude-v1-100k',
   'claude-instant-1-100k' = 'claude-instant-v1-100k',
+  'claude-2' = 'claude-2',
 }
 
 const userConfigWithDefaultValue = {

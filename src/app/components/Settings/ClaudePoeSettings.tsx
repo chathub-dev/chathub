@@ -20,7 +20,7 @@ const ClaudePoeSettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
           onChange={(v) => updateConfigValue({ poeModel: v })}
         />
       </div>
-      {userConfig.poeModel === PoeClaudeModel['claude+'] && (
+      {userConfig.poeModel === PoeClaudeModel['claude-2-100k'] && (
         <p className="text-sm mt-1 text-secondary-text">{t('Limited Access')}</p>
       )}
       {userConfig.poeModel === PoeClaudeModel['claude-instant-100k'] && (
