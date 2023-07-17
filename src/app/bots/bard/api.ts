@@ -8,7 +8,9 @@ function extractFromHTML(variableName: string, html: string) {
 }
 
 export async function fetchRequestParams() {
-  const html = await ofetch('https://bard.google.com/faq')
+  const html = await ofetch('https://bard.google.com/faq', {
+    cache: 'reload',
+  })
   const atValue = extractFromHTML('SNlM0e', html)
   const blValue = extractFromHTML('cfb2h', html)
   return { atValue, blValue }
