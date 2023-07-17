@@ -4,15 +4,15 @@ import { useAtom } from 'jotai'
 import { ComponentPropsWithoutRef, FC, useCallback, useEffect, useState } from 'react'
 import { ColorResult, TwitterPicker } from 'react-color'
 import { useTranslation } from 'react-i18next'
+import Browser from 'webextension-polyfill'
 import { usePremium } from '~app/hooks/use-premium'
 import { trackEvent } from '~app/plausible'
 import { followArcThemeAtom, themeColorAtom } from '~app/state'
-import { applyThemeMode, getDefaultThemeColor } from '~app/utils/color-scheme'
+import { applyThemeMode } from '~app/utils/color-scheme'
 import { isArcBrowser } from '~app/utils/env'
 import { ThemeMode, getUserThemeMode, setUserThemeMode } from '~services/theme'
 import Dialog from '../Dialog'
 import Select from '../Select'
-import Browser from 'webextension-polyfill'
 
 const Button: FC<ComponentPropsWithoutRef<'button'>> = (props) => {
   const { className, ...extraProps } = props
@@ -29,7 +29,7 @@ const Button: FC<ComponentPropsWithoutRef<'button'>> = (props) => {
 }
 
 const THEME_COLORS = [
-  getDefaultThemeColor(),
+  '#7EB8D6',
   '#FF6900',
   '#7BDCB5',
   '#00D084',
