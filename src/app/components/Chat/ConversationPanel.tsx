@@ -21,7 +21,7 @@ interface Props {
   botId: BotId
   bot: BotInstance
   messages: ChatMessageModel[]
-  onUserSendMessage: (input: string, botId: BotId) => void
+  onUserSendMessage: (input: string, botId: BotId, image?: File) => void
   resetConversation: () => void
   generating: boolean
   stopGenerating: () => void
@@ -44,8 +44,8 @@ const ConversationPanel: FC<Props> = (props) => {
   }, [props.resetConversation])
 
   const onSubmit = useCallback(
-    async (input: string) => {
-      props.onUserSendMessage(input as string, props.botId)
+    async (input: string, image?: File) => {
+      props.onUserSendMessage(input as string, props.botId, image)
     },
     [props],
   )
@@ -112,6 +112,7 @@ const ConversationPanel: FC<Props> = (props) => {
             placeholder={mode === 'compact' ? '' : undefined}
             onSubmit={onSubmit}
             autoFocus={mode === 'full'}
+            supportImageInput={mode === 'full' && (props.botId === 'bard' || props.botId === 'bing')}
             actionButton={
               props.generating ? (
                 <Button

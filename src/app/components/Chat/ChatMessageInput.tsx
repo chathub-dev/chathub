@@ -1,8 +1,8 @@
 import {
-  autoUpdate,
-  flip,
   FloatingFocusManager,
   FloatingList,
+  autoUpdate,
+  flip,
   offset,
   shift,
   useDismiss,
@@ -11,10 +11,12 @@ import {
   useListNavigation,
   useRole,
 } from '@floating-ui/react'
+import { fileOpen } from 'browser-fs-access'
 import cx from 'classnames'
-import { FC, memo, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { FC, ReactNode, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { GoBook } from 'react-icons/go'
+import { GoBook, GoImage } from 'react-icons/go'
+import { RiDeleteBackLine } from 'react-icons/ri'
 import { trackEvent } from '~app/plausible'
 import { Prompt } from '~services/prompts'
 import Button from '../Button'
@@ -24,12 +26,13 @@ import TextInput from './TextInput'
 
 interface Props {
   mode: 'full' | 'compact'
-  onSubmit: (value: string) => void
+  onSubmit: (value: string, image?: File) => void
   className?: string
   disabled?: boolean
   placeholder?: string
   actionButton?: ReactNode | null
   autoFocus?: boolean
+  supportImageInput?: boolean
 }
 
 const ChatMessageInput: FC<Props> = (props) => {
@@ -37,6 +40,7 @@ const ChatMessageInput: FC<Props> = (props) => {
   const { placeholder = t('Use / to select prompts, Shift+Enter to add new line') } = props
 
   const [value, setValue] = useState('')
+  const [image, setImage] = useState<File | undefined>(undefined)
   const formRef = useRef<HTMLFormElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const [isPromptLibraryDialogOpen, setIsPromptLibraryDialogOpen] = useState(false)
@@ -95,11 +99,12 @@ const ChatMessageInput: FC<Props> = (props) => {
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
       if (value.trim()) {
-        props.onSubmit(value)
+        props.onSubmit(value, image)
       }
       setValue('')
+      setImage(undefined)
     },
-    [props, value],
+    [image, props, value],
   )
 
   const onValueChange = useCallback((v: string) => {
@@ -130,11 +135,23 @@ const ChatMessageInput: FC<Props> = (props) => {
     trackEvent('open_prompt_library')
   }, [])
 
+  const selectImage = useCallback(async () => {
+    const file = await fileOpen({ mimeTypes: ['image/*'] })
+    setImage(file)
+    inputRef.current?.focus()
+  }, [])
+
   return (
     <form className={cx('flex flex-row items-center gap-3', props.className)} onSubmit={onFormSubmit} ref={formRef}>
       {props.mode === 'full' && (
         <>
-          <GoBook size={22} color="#707070" className="cursor-pointer" onClick={openPromptLibrary} />
+          <GoBook
+            size={22}
+            color="#707070"
+            className="cursor-pointer"
+            onClick={openPromptLibrary}
+            title="Prompt library"
+          />
           {isPromptLibraryDialogOpen && (
             <PromptLibraryDialog
               isOpen={true}
@@ -145,13 +162,7 @@ const ChatMessageInput: FC<Props> = (props) => {
           <ComboboxContext.Provider value={comboboxContext}>
             {isComboboxOpen && (
               <FloatingFocusManager context={context} modal={false} initialFocus={-1}>
-                <div
-                  ref={refs.setFloating}
-                  style={{
-                    ...floatingStyles,
-                  }}
-                  {...getFloatingProps()}
-                >
+                <div ref={refs.setFloating} style={{ ...floatingStyles }} {...getFloatingProps()}>
                   <FloatingList elementsRef={floatingListRef}>
                     <PromptCombobox />
                   </FloatingList>
@@ -159,9 +170,18 @@ const ChatMessageInput: FC<Props> = (props) => {
               </FloatingFocusManager>
             )}
           </ComboboxContext.Provider>
+          {props.supportImageInput && (
+            <GoImage size={22} color="#707070" className="cursor-pointer" onClick={selectImage} title="Image input" />
+          )}
         </>
       )}
       <div className="w-full flex flex-col justify-center" ref={refs.setReference} {...getReferenceProps()}>
+        {image && (
+          <div className="flex flex-row items-center w-fit mb-1 gap-1">
+            <span className="text-xs text-primary-text font-semibold cursor-default">{image.name}</span>
+            <RiDeleteBackLine size={10} className="cursor-pointer" onClick={() => setImage(undefined)} />
+          </div>
+        )}
         <TextInput
           ref={inputRef}
           formref={formRef}

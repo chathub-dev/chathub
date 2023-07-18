@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": {
+      "type": "modifyHeaders",
+      "requestHeaders": [
+        {
+          "header": "origin",
+          "operation": "set",
+          "value": "https://www.bing.com"
+        },
+        {
+          "header": "referer",
+          "operation": "set",
+          "value": "https://www.bing.com"
+        }
+      ]
+    },
+    "condition": {
+      "urlFilter": "bing",
+      "isUrlFilterCaseSensitive": false,
+      "resourceTypes": ["xmlhttprequest"]
+    }
+  }
+]

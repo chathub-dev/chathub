@@ -1,10 +1,11 @@
+import { ofetch } from 'ofetch'
 import WebSocketAsPromised from 'websocket-as-promised'
 import { BingConversationStyle, getUserConfig } from '~services/user-config'
 import { ChatError, ErrorCode } from '~utils/errors'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
 import { createConversation } from './api'
 import { ChatResponseMessage, ConversationInfo, InvocationEventType } from './types'
-import { convertMessageToMarkdown, websocketUtils } from './utils'
+import { convertMessageToMarkdown, file2base64, websocketUtils } from './utils'
 
 const OPTIONS_SETS = [
   'nlu_direct_response_filter',
@@ -28,7 +29,7 @@ const OPTIONS_SETS = [
 export class BingWebBot extends AbstractBot {
   private conversationContext?: ConversationInfo
 
-  private buildChatRequest(conversation: ConversationInfo, message: string) {
+  private buildChatRequest(conversation: ConversationInfo, message: string, imageUrl?: string) {
     const optionsSets = OPTIONS_SETS
     if (conversation.conversationStyle === BingConversationStyle.Precise) {
       optionsSets.push('h3precise')
@@ -75,6 +76,7 @@ export class BingWebBot extends AbstractBot {
             author: 'user',
             inputMethod: 'Keyboard',
             text: message,
+            imageUrl,
             messageType: 'Chat',
           },
           conversationId: conversation.conversationId,
@@ -102,6 +104,11 @@ export class BingWebBot extends AbstractBot {
 
     const conversation = this.conversationContext!
 
+    let imageUrl: string | undefined
+    if (params.image) {
+      imageUrl = await this.uploadImage(params.image)
+    }
+
     const wsp = new WebSocketAsPromised('wss://sydney.bing.com/sydney/ChatHub', {
       packMessage: websocketUtils.packMessage,
       unpackMessage: websocketUtils.unpackMessage,
@@ -114,7 +121,7 @@ export class BingWebBot extends AbstractBot {
         console.debug('bing ws event', event)
         if (JSON.stringify(event) === '{}') {
           wsp.sendPacked({ type: 6 })
-          wsp.sendPacked(this.buildChatRequest(conversation, params.prompt))
+          wsp.sendPacked(this.buildChatRequest(conversation, params.prompt, imageUrl))
           conversation.invocationId += 1
         } else if (event.type === 6) {
           wsp.sendPacked({ type: 6 })
@@ -182,5 +189,31 @@ export class BingWebBot extends AbstractBot {
 
   resetConversation() {
     this.conversationContext = undefined
+  }
+
+  private async uploadImage(image: File) {
+    const formData = new FormData()
+    formData.append(
+      'knowledgeRequest',
+      JSON.stringify({
+        imageInfo: {},
+        knowledgeRequest: {
+          invokedSkills: ['ImageById'],
+          subscriptionId: 'Bing.Chat.Multimodal',
+          invokedSkillsRequestData: { enableFaceBlur: false },
+          convoData: { convoid: '', convotone: 'Balanced' },
+        },
+      }),
+    )
+    formData.append('imageBase64', await file2base64(image))
+    const resp = await ofetch<{ blobId: string }>('https://www.bing.com/images/kblob', {
+      method: 'POST',
+      body: formData,
+    })
+    if (!resp.blobId) {
+      console.debug('kblob response: ', resp)
+      throw new Error('Failed to upload image')
+    }
+    return `https://www.bing.com/images/blob?bcid=${resp.blobId}`
   }
 }

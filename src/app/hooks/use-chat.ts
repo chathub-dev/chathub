@@ -24,11 +24,14 @@ export function useChat(botId: BotId) {
   )
 
   const sendMessage = useCallback(
-    async (input: string) => {
+    async (input: string, _botId: BotId, image?: File) => {
       trackEvent('send_message', { botId })
       const botMessageId = uuid()
       setChatState((draft) => {
-        draft.messages.push({ id: uuid(), text: input, author: 'user' }, { id: botMessageId, text: '', author: botId })
+        draft.messages.push(
+          { id: uuid(), text: input, image, author: 'user' },
+          { id: botMessageId, text: '', author: botId },
+        )
       })
       const abortController = new AbortController()
       setChatState((draft) => {
@@ -37,6 +40,7 @@ export function useChat(botId: BotId) {
       })
       await chatState.bot.sendMessage({
         prompt: input,
+        image,
         signal: abortController.signal,
         onEvent(event) {
           if (event.type === 'UPDATE_ANSWER') {

@@ -1,6 +1,8 @@
 import cx from 'classnames'
 import { FC } from 'react'
+import { Layout } from '~app/consts'
 import layoutFourIcon from '~assets/icons/layout-four.svg'
+import layoutImageIcon from '~assets/icons/layout-image-input.svg'
 import layoutThreeIcon from '~assets/icons/layout-three.svg'
 import layoutTwoIcon from '~assets/icons/layout-two.svg'
 
@@ -13,8 +15,8 @@ const Item: FC<{ icon: string; active: boolean; onClick: () => void }> = (props)
 }
 
 interface Props {
-  layout: number
-  onChange: (layout: number) => void
+  layout: Layout
+  onChange: (layout: Layout) => void
 }
 
 const LayoutSwitch: FC<Props> = (props) => {
@@ -23,6 +25,11 @@ const LayoutSwitch: FC<Props> = (props) => {
       <Item icon={layoutTwoIcon} active={props.layout === 2} onClick={() => props.onChange(2)} />
       <Item icon={layoutThreeIcon} active={props.layout === 3} onClick={() => props.onChange(3)} />
       <Item icon={layoutFourIcon} active={props.layout === 4} onClick={() => props.onChange(4)} />
+      <Item
+        icon={layoutImageIcon}
+        active={props.layout === 'imageInput'}
+        onClick={() => props.onChange('imageInput')}
+      />
     </div>
   )
 }

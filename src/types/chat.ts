@@ -5,6 +5,7 @@ export interface ChatMessageModel {
   id: string
   author: BotId | 'user'
   text: string
+  image?: Blob
   error?: ChatError
 }
 

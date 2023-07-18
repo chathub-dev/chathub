@@ -25,7 +25,7 @@ export default defineManifest(async (env) => {
       'https://*.chathub.gg/',
     ],
     optional_host_permissions: ['https://*/*'],
-    permissions: ['storage', 'unlimitedStorage', 'sidePanel'],
+    permissions: ['storage', 'unlimitedStorage', 'sidePanel', 'declarativeNetRequestWithHostAccess'],
     content_scripts: [
       {
         matches: ['https://chat.openai.com/*'],
@@ -45,6 +45,15 @@ export default defineManifest(async (env) => {
     },
     side_panel: {
       default_path: 'sidepanel.html',
+    },
+    declarative_net_request: {
+      rule_resources: [
+        {
+          id: 'ruleset_bing',
+          enabled: true,
+          path: 'src/rules/bing.json',
+        },
+      ],
     },
   }
 })

@@ -18,6 +18,7 @@ export type Event =
 
 export interface SendMessageParams {
   prompt: string
+  image?: File
   onEvent: (event: Event) => void
   signal?: AbortSignal
 }
