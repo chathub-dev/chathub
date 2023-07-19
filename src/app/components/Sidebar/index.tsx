@@ -49,7 +49,7 @@ function Sidebar() {
         onClick={() => setCollapsed((c) => !c)}
       />
       {collapsed ? <img src={minimalLogo} className="w-[30px]" /> : <img src={logo} className="w-[79px]" />}
-      <div className="flex flex-col gap-3 mt-12 overflow-y-auto scrollbar-none">
+      <div className="flex flex-col gap-[13px] mt-12 overflow-y-auto scrollbar-none">
         <NavLink to="/" text={'All-In-One'} icon={allInOneIcon} iconOnly={collapsed} />
         {enabledBots.map(({ botId, bot }) => (
           <NavLink

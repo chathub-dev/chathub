@@ -6,7 +6,7 @@ function NavLink(props: LinkPropsOptions & { text: string; icon: any; iconOnly?:
   return (
     <Link
       className={cx(
-        'rounded-[10px] w-full h-[41px] pl-3 flex flex-row gap-3 items-center shrink-0',
+        'rounded-[10px] w-full pl-3 flex flex-row gap-3 items-center shrink-0 py-[11px]',
         iconOnly && 'justify-center',
       )}
       activeOptions={{ exact: true }}
