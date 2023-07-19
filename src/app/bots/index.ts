@@ -46,7 +46,7 @@ export function createBotInstance(botId: BotId) {
     case 'dolly':
       return new LMSYSBot('dolly-v2-12b')
     case 'llama':
-      return new LMSYSBot('llama-13b')
+      return new LMSYSBot('llama-2-13b-chat')
     case 'stablelm':
       return new LMSYSBot('stablelm-tuned-alpha-7b')
     case 'oasst':
