@@ -90,7 +90,12 @@ const ChatMessageInput: FC<Props> = (props) => {
       activeIndex,
       getItemProps,
       handleSelect,
-      setIsComboboxOpen,
+      setIsComboboxOpen: (open: boolean) => {
+        setIsComboboxOpen(open)
+        if (!open) {
+          inputRef.current?.focus()
+        }
+      },
     }),
     [activeIndex, getItemProps, handleSelect],
   )
