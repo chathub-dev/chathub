@@ -21,7 +21,7 @@ interface Props {
   botId: BotId
   bot: BotInstance
   messages: ChatMessageModel[]
-  onUserSendMessage: (input: string, botId: BotId, image?: File) => void
+  onUserSendMessage: (input: string, image?: File) => void
   resetConversation: () => void
   generating: boolean
   stopGenerating: () => void
@@ -45,7 +45,7 @@ const ConversationPanel: FC<Props> = (props) => {
 
   const onSubmit = useCallback(
     async (input: string, image?: File) => {
-      props.onUserSendMessage(input as string, props.botId, image)
+      props.onUserSendMessage(input as string, image)
     },
     [props],
   )

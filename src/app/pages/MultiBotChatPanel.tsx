@@ -42,7 +42,7 @@ const GeneralChatPanel: FC<{
   const sendSingleMessage = useCallback(
     (input: string, botId: BotId) => {
       const chat = chats.find((c) => c.botId === botId)
-      chat?.sendMessage(input, botId)
+      chat?.sendMessage(input)
     },
     [chats],
   )
@@ -53,7 +53,7 @@ const GeneralChatPanel: FC<{
         setPremiumModalOpen(true)
         return
       }
-      uniqBy(chats, (c) => c.botId).forEach((c) => c.sendMessage(input, c.botId, image))
+      uniqBy(chats, (c) => c.botId).forEach((c) => c.sendMessage(input, image))
       trackEvent('send_messages', { count: chats.length })
     },
     [chats, disabled],
@@ -96,12 +96,12 @@ const GeneralChatPanel: FC<{
             botId={chat.botId}
             bot={chat.bot}
             messages={chat.messages}
-            onUserSendMessage={sendSingleMessage}
+            onUserSendMessage={(input) => sendSingleMessage(input, chat.botId)}
             generating={chat.generating}
             stopGenerating={chat.stopGenerating}
             mode="compact"
             resetConversation={chat.resetConversation}
-            onSwitchBot={(botId) => onSwitchBot(botId, index)}
+            onSwitchBot={setBots ? (botId) => onSwitchBot(botId, index) : undefined}
           />
         ))}
       </div>
