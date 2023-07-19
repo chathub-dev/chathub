@@ -19,7 +19,7 @@
     "@types/react-scroll-to-bottom": "^4.2.0",
     "@types/turndown": "^5.0.1",
     "@types/uuid": "^9.0.1",
-    "@types/webextension-polyfill": "^0.10.0",
+    "@types/webextension-polyfill": "^0.10.1",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.60.1",
     "@vitejs/plugin-react": "^4.0.0",
