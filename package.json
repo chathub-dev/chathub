@@ -18,7 +18,7 @@
     "@types/react-dom": "^18.2.4",
     "@types/react-scroll-to-bottom": "^4.2.0",
     "@types/turndown": "^5.0.1",
-    "@types/uuid": "^9.0.1",
+    "@types/uuid": "^9.0.2",
     "@types/webextension-polyfill": "^0.10.1",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.60.1",
