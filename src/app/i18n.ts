@@ -68,7 +68,7 @@ const resources = {
       'Share conversation': '分享会话',
       'Clear conversation': '清空会话',
       'View history': '查看历史消息',
-      'Premium Feature': '高级功能',
+      'Premium Feature': '会员功能',
       'Upgrade to unlock': '升级解锁',
       'Please check your network connection': '请检查您的网络连接，中国用户可能需要科学上网',
       'Display size': '显示大小',
@@ -83,6 +83,8 @@ const resources = {
       Upgrade: '升级',
       'This usually mean you need to add a payment method to your OpenAI account, checkout: ':
         '这通常意味着您需要在OpenAI账户中添加付款方式，请查看：',
+      'Are you sure you want to clear history messages?': '确定要清空历史消息吗？',
+      'Clear history messages': '清空消息',
     },
   },
   de: {

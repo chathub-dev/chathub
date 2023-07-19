@@ -61,3 +61,13 @@ export async function deleteHistoryMessage(botId: BotId, conversationId: string,
     await deleteHistoryConversation(botId, conversationId)
   }
 }
+
+export async function clearHistoryMessages(botId: BotId) {
+  const conversations = await loadHistoryConversations(botId)
+  await Promise.all(
+    conversations.map((c) => {
+      return Browser.storage.local.remove(`conversation:${botId}:${c.id}:messages`)
+    }),
+  )
+  await Browser.storage.local.remove(`conversations:${botId}`)
+}
