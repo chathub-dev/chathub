@@ -13,7 +13,7 @@ import {
 } from '@floating-ui/react'
 import { fileOpen } from 'browser-fs-access'
 import cx from 'classnames'
-import { FC, ReactNode, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { FC, ReactNode, memo, useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GoBook, GoImage } from 'react-icons/go'
 import { RiDeleteBackLine } from 'react-icons/ri'
@@ -92,7 +92,9 @@ const ChatMessageInput: FC<Props> = (props) => {
       handleSelect,
       setIsComboboxOpen: (open: boolean) => {
         setIsComboboxOpen(open)
-        if (!open) {
+        if (open) {
+          trackEvent('open_prompt_combobox')
+        } else {
           inputRef.current?.focus()
         }
       },
@@ -116,12 +118,6 @@ const ChatMessageInput: FC<Props> = (props) => {
     setValue(v)
     setIsComboboxOpen(v === '/')
   }, [])
-
-  useEffect(() => {
-    if (isComboboxOpen) {
-      trackEvent('open_prompt_combobox')
-    }
-  }, [isComboboxOpen])
 
   const insertTextAtCursor = useCallback(
     (text: string) => {
