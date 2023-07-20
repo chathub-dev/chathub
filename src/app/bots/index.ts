@@ -15,13 +15,12 @@ export type BotId =
   | 'vicuna'
   | 'alpaca'
   | 'chatglm'
-  | 'koala'
-  | 'dolly'
   | 'llama'
-  | 'stablelm'
   | 'oasst'
   | 'rwkv'
   | 'pi'
+  | 'guanaco'
+  | 'wizardlm'
 
 export function createBotInstance(botId: BotId) {
   switch (botId) {
@@ -36,23 +35,21 @@ export function createBotInstance(botId: BotId) {
     case 'xunfei':
       return new XunfeiBot()
     case 'vicuna':
-      return new LMSYSBot('vicuna-13b')
+      return new LMSYSBot('vicuna-33b')
     case 'alpaca':
       return new LMSYSBot('alpaca-13b')
     case 'chatglm':
       return new LMSYSBot('chatglm-6b')
-    case 'koala':
-      return new LMSYSBot('koala-13b')
-    case 'dolly':
-      return new LMSYSBot('dolly-v2-12b')
     case 'llama':
       return new LMSYSBot('llama-2-13b-chat')
-    case 'stablelm':
-      return new LMSYSBot('stablelm-tuned-alpha-7b')
     case 'oasst':
       return new LMSYSBot('oasst-pythia-12b')
     case 'rwkv':
       return new LMSYSBot('RWKV-4-Raven-14B')
+    case 'guanaco':
+      return new LMSYSBot('guanaco-33b')
+    case 'wizardlm':
+      return new LMSYSBot('wizardlm-13b')
     case 'pi':
       return new PiBot()
   }
