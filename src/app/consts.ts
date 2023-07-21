@@ -72,6 +72,10 @@ export const CHATBOTS: Record<BotId, { name: string; avatar: any }> = {
     name: 'ChatRWKV',
     avatar: rwkvLogo,
   },
+  llama2: {
+    name: 'LLaMA2',
+    avatar: llamaLogo,
+  },
 }
 
 export const CHATGPT_HOME_URL = 'https://chat.openai.com'

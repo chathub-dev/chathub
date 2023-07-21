@@ -20,6 +20,7 @@ export type BotId =
   | 'stablelm'
   | 'oasst'
   | 'rwkv'
+  | 'llama2'
 
 export function createBotInstance(botId: BotId) {
   switch (botId) {
@@ -51,6 +52,8 @@ export function createBotInstance(botId: BotId) {
       return new LMSYSBot('oasst-pythia-12b')
     case 'rwkv':
       return new LMSYSBot('RWKV-4-Raven-14B')
+    case 'llama2':
+      return new LMSYSBot('llama-2-13b-chat')
   }
 }
 
