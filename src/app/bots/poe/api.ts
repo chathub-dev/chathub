@@ -1,13 +1,14 @@
-import { ofetch } from 'ofetch'
 import md5 from 'md5'
-import ChatViewQuery from './graphql/ChatViewQuery.graphql?raw'
+import { ofetch } from 'ofetch'
+import i18n from '~app/i18n'
+import { decodePoeFormkey } from '~services/server-api'
+import { ChatError, ErrorCode } from '~utils/errors'
 import AddMessageBreakMutation from './graphql/AddMessageBreakMutation.graphql?raw'
+import ChatViewQuery from './graphql/ChatViewQuery.graphql?raw'
+import MessageAddedSubscription from './graphql/MessageAddedSubscription.graphql?raw'
 import SendMessageMutation from './graphql/SendMessageMutation.graphql?raw'
 import SubscriptionsMutation from './graphql/SubscriptionsMutation.graphql?raw'
-import MessageAddedSubscription from './graphql/MessageAddedSubscription.graphql?raw'
 import ViewerStateUpdatedSubscription from './graphql/ViewerStateUpdatedSubscription.graphql?raw'
-import { ChatError, ErrorCode } from '~utils/errors'
-import i18n from '~app/i18n'
 
 export const GRAPHQL_QUERIES = {
   AddMessageBreakMutation,
@@ -35,15 +36,10 @@ interface ChannelData {
 
 async function getFormkey() {
   const html: string = await ofetch('https://poe.com', { parseResponse: (txt) => txt })
-  const r = html.match(/<script>if(.+)throw new Error;(.+),window.+<\/script>/)
-  const scriptText = r![2]
-  const key = scriptText.match(/var .="(\w+)"/)![1]
-  const cipherPairs = Array.from(scriptText.matchAll(/\[(\d+)\]=.\[(\d+)\]/g)).map((m) => [Number(m[1]), Number(m[2])])
-  const result: string[] = Array(cipherPairs.length)
-  for (const [i, j] of cipherPairs) {
-    result[i] = key[j]
-  }
-  return result.join('')
+  const r = html.match(/<head>(.+)<\/head>/)!
+  const headHtml = r[1]
+  const formkey = await decodePoeFormkey(headHtml)
+  return formkey
 }
 
 export async function getPoeSettings(): Promise<PoeSettings> {
@@ -61,7 +57,7 @@ export interface GqlHeaders {
 export async function gqlRequest(queryName: keyof typeof GRAPHQL_QUERIES, variables: any, poeSettings: PoeSettings) {
   const query = GRAPHQL_QUERIES[queryName]
   const payload = { query, variables }
-  const tagId = md5(JSON.stringify(payload) + poeSettings.formkey + 'WpuLMiXEKKE98j56k')
+  const tagId = md5(JSON.stringify(payload) + poeSettings.formkey + 'Jb1hi3fg1MxZpzYfy')
   return ofetch('https://poe.com/api/gql_POST', {
     method: 'POST',
     body: payload,
