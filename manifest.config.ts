@@ -21,7 +21,7 @@ export default defineManifest(async (env) => {
     host_permissions: [
       'https://*.bing.com/',
       'https://*.openai.com/',
-      'https://claude.ai',
+      'https://claude.ai/',
       'https://bard.google.com/',
       'https://*.chathub.gg/',
     ],
