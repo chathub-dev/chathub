@@ -4,6 +4,7 @@ import { ChatGPTBot } from './chatgpt'
 import { ClaudeBot } from './claude'
 import { LMSYSBot } from './lmsys'
 import { XunfeiBot } from './xunfei'
+import { Claude2Bot } from './claude-2'
 
 export type BotId =
   | 'chatgpt'
@@ -20,6 +21,7 @@ export type BotId =
   | 'stablelm'
   | 'oasst'
   | 'rwkv'
+  | 'claude-2'
 
 export function createBotInstance(botId: BotId) {
   switch (botId) {
@@ -51,6 +53,8 @@ export function createBotInstance(botId: BotId) {
       return new LMSYSBot('oasst-pythia-12b')
     case 'rwkv':
       return new LMSYSBot('RWKV-4-Raven-14B')
+    case 'claude-2':
+      return new Claude2Bot()
   }
 }
 

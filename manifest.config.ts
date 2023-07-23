@@ -21,6 +21,7 @@ export default defineManifest(async (env) => {
     host_permissions: [
       'https://*.bing.com/',
       'https://*.openai.com/',
+      'https://claude.ai',
       'https://bard.google.com/',
       'https://*.chathub.gg/',
     ],
@@ -30,6 +31,10 @@ export default defineManifest(async (env) => {
       {
         matches: ['https://chat.openai.com/*'],
         js: ['src/content-script/chatgpt-inpage-proxy.ts'],
+      },
+      {
+        matches: ['https://claude.ai/*'],
+        js: ['src/content-script/claude-inpage-proxy.ts'],
       },
     ],
     commands: {

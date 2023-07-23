@@ -32,6 +32,10 @@ export const CHATBOTS: Record<BotId, { name: string; avatar: any }> = {
     name: 'Claude',
     avatar: claudeLogo,
   },
+  "claude-2": {
+    name: 'Claude-2',
+    avatar: claudeLogo,
+  },
   xunfei: {
     name: i18n.t('iFlytek Spark'),
     avatar: xunfeiLogo,
@@ -75,6 +79,7 @@ export const CHATBOTS: Record<BotId, { name: string; avatar: any }> = {
 }
 
 export const CHATGPT_HOME_URL = 'https://chat.openai.com'
+export const CLAUDE_2_HOME_URL = 'https://claude.ai';
 export const CHATGPT_API_MODELS = ['gpt-3.5-turbo', 'gpt-3.5-turbo-16k', 'gpt-4', 'gpt-4-32k'] as const
 export const ALL_IN_ONE_PAGE_ID = 'all'
 
