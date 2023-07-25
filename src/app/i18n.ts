@@ -79,12 +79,13 @@ const resources = {
       Premium: '付费会员',
       Chatbots: '聊天机器人',
       'Manage order and devices': '管理订单与设备',
-      'Upgrade to premium to chat with more than two bots at once': '升级会员，同时和两个以上的机器人聊天',
+      'Upgrade to premium to chat with more than two bots or send images': '升级会员，同时和两个以上的机器人聊天',
       Upgrade: '升级',
       'This usually mean you need to add a payment method to your OpenAI account, checkout: ':
         '这通常意味着您需要在OpenAI账户中添加付款方式，请查看：',
       'Are you sure you want to clear history messages?': '确定要清空历史消息吗？',
       'Clear history messages': '清空消息',
+      'Compare with image input': '用图片作为输入',
     },
   },
   de: {
@@ -183,7 +184,7 @@ const resources = {
       Premium: 'Premium',
       Chatbots: 'Chatbots',
       'Manage order and devices': 'Gestionar pedidos y dispositivos',
-      'Upgrade to premium to chat with more than two bots at once':
+      'Upgrade to premium to chat with more than two bots or send images':
         'Actualiza a premium para chatear con más de dos bots a la vez',
       Upgrade: 'Actualizar',
       'This usually mean you need to add a payment method to your OpenAI account, checkout: ':
@@ -349,7 +350,7 @@ const resources = {
       Premium: 'プレミアム',
       Chatbots: 'チャットボット',
       'Manage order and devices': '注文とデバイスの管理',
-      'Upgrade to premium to chat with more than two bots at once':
+      'Upgrade to premium to chat with more than two bots or send images':
         '一度に2つ以上のボットとチャットするためにプレミアムにアップグレードする',
       Upgrade: 'アップグレード',
       'This usually mean you need to add a payment method to your OpenAI account, checkout:':
@@ -465,7 +466,7 @@ const resources = {
       Premium: 'Premium',
       Chatbots: 'Chatbots',
       'Manage order and devices': 'Gerenciar pedidos e dispositivos',
-      'Upgrade to premium to chat with more than two bots at once':
+      'Upgrade to premium to chat with more than two bots or send images':
         'Atualize para o premium para conversar com mais de dois bots de uma vez',
       Upgrade: 'Atualizar',
       'This usually mean you need to add a payment method to your OpenAI account, checkout: ':

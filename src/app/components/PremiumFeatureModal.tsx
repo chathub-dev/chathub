@@ -20,7 +20,7 @@ const PremiumFeatureModal: FC<Props> = (props) => {
     >
       <div className="flex flex-col items-center gap-4 py-5">
         <p className="font-semibold text-primary-text text-center w-[70%]">
-          {t('Upgrade to premium to chat with more than two bots at once')}
+          {t('Upgrade to premium to chat with more than two bots or send images')}
         </p>
         <Link
           to="/premium"

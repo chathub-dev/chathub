@@ -34,10 +34,10 @@ const GeneralChatPanel: FC<{
   const disabled = useMemo(() => !premiumState.isLoading && !premiumState.activated, [premiumState])
 
   useEffect(() => {
-    if (disabled && chats.length > 2) {
+    if (disabled && (chats.length > 2 || supportImageInput)) {
       setPremiumModalOpen(true)
     }
-  }, [chats.length, disabled])
+  }, [chats.length, disabled, supportImageInput])
 
   const sendSingleMessage = useCallback(
     (input: string, botId: BotId) => {

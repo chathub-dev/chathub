@@ -87,6 +87,7 @@ function PremiumPage() {
           text={t('Quick access in Chrome side bar')}
           link="https://github.com/chathub-dev/chathub/wiki/Access-from-Chrome-side-panel"
         />
+        <FeatureItem text={t('Compare with image input')} />
         <FeatureItem text={t('Activate up to 5 devices')} />
         <FeatureItem text={t('More features in the future')} />
         <FeatureItem text={t('Support the development of ChatHub')} />
