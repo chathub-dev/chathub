@@ -1,5 +1,4 @@
 import WebSocketAsPromised from 'websocket-as-promised'
-import { html2md } from '~app/utils/markdown'
 import { ChatError, ErrorCode } from '~utils/errors'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
 import { generateSessionHash } from './utils'
@@ -69,8 +68,7 @@ export class LMSYSBot extends AbstractBot {
           if (fnIndex === FnIndex.Receive) {
             const outputData = event.output.data
             if (outputData[1].length > 0) {
-              const html = outputData[1][outputData[1].length - 1][1]
-              const text = html2md(html)
+              const text = outputData[1][outputData[1].length - 1][1]
               onEvent({ type: 'UPDATE_ANSWER', data: { text } })
             }
           }
