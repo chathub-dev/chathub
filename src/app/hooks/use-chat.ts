@@ -25,7 +25,7 @@ export function useChat(botId: BotId) {
 
   const sendMessage = useCallback(
     async (input: string, image?: File) => {
-      trackEvent('send_message', { botId })
+      trackEvent('send_message', { botId, withImage: !!image })
       const botMessageId = uuid()
       setChatState((draft) => {
         draft.messages.push(
