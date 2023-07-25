@@ -10,7 +10,7 @@ const MessageBubble: FC<PropsWithChildren<Props>> = (props) => {
   return (
     <div
       className={cx(
-        'rounded-[15px] px-4 py-2',
+        'rounded-[15px] px-4 py-2 w-full',
         props.color === 'primary' ? 'bg-primary-blue text-white' : 'bg-secondary text-primary-text',
         props.className,
       )}
