@@ -41,7 +41,7 @@
     "vite-tsconfig-paths": "^4.2.0"
   },
   "dependencies": {
-    "@floating-ui/react": "^0.24.2",
+    "@floating-ui/react": "^0.24.8",
     "@headlessui/react": "^1.7.15",
     "@heroicons/react": "^2.0.18",
     "@radix-ui/react-dialog": "^1.0.4",
