@@ -37,12 +37,12 @@
     "sass": "^1.62.1",
     "tailwind-scrollbar": "^3.0.4",
     "tailwindcss": "^3.3.2",
-    "typescript": "^5.0.4",
+    "typescript": "^5.1.6",
     "vite": "4.2",
     "vite-tsconfig-paths": "^4.2.0"
   },
   "dependencies": {
-    "@floating-ui/react": "^0.24.2",
+    "@floating-ui/react": "^0.24.8",
     "@headlessui/react": "^1.7.15",
     "@heroicons/react": "^2.0.18",
     "@radix-ui/react-dialog": "^1.0.4",
@@ -62,7 +62,7 @@
     "i18next-browser-languagedetector": "^7.1.0",
     "immer": "^9.0.19",
     "inter-ui": "^3.19.3",
-    "jotai": "^2.2.1",
+    "jotai": "^2.2.2",
     "jotai-immer": "^0.2.0",
     "js-base64": "^3.7.5",
     "lodash-es": "^4.17.21",
