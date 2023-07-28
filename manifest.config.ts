@@ -53,6 +53,11 @@ export default defineManifest(async (env) => {
           enabled: true,
           path: 'src/rules/bing.json',
         },
+        {
+          id: 'ruleset_ddg',
+          enabled: true,
+          path: 'src/rules/ddg.json',
+        },
       ],
     },
   }

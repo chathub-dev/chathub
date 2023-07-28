@@ -1,0 +1,24 @@
+[
+  {
+    "id": 3,
+    "priority": 1,
+    "action": {
+      "type": "modifyHeaders",
+      "requestHeaders": [
+        {
+          "header": "origin",
+          "operation": "set",
+          "value": "https://duckduckgo.com"
+        },
+        {
+          "header": "referer",
+          "operation": "remove"
+        }
+      ]
+    },
+    "condition": {
+      "requestDomains": ["duckduckgo.com"],
+      "resourceTypes": ["xmlhttprequest"]
+    }
+  }
+]

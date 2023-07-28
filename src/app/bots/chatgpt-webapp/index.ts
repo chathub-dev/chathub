@@ -1,3 +1,4 @@
+import { get as getPath } from 'lodash-es'
 import { v4 as uuidv4 } from 'uuid'
 import { ChatGPTWebModel } from '~services/user-config'
 import { ChatError, ErrorCode } from '~utils/errors'
@@ -80,6 +81,9 @@ export class ChatGPTWebBot extends AbstractBot {
         data = JSON.parse(message)
       } catch (err) {
         console.error(err)
+        return
+      }
+      if (getPath(data, 'message.author.role') !== 'assistant') {
         return
       }
       const content = data.message?.content as ResponseContent | undefined

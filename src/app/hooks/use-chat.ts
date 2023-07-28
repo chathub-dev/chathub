@@ -5,6 +5,7 @@ import { chatFamily } from '~app/state'
 import { setConversationMessages } from '~services/chat-history'
 import { ChatMessageModel } from '~types'
 import { uuid } from '~utils'
+import { ChatError } from '~utils/errors'
 import { BotId } from '../bots'
 
 export function useChat(botId: BotId) {
@@ -26,6 +27,7 @@ export function useChat(botId: BotId) {
   const sendMessage = useCallback(
     async (input: string, image?: File) => {
       trackEvent('send_message', { botId, withImage: !!image })
+
       const botMessageId = uuid()
       setChatState((draft) => {
         draft.messages.push(
@@ -33,36 +35,43 @@ export function useChat(botId: BotId) {
           { id: botMessageId, text: '', author: botId },
         )
       })
+
       const abortController = new AbortController()
       setChatState((draft) => {
         draft.generatingMessageId = botMessageId
         draft.abortController = abortController
       })
-      await chatState.bot.sendMessage({
+
+      const resp = await chatState.bot.sendMessage({
         prompt: input,
         image,
         signal: abortController.signal,
-        onEvent(event) {
-          if (event.type === 'UPDATE_ANSWER') {
-            updateMessage(botMessageId, (message) => {
-              message.text = event.data.text
-            })
-          } else if (event.type === 'ERROR') {
-            console.error('sendMessage error', event.error.code, event.error)
-            updateMessage(botMessageId, (message) => {
-              message.error = event.error
-            })
-            setChatState((draft) => {
-              draft.abortController = undefined
-              draft.generatingMessageId = ''
-            })
-          } else if (event.type === 'DONE') {
-            setChatState((draft) => {
-              draft.abortController = undefined
-              draft.generatingMessageId = ''
-            })
-          }
-        },
+      })
+
+      try {
+        for await (const text of resp) {
+          updateMessage(botMessageId, (message) => {
+            message.text = text
+          })
+        }
+      } catch (err: unknown) {
+        if (!abortController.signal.aborted) {
+          abortController.abort()
+        }
+        const error = err as ChatError
+        console.error('sendMessage error', error.code, error)
+        updateMessage(botMessageId, (message) => {
+          message.error = error
+        })
+        setChatState((draft) => {
+          draft.abortController = undefined
+          draft.generatingMessageId = ''
+        })
+      }
+
+      setChatState((draft) => {
+        draft.abortController = undefined
+        draft.generatingMessageId = ''
       })
     },
     [botId, chatState.bot, setChatState, updateMessage],

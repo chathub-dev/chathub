@@ -10,17 +10,18 @@ interface ConversationContext {
   messages: ChatMessage[]
 }
 
-const CONTEXT_SIZE = 10
+const CONTEXT_SIZE = 9
 
 export abstract class AbstractChatGPTApiBot extends AbstractBot {
   private conversationContext?: ConversationContext
 
-  buildMessages(): ChatMessage[] {
+  buildMessages(prompt: string): ChatMessage[] {
     const currentDate = new Date().toISOString().split('T')[0]
     const systemMessage = this.getSystemMessage().replace('{current_date}', currentDate)
     return [
       { role: 'system', content: systemMessage },
       ...this.conversationContext!.messages.slice(-(CONTEXT_SIZE + 1)),
+      { role: 'user', content: prompt },
     ]
   }
 
@@ -32,9 +33,13 @@ export abstract class AbstractChatGPTApiBot extends AbstractBot {
     if (!this.conversationContext) {
       this.conversationContext = { messages: [] }
     }
-    this.conversationContext.messages.push({ role: 'user', content: params.prompt })
 
-    const resp = await this.fetchCompletionApi(params.signal)
+    const resp = await this.fetchCompletionApi(this.buildMessages(params.prompt), params.signal)
+
+    this.conversationContext.messages.push({
+      role: 'user',
+      content: params.rawUserInput || params.prompt,
+    })
 
     let done = false
     const result: ChatMessage = { role: 'assistant', content: '' }
@@ -81,7 +86,7 @@ export abstract class AbstractChatGPTApiBot extends AbstractBot {
     this.conversationContext = undefined
   }
 
-  abstract fetchCompletionApi(signal?: AbortSignal): Promise<Response>
+  abstract fetchCompletionApi(messages: ChatMessage[], signal?: AbortSignal): Promise<Response>
 }
 
 export class ChatGPTApiBot extends AbstractChatGPTApiBot {
@@ -98,7 +103,7 @@ export class ChatGPTApiBot extends AbstractChatGPTApiBot {
     return this.config.chatgptApiSystemMessage || DEFAULT_CHATGPT_SYSTEM_MESSAGE
   }
 
-  async fetchCompletionApi(signal?: AbortSignal) {
+  async fetchCompletionApi(messages: ChatMessage[], signal?: AbortSignal) {
     const { openaiApiKey, openaiApiHost, chatgptApiModel } = this.config
     const resp = await fetch(`${openaiApiHost}/v1/chat/completions`, {
       method: 'POST',
@@ -109,7 +114,7 @@ export class ChatGPTApiBot extends AbstractChatGPTApiBot {
       },
       body: JSON.stringify({
         model: this.getModelName(),
-        messages: this.buildMessages(),
+        messages,
         stream: true,
       }),
     })

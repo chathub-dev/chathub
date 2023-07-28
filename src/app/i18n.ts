@@ -86,6 +86,8 @@ const resources = {
       'Are you sure you want to clear history messages?': '确定要清空历史消息吗？',
       'Clear history messages': '清空消息',
       'Compare with image input': '用图片作为输入',
+      'Web Access': '联网搜索',
+      'Upgrade to Premium for web access and more features': '升级会员，解锁联网搜索和更多功能',
     },
   },
   de: {

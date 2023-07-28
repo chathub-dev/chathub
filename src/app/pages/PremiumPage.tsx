@@ -1,4 +1,3 @@
-import { Link } from '@tanstack/react-router'
 import { useAtom } from 'jotai'
 import { ofetch } from 'ofetch'
 import { FC, useCallback, useState } from 'react'
@@ -7,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import { BsQuestionCircle } from 'react-icons/bs'
 import useImmutableSWR from 'swr/immutable'
 import Button from '~app/components/Button'
-import Tooltip from '~app/components/Tooltip'
 import { usePremium } from '~app/hooks/use-premium'
 import { trackEvent } from '~app/plausible'
 import { licenseKeyAtom } from '~app/state'
@@ -15,17 +13,14 @@ import checkIcon from '~assets/icons/check.svg'
 import { deactivateLicenseKey } from '~services/premium'
 
 const FeatureItem: FC<{ text: string; link?: string }> = ({ text, link }) => {
-  const { t } = useTranslation()
   return (
     <div className="flex flex-row items-center gap-2">
       <img src={checkIcon} className="w-6 h-6" />
       <span className="text-primary-text font-medium">{text}</span>
       {!!link && (
-        <Tooltip content={t('Learn more')}>
-          <a href={link} target="_blank" rel="noreferrer">
-            <BsQuestionCircle className="cursor-pointer" />
-          </a>
-        </Tooltip>
+        <a href={link} target="_blank" rel="noreferrer">
+          <BsQuestionCircle className="cursor-pointer" />
+        </a>
       )}
     </div>
   )
@@ -81,6 +76,7 @@ function PremiumPage() {
       )}
       <div className="mt-10 flex flex-col gap-4">
         <FeatureItem text={t('More bots in All-In-One mode')} />
+        <FeatureItem text={t('Web Access')} link="https://github.com/chathub-dev/chathub/wiki/Web-Access" />
         <FeatureItem text={t('Chat history full-text search')} />
         <FeatureItem text={t('Customize theme')} />
         <FeatureItem

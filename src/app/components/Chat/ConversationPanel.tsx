@@ -1,5 +1,5 @@
 import cx from 'classnames'
-import { FC, useCallback, useMemo, useState } from 'react'
+import { FC, ReactNode, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import clearIcon from '~/assets/icons/clear.svg'
 import historyIcon from '~/assets/icons/history.svg'
@@ -16,6 +16,7 @@ import SwitchBotDropdown from '../SwitchBotDropdown'
 import Tooltip from '../Tooltip'
 import ChatMessageInput from './ChatMessageInput'
 import ChatMessageList from './ChatMessageList'
+import WebAccessCheckbox from './WebAccessCheckbox'
 
 interface Props {
   botId: BotId
@@ -66,6 +67,25 @@ const ConversationPanel: FC<Props> = (props) => {
     trackEvent('open_share_dialog', { botId: props.botId })
   }, [props.botId])
 
+  let inputActionButton: ReactNode = null
+  if (props.generating) {
+    inputActionButton = (
+      <Button
+        text={t('Stop')}
+        color="flat"
+        size={mode === 'full' ? 'normal' : 'small'}
+        onClick={props.stopGenerating}
+      />
+    )
+  } else if (mode === 'full') {
+    inputActionButton = (
+      <div className="flex flex-row items-center gap-[10px] shrink-0">
+        <WebAccessCheckbox botId={props.botId} key={props.botId} />
+        <Button text={t('Send')} color="primary" type="submit" />
+      </div>
+    )
+  }
+
   return (
     <ConversationContext.Provider value={context}>
       <div className={cx('flex flex-col overflow-hidden bg-primary-background h-full rounded-[20px]')}>
@@ -113,18 +133,7 @@ const ConversationPanel: FC<Props> = (props) => {
             onSubmit={onSubmit}
             autoFocus={mode === 'full'}
             supportImageInput={mode === 'full' && (props.botId === 'bard' || props.botId === 'bing')}
-            actionButton={
-              props.generating ? (
-                <Button
-                  text={t('Stop')}
-                  color="flat"
-                  size={mode === 'full' ? 'normal' : 'small'}
-                  onClick={props.stopGenerating}
-                />
-              ) : (
-                mode === 'full' && <Button text={t('Send')} color="primary" type="submit" />
-              )
-            }
+            actionButton={inputActionButton}
           />
         </div>
       </div>

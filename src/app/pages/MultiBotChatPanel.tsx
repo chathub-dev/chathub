@@ -117,7 +117,12 @@ const GeneralChatPanel: FC<{
           supportImageInput={supportImageInput}
         />
       </div>
-      <PremiumFeatureModal open={premiumModalOpen} setOpen={setPremiumModalOpen} />
+      <PremiumFeatureModal
+        open={premiumModalOpen}
+        setOpen={setPremiumModalOpen}
+        source="all-in-one-modal"
+        text={t('Upgrade to premium to chat with more than two bots or send images')}
+      />
     </div>
   )
 }

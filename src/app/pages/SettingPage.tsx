@@ -12,10 +12,10 @@ import ChatGPTPoeSettings from '~app/components/Settings/ChatGPTPoeSettings'
 import ChatGPWebSettings from '~app/components/Settings/ChatGPTWebSettings'
 import ClaudeAPISettings from '~app/components/Settings/ClaudeAPISettings'
 import ClaudePoeSettings from '~app/components/Settings/ClaudePoeSettings'
+import ClaudeWebappSettings from '~app/components/Settings/ClaudeWebappSettings'
 import EnabledBotsSettings from '~app/components/Settings/EnabledBotsSettings'
 import KDB from '~app/components/Settings/KDB'
 import { ALL_IN_ONE_PAGE_ID, CHATBOTS } from '~app/consts'
-import { usePremium } from '~app/hooks/use-premium'
 import { exportData, importData } from '~app/utils/export'
 import {
   BingConversationStyle,
@@ -27,7 +27,6 @@ import {
 } from '~services/user-config'
 import { getVersion } from '~utils'
 import PagePanel from '../components/Page'
-import ClaudeWebappSettings from '~app/components/Settings/ClaudeWebappSettings'
 
 const BING_STYLE_OPTIONS = [
   { name: 'Precise', value: BingConversationStyle.Precise },
@@ -40,7 +39,6 @@ function SettingPage() {
   const [shortcuts, setShortcuts] = useState<string[]>([])
   const [userConfig, setUserConfig] = useState<UserConfig | undefined>(undefined)
   const [dirty, setDirty] = useState(false)
-  const premiumState = usePremium()
 
   useEffect(() => {
     Browser.commands.getAll().then((commands) => {

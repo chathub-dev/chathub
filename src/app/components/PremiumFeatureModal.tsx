@@ -7,6 +7,8 @@ import Dialog from './Dialog'
 interface Props {
   open: boolean
   setOpen: (open: boolean) => void
+  text: string
+  source?: string
 }
 
 const PremiumFeatureModal: FC<Props> = (props) => {
@@ -19,12 +21,10 @@ const PremiumFeatureModal: FC<Props> = (props) => {
       className="rounded-2xl w-[500px]"
     >
       <div className="flex flex-col items-center gap-4 py-5">
-        <p className="font-semibold text-primary-text text-center w-[70%]">
-          {t('Upgrade to premium to chat with more than two bots or send images')}
-        </p>
+        <p className="font-semibold text-primary-text text-center w-[70%]">{props.text}</p>
         <Link
           to="/premium"
-          search={{ source: 'all-in-one-modal' }}
+          search={{ source: props.source }}
           onClick={() => props.setOpen(false)}
           className="focus-visible:outline-none"
         >

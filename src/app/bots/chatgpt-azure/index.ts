@@ -1,5 +1,6 @@
 import { UserConfig } from '~services/user-config'
 import { AbstractChatGPTApiBot } from '../chatgpt-api'
+import { ChatMessage } from '../chatgpt-api/consts'
 
 export class ChatGPTAzureApiBot extends AbstractChatGPTApiBot {
   constructor(
@@ -11,7 +12,7 @@ export class ChatGPTAzureApiBot extends AbstractChatGPTApiBot {
     super()
   }
 
-  async fetchCompletionApi(signal?: AbortSignal) {
+  async fetchCompletionApi(messages: ChatMessage[], signal?: AbortSignal) {
     const endpoint = `https://${this.config.azureOpenAIApiInstanceName}.openai.azure.com/openai/deployments/${this.config.azureOpenAIApiDeploymentName}/chat/completions?api-version=2023-03-15-preview`
     return fetch(endpoint, {
       method: 'POST',
@@ -21,7 +22,7 @@ export class ChatGPTAzureApiBot extends AbstractChatGPTApiBot {
         'api-key': this.config.azureOpenAIApiKey,
       },
       body: JSON.stringify({
-        messages: this.buildMessages(),
+        messages,
         stream: true,
       }),
     })

@@ -51,6 +51,7 @@
     "@sentry/react": "^7.54.0",
     "@tanstack/react-router": "^0.0.1-beta.83",
     "browser-fs-access": "^0.34.1",
+    "cachified": "^3.5.4",
     "classnames": "^2.3.2",
     "cmdk": "^0.2.0",
     "eventsource-parser": "^1.0.0",
@@ -83,6 +84,7 @@
     "react-spinners": "^0.13.8",
     "react-textarea-autosize": "^8.5.2",
     "react-viewport-list": "^7.1.1",
+    "react-wrap-balancer": "^1.0.0",
     "rehype-highlight": "^6.0.0",
     "rehype-stringify": "^9.0.3",
     "remark-breaks": "^3.0.3",
@@ -91,11 +93,13 @@
     "remark-parse": "^10.0.2",
     "remark-rehype": "^10.1.0",
     "remark-supersub": "^1.0.0",
+    "slashes": "^3.0.12",
     "swr": "^2.1.5",
     "turndown": "^7.1.2",
     "unified": "^10.1.2",
     "uuid": "^9.0.0",
     "webextension-polyfill": "^0.10.0",
-    "websocket-as-promised": "^2.0.1"
+    "websocket-as-promised": "^2.0.1",
+    "zod": "^3.21.4"
   }
 }

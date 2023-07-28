@@ -1,5 +1,9 @@
 import Browser from 'webextension-polyfill'
 
 export async function requestHostPermission(host: string) {
-  return Browser.permissions.request({ origins: [host] })
+  const permissions: Browser.Permissions.Permissions = { origins: [host] }
+  if (await Browser.permissions.contains(permissions)) {
+    return true
+  }
+  return Browser.permissions.request(permissions)
 }
