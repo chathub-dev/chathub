@@ -61,7 +61,7 @@
     "i18next-browser-languagedetector": "^7.1.0",
     "immer": "^9.0.19",
     "inter-ui": "^3.19.3",
-    "jotai": "^2.2.1",
+    "jotai": "^2.2.2",
     "jotai-immer": "^0.2.0",
     "js-base64": "^3.7.5",
     "lodash-es": "^4.17.21",
