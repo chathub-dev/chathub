@@ -5,11 +5,16 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 import manifest from './manifest.config'
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [tsconfigPaths(), react(), crx({ manifest })],
-  build: {
-    rollupOptions: {
-      input: ['app.html'],
+export default defineConfig(({ command, mode }) => {
+  return {
+    plugins: [tsconfigPaths(), react(), crx({ manifest })],
+    build: {
+      rollupOptions: {
+        input: ['app.html'],
+      },
     },
-  },
+    esbuild: {
+      drop: mode === 'production' ? ['console', 'debugger'] : [],
+    },
+  }
 })
