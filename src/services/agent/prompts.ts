@@ -1,6 +1,8 @@
+// https://github.com/hwchase17/langchainjs/blob/main/langchain/src/agents/chat_convo/prompt.ts
+
 export const DEFAULT_PREFIX = ``
 
-export const PREFIX_END = ` However, above all else, All responses must adhere to the format of RESPONSE FORMAT INSTRUCTIONS.`
+export const PREFIX_END = ` Above all else, all responses must adhere to the format of RESPONSE FORMAT INSTRUCTIONS.`
 
 export const FORMAT_INSTRUCTIONS = `RESPONSE FORMAT INSTRUCTIONS
 ----------------------------
@@ -41,6 +43,6 @@ Assistant can ask the user to use tools to look up information that may be helpf
 
 USER'S INPUT
 --------------------
-Here is the user's input (remember to respond with a markdown code snippet of a json blob with a single action, Dont include any other text or explanation):
+Here is the user's input (remember to respond with a markdown code snippet of a json blob with a single action, and NOTHING else):
 
 {{input}}`
