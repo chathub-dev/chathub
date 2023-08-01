@@ -139,11 +139,15 @@ export class BingWebBot extends AbstractBot {
         } else if (event.type === 2) {
           const messages = event.item.messages as ChatResponseMessage[] | undefined
           if (!messages) {
+            const captcha = event.item.result.value === 'CaptchaChallenge'
+            if (captcha) {
+              this.conversationContext = undefined
+            }
             params.onEvent({
               type: 'ERROR',
               error: new ChatError(
                 event.item.result.error || 'Unknown error',
-                event.item.result.value === 'CaptchaChallenge' ? ErrorCode.BING_CAPTCHA : ErrorCode.UNKOWN_ERROR,
+                captcha ? ErrorCode.BING_CAPTCHA : ErrorCode.UNKOWN_ERROR,
               ),
             })
             return
