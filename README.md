@@ -57,6 +57,7 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 - 📥 Export and Import all your data
 - 🔗 Share conversation to markdown
 - 🌙 Dark mode
+- 🌐 Web access
 
 ## 🤖 Supported Bots
 
