@@ -191,6 +191,8 @@ const resources = {
       Upgrade: 'Actualizar',
       'This usually mean you need to add a payment method to your OpenAI account, checkout: ':
         'Esto generalmente significa que necesitas agregar un método de pago a tu cuenta de OpenAI, revisa:',
+      'Web Access': 'el acceso a la web',
+      'Upgrade to Premium for web access and more features': 'Actualiza a Premium para acceso a la web y más funciones',
     },
   },
   fr: {
@@ -357,6 +359,8 @@ const resources = {
       Upgrade: 'アップグレード',
       'This usually mean you need to add a payment method to your OpenAI account, checkout:':
         'これは通常、OpenAIアカウントに支払い方法を追加する必要があることを意味します。チェックアウト：',
+      'Upgrade to Premium for web access and more features':
+        'ウェブアクセスとさらなる機能のためにプレミアムにアップグレード',
     },
   },
   th: {
@@ -473,6 +477,8 @@ const resources = {
       Upgrade: 'Atualizar',
       'This usually mean you need to add a payment method to your OpenAI account, checkout: ':
         'Isso geralmente significa que você precisa adicionar um método de pagamento à sua conta OpenAI, checkout:',
+      'Upgrade to Premium for web access and more features':
+        'Faça upgrade para Premium para acesso à web e mais recursos',
     },
   },
 }
