@@ -1,5 +1,5 @@
 import { removeSlashes } from 'slashes'
-import { DEFAULT_PREFIX, DEFAULT_SUFFIX, FORMAT_INSTRUCTIONS, PREFIX_END } from './prompts'
+import { DEFAULT_SUFFIX, FORMAT_INSTRUCTIONS, PREFIX_END } from './prompts'
 import { searchRelatedContext } from './web-search'
 
 const TOOLS = {
@@ -8,7 +8,7 @@ const TOOLS = {
 }
 
 function buildToolUsingPrompt(input: string) {
-  const systemMessage = DEFAULT_PREFIX + PREFIX_END
+  const systemMessage = PREFIX_END
   const tools = Object.entries(TOOLS).map(([name, description]) => `- ${name}: ${description}`)
   const userMessage = DEFAULT_SUFFIX.replace('{tools}', tools.join('\n'))
     .replace('{format_instructions}', FORMAT_INSTRUCTIONS.replace('{tool_names}', Object.keys(TOOLS).join(', ')))

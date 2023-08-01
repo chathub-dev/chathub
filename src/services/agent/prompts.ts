@@ -1,7 +1,5 @@
 // https://github.com/hwchase17/langchainjs/blob/main/langchain/src/agents/chat_convo/prompt.ts
 
-export const DEFAULT_PREFIX = ``
-
 export const PREFIX_END = ` Above all else, all responses must adhere to the format of RESPONSE FORMAT INSTRUCTIONS.`
 
 export const FORMAT_INSTRUCTIONS = `RESPONSE FORMAT INSTRUCTIONS
