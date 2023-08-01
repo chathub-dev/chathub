@@ -1,5 +1,5 @@
 import { removeSlashes } from 'slashes'
-import { DEFAULT_SUFFIX, FORMAT_INSTRUCTIONS, PREFIX_END } from './prompts'
+import { PROMPT_TEMPLATE } from './prompts'
 import { searchRelatedContext } from './web-search'
 
 const TOOLS = {
@@ -8,12 +8,10 @@ const TOOLS = {
 }
 
 function buildToolUsingPrompt(input: string) {
-  const systemMessage = PREFIX_END
   const tools = Object.entries(TOOLS).map(([name, description]) => `- ${name}: ${description}`)
-  const userMessage = DEFAULT_SUFFIX.replace('{tools}', tools.join('\n'))
-    .replace('{format_instructions}', FORMAT_INSTRUCTIONS.replace('{tool_names}', Object.keys(TOOLS).join(', ')))
+  return PROMPT_TEMPLATE.replace('{{tools}}', tools.join('\n'))
+    .replace('{{tool_names}}', Object.keys(TOOLS).join(', '))
     .replace('{{input}}', input)
-  return [systemMessage, userMessage].join('\n\n')
 }
 
 function buildPromptWithContext(input: string, context: string) {
