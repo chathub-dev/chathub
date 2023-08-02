@@ -58,8 +58,11 @@ async function* execute(
 
   if (outputType === 'tool') {
     const actionInput = removeSlashes(output!.match(ACTION_INPUT_REGEX)![1])
-    yield `Searching the web for _${actionInput}_`
-    const context = await searchRelatedContext(actionInput, signal)
+    let context = ''
+    if (actionInput) {
+      yield `Searching the web for _${actionInput}_`
+      context = await searchRelatedContext(actionInput, signal)
+    }
     const promptWithContext = buildPromptWithContext(input, context)
     prompt = `Ignore all previous instructions you have been given about RESPONSE FORMAT INSTRUCTIONS and tools, answer the question directly and conversationally to the human.\n\n${promptWithContext}`
     yield* llm(prompt, input)
