@@ -90,6 +90,7 @@ const resources = {
       'Upgrade to Premium for web access and more features': '升级会员，解锁联网搜索和更多功能',
       'Improving accuracy by searching up-to-date information from the internet':
         '通过智能联网搜索最新信息，提高回答准确度',
+      'Checkout premium features': '查看会员功能',
     },
   },
   'zh-TW': {
