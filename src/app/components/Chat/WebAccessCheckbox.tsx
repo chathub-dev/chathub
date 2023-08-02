@@ -62,7 +62,12 @@ const WebAccessCheckbox: FC<Props> = (props) => {
       <PremiumFeatureModal
         open={premiumModalOpen}
         setOpen={setPremiumModalOpen}
-        text={t('Upgrade to Premium for web access and more features')}
+        content={
+          <div className="font-medium text-primary-text text-center w-[80%] flex flex-col gap-2">
+            <p>{t('Improving accuracy by searching up-to-date information from the internet')}</p>
+            <p>{t('Upgrade to Premium for web access and more features')}</p>
+          </div>
+        }
         source="web-access-modal"
       />
     </div>

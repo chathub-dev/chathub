@@ -121,7 +121,7 @@ const GeneralChatPanel: FC<{
         open={premiumModalOpen}
         setOpen={setPremiumModalOpen}
         source="all-in-one-modal"
-        text={t('Upgrade to premium to chat with more than two bots or send images')}
+        content={t('Upgrade to premium to chat with more than two bots or send images')}
       />
     </div>
   )

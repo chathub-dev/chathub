@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { FC } from 'react'
+import { FC, ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import Button from './Button'
 import Dialog from './Dialog'
@@ -7,7 +7,7 @@ import Dialog from './Dialog'
 interface Props {
   open: boolean
   setOpen: (open: boolean) => void
-  text: string
+  content: string | ReactNode
   source?: string
 }
 
@@ -21,7 +21,11 @@ const PremiumFeatureModal: FC<Props> = (props) => {
       className="rounded-2xl w-[500px]"
     >
       <div className="flex flex-col items-center gap-4 py-5">
-        <p className="font-semibold text-primary-text text-center w-[70%]">{props.text}</p>
+        {typeof props.content === 'string' ? (
+          <p className="font-semibold text-primary-text text-center w-[70%]">{props.content}</p>
+        ) : (
+          props.content
+        )}
         <Link
           to="/premium"
           search={{ source: props.source }}

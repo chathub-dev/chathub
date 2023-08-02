@@ -88,6 +88,8 @@ const resources = {
       'Compare with image input': '用图片作为输入',
       'Web Access': '联网搜索',
       'Upgrade to Premium for web access and more features': '升级会员，解锁联网搜索和更多功能',
+      'Improving accuracy by searching up-to-date information from the internet':
+        '通过智能联网搜索最新信息，提高回答准确度',
     },
   },
   de: {
@@ -193,6 +195,8 @@ const resources = {
         'Esto generalmente significa que necesitas agregar un método de pago a tu cuenta de OpenAI, revisa:',
       'Web Access': 'el acceso a la web',
       'Upgrade to Premium for web access and more features': 'Actualiza a Premium para acceso a la web y más funciones',
+      'Improving accuracy by searching up-to-date information from the internet':
+        'Mejorando la precisión buscando información actualizada en internet',
     },
   },
   fr: {
@@ -361,6 +365,8 @@ const resources = {
         'これは通常、OpenAIアカウントに支払い方法を追加する必要があることを意味します。チェックアウト：',
       'Upgrade to Premium for web access and more features':
         'ウェブアクセスとさらなる機能のためにプレミアムにアップグレード',
+      'Improving accuracy by searching up-to-date information from the internet':
+        'インターネットから最新の情報を検索することで精度を向上させる',
     },
   },
   th: {
@@ -479,6 +485,8 @@ const resources = {
         'Isso geralmente significa que você precisa adicionar um método de pagamento à sua conta OpenAI, checkout:',
       'Upgrade to Premium for web access and more features':
         'Faça upgrade para Premium para acesso à web e mais recursos',
+      'Improving accuracy by searching up-to-date information from the internet':
+        'Melhorando a precisão ao pesquisar informações atualizadas na internet',
     },
   },
 }
