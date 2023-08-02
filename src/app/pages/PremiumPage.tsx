@@ -88,9 +88,9 @@ function PremiumPage() {
         <FeatureItem text={t('More features in the future')} />
         <FeatureItem text={t('Support the development of ChatHub')} />
       </div>
-      {premiumState.activated ? (
-        <>
-          <div className="flex flex-row items-center gap-3 mt-8">
+      <div className="flex flex-row items-center gap-3 mt-8">
+        {premiumState.activated ? (
+          <>
             <Button text={t('🎉 License activated')} color="primary" className="w-fit !py-2" />
             <Button
               text={t('Deactivate')}
@@ -98,35 +98,36 @@ function PremiumPage() {
               onClick={deactivateLicense}
               isLoading={deactivating}
             />
-          </div>
-          <a
-            href="https://app.lemonsqueezy.com/my-orders/"
-            target="_blank"
-            rel="noreferrer"
-            className="underline mt-5 text-sm text-secondary-text font-medium w-fit"
-          >
-            {t('Manage order and devices')}
-          </a>
-        </>
-      ) : (
-        <div className="flex flex-row items-center gap-3 mt-8">
-          <a
-            href="https://chathub.gg/api/premium/redirect"
-            target="_blank"
-            rel="noreferrer"
-            onClick={() => trackEvent('click_buy_premium')}
-          >
-            <Button text={t('Get premium license')} color="primary" className="w-fit !py-2 rounded-lg" />
-          </a>
-          <Button
-            text={t('Activate license')}
-            color="flat"
-            className="w-fit !py-2 rounded-lg"
-            onClick={activateLicense}
-            isLoading={premiumState.isLoading}
-          />
-        </div>
-      )}
+          </>
+        ) : (
+          <>
+            <a
+              href="https://chathub.gg/api/premium/redirect"
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => trackEvent('click_buy_premium')}
+            >
+              <Button text={t('Get premium license')} color="primary" className="w-fit !py-2 rounded-lg" />
+            </a>
+            <Button
+              text={t('Activate license')}
+              color="flat"
+              className="w-fit !py-2 rounded-lg"
+              onClick={activateLicense}
+              isLoading={premiumState.isLoading}
+            />
+          </>
+        )}
+        <a
+          href="https://app.lemonsqueezy.com/my-orders/"
+          target="_blank"
+          rel="noreferrer"
+          className="underline ml-2 text-sm text-secondary-text font-medium w-fit"
+        >
+          {t('Manage order and devices')}
+        </a>
+      </div>
+      {!!premiumState.error && <span className="mt-3 text-red-500 font-medium">{premiumState.error}</span>}
       <Toaster position="top-right" />
     </div>
   )
