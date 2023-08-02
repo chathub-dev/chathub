@@ -19,5 +19,5 @@ export async function trackInstallSource() {
   const { source } = await ofetch('https://chathub.gg/api/user/source', {
     credentials: 'include',
   })
-  trackEvent('install', { source })
+  trackEvent('install', { source, language: navigator.language })
 }
