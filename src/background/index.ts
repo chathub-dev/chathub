@@ -22,7 +22,7 @@ Browser.action.onClicked.addListener(() => {
 
 Browser.runtime.onInstalled.addListener((details) => {
   if (details.reason === 'install') {
-    openAppPage()
+    Browser.tabs.create({ url: 'app.html#/setting' })
     trackInstallSource()
   }
 })
