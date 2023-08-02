@@ -18,7 +18,7 @@ const PremiumFeatureModal: FC<Props> = (props) => {
       title={`🔒 ${t('Premium Feature')}`}
       open={props.open}
       onClose={() => props.setOpen(false)}
-      className="rounded-2xl w-[500px]"
+      className="w-[500px] rounded-xl"
     >
       <div className="flex flex-col items-center gap-4 py-5">
         {typeof props.content === 'string' ? (
