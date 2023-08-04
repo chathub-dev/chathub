@@ -13,7 +13,6 @@ import vicunaLogo from '~/assets/vicuna-logo.jpg'
 import wizardlmLogo from '~/assets/wizardlm-logo.png'
 import xunfeiLogo from '~/assets/xunfei-logo.png'
 import { BotId } from './bots'
-import i18n from './i18n'
 
 export const CHATBOTS: Record<BotId, { name: string; avatar: any }> = {
   chatgpt: {
@@ -53,7 +52,7 @@ export const CHATBOTS: Record<BotId, { name: string; avatar: any }> = {
     avatar: chatglmLogo,
   },
   xunfei: {
-    name: i18n.t('iFlytek Spark'),
+    name: 'iFlytek Spark',
     avatar: xunfeiLogo,
   },
   oasst: {

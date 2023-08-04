@@ -1,6 +1,7 @@
 import i18n from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
+import { getLanguage } from '~services/storage/language'
 
 const resources = {
   'zh-CN': {
@@ -94,6 +95,9 @@ const resources = {
       'Login to ChatGPT': '登录ChatGPT',
       'Switch to API mode': '切换到API模式',
       Mode: '模式',
+      Display: '显示',
+      'Display Settings': '显示设置',
+      Auto: '自动',
     },
   },
   'zh-TW': {
@@ -570,14 +574,21 @@ const resources = {
   },
 }
 
+export const languageCodes = Object.keys(resources)
+
 i18n
   .use(initReactI18next)
   .use(LanguageDetector)
   .init({
+    lng: getLanguage(),
     fallbackLng: 'en',
     resources,
     interpolation: {
       escapeValue: false, // react already safes from xss
+    },
+    detection: {
+      order: ['navigator'],
+      caches: [],
     },
   })
 

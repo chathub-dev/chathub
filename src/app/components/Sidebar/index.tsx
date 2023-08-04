@@ -85,7 +85,7 @@ function Sidebar() {
             </Tooltip>
           )}
           {!collapsed && (
-            <Tooltip content={t('Theme')}>
+            <Tooltip content={t('Display')}>
               <a onClick={() => setThemeSettingModalOpen(true)}>
                 <IconButton icon={themeIcon} />
               </a>

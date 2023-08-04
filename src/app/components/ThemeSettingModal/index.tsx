@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import cx from 'classnames'
 import { useAtom } from 'jotai'
-import { ComponentPropsWithoutRef, FC, useCallback, useEffect, useState } from 'react'
+import { ComponentPropsWithoutRef, FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { ColorResult, TwitterPicker } from 'react-color'
 import { useTranslation } from 'react-i18next'
 import Browser from 'webextension-polyfill'
@@ -10,7 +10,9 @@ import { trackEvent } from '~app/plausible'
 import { followArcThemeAtom, themeColorAtom } from '~app/state'
 import { applyThemeMode } from '~app/utils/color-scheme'
 import { isArcBrowser } from '~app/utils/env'
+import { getLanguage, setLanguage } from '~services/storage/language'
 import { ThemeMode, getUserThemeMode, setUserThemeMode } from '~services/theme'
+import { languageCodes } from '../../i18n'
 import Dialog from '../Dialog'
 import Select from '../Select'
 
@@ -47,12 +49,28 @@ interface Props {
 }
 
 const ThemeSettingModal: FC<Props> = (props) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [themeColor, setThemeColor] = useAtom(themeColorAtom)
   const [themeMode, setThemeMode] = useState(getUserThemeMode())
   const premiumState = usePremium()
   const [followArcTheme, setFollowArcTheme] = useAtom(followArcThemeAtom)
   const [zoomLevel, setZoomLevel] = useState<number | null>(null)
+  const [lang, setLang] = useState(() => getLanguage() || 'auto')
+
+  const languageOptions = useMemo(() => {
+    const nameGenerator = new Intl.DisplayNames('en', { type: 'language' })
+    return languageCodes.map((code) => {
+      let name: string
+      if (code === 'zh-CN') {
+        name = '简体中文'
+      } else if (code === 'zh-TW') {
+        name = '繁體中文'
+      } else {
+        name = nameGenerator.of(code) || code
+      }
+      return { name, value: code }
+    })
+  }, [])
 
   useEffect(() => {
     Browser.tabs.getZoom().then((zoom) => setZoomLevel(zoom))
@@ -89,9 +107,19 @@ const ThemeSettingModal: FC<Props> = (props) => {
     [setThemeColor],
   )
 
+  const onLanguageChange = useCallback(
+    (lang: string) => {
+      setLang(lang)
+      setLanguage(lang === 'auto' ? undefined : lang)
+      i18n.changeLanguage(lang === 'auto' ? undefined : lang)
+      trackEvent('change_language', { lang })
+    },
+    [i18n],
+  )
+
   return (
     <Dialog
-      title={t('Theme Settings')}
+      title={t('Display Settings')}
       open={props.open}
       onClose={props.onClose}
       className="rounded-xl w-[600px] min-h-[300px]"
@@ -158,6 +186,15 @@ const ThemeSettingModal: FC<Props> = (props) => {
               +
             </Button>
           </span>
+        </div>
+        <div className="w-[300px]">
+          <p className="font-bold text-lg mb-3">{t('Language')}</p>
+          <Select
+            options={[{ name: t('Auto'), value: 'auto' }, { name: 'English', value: 'en' }, ...languageOptions]}
+            value={lang}
+            onChange={onLanguageChange}
+            position="top"
+          />
         </div>
       </div>
     </Dialog>

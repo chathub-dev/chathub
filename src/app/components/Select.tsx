@@ -9,10 +9,11 @@ interface Props<T> {
   onChange: (value: T) => void
   size?: 'normal' | 'small'
   disabled?: boolean
+  position?: 'top' | 'down'
 }
 
 function Select<T extends string>(props: Props<T>) {
-  const { options, value, onChange, size = 'normal', disabled } = props
+  const { options, value, onChange, size = 'normal', disabled, position = 'down' } = props
   const selectedName = useMemo(() => options.find((o) => o.value === value)!.name, [options, value])
   return (
     <Listbox value={value} onChange={onChange} disabled={disabled}>
@@ -42,6 +43,7 @@ function Select<T extends string>(props: Props<T>) {
                 className={cx(
                   'absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
                   size === 'normal' ? 'text-sm' : 'text-xs',
+                  position === 'top' && 'bottom-full',
                 )}
               >
                 {options.map((option) => (
