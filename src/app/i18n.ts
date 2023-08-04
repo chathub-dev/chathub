@@ -93,6 +93,7 @@ const resources = {
       'Checkout premium features': '查看会员功能',
       'Login to ChatGPT': '登录ChatGPT',
       'Switch to API mode': '切换到API模式',
+      Mode: '模式',
     },
   },
   'zh-TW': {

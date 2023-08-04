@@ -133,7 +133,7 @@ function SettingPage() {
         <div className="flex flex-col gap-1">
           <p className="font-bold text-lg">ChatGPT</p>
           <RadioGroup
-            options={Object.entries(ChatGPTMode).map(([k, v]) => ({ label: `${k} Mode`, value: v }))}
+            options={Object.entries(ChatGPTMode).map(([k, v]) => ({ label: `${k} ${t('Mode')}`, value: v }))}
             value={userConfig.chatgptMode}
             onChange={(v) => updateConfigValue({ chatgptMode: v as ChatGPTMode })}
           />
@@ -150,7 +150,7 @@ function SettingPage() {
         <div className="flex flex-col gap-1">
           <p className="font-bold text-lg">Claude</p>
           <RadioGroup
-            options={Object.entries(ClaudeMode).map(([k, v]) => ({ label: `${k} Mode`, value: v }))}
+            options={Object.entries(ClaudeMode).map(([k, v]) => ({ label: `${k} ${t('Mode')}`, value: v }))}
             value={userConfig.claudeMode}
             onChange={(v) => updateConfigValue({ claudeMode: v as ClaudeMode })}
           />
