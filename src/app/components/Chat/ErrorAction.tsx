@@ -1,25 +1,44 @@
-import { FC, useContext, useMemo } from 'react'
+import { FC, useCallback, useContext, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Browser from 'webextension-polyfill'
+import { chatGPTClient } from '~app/bots/chatgpt-webapp/client'
 import { ConversationContext } from '~app/context'
 import { ChatError, ErrorCode } from '~utils/errors'
 import Button from '../Button'
+import MessageBubble from './MessageBubble'
 
 const ChatGPTAuthErrorAction = () => {
-  const { t } = useTranslation()
+  const [fixing, setFixing] = useState(false)
+  const [fixed, setFixed] = useState(false)
   const isSidePanel = useMemo(() => location.href.includes('sidepanel.html'), [])
+
+  const fixChatGPT = useCallback(async () => {
+    setFixing(true)
+    try {
+      await chatGPTClient.fixAuthState()
+    } catch (e) {
+      console.error(e)
+      return
+    } finally {
+      setFixing(false)
+    }
+    setFixed(true)
+  }, [])
+
+  if (fixed) {
+    return <MessageBubble color="flat">Fixed, please retry chat</MessageBubble>
+  }
+
   return (
     <div className="flex flex-row gap-2 items-center">
-      <a href="https://chat.openai.com" target="_blank" rel="noreferrer">
-        <Button color="primary" text={t('Login to ChatGPT')} size="small" />
-      </a>
+      <Button color="primary" text="Login & verify" onClick={fixChatGPT} isLoading={fixing} size="small" />
       <span className="text-sm text-primary-text">OR</span>
       <a
         href={Browser.runtime.getURL('app.html#/setting')}
         target={isSidePanel ? '_blank' : undefined}
         rel="noreferrer"
       >
-        <Button color="primary" text={t('Set API key')} size="small" />
+        <Button color="primary" text="Set api key" size="small" />
       </a>
     </div>
   )

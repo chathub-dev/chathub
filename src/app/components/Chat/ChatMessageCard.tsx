@@ -49,7 +49,7 @@ const ChatMessageCard: FC<Props> = ({ message, className }) => {
           ) : (
             !message.error && <BeatLoader size={10} className="leading-tight" color="rgb(var(--primary-text))" />
           )}
-          {!!message.error && <p className="text-[#cc0000]">{message.error.message}</p>}
+          {!!message.error && <p className="text-red-500">{message.error.message}</p>}
         </MessageBubble>
         {!!message.error && <ErrorAction error={message.error} />}
       </div>

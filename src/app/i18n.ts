@@ -91,8 +91,6 @@ const resources = {
       'Improving accuracy by searching up-to-date information from the internet':
         '通过智能联网搜索最新信息，提高回答准确度',
       'Checkout premium features': '查看会员功能',
-      'Login to ChatGPT': '登录ChatGPT',
-      'Set API key': '设置API key',
     },
   },
   'zh-TW': {

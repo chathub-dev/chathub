@@ -1,12 +1,22 @@
 import { RequestInitSubset } from '~types/messaging'
 import { ChatError, ErrorCode } from '~utils/errors'
-import { Requester, globalFetchRequester } from './requesters'
+import { Requester, globalFetchRequester, proxyFetchRequester } from './requesters'
 
 class ChatGPTClient {
   requester: Requester
 
   constructor() {
     this.requester = globalFetchRequester
+    proxyFetchRequester.findExistingProxyTab().then((tab) => {
+      if (tab) {
+        this.switchRequester(proxyFetchRequester)
+      }
+    })
+  }
+
+  switchRequester(newRequester: Requester) {
+    console.debug('client switchRequester', newRequester)
+    this.requester = newRequester
   }
 
   async fetch(url: string, options?: RequestInitSubset): Promise<Response> {
@@ -20,7 +30,7 @@ class ChatGPTClient {
     }
     const data = await resp.json().catch(() => ({}))
     if (!data.accessToken) {
-      throw new ChatError('Unauthorized', ErrorCode.CHATGPT_UNAUTHORIZED)
+      throw new ChatError('UNAUTHORIZED', ErrorCode.CHATGPT_UNAUTHORIZED)
     }
     return data.accessToken
   }
@@ -39,6 +49,16 @@ class ChatGPTClient {
   async getModels(token: string): Promise<{ slug: string; title: string; description: string; max_tokens: number }[]> {
     const resp = await this.requestBackendAPIWithToken(token, 'GET', '/models').then((r) => r.json())
     return resp.models
+  }
+
+  // Switch to proxy mode, or refresh the proxy tab
+  async fixAuthState() {
+    if (this.requester === proxyFetchRequester) {
+      await proxyFetchRequester.refreshProxyTab()
+    } else {
+      await proxyFetchRequester.getProxyTab()
+      this.switchRequester(proxyFetchRequester)
+    }
   }
 }
 
