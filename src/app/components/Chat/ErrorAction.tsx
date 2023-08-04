@@ -8,6 +8,7 @@ import Button from '../Button'
 import MessageBubble from './MessageBubble'
 
 const ChatGPTAuthErrorAction = () => {
+  const { t } = useTranslation()
   const [fixing, setFixing] = useState(false)
   const [fixed, setFixed] = useState(false)
   const isSidePanel = useMemo(() => location.href.includes('sidepanel.html'), [])
@@ -31,14 +32,14 @@ const ChatGPTAuthErrorAction = () => {
 
   return (
     <div className="flex flex-row gap-2 items-center">
-      <Button color="primary" text="Login & verify" onClick={fixChatGPT} isLoading={fixing} size="small" />
+      <Button color="primary" text={t('Login to ChatGPT')} onClick={fixChatGPT} isLoading={fixing} size="small" />
       <span className="text-sm text-primary-text">OR</span>
       <a
         href={Browser.runtime.getURL('app.html#/setting')}
         target={isSidePanel ? '_blank' : undefined}
         rel="noreferrer"
       >
-        <Button color="primary" text="Set api key" size="small" />
+        <Button color="primary" text={t('Switch to API mode')} size="small" />
       </a>
     </div>
   )
