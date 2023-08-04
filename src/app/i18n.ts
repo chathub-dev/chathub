@@ -98,6 +98,7 @@ const resources = {
       Display: '显示',
       'Display Settings': '显示设置',
       Auto: '自动',
+      Language: '语言',
     },
   },
   'zh-TW': {
@@ -187,6 +188,7 @@ const resources = {
       'Upgrade to Premium for web access and more features': '升級會員，解鎖聯網搜索和更多功能',
       'Improving accuracy by searching up-to-date information from the internet':
         '通過智能聯網搜索最新信息，提高回答準確度',
+      Language: '語言',
     },
   },
   de: {
