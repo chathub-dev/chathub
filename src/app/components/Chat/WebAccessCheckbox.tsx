@@ -57,8 +57,8 @@ const WebAccessCheckbox: FC<Props> = (props) => {
 
   return (
     <div className="flex flex-row items-center gap-1 shrink-0 cursor-pointer" onClick={onToggle}>
-      <img src={checked ? checkedIcon : uncheckedIcon} className="w-4 h-4" />
-      <span className="text-sm whitespace-nowrap text-light-text font-medium">{t('Web Access')}</span>
+      <img src={checked ? checkedIcon : uncheckedIcon} className="w-3 h-3" />
+      <span className="text-[13px] whitespace-nowrap text-light-text font-medium">{t('Web Access')}</span>
       <PremiumFeatureModal
         open={premiumModalOpen}
         setOpen={setPremiumModalOpen}

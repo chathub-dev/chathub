@@ -80,7 +80,6 @@ const ConversationPanel: FC<Props> = (props) => {
   } else if (mode === 'full') {
     inputActionButton = (
       <div className="flex flex-row items-center gap-[10px] shrink-0">
-        <WebAccessCheckbox botId={props.botId} key={props.botId} />
         <Button text={t('Send')} color="primary" type="submit" />
       </div>
     )
@@ -104,6 +103,7 @@ const ConversationPanel: FC<Props> = (props) => {
               <SwitchBotDropdown selectedBotId={props.botId} onChange={props.onSwitchBot} />
             )}
           </div>
+          <WebAccessCheckbox botId={props.botId} />
           <div className="flex flex-row items-center gap-3">
             <Tooltip content={t('Share conversation')}>
               <img src={shareIcon} className="w-5 h-5 cursor-pointer" onClick={openShareDialog} />
