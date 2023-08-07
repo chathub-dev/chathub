@@ -87,7 +87,7 @@ const GeneralChatPanel: FC<{
       <div
         className={cx(
           'grid overflow-hidden grow auto-rows-fr gap-3 mb-3',
-          chats.length === 3 ? 'grid-cols-3' : 'grid-cols-2',
+          chats.length === 3 ? 'grid-cols-3' : layout === 'twoVertical' ? 'grid-cols-1' : 'grid-cols-2',
         )}
       >
         {chats.map((chat, index) => (
@@ -169,7 +169,7 @@ const MultiBotChatPanel: FC = () => {
   if (layout === 3) {
     return <ThreeBotChatPanel />
   }
-  if (layout === 2) {
+  if (layout === 2 || layout === 'twoVertical') {
     return <TwoBotChatPanel />
   }
   return <ImageInputPanel />
