@@ -11,7 +11,7 @@ type ActivateResponse =
   | { activated: false; error: string }
 
 async function activateLicense(key: string, instanceName: string) {
-  const resp = await ofetch<ActivateResponse>('https://api.lemonsqueezy.com/v1/licenses/activate', {
+  const resp = await ofetch<ActivateResponse>('https://chathub.gg/api/premium/activate', {
     method: 'POST',
     body: {
       license_key: key,
@@ -20,9 +20,6 @@ async function activateLicense(key: string, instanceName: string) {
   })
   if (!resp.activated) {
     throw new Error(resp.error)
-  }
-  if (resp.meta.product_id !== 58153) {
-    throw new Error('Unmatching product')
   }
   return resp.instance.id
 }
