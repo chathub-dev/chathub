@@ -1,3 +1,4 @@
+import { useSearch } from '@tanstack/react-router'
 import { useAtom } from 'jotai'
 import { ofetch } from 'ofetch'
 import { FC, useCallback, useState } from 'react'
@@ -8,6 +9,7 @@ import useImmutableSWR from 'swr/immutable'
 import Button from '~app/components/Button'
 import { usePremium } from '~app/hooks/use-premium'
 import { trackEvent } from '~app/plausible'
+import { premiumRoute } from '~app/router'
 import { licenseKeyAtom } from '~app/state'
 import checkIcon from '~assets/icons/check.svg'
 import { deactivateLicenseKey } from '~services/premium'
@@ -31,6 +33,7 @@ function PremiumPage() {
   const [licenseKey, setLicenseKey] = useAtom(licenseKeyAtom)
   const premiumState = usePremium()
   const [deactivating, setDeactivating] = useState(false)
+  const { source } = useSearch({ from: premiumRoute.id })
 
   const priceQuery = useImmutableSWR('premium-price', async () => {
     const product = await ofetch('https://chathub.gg/api/premium/product')
@@ -102,7 +105,7 @@ function PremiumPage() {
         ) : (
           <>
             <a
-              href="https://chathub.gg/api/premium/redirect"
+              href={`https://chathub.gg/api/premium/redirect?source=${source || ''}`}
               target="_blank"
               rel="noreferrer"
               onClick={() => trackEvent('click_buy_premium')}

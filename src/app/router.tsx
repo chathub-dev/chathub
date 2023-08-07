@@ -37,10 +37,15 @@ const settingRoute = new Route({
   component: SettingPage,
 })
 
-const premiumRoute = new Route({
+export const premiumRoute = new Route({
   getParentRoute: () => layoutRoute,
   path: 'premium',
   component: PremiumPage,
+  validateSearch: (search: Record<string, unknown>) => {
+    return {
+      source: search.source as string | undefined,
+    }
+  },
 })
 
 const routeTree = rootRoute.addChildren([layoutRoute.addChildren([indexRoute, chatRoute, settingRoute, premiumRoute])])
