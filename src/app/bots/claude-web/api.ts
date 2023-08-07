@@ -25,3 +25,15 @@ export async function createConversation(organizationId: string): Promise<string
   })
   return id
 }
+
+export async function generateChatTitle(organizationId: string, conversationId: string, content: string) {
+  await ofetch('https://claude.ai/api/generate_chat_title', {
+    method: 'POST',
+    body: {
+      organization_uuid: organizationId,
+      conversation_uuid: conversationId,
+      recent_titles: [],
+      message_content: content,
+    },
+  })
+}
