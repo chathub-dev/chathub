@@ -7,3 +7,21 @@ export async function decodePoeFormkey(headHtml: string): Promise<string> {
   })
   return resp.formkey
 }
+
+type ActivateResponse =
+  | {
+      activated: true
+      instance: { id: string }
+      meta: { product_id: number }
+    }
+  | { activated: false; error: string }
+
+export async function activateLicense(key: string, instanceName: string) {
+  return ofetch<ActivateResponse>('https://chathub.gg/api/premium/activate', {
+    method: 'POST',
+    body: {
+      license_key: key,
+      instance_name: instanceName,
+    },
+  })
+}
