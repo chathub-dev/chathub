@@ -51,6 +51,12 @@ class ChatGPTClient {
     return resp.models
   }
 
+  async generateChatTitle(token: string, conversationId: string, messageId: string) {
+    await this.requestBackendAPIWithToken(token, 'POST', `/conversation/gen_title/${conversationId}`, {
+      message_id: messageId,
+    })
+  }
+
   // Switch to proxy mode, or refresh the proxy tab
   async fixAuthState() {
     if (this.requester === proxyFetchRequester) {
