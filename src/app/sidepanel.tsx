@@ -16,7 +16,7 @@ function PremiumOnly() {
 
   const openPremiumPage = useCallback(() => {
     trackEvent('open_premium_from_sidepanel')
-    window.open(Browser.runtime.getURL('app.html#/premium'), '_blank')
+    window.open(Browser.runtime.getURL('app.html#/premium?source=sidepanel'), '_blank')
   }, [])
 
   return (
