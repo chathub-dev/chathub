@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import Button from '~app/components/Button'
 import ChatMessageInput from '~app/components/Chat/ChatMessageInput'
 import LayoutSwitch from '~app/components/Chat/LayoutSwitch'
-import PremiumFeatureModal from '~app/components/PremiumFeatureModal'
+import PremiumFeatureModal from '~app/components/Premium/Modal'
 import { Layout } from '~app/consts'
 import { useChat } from '~app/hooks/use-chat'
 import { usePremium } from '~app/hooks/use-premium'
@@ -117,12 +117,7 @@ const GeneralChatPanel: FC<{
           supportImageInput={supportImageInput}
         />
       </div>
-      <PremiumFeatureModal
-        open={premiumModalOpen}
-        setOpen={setPremiumModalOpen}
-        source="all-in-one-modal"
-        content={t('Upgrade to premium to chat with more than two bots or send images')}
-      />
+      <PremiumFeatureModal open={premiumModalOpen} setOpen={setPremiumModalOpen} source="all-in-one-modal" />
     </div>
   )
 }

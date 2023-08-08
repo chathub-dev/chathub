@@ -5,7 +5,7 @@ import { usePremium } from '~app/hooks/use-premium'
 import checkedIcon from '~assets/icons/checkbox-checked.svg'
 import uncheckedIcon from '~assets/icons/checkbox-unchecked.svg'
 import { getUserConfig, updateUserConfig } from '~services/user-config'
-import PremiumFeatureModal from '../PremiumFeatureModal'
+import PremiumFeatureModal from '../Premium/Modal'
 import { requestHostPermission } from '~app/utils/permissions'
 import { trackEvent } from '~app/plausible'
 
@@ -59,17 +59,7 @@ const WebAccessCheckbox: FC<Props> = (props) => {
     <div className="flex flex-row items-center gap-1 shrink-0 cursor-pointer" onClick={onToggle}>
       <img src={checked ? checkedIcon : uncheckedIcon} className="w-3 h-3" />
       <span className="text-[13px] whitespace-nowrap text-light-text font-medium">{t('Web Access')}</span>
-      <PremiumFeatureModal
-        open={premiumModalOpen}
-        setOpen={setPremiumModalOpen}
-        content={
-          <div className="font-medium text-primary-text text-center w-[80%] flex flex-col gap-2">
-            <p>{t('Improving accuracy by searching up-to-date information from the internet')}</p>
-            <p>{t('Upgrade to Premium for web access and more features')}</p>
-          </div>
-        }
-        source="web-access-modal"
-      />
+      <PremiumFeatureModal open={premiumModalOpen} setOpen={setPremiumModalOpen} source="web-access-modal" />
     </div>
   )
 }

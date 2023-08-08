@@ -25,3 +25,11 @@ export async function activateLicense(key: string, instanceName: string) {
     },
   })
 }
+
+interface Product {
+  price: number
+}
+
+export async function fetchPremiumProduct() {
+  return ofetch<Product>('https://chathub.gg/api/premium/product')
+}
