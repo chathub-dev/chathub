@@ -1,3 +1,4 @@
+import cx from 'classnames'
 import { FC, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiSearch } from 'react-icons/fi'
@@ -16,7 +17,7 @@ const SearchInput: FC<{ disabled: boolean; value: string; onChange: (v: string) 
     <div className="rounded-xl bg-secondary h-9 flex flex-row items-center px-4 grow">
       <FiSearch size={18} className="mr-[6px] opacity-30" />
       <input
-        className="bg-transparent w-full outline-none text-sm"
+        className={cx('bg-transparent w-full outline-none text-sm', props.disabled && 'cursor-not-allowed')}
         placeholder={`${t('Search')} ${props.disabled ? `(${t('Premium Feature')})` : ''}`}
         value={props.value}
         onChange={(e) => props.onChange(e.target.value)}
