@@ -20,9 +20,9 @@ const PremiumModal: FC<Props> = (props) => {
 
   useEffect(() => {
     if (props.open) {
-      trackEvent('show_premium_modal')
+      trackEvent('show_premium_modal', { source: props.source })
     }
-  }, [props.open])
+  }, [props.open, props.source])
 
   const onClickBuy = useCallback(() => {
     trackEvent('click_buy_premium', { source: 'premium_modal' })
