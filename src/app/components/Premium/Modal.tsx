@@ -1,12 +1,12 @@
-import { FC, useCallback } from 'react'
+import { useNavigate } from '@tanstack/react-router'
+import { FC, useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { trackEvent } from '~app/plausible'
 import Button from '../Button'
 import Dialog from '../Dialog'
 import FeatureList from './FeatureList'
-import PriceSection from './PriceSection'
 import LovedBy from './LovedBy'
-import { trackEvent } from '~app/plausible'
-import { useNavigate } from '@tanstack/react-router'
+import PriceSection from './PriceSection'
 
 interface Props {
   open: boolean
@@ -19,9 +19,13 @@ const PremiumModal: FC<Props> = (props) => {
   const navigate = useNavigate()
 
   const onClickBuy = useCallback(() => {
-    trackEvent('click_buy_premium')
+    trackEvent('click_buy_premium', { source: 'premium_modal' })
     navigate({ to: '/premium' })
   }, [navigate])
+
+  useEffect(() => {
+    trackEvent('show_premium_modal')
+  }, [])
 
   return (
     <Dialog title={t('Premium Feature')} open={props.open} onClose={() => props.setOpen(false)} className="rounded-xl">

@@ -72,7 +72,7 @@ function PremiumPage() {
               href={`https://chathub.gg/api/premium/redirect?source=${source || ''}`}
               target="_blank"
               rel="noreferrer"
-              onClick={() => trackEvent('click_buy_premium')}
+              onClick={() => trackEvent('click_buy_premium', { source: 'premium_page' })}
             >
               <Button text={t('Get premium license')} color="primary" className="w-fit !py-2 rounded-lg" />
             </a>
