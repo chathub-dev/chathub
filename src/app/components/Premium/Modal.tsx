@@ -18,14 +18,16 @@ const PremiumModal: FC<Props> = (props) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
 
+  useEffect(() => {
+    if (props.open) {
+      trackEvent('show_premium_modal')
+    }
+  }, [props.open])
+
   const onClickBuy = useCallback(() => {
     trackEvent('click_buy_premium', { source: 'premium_modal' })
-    navigate({ to: '/premium' })
+    navigate({ to: '/premium', search: { source: 'after_click_buy_premium' } })
   }, [navigate])
-
-  useEffect(() => {
-    trackEvent('show_premium_modal')
-  }, [])
 
   return (
     <Dialog title={t('Premium Feature')} open={props.open} onClose={() => props.setOpen(false)} className="rounded-xl">
