@@ -6,7 +6,7 @@ export default defineManifest(async (env) => {
     name: '__MSG_appName__',
     description: '__MSG_appDesc__',
     default_locale: 'en',
-    version: '1.34.1',
+    version: '1.34.2',
     icons: {
       '16': 'src/assets/icon.png',
       '32': 'src/assets/icon.png',
