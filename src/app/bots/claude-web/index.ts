@@ -45,13 +45,16 @@ export class ClaudeWebBot extends AbstractBot {
       }),
     })
 
+    let result = ''
+
     await parseSSEResponse(resp, (message) => {
       console.debug('claude sse message', message)
       const payload = JSON.parse(message)
       if (payload.completion) {
+        result += payload.completion
         params.onEvent({
           type: 'UPDATE_ANSWER',
-          data: { text: payload.completion.trimStart() },
+          data: { text: result.trimStart() },
         })
       } else if (payload.error) {
         throw new Error(JSON.stringify(payload.error))
