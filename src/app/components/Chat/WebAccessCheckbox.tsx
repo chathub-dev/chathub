@@ -68,7 +68,7 @@ const WebAccessCheckbox: FC<Props> = (props) => {
           </Switch.Label>
         </div>
       </Switch.Group>
-      <PremiumFeatureModal open={premiumModalOpen} setOpen={setPremiumModalOpen} source="web-access-modal" />
+      <PremiumFeatureModal open={premiumModalOpen} setOpen={setPremiumModalOpen} feature="web-access" />
     </div>
   )
 }

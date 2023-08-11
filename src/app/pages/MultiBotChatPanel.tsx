@@ -117,7 +117,7 @@ const GeneralChatPanel: FC<{
           supportImageInput={supportImageInput}
         />
       </div>
-      <PremiumFeatureModal open={premiumModalOpen} setOpen={setPremiumModalOpen} source="all-in-one-modal" />
+      <PremiumFeatureModal open={premiumModalOpen} setOpen={setPremiumModalOpen} feature="all-in-one-layout" />
     </div>
   )
 }

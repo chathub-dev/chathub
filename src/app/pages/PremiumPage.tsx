@@ -53,7 +53,7 @@ function PremiumPage() {
         </div>
       )}
       <div className="mt-8">
-        <FeatureList textSize="normal" />
+        <FeatureList />
       </div>
       <div className="flex flex-row items-center gap-3 mt-10">
         {premiumState.activated ? (
