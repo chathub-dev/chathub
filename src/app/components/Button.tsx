@@ -2,7 +2,7 @@ import { cx } from '~/utils'
 import { ButtonHTMLAttributes, FC, ReactNode } from 'react'
 import { BeatLoader } from 'react-spinners'
 
-interface Props {
+export interface Props {
   text: string
   className?: string
   color?: 'primary' | 'flat'
@@ -20,7 +20,7 @@ const Button: FC<Props> = (props) => {
     <button
       type={type}
       className={cx(
-        'rounded-full',
+        size === 'normal' ? 'rounded-full' : 'rounded-xl',
         size === 'normal' ? 'text-base font-medium px-6 py-[5px]' : 'text-sm px-4 py-1',
         props.color === 'primary' ? 'text-white bg-primary-blue' : 'text-primary-text bg-secondary',
         props.className,

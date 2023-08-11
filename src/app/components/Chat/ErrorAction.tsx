@@ -4,8 +4,12 @@ import Browser from 'webextension-polyfill'
 import { chatGPTClient } from '~app/bots/chatgpt-webapp/client'
 import { ConversationContext } from '~app/context'
 import { ChatError, ErrorCode } from '~utils/errors'
-import Button from '../Button'
+import Button, { Props as ButtonProps } from '../Button'
 import MessageBubble from './MessageBubble'
+
+const ActionButton: FC<ButtonProps> = (props) => {
+  return <Button {...props} size="small" className="drop-shadow-lg" color="primary" />
+}
 
 const ChatGPTAuthErrorAction = () => {
   const { t } = useTranslation()
@@ -32,14 +36,14 @@ const ChatGPTAuthErrorAction = () => {
 
   return (
     <div className="flex flex-row gap-2 items-center">
-      <Button color="primary" text={t('Login to ChatGPT')} onClick={fixChatGPT} isLoading={fixing} size="small" />
+      <ActionButton text={t('Login to ChatGPT')} onClick={fixChatGPT} isLoading={fixing} />
       <span className="text-sm text-primary-text">OR</span>
       <a
         href={Browser.runtime.getURL('app.html#/setting')}
         target={isSidePanel ? '_blank' : undefined}
         rel="noreferrer"
       >
-        <Button color="primary" text={t('Switch to API mode')} size="small" />
+        <ActionButton text={t('Switch to API mode')} />
       </a>
     </div>
   )
@@ -52,42 +56,42 @@ const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
   if (error.code === ErrorCode.BING_UNAUTHORIZED) {
     return (
       <a href="https://bing.com" target="_blank" rel="noreferrer">
-        <Button color="primary" text={t('Login at bing.com')} size="small" />
+        <ActionButton text={t('Login at bing.com')} />
       </a>
     )
   }
   if (error.code === ErrorCode.POE_UNAUTHORIZED) {
     return (
       <a href="https://poe.com" target="_blank" rel="noreferrer">
-        <Button color="primary" text={t('Login at poe.com')} size="small" />
+        <ActionButton text={t('Login at poe.com')} />
       </a>
     )
   }
   if (error.code === ErrorCode.XUNFEI_UNAUTHORIZED) {
     return (
       <a href="https://xinghuo.xfyun.cn" target="_blank" rel="noreferrer">
-        <Button color="primary" text={t('Login at xfyun.cn')} size="small" />
+        <ActionButton text={t('Login at xfyun.cn')} />
       </a>
     )
   }
   if (error.code === ErrorCode.GPT4_MODEL_WAITLIST) {
     return (
       <a href="https://openai.com/waitlist/gpt-4-api" target="_blank" rel="noreferrer">
-        <Button color="primary" text={t('Join the waitlist')} size="small" />
+        <ActionButton text={t('Join the waitlist')} />
       </a>
     )
   }
   if (error.code === ErrorCode.CHATGPT_AUTH) {
     return (
       <a href="https://chat.openai.com" target="_blank" rel="noreferrer">
-        <Button color="primary" text={t('Login to ChatGPT')} size="small" />
+        <ActionButton text={t('Login to ChatGPT')} />
       </a>
     )
   }
   if (error.code === ErrorCode.CLAUDE_WEB_UNAUTHORIZED) {
     return (
       <a href="https://claude.ai" target="_blank" rel="noreferrer">
-        <Button color="primary" text={t('Login to Claude.ai')} size="small" />
+        <ActionButton text={t('Login to Claude.ai')} />
       </a>
     )
   }
@@ -95,26 +99,26 @@ const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
     return <ChatGPTAuthErrorAction />
   }
   if (error.code === ErrorCode.CONVERSATION_LIMIT) {
-    return <Button color="primary" text="Restart" size="small" onClick={() => conversation?.reset()} />
+    return <ActionButton text="Restart" onClick={() => conversation?.reset()} />
   }
   if (error.code === ErrorCode.BARD_EMPTY_RESPONSE) {
     return (
       <a href="https://bard.google.com" target="_blank" rel="noreferrer">
-        <Button color="primary" text="Visit bard.google.com" size="small" />
+        <ActionButton text="Visit bard.google.com" />
       </a>
     )
   }
   if (error.code === ErrorCode.BING_CAPTCHA) {
     return (
       <a href="https://www.bing.com/turing/captcha/challenge" target="_blank" rel="noreferrer">
-        <Button color="primary" text={t('Verify')} size="small" />
+        <ActionButton text={t('Verify')} />
       </a>
     )
   }
   if (error.code === ErrorCode.LMSYS_SESSION_EXPIRED) {
     return (
       <a href="https://chat.lmsys.org" target="_blank" rel="noreferrer">
-        <Button color="primary" text={t('Refresh session')} size="small" />
+        <ActionButton text={t('Refresh session')} />
       </a>
     )
   }
