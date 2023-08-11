@@ -2,12 +2,11 @@ import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BotId } from '~app/bots'
 import { usePremium } from '~app/hooks/use-premium'
-import checkedIcon from '~assets/icons/checkbox-checked.svg'
-import uncheckedIcon from '~assets/icons/checkbox-unchecked.svg'
+import { trackEvent } from '~app/plausible'
+import { requestHostPermission } from '~app/utils/permissions'
 import { getUserConfig, updateUserConfig } from '~services/user-config'
 import PremiumFeatureModal from '../Premium/Modal'
-import { requestHostPermission } from '~app/utils/permissions'
-import { trackEvent } from '~app/plausible'
+import Toggle from '../Toggle'
 
 interface Props {
   botId: BotId
@@ -56,9 +55,9 @@ const WebAccessCheckbox: FC<Props> = (props) => {
   }
 
   return (
-    <div className="flex flex-row items-center gap-1 shrink-0 cursor-pointer" onClick={onToggle}>
-      <img src={checked ? checkedIcon : uncheckedIcon} className="w-3 h-3" />
-      <span className="text-[13px] whitespace-nowrap text-light-text font-medium">{t('Web Access')}</span>
+    <div className="flex flex-row items-center gap-2 shrink-0 cursor-pointer" onClick={onToggle}>
+      <Toggle enabled={checked} />
+      <span className="text-[13px] whitespace-nowrap text-light-text font-medium select-none">{t('Web Access')}</span>
       <PremiumFeatureModal open={premiumModalOpen} setOpen={setPremiumModalOpen} source="web-access-modal" />
     </div>
   )
