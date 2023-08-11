@@ -1,4 +1,4 @@
-import cx from 'classnames'
+import cx from 'clsx'
 import { FC, ReactNode, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import clearIcon from '~/assets/icons/clear.svg'

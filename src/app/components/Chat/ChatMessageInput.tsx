@@ -12,7 +12,7 @@ import {
   useRole,
 } from '@floating-ui/react'
 import { fileOpen } from 'browser-fs-access'
-import cx from 'classnames'
+import cx from 'clsx'
 import { FC, ReactNode, memo, useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GoBook, GoImage } from 'react-icons/go'

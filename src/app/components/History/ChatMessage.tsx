@@ -1,4 +1,4 @@
-import cx from 'classnames'
+import cx from 'clsx'
 import { FC, memo, useCallback } from 'react'
 import { FiTrash2 } from 'react-icons/fi'
 import { useSWRConfig } from 'swr'

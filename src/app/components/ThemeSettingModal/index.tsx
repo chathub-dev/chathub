@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import cx from 'classnames'
+import cx from 'clsx'
 import { useAtom } from 'jotai'
 import { ComponentPropsWithoutRef, FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { ColorResult, TwitterPicker } from 'react-color'

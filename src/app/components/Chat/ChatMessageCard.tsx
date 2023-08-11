@@ -1,4 +1,4 @@
-import cx from 'classnames'
+import cx from 'clsx'
 import { FC, memo, useEffect, useMemo, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { IoCheckmarkSharp, IoCopyOutline } from 'react-icons/io5'

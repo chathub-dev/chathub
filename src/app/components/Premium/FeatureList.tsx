@@ -1,5 +1,5 @@
 import { FC, useMemo } from 'react'
-import cx from 'classnames'
+import cx from 'clsx'
 import { useTranslation } from 'react-i18next'
 import { BsQuestionCircle } from 'react-icons/bs'
 import checkIcon from '~assets/icons/check.svg'

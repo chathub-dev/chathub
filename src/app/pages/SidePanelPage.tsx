@@ -1,4 +1,4 @@
-import cx from 'classnames'
+import cx from 'clsx'
 import { useAtom } from 'jotai'
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'

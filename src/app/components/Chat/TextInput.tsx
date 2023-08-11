@@ -1,4 +1,4 @@
-import cx from 'classnames'
+import cx from 'clsx'
 import React, { KeyboardEventHandler, useCallback, useImperativeHandle, useRef } from 'react'
 import TextareaAutosize, { TextareaAutosizeProps } from 'react-textarea-autosize'
 

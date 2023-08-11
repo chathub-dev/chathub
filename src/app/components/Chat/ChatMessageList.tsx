@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import cx from 'classnames'
+import cx from 'clsx'
 import ScrollToBottom from 'react-scroll-to-bottom'
 import { BotId } from '~app/bots'
 import { ChatMessageModel } from '~types'

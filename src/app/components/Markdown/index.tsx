@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-import cx from 'classnames'
+import cx from 'clsx'
 import 'github-markdown-css'
 import { FC, ReactNode, useEffect, useMemo, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'

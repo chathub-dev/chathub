@@ -1,4 +1,4 @@
-import cx from 'classnames'
+import cx from 'clsx'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 import { uniqBy } from 'lodash-es'

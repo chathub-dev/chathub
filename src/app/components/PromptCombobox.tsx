@@ -1,5 +1,5 @@
 import { useInteractions, useListItem } from '@floating-ui/react'
-import cx from 'classnames'
+import cx from 'clsx'
 import { t } from 'i18next'
 import { FC, createContext, useContext } from 'react'
 import useSWR from 'swr'

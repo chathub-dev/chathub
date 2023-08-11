@@ -1,4 +1,4 @@
-import cx from 'classnames'
+import cx from 'clsx'
 import { FC, PropsWithChildren } from 'react'
 
 interface Props {
