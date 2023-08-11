@@ -1,4 +1,4 @@
-import cx from 'clsx'
+import { cx } from '~/utils'
 import { FC, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiSearch } from 'react-icons/fi'

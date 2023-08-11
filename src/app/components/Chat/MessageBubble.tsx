@@ -1,4 +1,4 @@
-import cx from 'clsx'
+import { cx } from '~/utils'
 import { FC, PropsWithChildren } from 'react'
 
 interface Props {

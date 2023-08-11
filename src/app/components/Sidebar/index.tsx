@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import cx from 'clsx'
+import { cx } from '~/utils'
 import { useAtom } from 'jotai'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'

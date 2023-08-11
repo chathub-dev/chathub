@@ -1,4 +1,4 @@
-import cx from 'clsx'
+import { cx } from '~/utils'
 import { ButtonHTMLAttributes, FC, ReactNode } from 'react'
 import { BeatLoader } from 'react-spinners'
 

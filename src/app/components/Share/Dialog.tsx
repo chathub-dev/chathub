@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import cx from 'clsx'
+import { cx } from '~/utils'
 import { AiFillCloud, AiFillFileMarkdown } from 'react-icons/ai'
 import { ChatMessageModel } from '~types'
 import Button from '../Button'

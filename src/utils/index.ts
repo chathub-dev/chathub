@@ -1,3 +1,5 @@
+import { clsx, type ClassValue } from 'clsx'
+import { twMerge } from 'tailwind-merge'
 import { v4 } from 'uuid'
 import Browser from 'webextension-polyfill'
 
@@ -11,4 +13,8 @@ export function getVersion() {
 
 export function isProduction() {
   return !import.meta.env.DEV
+}
+
+export function cx(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
 }

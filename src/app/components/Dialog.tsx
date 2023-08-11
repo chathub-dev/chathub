@@ -1,5 +1,5 @@
 import { Dialog as HeadlessDialog } from '@headlessui/react'
-import cx from 'clsx'
+import { cx } from '~/utils'
 import { FC, PropsWithChildren } from 'react'
 import closeIcon from '~/assets/icons/close.svg'
 

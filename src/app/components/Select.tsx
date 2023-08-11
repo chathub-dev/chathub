@@ -1,6 +1,6 @@
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
-import cx from 'clsx'
+import { cx } from '~/utils'
 import { Fragment, useMemo } from 'react'
 
 interface Props<T> {

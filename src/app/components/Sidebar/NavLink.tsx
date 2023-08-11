@@ -1,5 +1,5 @@
 import { Link, LinkPropsOptions } from '@tanstack/react-router'
-import cx from 'clsx'
+import { cx } from '~/utils'
 
 function NavLink(props: LinkPropsOptions & { text: string; icon: any; iconOnly?: boolean }) {
   const { text, icon, iconOnly, ...linkProps } = props

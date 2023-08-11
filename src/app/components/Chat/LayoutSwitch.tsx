@@ -1,4 +1,4 @@
-import cx from 'clsx'
+import { cx } from '~/utils'
 import { FC } from 'react'
 import { Layout } from '~app/consts'
 import layoutFourIcon from '~assets/icons/layout-four.svg'

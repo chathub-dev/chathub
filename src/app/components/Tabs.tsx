@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import cx from 'clsx'
+import { cx } from '~/utils'
 
 export interface Tab {
   name: string

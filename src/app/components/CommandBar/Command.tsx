@@ -3,7 +3,7 @@
 'use client'
 
 import { DialogProps } from '@radix-ui/react-dialog'
-import cx from 'clsx'
+import { cx } from '~/utils'
 import { Command as CommandPrimitive } from 'cmdk'
 import { Search } from 'lucide-react'
 import React from 'react'

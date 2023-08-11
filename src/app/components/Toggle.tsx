@@ -1,5 +1,5 @@
 import { Switch } from '@headlessui/react'
-import cx from 'clsx'
+import { cx } from '~/utils'
 import { FC } from 'react'
 
 interface Props {
