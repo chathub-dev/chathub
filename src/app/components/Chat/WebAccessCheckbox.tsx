@@ -29,12 +29,15 @@ const WebAccessCheckbox: FC<Props> = (props) => {
   }, [props.botId])
 
   useEffect(() => {
-    getUserConfig().then((config) => {
-      if (configKey) {
-        setChecked(config[configKey])
-      }
-    })
-  }, [configKey, props.botId])
+    if (!configKey) {
+      return
+    }
+    if (!premiumState.activated) {
+      setChecked(false)
+    } else {
+      getUserConfig().then((config) => setChecked(config[configKey]))
+    }
+  }, [configKey, premiumState.activated])
 
   const onToggle = useCallback(
     async (newValue: boolean) => {
