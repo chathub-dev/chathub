@@ -39,7 +39,7 @@ export function createBotInstance(botId: BotId) {
     case 'alpaca':
       return new LMSYSBot('alpaca-13b')
     case 'chatglm':
-      return new LMSYSBot('chatglm-6b')
+      return new LMSYSBot('chatglm2-6b')
     case 'llama':
       return new LMSYSBot('llama-2-13b-chat')
     case 'oasst':

@@ -48,7 +48,7 @@ export const CHATBOTS: Record<BotId, { name: string; avatar: any }> = {
     avatar: piLogo,
   },
   chatglm: {
-    name: 'ChatGLM',
+    name: 'ChatGLM2',
     avatar: chatglmLogo,
   },
   xunfei: {
