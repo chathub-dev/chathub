@@ -5,8 +5,8 @@ import { trackEvent } from '~app/plausible'
 import Button from '../Button'
 import Dialog from '../Dialog'
 import FeatureList, { FeatureId } from './FeatureList'
-import LovedBy from './LovedBy'
 import PriceSection from './PriceSection'
+import Testimonials from './Testimonials'
 
 interface Props {
   open: boolean
@@ -30,7 +30,12 @@ const PremiumModal: FC<Props> = (props) => {
   }, [navigate])
 
   return (
-    <Dialog title={t('Premium Feature')} open={props.open} onClose={() => props.setOpen(false)} className="rounded-xl">
+    <Dialog
+      title={t('Premium Feature')}
+      open={props.open}
+      onClose={() => props.setOpen(false)}
+      className="rounded-xl min-w-[600px]"
+    >
       <div className="flex flex-col items-center my-7 gap-7 overflow-y-auto">
         <PriceSection />
         <div className="w-full px-20">
@@ -42,9 +47,9 @@ const PremiumModal: FC<Props> = (props) => {
           rel="noreferrer"
           onClick={onClickBuy}
         >
-          <Button text={t('Get premium license')} color="primary" className="!py-[10px] px-16 rounded-lg" />
+          <Button text={t('Get premium license')} color="primary" className="!py-[11px] px-16 rounded-lg" />
         </a>
-        <LovedBy />
+        <Testimonials />
       </div>
     </Dialog>
   )
