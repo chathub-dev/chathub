@@ -32,9 +32,10 @@ const WebAccessCheckbox: FC<Props> = (props) => {
     if (!configKey) {
       return
     }
-    if (!premiumState.activated) {
+    if (premiumState.activated === false) {
       setChecked(false)
-    } else {
+      updateUserConfig({ [configKey]: false })
+    } else if (premiumState.activated) {
       getUserConfig().then((config) => setChecked(config[configKey]))
     }
   }, [configKey, premiumState.activated])
