@@ -195,7 +195,13 @@ export class BingWebBot extends AbstractBot {
       wsp.close()
     })
 
-    await wsp.open()
+    try {
+      await wsp.open()
+    } catch (err) {
+      wsp.removeAllListeners()
+      throw new ChatError((err as Error).message, ErrorCode.NETWORK_ERROR)
+    }
+
     wsp.sendPacked({ protocol: 'json', version: 1 })
   }
 
