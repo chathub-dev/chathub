@@ -94,10 +94,10 @@ const ConversationPanel: FC<Props> = (props) => {
             marginClass,
           )}
         >
-          <div className="flex flex-row items-center gap-2">
+          <div className="flex flex-row items-center">
             <img src={botInfo.avatar} className="w-[18px] h-[18px] object-contain rounded-full" />
             <Tooltip content={props.bot.name || botInfo.name}>
-              <span className="font-semibold text-primary-text text-sm cursor-default">{botInfo.name}</span>
+              <span className="font-semibold text-primary-text text-sm cursor-default ml-2 mr-1">{botInfo.name}</span>
             </Tooltip>
             {mode === 'compact' && props.onSwitchBot && (
               <SwitchBotDropdown selectedBotId={props.botId} onChange={props.onSwitchBot} />
