@@ -87,7 +87,7 @@ const ConversationPanel: FC<Props> = (props) => {
 
   return (
     <ConversationContext.Provider value={context}>
-      <div className={cx('flex flex-col overflow-hidden bg-primary-background h-full rounded-[20px]')}>
+      <div className={cx('flex flex-col overflow-hidden bg-primary-background h-full rounded-2xl')}>
         <div
           className={cx(
             'border-b border-solid border-primary-border flex flex-row items-center justify-between gap-2 py-[10px]',

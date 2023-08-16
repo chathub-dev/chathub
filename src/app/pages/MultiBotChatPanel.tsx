@@ -117,7 +117,7 @@ const GeneralChatPanel: FC<{
         <LayoutSwitch layout={layout} onChange={onLayoutChange} />
         <ChatMessageInput
           mode="full"
-          className="rounded-[15px] bg-primary-background px-4 py-2 grow"
+          className="rounded-2xl bg-primary-background px-4 py-2 grow"
           disabled={generating}
           onSubmit={sendAllMessage}
           actionButton={!generating && <Button text={t('Send')} color="primary" type="submit" />}

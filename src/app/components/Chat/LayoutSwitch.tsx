@@ -22,7 +22,7 @@ interface Props {
 
 const LayoutSwitch: FC<Props> = (props) => {
   return (
-    <div className="flex flex-row items-center gap-2 bg-primary-background rounded-[15px] px-4">
+    <div className="flex flex-row items-center gap-2 bg-primary-background rounded-2xl px-4">
       <Item
         icon={layoutTwoIcon}
         active={props.layout === 2 || props.layout === 'twoVertical'}
