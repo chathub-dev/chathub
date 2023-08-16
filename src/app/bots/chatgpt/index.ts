@@ -6,6 +6,7 @@ import { ChatGPTApiBot } from '../chatgpt-api'
 import { ChatGPTAzureApiBot } from '../chatgpt-azure'
 import { ChatGPTWebBot } from '../chatgpt-webapp'
 import { PoeWebBot } from '../poe'
+import { OpenRouterBot } from '../openrouter'
 
 export class ChatGPTBot extends AsyncAbstractBot {
   async initializeBot() {
@@ -34,6 +35,13 @@ export class ChatGPTBot extends AsyncAbstractBot {
     }
     if (chatgptMode === ChatGPTMode.Poe) {
       return new PoeWebBot(config.chatgptPoeModelName)
+    }
+    if (chatgptMode === ChatGPTMode.OpenRouter) {
+      if (!config.openrouterApiKey) {
+        throw new ChatError('OpenRouter API key not set', ErrorCode.API_KEY_NOT_SET)
+      }
+      const model = `openai/${config.openrouterOpenAIModel}`
+      return new OpenRouterBot({ apiKey: config.openrouterApiKey, model })
     }
     return new ChatGPTWebBot(config.chatgptWebappModelName)
   }

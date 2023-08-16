@@ -4,6 +4,8 @@ import { AsyncAbstractBot, MessageParams } from '../abstract-bot'
 import { ClaudeApiBot } from '../claude-api'
 import { ClaudeWebBot } from '../claude-web'
 import { PoeWebBot } from '../poe'
+import { ChatError, ErrorCode } from '~utils/errors'
+import { OpenRouterBot } from '../openrouter'
 
 export class ClaudeBot extends AsyncAbstractBot {
   async initializeBot() {
@@ -19,6 +21,13 @@ export class ClaudeBot extends AsyncAbstractBot {
     }
     if (claudeMode === ClaudeMode.Webapp) {
       return new ClaudeWebBot()
+    }
+    if (claudeMode === ClaudeMode.OpenRouter) {
+      if (!config.openrouterApiKey) {
+        throw new ChatError('OpenRouter API key not set', ErrorCode.API_KEY_NOT_SET)
+      }
+      const model = `anthropic/${config.openrouterClaudeModel}`
+      return new OpenRouterBot({ apiKey: config.openrouterApiKey, model })
     }
     return new PoeWebBot(config.poeModel)
   }
