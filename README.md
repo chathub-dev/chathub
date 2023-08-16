@@ -93,6 +93,8 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 
 ## 📜 Changelog
 
+**View changelogs since v1.33.0 on the website**: <https://changelog.chathub.gg>
+
 ### v1.22.0
 
 - Support Claude API
