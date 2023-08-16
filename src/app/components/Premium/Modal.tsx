@@ -34,7 +34,7 @@ const PremiumModal: FC<Props> = (props) => {
       title={t('Premium Feature')}
       open={props.open}
       onClose={() => props.setOpen(false)}
-      className="rounded-xl min-w-[600px]"
+      className="min-w-[600px]"
     >
       <div className="flex flex-col items-center my-7 gap-7 overflow-y-auto">
         <PriceSection />
