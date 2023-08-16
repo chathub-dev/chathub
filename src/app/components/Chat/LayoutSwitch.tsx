@@ -5,7 +5,7 @@ import layoutFourIcon from '~assets/icons/layout-four.svg'
 import layoutImageIcon from '~assets/icons/layout-image-input.svg'
 import layoutThreeIcon from '~assets/icons/layout-three.svg'
 import layoutTwoIcon from '~assets/icons/layout-two.svg'
-import layoutTwoVerticalIcon from '~assets/icons/layout-two-vertical.svg'
+import layoutSixIcon from '~assets/icons/layout-six.svg'
 
 const Item: FC<{ icon: string; active: boolean; onClick: () => void }> = (props) => {
   return (
@@ -23,14 +23,14 @@ interface Props {
 const LayoutSwitch: FC<Props> = (props) => {
   return (
     <div className="flex flex-row items-center gap-2 bg-primary-background rounded-[15px] px-4">
-      <Item icon={layoutTwoIcon} active={props.layout === 2} onClick={() => props.onChange(2)} />
       <Item
-        icon={layoutTwoVerticalIcon}
-        active={props.layout === 'twoVertical'}
-        onClick={() => props.onChange('twoVertical')}
+        icon={layoutTwoIcon}
+        active={props.layout === 2 || props.layout === 'twoVertical'}
+        onClick={() => props.onChange(2)}
       />
       <Item icon={layoutThreeIcon} active={props.layout === 3} onClick={() => props.onChange(3)} />
       <Item icon={layoutFourIcon} active={props.layout === 4} onClick={() => props.onChange(4)} />
+      <Item icon={layoutSixIcon} active={props.layout === 'sixGrid'} onClick={() => props.onChange('sixGrid')} />
       <Item
         icon={layoutImageIcon}
         active={props.layout === 'imageInput'}

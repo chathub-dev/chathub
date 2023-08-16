@@ -19,6 +19,14 @@ const layoutAtom = atomWithStorage<Layout>('multiPanelLayout', 2, undefined, { u
 const twoPanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:2', ['chatgpt', 'claude'])
 const threePanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:3', ['chatgpt', 'claude', 'bard'])
 const fourPanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:4', ['chatgpt', 'claude', 'bard', 'bing'])
+const sixPanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:6', [
+  'chatgpt',
+  'claude',
+  'bard',
+  'bing',
+  'pi',
+  'llama',
+])
 
 const GeneralChatPanel: FC<{
   chats: ReturnType<typeof useChat>[]
@@ -87,7 +95,7 @@ const GeneralChatPanel: FC<{
       <div
         className={cx(
           'grid overflow-hidden grow auto-rows-fr gap-3 mb-3',
-          chats.length === 3 ? 'grid-cols-3' : layout === 'twoVertical' ? 'grid-cols-1' : 'grid-cols-2',
+          chats.length % 3 === 0 ? 'grid-cols-3' : 'grid-cols-2',
         )}
       >
         {chats.map((chat, index) => (
@@ -149,6 +157,18 @@ const FourBotChatPanel = () => {
   return <GeneralChatPanel chats={chats} setBots={setBots} />
 }
 
+const SixBotChatPanel = () => {
+  const [multiPanelBotIds, setBots] = useAtom(sixPanelBotsAtom)
+  const chat1 = useChat(multiPanelBotIds[0])
+  const chat2 = useChat(multiPanelBotIds[1])
+  const chat3 = useChat(multiPanelBotIds[2])
+  const chat4 = useChat(multiPanelBotIds[3])
+  const chat5 = useChat(multiPanelBotIds[4])
+  const chat6 = useChat(multiPanelBotIds[5])
+  const chats = useMemo(() => [chat1, chat2, chat3, chat4, chat5, chat6], [chat1, chat2, chat3, chat4, chat5, chat6])
+  return <GeneralChatPanel chats={chats} setBots={setBots} />
+}
+
 const ImageInputPanel = () => {
   const chat1 = useChat('bard')
   const chat2 = useChat('bing')
@@ -158,16 +178,19 @@ const ImageInputPanel = () => {
 
 const MultiBotChatPanel: FC = () => {
   const layout = useAtomValue(layoutAtom)
+  if (layout === 'sixGrid') {
+    return <SixBotChatPanel />
+  }
   if (layout === 4) {
     return <FourBotChatPanel />
   }
   if (layout === 3) {
     return <ThreeBotChatPanel />
   }
-  if (layout === 2 || layout === 'twoVertical') {
-    return <TwoBotChatPanel />
+  if (layout === 'imageInput') {
+    return <ImageInputPanel />
   }
-  return <ImageInputPanel />
+  return <TwoBotChatPanel />
 }
 
 const MultiBotChatPanelPage: FC = () => {
