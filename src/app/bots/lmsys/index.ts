@@ -23,7 +23,8 @@ export class LMSYSBot extends AbstractBot {
 
   async doSendMessage(params: SendMessageParams) {
     if (!this.conversationContext) {
-      this.conversationContext = { sessionHash: generateSessionHash() }
+      const sessionHash = await this.createSession()
+      this.conversationContext = { sessionHash }
     }
 
     const sendWsp = await this.connectWebsocket(
@@ -104,5 +105,30 @@ export class LMSYSBot extends AbstractBot {
 
   resetConversation() {
     this.conversationContext = undefined
+  }
+
+  async initializeSession(fnIndex: number, sessionHash: string, data: unknown[]): Promise<void> {
+    const wsp = new WebSocketAsPromised('wss://chat.lmsys.org/queue/join', {
+      packMessage: (data) => JSON.stringify(data),
+      unpackMessage: (data) => JSON.parse(data as string),
+    })
+    return new Promise((resolve, reject) => {
+      wsp.onUnpackedMessage.addListener((event) => {
+        if (event.msg === 'send_hash') {
+          wsp.sendPacked({ fn_index: fnIndex, session_hash: sessionHash })
+        } else if (event.msg === 'send_data') {
+          wsp.sendPacked({ fn_index: fnIndex, data, event_data: null, session_hash: sessionHash })
+        } else if (event.msg === 'process_completed') {
+          resolve()
+        }
+      })
+      wsp.open().catch((err) => reject(err))
+    })
+  }
+
+  async createSession() {
+    const sessionHash = generateSessionHash()
+    await Promise.all([this.initializeSession(36, sessionHash, []), this.initializeSession(43, sessionHash, [{}])])
+    return sessionHash
   }
 }

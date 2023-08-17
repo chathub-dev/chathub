@@ -98,7 +98,7 @@ const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
   if (error.code === ErrorCode.CHATGPT_CLOUDFLARE || error.code === ErrorCode.CHATGPT_UNAUTHORIZED) {
     return <ChatGPTAuthErrorAction />
   }
-  if (error.code === ErrorCode.CONVERSATION_LIMIT) {
+  if (error.code === ErrorCode.CONVERSATION_LIMIT || error.code === ErrorCode.LMSYS_SESSION_EXPIRED) {
     return <ActionButton text="Restart" onClick={() => conversation?.reset()} />
   }
   if (error.code === ErrorCode.BARD_EMPTY_RESPONSE) {
@@ -112,13 +112,6 @@ const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
     return (
       <a href="https://www.bing.com/turing/captcha/challenge" target="_blank" rel="noreferrer">
         <ActionButton text={t('Verify')} />
-      </a>
-    )
-  }
-  if (error.code === ErrorCode.LMSYS_SESSION_EXPIRED) {
-    return (
-      <a href="https://chat.lmsys.org" target="_blank" rel="noreferrer">
-        <ActionButton text={t('Refresh session')} />
       </a>
     )
   }
