@@ -7,6 +7,7 @@ import Dialog from '../Dialog'
 import FeatureList, { FeatureId } from './FeatureList'
 import PriceSection from './PriceSection'
 import Testimonials from './Testimonials'
+import DiscountBadge from './DiscountBadge'
 
 interface Props {
   open: boolean
@@ -37,7 +38,10 @@ const PremiumModal: FC<Props> = (props) => {
       className="min-w-[600px]"
     >
       <div className="flex flex-col items-center my-7 gap-7 overflow-y-auto">
-        <PriceSection />
+        <div className="flex flex-col items-center gap-3">
+          <PriceSection />
+          <DiscountBadge />
+        </div>
         <div className="w-full px-20">
           <FeatureList highlightFeature={props.feature} />
         </div>

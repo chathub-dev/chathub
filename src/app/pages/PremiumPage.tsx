@@ -4,6 +4,7 @@ import { useCallback, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
 import Button from '~app/components/Button'
+import DiscountBadge from '~app/components/Premium/DiscountBadge'
 import FeatureList from '~app/components/Premium/FeatureList'
 import PriceSection from '~app/components/Premium/PriceSection'
 import { usePremium } from '~app/hooks/use-premium'
@@ -43,12 +44,8 @@ function PremiumPage() {
     <div className="flex flex-col bg-primary-background dark:text-primary-text rounded-[20px] h-full p-[50px] overflow-y-auto">
       <h1 className="font-bold text-[40px] leading-none text-primary-text">{t('Premium')}</h1>
       {!premiumState.activated && (
-        <p className="bg-[#FAE387] text-[#303030] w-fit rounded-[5px] px-2 py-[4px] text-sm font-semibold mt-9">
-          {t('Earlybird price')}
-        </p>
-      )}
-      {!premiumState.activated && (
-        <div className="mt-5">
+        <div className="flex flex-col gap-4 mt-9">
+          <DiscountBadge />
           <PriceSection />
         </div>
       )}
