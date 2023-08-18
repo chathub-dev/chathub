@@ -94,8 +94,9 @@ const GeneralChatPanel: FC<{
     <div className="flex flex-col overflow-hidden h-full">
       <div
         className={cx(
-          'grid overflow-hidden grow auto-rows-fr gap-3 mb-3',
+          'grid overflow-hidden grow auto-rows-fr',
           chats.length % 3 === 0 ? 'grid-cols-3' : 'grid-cols-2',
+          chats.length > 3 ? 'gap-2 mb-2' : 'gap-3 mb-3',
         )}
       >
         {chats.map((chat, index) => (
