@@ -8,6 +8,13 @@ import FeatureList, { FeatureId } from './FeatureList'
 import PriceSection from './PriceSection'
 import Testimonials from './Testimonials'
 import DiscountBadge from './DiscountBadge'
+import Browser from 'webextension-polyfill'
+
+async function incrOpenTimes() {
+  const { premiumModalOpenTimes = 0 } = await Browser.storage.sync.get('premiumModalOpenTimes')
+  Browser.storage.sync.set({ premiumModalOpenTimes: premiumModalOpenTimes + 1 })
+  return premiumModalOpenTimes + 1
+}
 
 interface Props {
   open: boolean
@@ -21,7 +28,9 @@ const PremiumModal: FC<Props> = (props) => {
 
   useEffect(() => {
     if (props.open) {
-      trackEvent('show_premium_modal', { source: props.feature })
+      incrOpenTimes().then((openTimes) => {
+        trackEvent('show_premium_modal', { source: props.feature, openTimes })
+      })
     }
   }, [props.open, props.feature])
 
