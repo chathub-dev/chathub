@@ -9,7 +9,7 @@ export interface Props {
   type?: ButtonHTMLAttributes<HTMLButtonElement>['type']
   onClick?: () => void
   isLoading?: boolean
-  size?: 'small' | 'normal'
+  size?: 'small' | 'normal' | 'tiny'
   icon?: ReactNode
 }
 
@@ -20,8 +20,9 @@ const Button: FC<Props> = (props) => {
     <button
       type={type}
       className={cx(
-        size === 'normal' ? 'rounded-full' : 'rounded-xl',
-        size === 'normal' ? 'text-base font-medium px-6 py-[5px]' : 'text-sm px-4 py-1',
+        size === 'normal' && 'text-base font-medium px-6 py-[5px] rounded-full',
+        size === 'small' && 'text-sm px-4 py-1 rounded-xl',
+        size === 'tiny' && 'text-xs px-3 py-[3px] rounded-lg',
         props.color === 'primary' ? 'text-white bg-primary-blue' : 'text-primary-text bg-secondary',
         props.className,
       )}

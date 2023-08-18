@@ -70,12 +70,7 @@ const ConversationPanel: FC<Props> = (props) => {
   let inputActionButton: ReactNode = null
   if (props.generating) {
     inputActionButton = (
-      <Button
-        text={t('Stop')}
-        color="flat"
-        size={mode === 'full' ? 'normal' : 'small'}
-        onClick={props.stopGenerating}
-      />
+      <Button text={t('Stop')} color="flat" size={mode === 'full' ? 'normal' : 'tiny'} onClick={props.stopGenerating} />
     )
   } else if (mode === 'full') {
     inputActionButton = (
@@ -123,7 +118,9 @@ const ConversationPanel: FC<Props> = (props) => {
         <ChatMessageList botId={props.botId} messages={props.messages} className={marginClass} />
         <div className={cx('mt-3 flex flex-col ', marginClass, mode === 'full' ? 'mb-3' : 'mb-[5px]')}>
           <div className={cx('flex flex-row items-center gap-[5px]', mode === 'full' ? 'mb-3' : 'mb-0')}>
-            {mode === 'compact' && <span className="font-medium text-xs text-light-text">Send to {botInfo.name}</span>}
+            {mode === 'compact' && (
+              <span className="font-medium text-xs text-light-text cursor-default">Send to {botInfo.name}</span>
+            )}
             <hr className="grow border-primary-border" />
           </div>
           <ChatMessageInput

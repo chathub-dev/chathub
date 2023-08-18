@@ -194,9 +194,7 @@ const ChatMessageInput: FC<Props> = (props) => {
           autoFocus={props.autoFocus}
         />
       </div>
-      {props.actionButton || (
-        <Button text="-" className="invisible" size={props.mode === 'full' ? 'normal' : 'small'} />
-      )}
+      {props.actionButton || <Button text="-" className="invisible" size={props.mode === 'full' ? 'normal' : 'tiny'} />}
     </form>
   )
 }
