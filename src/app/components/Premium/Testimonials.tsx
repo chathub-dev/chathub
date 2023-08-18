@@ -1,3 +1,4 @@
+import { sample } from 'lodash-es'
 import { FC } from 'react'
 import { AiFillStar } from 'react-icons/ai'
 
@@ -14,8 +15,11 @@ const Testimonials: FC = () => {
         </div>
         <span className="text-sm font-medium text-primary-text">Loved by 100,000+ users</span>
       </div>
-      <p className="italic text-sm text-center text-secondary-text w-2/3">
-        &quot;What a great idea AND implementation - to have all the major chats on one page&quot; - Chad Tunis
+      <p className="italic text-sm text-center text-secondary-text w-3/4">
+        {sample([
+          '"What a great idea AND implementation - to have all the major chats on one page" - Chad Tunis',
+          '"Very helpful, works great and is exactly what i was looking for, I bought premium" - Artush Foto',
+        ])}
       </p>
     </div>
   )
