@@ -1,4 +1,5 @@
 import { useSearch } from '@tanstack/react-router'
+import ConfettiExplosion from 'react-confetti-explosion'
 import { useAtom } from 'jotai'
 import { useCallback, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
@@ -19,6 +20,7 @@ function PremiumPage() {
   const premiumState = usePremium()
   const [deactivating, setDeactivating] = useState(false)
   const { source } = useSearch({ from: premiumRoute.id })
+  const [isExploding, setIsExploding] = useState(false)
 
   const activateLicense = useCallback(() => {
     const key = window.prompt('Enter your license key', '')
@@ -55,7 +57,12 @@ function PremiumPage() {
       <div className="flex flex-row items-center gap-3 mt-10">
         {premiumState.activated ? (
           <>
-            <Button text={t('🎉 License activated')} color="primary" className="w-fit !py-2" />
+            <Button
+              text={t('🎉 License activated')}
+              color="primary"
+              className="w-fit !py-2"
+              onClick={() => setIsExploding(true)}
+            />
             <Button
               text={t('Deactivate')}
               className="w-fit !py-2"
@@ -93,6 +100,7 @@ function PremiumPage() {
       </div>
       {!!premiumState.error && <span className="mt-3 text-red-500 font-medium">{premiumState.error}</span>}
       <Toaster position="top-right" />
+      {isExploding && <ConfettiExplosion duration={3000} onComplete={() => setIsExploding(false)} />}
     </div>
   )
 }

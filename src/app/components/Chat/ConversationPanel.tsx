@@ -1,9 +1,10 @@
-import { cx } from '~/utils'
+import { motion } from 'framer-motion'
 import { FC, ReactNode, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import clearIcon from '~/assets/icons/clear.svg'
 import historyIcon from '~/assets/icons/history.svg'
 import shareIcon from '~/assets/icons/share.svg'
+import { cx } from '~/utils'
 import { CHATBOTS } from '~app/consts'
 import { ConversationContext, ConversationContextValue } from '~app/context'
 import { trackEvent } from '~app/plausible'
@@ -90,7 +91,11 @@ const ConversationPanel: FC<Props> = (props) => {
           )}
         >
           <div className="flex flex-row items-center">
-            <img src={botInfo.avatar} className="w-[18px] h-[18px] object-contain rounded-full" />
+            <motion.img
+              src={botInfo.avatar}
+              className="w-[18px] h-[18px] object-contain rounded-full"
+              whileHover={{ rotate: 180 }}
+            />
             <Tooltip content={props.bot.name || botInfo.name}>
               <span className="font-semibold text-primary-text text-sm cursor-default ml-2 mr-1">{botInfo.name}</span>
             </Tooltip>

@@ -1,20 +1,29 @@
+import { motion } from 'framer-motion'
+import { Link } from '@tanstack/react-router'
 import { FC } from 'react'
 import premiumIcon from '~assets/icons/premium.svg'
-import { Link } from '@tanstack/react-router'
 
 const PremiumEntry: FC<{ text: string }> = ({ text }) => {
   return (
     <Link to="/premium">
-      <div
+      <motion.div
         className="flex flex-row items-center gap-[10px] rounded-[10px] px-4 py-[6px] cursor-pointer"
         style={{
           background:
-            'linear-gradient(275deg, rgb(var(--color-primary-purple)) 1.65%, rgb(var(--color-primary-blue)) 100%)',
+            'linear-gradient(to left, rgb(var(--color-primary-purple)) 1.65%, rgb(var(--color-primary-blue)) 100%)',
         }}
+        whileHover="hover"
       >
-        <img src={premiumIcon} className="w-8 h-8" />
+        <motion.img
+          src={premiumIcon}
+          className="w-8 h-8"
+          variants={{
+            hover: { rotate: [0, 10, -10, 10, -10, 0] },
+          }}
+          transition={{ duration: 1 }}
+        />
         {!!text && <span className="text-white font-semibold text-base">{text}</span>}
-      </div>
+      </motion.div>
     </Link>
   )
 }

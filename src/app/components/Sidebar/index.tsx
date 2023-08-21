@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router'
+import { motion } from 'framer-motion'
 import { cx } from '~/utils'
 import { useAtom } from 'jotai'
 import { useState } from 'react'
@@ -37,15 +38,18 @@ function Sidebar() {
   const [themeSettingModalOpen, setThemeSettingModalOpen] = useState(false)
   const enabledBots = useEnabledBots()
   return (
-    <aside
+    <motion.aside
       className={cx(
         'flex flex-col bg-primary-background bg-opacity-40 overflow-hidden',
         collapsed ? 'items-center px-[15px]' : 'w-[230px] px-4',
       )}
     >
-      <img
+      <motion.img
         src={collapseIcon}
-        className={cx('w-6 h-6 cursor-pointer my-5', collapsed ? 'rotate-180' : 'self-end')}
+        className={cx('w-6 h-6 cursor-pointer my-5', !collapsed && 'self-end')}
+        animate={{
+          rotate: collapsed ? 180 : 0,
+        }}
         onClick={() => setCollapsed((c) => !c)}
       />
       {collapsed ? <img src={minimalLogo} className="w-[30px]" /> : <img src={logo} className="w-[79px]" />}
@@ -101,7 +105,7 @@ function Sidebar() {
       <CommandBar />
       <GuideModal />
       {themeSettingModalOpen && <ThemeSettingModal open={true} onClose={() => setThemeSettingModalOpen(false)} />}
-    </aside>
+    </motion.aside>
   )
 }
 
