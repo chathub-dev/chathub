@@ -106,17 +106,28 @@ const ConversationPanel: FC<Props> = (props) => {
           <WebAccessCheckbox botId={props.botId} />
           <div className="flex flex-row items-center gap-3">
             <Tooltip content={t('Share conversation')}>
-              <img src={shareIcon} className="w-5 h-5 cursor-pointer" onClick={openShareDialog} />
+              <motion.img
+                src={shareIcon}
+                className="w-5 h-5 cursor-pointer"
+                onClick={openShareDialog}
+                whileHover={{ scale: 1.1 }}
+              />
             </Tooltip>
             <Tooltip content={t('Clear conversation')}>
-              <img
+              <motion.img
                 src={clearIcon}
                 className={cx('w-5 h-5', props.generating ? 'cursor-not-allowed' : 'cursor-pointer')}
                 onClick={resetConversation}
+                whileHover={{ scale: 1.1 }}
               />
             </Tooltip>
             <Tooltip content={t('View history')}>
-              <img src={historyIcon} className="w-5 h-5 cursor-pointer" onClick={openHistoryDialog} />
+              <motion.img
+                src={historyIcon}
+                className="w-5 h-5 cursor-pointer"
+                onClick={openHistoryDialog}
+                whileHover={{ scale: 1.1 }}
+              />
             </Tooltip>
           </div>
         </div>
@@ -139,10 +150,10 @@ const ConversationPanel: FC<Props> = (props) => {
           />
         </div>
       </div>
-      {showHistory && <HistoryDialog botId={props.botId} open={true} onClose={() => setShowHistory(false)} />}
       {showShareDialog && (
         <ShareDialog open={true} onClose={() => setShowShareDialog(false)} messages={props.messages} />
       )}
+      {showHistory && <HistoryDialog botId={props.botId} open={true} onClose={() => setShowHistory(false)} />}
     </ConversationContext.Provider>
   )
 }
