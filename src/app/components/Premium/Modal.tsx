@@ -1,14 +1,14 @@
 import { useNavigate } from '@tanstack/react-router'
 import { FC, useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import Browser from 'webextension-polyfill'
 import { trackEvent } from '~app/plausible'
 import Button from '../Button'
 import Dialog from '../Dialog'
+import DiscountBadge from './DiscountBadge'
 import FeatureList, { FeatureId } from './FeatureList'
 import PriceSection from './PriceSection'
 import Testimonials from './Testimonials'
-import DiscountBadge from './DiscountBadge'
-import Browser from 'webextension-polyfill'
 
 async function incrOpenTimes() {
   const { premiumModalOpenTimes = 0 } = await Browser.storage.sync.get('premiumModalOpenTimes')
@@ -46,6 +46,11 @@ const PremiumModal: FC<Props> = (props) => {
       onClose={() => props.setOpen(false)}
       className="min-w-[600px]"
     >
+      <div className="mt-4 flex flex-row justify-center">
+        <p className="bg-[#FF6B6B] text-white px-4 py-1 rounded-full font-medium text-sm">
+          Special offer: ends in 23 hours, 59 minutes, 10 seconds
+        </p>
+      </div>
       <div className="flex flex-col items-center my-7 gap-7 overflow-y-auto">
         <div className="flex flex-col items-center gap-3">
           <PriceSection />

@@ -1,3 +1,4 @@
+import { atom } from 'jotai'
 import { atomWithImmer } from 'jotai-immer'
 import { atomWithStorage } from 'jotai/utils'
 import { atomFamily } from 'jotai/utils'
@@ -27,3 +28,4 @@ export const sidebarCollapsedAtom = atomWithStorage('sidebarCollapsed', false, u
 export const themeColorAtom = atomWithStorage('themeColor', getDefaultThemeColor())
 export const followArcThemeAtom = atomWithStorage('followArcTheme', false)
 export const sidePanelBotAtom = atomWithStorage<BotId>('sidePanelBot', 'chatgpt')
+export const showDiscountModalAtom = atom(true)

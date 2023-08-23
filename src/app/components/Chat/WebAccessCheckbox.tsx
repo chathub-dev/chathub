@@ -8,6 +8,7 @@ import { requestHostPermission } from '~app/utils/permissions'
 import { getUserConfig, updateUserConfig } from '~services/user-config'
 import PremiumFeatureModal from '../Premium/Modal'
 import Toggle from '../Toggle'
+import DiscountModal from '../Premium/DiscountModal'
 
 interface Props {
   botId: BotId
