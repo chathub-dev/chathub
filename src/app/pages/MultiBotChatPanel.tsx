@@ -1,17 +1,17 @@
-import { cx } from '~/utils'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 import { uniqBy } from 'lodash-es'
-import { FC, Suspense, useCallback, useEffect, useMemo, useState } from 'react'
+import { FC, Suspense, useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { cx } from '~/utils'
 import Button from '~app/components/Button'
 import ChatMessageInput from '~app/components/Chat/ChatMessageInput'
 import LayoutSwitch from '~app/components/Chat/LayoutSwitch'
-import PremiumFeatureModal from '~app/components/Premium/Modal'
 import { Layout } from '~app/consts'
 import { useChat } from '~app/hooks/use-chat'
 import { usePremium } from '~app/hooks/use-premium'
 import { trackEvent } from '~app/plausible'
+import { showPremiumModalAtom } from '~app/state'
 import { BotId } from '../bots'
 import ConversationPanel from '../components/Chat/ConversationPanel'
 
@@ -37,15 +37,15 @@ const GeneralChatPanel: FC<{
   const generating = useMemo(() => chats.some((c) => c.generating), [chats])
   const [layout, setLayout] = useAtom(layoutAtom)
 
-  const [premiumModalOpen, setPremiumModalOpen] = useState(false)
+  const setPremiumModalOpen = useSetAtom(showPremiumModalAtom)
   const premiumState = usePremium()
   const disabled = useMemo(() => !premiumState.isLoading && !premiumState.activated, [premiumState])
 
   useEffect(() => {
     if (disabled && (chats.length > 2 || supportImageInput)) {
-      setPremiumModalOpen(true)
+      setPremiumModalOpen('all-in-one-layout')
     }
-  }, [chats.length, disabled, supportImageInput])
+  }, [chats.length, disabled, setPremiumModalOpen, supportImageInput])
 
   const sendSingleMessage = useCallback(
     (input: string, botId: BotId) => {
@@ -58,13 +58,13 @@ const GeneralChatPanel: FC<{
   const sendAllMessage = useCallback(
     (input: string, image?: File) => {
       if (disabled && chats.length > 2) {
-        setPremiumModalOpen(true)
+        setPremiumModalOpen('all-in-one-layout')
         return
       }
       uniqBy(chats, (c) => c.botId).forEach((c) => c.sendMessage(input, image))
       trackEvent('send_messages', { layout, disabled })
     },
-    [chats, disabled, layout],
+    [chats, disabled, layout, setPremiumModalOpen],
   )
 
   const onSwitchBot = useCallback(
@@ -126,7 +126,6 @@ const GeneralChatPanel: FC<{
           supportImageInput={supportImageInput}
         />
       </div>
-      <PremiumFeatureModal open={premiumModalOpen} setOpen={setPremiumModalOpen} feature="all-in-one-layout" />
     </div>
   )
 }

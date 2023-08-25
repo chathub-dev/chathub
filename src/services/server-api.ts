@@ -33,3 +33,27 @@ interface Product {
 export async function fetchPremiumProduct() {
   return ofetch<Product>('https://chathub.gg/api/premium/product')
 }
+
+export async function createDiscount() {
+  return ofetch<{ code: string; startTime: number }>('https://chathub.gg/api/premium/discount/create', {
+    method: 'POST',
+  })
+}
+
+interface PurchaseInfo {
+  price: number
+  discount?: {
+    code: string
+    startTime: number
+    price: number
+    percent: number
+  }
+}
+
+export async function fetchPurchaseInfo() {
+  return ofetch<PurchaseInfo>('https://chathub.gg/api/premium/info')
+}
+
+export async function checkDiscount(params: { appOpenTimes: number; premiumModalOpenTimes: number }) {
+  return ofetch<{ show: boolean }>('https://chathub.gg/api/premium/discount/check', { params })
+}

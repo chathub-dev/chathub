@@ -35,7 +35,7 @@
   "Four in one": "四合一",
   "Activate up to 5 devices": "最多可激活5台设备",
   "Deactivate": "反激活",
-  "Get premium license": "购买会员",
+  "Buy premium license": "购买会员",
   "Theme Settings": "主题设置",
   "Theme Mode": "主题模式",
   "Theme Color": "主题色",
@@ -89,5 +89,9 @@
   "Auto": "自动",
   "Language": "语言",
   "Limited-time offer": "限时特惠",
-  "Buy once, use forever": "一次性买断价"
+  "Buy once, use forever": "一次性买断价",
+  "20% OFF: ends in": "八折优惠，限时",
+  "Special Offer: 20% OFF": "特别优惠：立享八折",
+  "TODAY ONLY": "今日限定",
+  "Get Discount": "获取优惠"
 }

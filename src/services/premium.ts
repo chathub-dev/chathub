@@ -34,3 +34,7 @@ export function clearLicenseInstances() {
     }
   }
 }
+
+export function hasLicenseInstance() {
+  return Object.keys(localStorage).some((k) => k.startsWith('license_instance_id:'))
+}

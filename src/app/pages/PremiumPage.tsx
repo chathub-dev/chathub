@@ -13,6 +13,7 @@ import { trackEvent } from '~app/plausible'
 import { premiumRoute } from '~app/router'
 import { licenseKeyAtom } from '~app/state'
 import { deactivateLicenseKey } from '~services/premium'
+import { useDiscountCode } from '~app/hooks/use-purchase-info'
 
 function PremiumPage() {
   const { t } = useTranslation()
@@ -21,6 +22,7 @@ function PremiumPage() {
   const [deactivating, setDeactivating] = useState(false)
   const { source } = useSearch({ from: premiumRoute.id })
   const [isExploding, setIsExploding] = useState(false)
+  const discountCode = useDiscountCode()
 
   const activateLicense = useCallback(() => {
     const key = window.prompt('Enter your license key', '')
@@ -48,7 +50,7 @@ function PremiumPage() {
       {!premiumState.activated && (
         <div className="flex flex-col gap-4 mt-9">
           <DiscountBadge />
-          <PriceSection />
+          <PriceSection align="left" />
         </div>
       )}
       <div className="mt-8">
@@ -73,12 +75,12 @@ function PremiumPage() {
         ) : (
           <>
             <a
-              href={`https://chathub.gg/api/premium/redirect?source=${source || ''}`}
+              href={`https://chathub.gg/api/premium/redirect?source=${source || ''}&discountCode=${discountCode || ''}`}
               target="_blank"
               rel="noreferrer"
               onClick={() => trackEvent('click_buy_premium', { source: 'premium_page' })}
             >
-              <Button text={t('Get premium license')} color="primary" className="w-fit !py-2 rounded-lg" />
+              <Button text={t('Buy premium license')} color="primary" className="w-fit !py-2 rounded-lg" />
             </a>
             <Button
               text={t('Activate license')}

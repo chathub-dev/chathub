@@ -42,7 +42,7 @@ const Dialog: FC<PropsWithChildren<Props>> = (props) => {
                 props.className,
               )}
             >
-              {!!props.title && (
+              {props.title ? (
                 <HeadlessDialog.Title
                   className={cx(
                     !props.borderless && 'border-b',
@@ -53,6 +53,8 @@ const Dialog: FC<PropsWithChildren<Props>> = (props) => {
                   <span className="font-bold text-primary-text text-base">{props.title}</span>
                   <img src={closeIcon} className="w-4 h-4 ml-auto mr-[10px] cursor-pointer" onClick={props.onClose} />
                 </HeadlessDialog.Title>
+              ) : (
+                <HeadlessDialog.Title></HeadlessDialog.Title>
               )}
               {props.children}
             </HeadlessDialog.Panel>

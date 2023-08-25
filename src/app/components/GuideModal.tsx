@@ -1,16 +1,10 @@
 import { Link } from '@tanstack/react-router'
 import { FC, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import Browser from 'webextension-polyfill'
 import { usePremium } from '~app/hooks/use-premium'
+import { incrAppOpenTimes } from '~services/storage/open-times'
 import Button from './Button'
 import Dialog from './Dialog'
-
-async function incrOpenTimes() {
-  const { openTimes = 0 } = await Browser.storage.sync.get('openTimes')
-  Browser.storage.sync.set({ openTimes: openTimes + 1 })
-  return openTimes
-}
 
 const GuideModal: FC = () => {
   const { t } = useTranslation()
@@ -19,7 +13,7 @@ const GuideModal: FC = () => {
   const premiumState = usePremium()
 
   useEffect(() => {
-    incrOpenTimes().then((t) => {
+    incrAppOpenTimes().then((t) => {
       if (t === 15 || (t > 0 && t % 50 === 0)) {
         setOpen(true)
       }

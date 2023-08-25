@@ -3,6 +3,7 @@ import { useAtomValue } from 'jotai'
 import { followArcThemeAtom, themeColorAtom } from '~app/state'
 import DiscountModal from './Premium/DiscountModal'
 import Sidebar from './Sidebar'
+import PremiumModal from './Premium/Modal'
 
 function Layout() {
   const themeColor = useAtomValue(themeColorAtom)
@@ -17,6 +18,7 @@ function Layout() {
         <Outlet />
       </div>
       <DiscountModal />
+      <PremiumModal />
     </main>
   )
 }
