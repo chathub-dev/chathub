@@ -36,7 +36,7 @@ export class XunfeiBot extends AbstractBot {
     form.append('fd', generateFD())
     form.append('isBot', '0')
 
-    const resp = await fetch('https://xinghuo.xfyun.cn/iflygpt/u/chat_message/chat', {
+    const resp = await fetch('https://xinghuo.xfyun.cn/iflygpt-chat/u/chat_message/chat', {
       method: 'POST',
       signal: params.signal,
       body: form,
