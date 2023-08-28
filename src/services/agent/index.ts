@@ -24,7 +24,7 @@ function buildPromptWithContext(input: string, context: string) {
 
 const FINAL_ANSWER_KEYWORD_REGEX = /"action":\s*"Final Answer"/
 const WEB_SEARCH_KEYWORD_REGEX = /"action":\s*"web_search"/
-const ACTION_INPUT_REGEX = /"action_input":\s*"([^"]+)("\s*(```)?)?/
+const ACTION_INPUT_REGEX = /"action_input":\s*"((?:\\.|[^"])+)(?:"\s*(```)?)?/
 
 async function* execute(
   input: string,
