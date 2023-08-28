@@ -2,7 +2,6 @@ import { BardBot } from './bard'
 import { BingWebBot } from './bing'
 import { ChatGPTBot } from './chatgpt'
 import { ClaudeBot } from './claude'
-import { GradioBot } from './gradio'
 import { LMSYSBot } from './lmsys'
 import { PiBot } from './pi'
 import { XunfeiBot } from './xunfei'
@@ -42,7 +41,7 @@ export function createBotInstance(botId: BotId) {
     case 'chatglm':
       return new LMSYSBot('chatglm2-6b')
     case 'llama':
-      return new GradioBot('wss://llama2.lepton.run/chat/queue/join', 'llama2', [0.5, 0.8, 512], 'html')
+      return new LMSYSBot('llama-2-70b-chat')
     case 'oasst':
       return new LMSYSBot('oasst-pythia-12b')
     case 'rwkv':

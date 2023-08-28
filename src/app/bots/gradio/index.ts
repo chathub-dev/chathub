@@ -9,8 +9,8 @@ function generateSessionHash() {
 }
 
 enum FnIndex {
-  Send = 7,
-  Receive = 8,
+  Send = 39,
+  Receive = 40,
 }
 
 interface ConversationContext {
