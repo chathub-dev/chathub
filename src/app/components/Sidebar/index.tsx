@@ -14,7 +14,7 @@ import minimalLogo from '~/assets/minimal-logo.svg'
 import { cx } from '~/utils'
 import { useEnabledBots } from '~app/hooks/use-enabled-bots'
 import { showDiscountModalAtom, sidebarCollapsedAtom } from '~app/state'
-import { hasLicenseInstance } from '~services/premium'
+import { getPremiumActivation } from '~services/premium'
 import * as api from '~services/server-api'
 import { getAppOpenTimes, getPremiumModalOpenTimes } from '~services/storage/open-times'
 import CommandBar from '../CommandBar'
@@ -44,7 +44,7 @@ function Sidebar() {
 
   useEffect(() => {
     Promise.all([getAppOpenTimes(), getPremiumModalOpenTimes()]).then(async ([appOpenTimes, premiumModalOpenTimes]) => {
-      if (hasLicenseInstance()) {
+      if (getPremiumActivation()) {
         return
       }
       const { show } = await api.checkDiscount({ appOpenTimes, premiumModalOpenTimes })
