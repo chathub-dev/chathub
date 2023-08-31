@@ -20,7 +20,7 @@
     "condition": {
       "urlFilter": "bing",
       "isUrlFilterCaseSensitive": false,
-      "resourceTypes": ["xmlhttprequest"]
+      "resourceTypes": ["xmlhttprequest", "websocket"]
     }
   }
 ]
