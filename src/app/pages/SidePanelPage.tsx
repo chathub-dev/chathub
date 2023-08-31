@@ -1,12 +1,12 @@
-import { cx } from '~/utils'
 import { useAtom } from 'jotai'
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import clearIcon from '~/assets/icons/clear.svg'
+import { cx } from '~/utils'
 import Button from '~app/components/Button'
 import ChatMessageInput from '~app/components/Chat/ChatMessageInput'
 import ChatMessageList from '~app/components/Chat/ChatMessageList'
-import SwitchBotDropdown from '~app/components/SwitchBotDropdown'
+import ChatbotName from '~app/components/Chat/ChatbotName'
 import { CHATBOTS } from '~app/consts'
 import { ConversationContext, ConversationContextValue } from '~app/context'
 import { useChat } from '~app/hooks/use-chat'
@@ -43,8 +43,7 @@ function SidePanelPage() {
         <div className="border-b border-solid border-primary-border flex flex-row items-center justify-between gap-2 py-3 mx-3">
           <div className="flex flex-row items-center gap-2">
             <img src={botInfo.avatar} className="w-4 h-4 object-contain rounded-full" />
-            <span className="font-semibold text-primary-text text-xs">{botInfo.name}</span>
-            <SwitchBotDropdown selectedBotId={botId} onChange={setBotId} />
+            <ChatbotName botId={botId} name={botInfo.name} onSwitchBot={setBotId} />
           </div>
           <div className="flex flex-row items-center gap-3">
             <img
