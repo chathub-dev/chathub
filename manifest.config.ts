@@ -20,7 +20,6 @@ export default defineManifest(async (env) => {
     action: {},
     host_permissions: [
       'https://*.bing.com/',
-      'wss://*.bing.com/',
       'https://*.openai.com/',
       'https://bard.google.com/',
       'https://*.chathub.gg/',
@@ -29,7 +28,7 @@ export default defineManifest(async (env) => {
       'https://*.anthropic.com/',
       'https://*.claude.ai/',
     ],
-    optional_host_permissions: ['https://*/*'],
+    optional_host_permissions: ['https://*/*', 'wss://*/*'],
     permissions: ['storage', 'unlimitedStorage', 'sidePanel', 'declarativeNetRequestWithHostAccess'],
     content_scripts: [
       {

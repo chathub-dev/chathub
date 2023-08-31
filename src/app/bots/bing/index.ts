@@ -1,5 +1,6 @@
 import { ofetch } from 'ofetch'
 import WebSocketAsPromised from 'websocket-as-promised'
+import { requestHostPermission } from '~app/utils/permissions'
 import { BingConversationStyle, getUserConfig } from '~services/user-config'
 import { uuid } from '~utils'
 import { ChatError, ErrorCode } from '~utils/errors'
@@ -98,6 +99,9 @@ export class BingWebBot extends AbstractBot {
   }
 
   async doSendMessage(params: SendMessageParams) {
+    if (!(await requestHostPermission('wss://*.bing.com/'))) {
+      throw new ChatError('Missing bing.com permission', ErrorCode.MISSING_HOST_PERMISSION)
+    }
     if (!this.conversationContext) {
       const [conversation, { bingConversationStyle }] = await Promise.all([createConversation(), getUserConfig()])
       this.conversationContext = {
