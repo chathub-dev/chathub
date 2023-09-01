@@ -18,8 +18,8 @@
     "baseUrl": ".",
     "paths": {
       "~*": ["./src/*"]
-    }
+    },
+    "types": ["chrome-types"]
   },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src", "vite.config.ts", "manifest.config.ts"]
 }
