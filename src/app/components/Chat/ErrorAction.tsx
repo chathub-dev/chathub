@@ -74,6 +74,13 @@ const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
       </a>
     )
   }
+  if (error.code === ErrorCode.QIANWEN_WEB_UNAUTHORIZED) {
+    return (
+      <a href="https://qianwen.aliyun.com" target="_blank" rel="noreferrer">
+        <ActionButton text={t('Login at qianwen.aliyun.com')} />
+      </a>
+    )
+  }
   if (error.code === ErrorCode.GPT4_MODEL_WAITLIST) {
     return (
       <a href="https://openai.com/waitlist/gpt-4-api" target="_blank" rel="noreferrer">

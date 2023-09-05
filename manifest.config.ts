@@ -62,6 +62,11 @@ export default defineManifest(async (env) => {
           enabled: true,
           path: 'src/rules/ddg.json',
         },
+        {
+          id: 'ruleset_qianwen',
+          enabled: true,
+          path: 'src/rules/qianwen.json',
+        },
       ],
     },
   }

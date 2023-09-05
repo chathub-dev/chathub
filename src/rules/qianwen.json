@@ -1,0 +1,25 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": {
+      "type": "modifyHeaders",
+      "requestHeaders": [
+        {
+          "header": "origin",
+          "operation": "set",
+          "value": "https://qianwen.aliyun.com"
+        },
+        {
+          "header": "referer",
+          "operation": "set",
+          "value": "https://qianwen.aliyun.com/chat"
+        }
+      ]
+    },
+    "condition": {
+      "requestDomains": ["qianwen.aliyun.com"],
+      "resourceTypes": ["xmlhttprequest"]
+    }
+  }
+]

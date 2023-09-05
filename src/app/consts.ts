@@ -12,6 +12,7 @@ import rwkvLogo from '~/assets/rwkv-logo.png'
 import vicunaLogo from '~/assets/vicuna-logo.jpg'
 import wizardlmLogo from '~/assets/wizardlm-logo.png'
 import xunfeiLogo from '~/assets/xunfei-logo.png'
+import qianwenLogo from '~/assets/qianwen-logo.png'
 import { BotId } from './bots'
 
 export const CHATBOTS: Record<BotId, { name: string; avatar: any }> = {
@@ -70,6 +71,10 @@ export const CHATBOTS: Record<BotId, { name: string; avatar: any }> = {
   wizardlm: {
     name: 'WizardLM',
     avatar: wizardlmLogo,
+  },
+  qianwen: {
+    name: 'Qianwen',
+    avatar: qianwenLogo,
   },
 }
 

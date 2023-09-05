@@ -4,6 +4,7 @@ import { ChatGPTBot } from './chatgpt'
 import { ClaudeBot } from './claude'
 import { LMSYSBot } from './lmsys'
 import { PiBot } from './pi'
+import { QianwenWebBot } from './tongyi'
 import { XunfeiBot } from './xunfei'
 
 export type BotId =
@@ -21,6 +22,7 @@ export type BotId =
   | 'pi'
   | 'guanaco'
   | 'wizardlm'
+  | 'qianwen'
 
 export function createBotInstance(botId: BotId) {
   switch (botId) {
@@ -52,6 +54,8 @@ export function createBotInstance(botId: BotId) {
       return new LMSYSBot('wizardlm-13b')
     case 'pi':
       return new PiBot()
+    case 'qianwen':
+      return new QianwenWebBot()
   }
 }
 
