@@ -66,6 +66,6 @@ export class QianwenWebBot extends AbstractBot {
   }
 
   get name() {
-    return 'Tongyi Qianwen'
+    return '通义千问'
   }
 }

@@ -4,7 +4,7 @@ import { ChatGPTBot } from './chatgpt'
 import { ClaudeBot } from './claude'
 import { LMSYSBot } from './lmsys'
 import { PiBot } from './pi'
-import { QianwenWebBot } from './tongyi'
+import { QianwenWebBot } from './qianwen'
 import { XunfeiBot } from './xunfei'
 
 export type BotId =
