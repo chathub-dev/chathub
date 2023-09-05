@@ -47,6 +47,8 @@ export class QianwenWebBot extends AbstractBot {
       }),
     })
 
+    let done = false
+
     await parseSSEResponse(resp, (message) => {
       console.debug('qianwen sse', message)
       const data = JSON.parse(message)
@@ -56,9 +58,14 @@ export class QianwenWebBot extends AbstractBot {
       }
       if (data.stopReason === 'stop') {
         this.conversationContext!.lastMessageId = data.msgId
+        done = true
         params.onEvent({ type: 'DONE' })
       }
     })
+
+    if (!done) {
+      params.onEvent({ type: 'DONE' })
+    }
   }
 
   resetConversation() {
