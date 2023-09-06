@@ -10,12 +10,12 @@ interface CreationResponse {
   errorCode: string | null
 }
 
-export async function createConversation(firstQuery: string) {
+export async function createConversation(firstQuery: string, csrfToken: string) {
   const resp = await ofetch<CreationResponse>('https://qianwen.aliyun.com/addSession', {
     method: 'POST',
     body: { firstQuery },
     headers: {
-      'X-Xsrf-Token': '7a3dae93-1d29-4eb6-9940-34efad5a2b78',
+      'X-Xsrf-Token': csrfToken,
     },
   })
   if (!resp.success) {
@@ -25,4 +25,18 @@ export async function createConversation(firstQuery: string) {
     throw new Error(`Error: ${resp.errorCode} ${resp.errorMsg}`)
   }
   return resp.data.sessionId
+}
+
+function extractVariable(variableName: string, html: string) {
+  const regex = new RegExp(`${variableName}\\s?=\\s?"([^"]+)"`)
+  const match = regex.exec(html)
+  if (!match) {
+    throw new Error('Failed to get csrfToken')
+  }
+  return match[1]
+}
+
+export async function getCsrfToken() {
+  const html = await ofetch('https://qianwen.aliyun.com', { parseResponse: (t) => t })
+  return extractVariable('csrfToken', html)
 }

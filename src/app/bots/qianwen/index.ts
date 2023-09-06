@@ -2,7 +2,7 @@ import { parseSSEResponse } from '~utils/sse'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
 import { requestHostPermission } from '~app/utils/permissions'
 import { ChatError, ErrorCode } from '~utils/errors'
-import { createConversation } from './api'
+import { createConversation, getCsrfToken } from './api'
 import { uuid } from '~utils'
 
 function generateMessageId() {
@@ -11,6 +11,7 @@ function generateMessageId() {
 
 interface ConversationContext {
   conversationId: string
+  csrfToken: string
   lastMessageId?: string
 }
 
@@ -23,8 +24,9 @@ export class QianwenWebBot extends AbstractBot {
     }
 
     if (!this.conversationContext) {
-      const conversationId = await createConversation(params.prompt)
-      this.conversationContext = { conversationId }
+      const csrfToken = await getCsrfToken()
+      const conversationId = await createConversation(params.prompt, csrfToken)
+      this.conversationContext = { conversationId, csrfToken }
     }
 
     const resp = await fetch('https://qianwen.aliyun.com/conversation', {
@@ -32,7 +34,7 @@ export class QianwenWebBot extends AbstractBot {
       signal: params.signal,
       headers: {
         'Content-Type': 'application/json',
-        'X-Xsrf-Token': '7a3dae93-1d29-4eb6-9940-34efad5a2b78',
+        'X-Xsrf-Token': this.conversationContext.csrfToken,
       },
       body: JSON.stringify({
         action: 'next',
