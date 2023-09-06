@@ -1,3 +1,4 @@
+import { BaichuanWebBot } from './baichuan'
 import { BardBot } from './bard'
 import { BingWebBot } from './bing'
 import { ChatGPTBot } from './chatgpt'
@@ -23,6 +24,7 @@ export type BotId =
   | 'guanaco'
   | 'wizardlm'
   | 'qianwen'
+  | 'baichuan'
 
 export function createBotInstance(botId: BotId) {
   switch (botId) {
@@ -56,6 +58,8 @@ export function createBotInstance(botId: BotId) {
       return new PiBot()
     case 'qianwen':
       return new QianwenWebBot()
+    case 'baichuan':
+      return new BaichuanWebBot()
   }
 }
 

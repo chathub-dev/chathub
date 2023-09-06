@@ -28,7 +28,7 @@ const EnabledBotsSettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
   )
 
   return (
-    <div className="flex flex-row gap-3 flex-wrap max-w-[700px]">
+    <div className="flex flex-row gap-3 flex-wrap max-w-[720px]">
       {Object.entries(CHATBOTS).map(([botId, bot]) => {
         const enabled = userConfig.enabledBots.includes(botId as BotId)
         return (
