@@ -73,4 +73,8 @@ export class XunfeiBot extends AbstractBot {
   resetConversation() {
     this.conversationContext = undefined
   }
+
+  get name() {
+    return '讯飞星火'
+  }
 }
