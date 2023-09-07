@@ -65,17 +65,14 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 - Bing Chat
 - Google Bard
 - Claude 2 (via Webapp/API/Poe)
-- iFlytek Spark
+- LLaMA 2
 - ChatGLM
 - Pi by Inflection
-- Alpaca
 - Vicuna
-- Koala
-- Dolly
-- LLaMA
-- StableLM
-- OpenAssistant
-- ChatRWKV
+- WizardLM
+- iFlytek Spark
+- Tongyi Qianwen
+- Baichuan
 - ...
 
 ## 🔧 Manual Installation
