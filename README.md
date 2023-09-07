@@ -47,7 +47,7 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 
 ## ✨ Features
 
-- 🤖 Use different chatbots in one app, currently supporting ChatGPT, new Bing Chat, Google Bard, Claude, and 10+ open-source models including Alpaca, Vicuna, ChatGLM etc
+- 🤖 Use different chatbots in one app, currently supporting ChatGPT, new Bing Chat, Google Bard, Claude, and open-source models including LLama2, Vicuna, ChatGLM etc
 - 💬 Chat with multiple chatbots at the same time, making it easy to compare their answers
 - 🚀 Support ChatGPT API and GPT-4 Browsing
 - 🔍 Shortcut to quickly activate the app anywhere in the browser
