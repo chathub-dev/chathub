@@ -15,13 +15,9 @@ export type BotId =
   | 'claude'
   | 'xunfei'
   | 'vicuna'
-  | 'alpaca'
   | 'chatglm'
   | 'llama'
-  | 'oasst'
-  | 'rwkv'
   | 'pi'
-  | 'guanaco'
   | 'wizardlm'
   | 'qianwen'
   | 'baichuan'
@@ -40,18 +36,10 @@ export function createBotInstance(botId: BotId) {
       return new XunfeiBot()
     case 'vicuna':
       return new LMSYSBot('vicuna-33b')
-    case 'alpaca':
-      return new LMSYSBot('alpaca-13b')
     case 'chatglm':
       return new LMSYSBot('chatglm2-6b')
     case 'llama':
       return new LMSYSBot('llama-2-70b-chat')
-    case 'oasst':
-      return new LMSYSBot('oasst-pythia-12b')
-    case 'rwkv':
-      return new LMSYSBot('RWKV-4-Raven-14B')
-    case 'guanaco':
-      return new LMSYSBot('guanaco-33b')
     case 'wizardlm':
       return new LMSYSBot('wizardlm-13b')
     case 'pi':

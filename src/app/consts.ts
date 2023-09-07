@@ -1,19 +1,15 @@
-import alpacaLogo from '~/assets/alpaca-logo.png'
 import claudeLogo from '~/assets/anthropic-logo.png'
+import baichuanLogo from '~/assets/baichuan-logo.png'
 import bardLogo from '~/assets/bard-logo.svg'
 import bingLogo from '~/assets/bing-logo.svg'
 import chatglmLogo from '~/assets/chatglm-logo.svg'
 import chatgptLogo from '~/assets/chatgpt-logo.svg'
-import guanacoLogo from '~/assets/guanaco-logo.png'
 import llamaLogo from '~/assets/llama-logo.png'
-import oasstLogo from '~/assets/oasst-logo.svg'
 import piLogo from '~/assets/pi-logo.png'
-import rwkvLogo from '~/assets/rwkv-logo.png'
+import qianwenLogo from '~/assets/qianwen-logo.png'
 import vicunaLogo from '~/assets/vicuna-logo.jpg'
 import wizardlmLogo from '~/assets/wizardlm-logo.png'
 import xunfeiLogo from '~/assets/xunfei-logo.png'
-import qianwenLogo from '~/assets/qianwen-logo.png'
-import baichuanLogo from '~/assets/baichuan-logo.png'
 import { BotId } from './bots'
 
 export const CHATBOTS: Record<BotId, { name: string; avatar: any }> = {
@@ -37,10 +33,6 @@ export const CHATBOTS: Record<BotId, { name: string; avatar: any }> = {
     name: 'Llama 2',
     avatar: llamaLogo,
   },
-  alpaca: {
-    name: 'Alpaca',
-    avatar: alpacaLogo,
-  },
   vicuna: {
     name: 'Vicuna',
     avatar: vicunaLogo,
@@ -49,6 +41,10 @@ export const CHATBOTS: Record<BotId, { name: string; avatar: any }> = {
     name: 'Pi',
     avatar: piLogo,
   },
+  wizardlm: {
+    name: 'WizardLM',
+    avatar: wizardlmLogo,
+  },
   chatglm: {
     name: 'ChatGLM2',
     avatar: chatglmLogo,
@@ -56,22 +52,6 @@ export const CHATBOTS: Record<BotId, { name: string; avatar: any }> = {
   xunfei: {
     name: 'iFlytek Spark',
     avatar: xunfeiLogo,
-  },
-  oasst: {
-    name: 'OpenAssistant',
-    avatar: oasstLogo,
-  },
-  rwkv: {
-    name: 'ChatRWKV',
-    avatar: rwkvLogo,
-  },
-  guanaco: {
-    name: 'Guanaco',
-    avatar: guanacoLogo,
-  },
-  wizardlm: {
-    name: 'WizardLM',
-    avatar: wizardlmLogo,
   },
   qianwen: {
     name: 'Qianwen',
