@@ -107,6 +107,7 @@ export class BingWebBot extends AbstractBot {
       this.conversationContext = {
         conversationId: conversation.conversationId,
         conversationSignature: conversation.conversationSignature,
+        encryptedConversationSignature: conversation.encryptedConversationSignature,
         clientId: conversation.clientId,
         invocationId: 0,
         conversationStyle: bingConversationStyle,
@@ -120,7 +121,7 @@ export class BingWebBot extends AbstractBot {
       imageUrl = await this.uploadImage(params.image)
     }
 
-    const wsp = new WebSocketAsPromised('wss://sydney.bing.com/sydney/ChatHub', {
+    const wsp = new WebSocketAsPromised(this.buildWssUrl(conversation.encryptedConversationSignature), {
       packMessage: websocketUtils.packMessage,
       unpackMessage: websocketUtils.unpackMessage,
     })
@@ -244,5 +245,12 @@ export class BingWebBot extends AbstractBot {
       throw new Error('Failed to upload image')
     }
     return `https://www.bing.com/images/blob?bcid=${resp.blobId}`
+  }
+
+  private buildWssUrl(encryptedConversationSignature: string | undefined) {
+    if (!encryptedConversationSignature) {
+      return 'wss://sydney.bing.com/sydney/ChatHub'
+    }
+    return `wss://sydney.bing.com/sydney/ChatHub?sec_access_token=${encodeURIComponent(encryptedConversationSignature)}`
   }
 }
