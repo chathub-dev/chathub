@@ -1,4 +1,4 @@
-import Browser from 'webextension-polyfill'
+import Browser, { Runtime } from 'webextension-polyfill'
 import { CHATGPT_HOME_URL } from '~app/consts'
 import { proxyFetch } from '~services/proxy-fetch'
 import { RequestInitSubset } from '~types/messaging'
@@ -31,21 +31,29 @@ class ProxyFetchRequester implements Requester {
     }
   }
 
-  waitForProxyTabReady(onReady: (tab: Browser.Tabs.Tab) => void) {
-    Browser.runtime.onMessage.addListener(async function listener(message, sender) {
-      if (message.event === 'PROXY_TAB_READY') {
-        console.debug('new proxy tab ready')
-        Browser.runtime.onMessage.removeListener(listener)
-        onReady(sender.tab!)
+  waitForProxyTabReady(): Promise<Browser.Tabs.Tab> {
+    return new Promise((resolve, reject) => {
+      const listener = async function (message: any, sender: Runtime.MessageSender) {
+        if (message.event === 'PROXY_TAB_READY') {
+          console.debug('new proxy tab ready')
+          Browser.runtime.onMessage.removeListener(listener)
+          clearTimeout(timer)
+          resolve(sender.tab!)
+        }
       }
+      const timer = setTimeout(() => {
+        Browser.runtime.onMessage.removeListener(listener)
+        reject(new Error('Timeout waiting for ChatGPT tab'))
+      }, 10 * 1000)
+
+      Browser.runtime.onMessage.addListener(listener)
     })
   }
 
   async createProxyTab() {
-    return new Promise<Browser.Tabs.Tab>((resolve) => {
-      this.waitForProxyTabReady(resolve)
-      Browser.tabs.create({ url: CHATGPT_HOME_URL, pinned: true })
-    })
+    const readyPromise = this.waitForProxyTabReady()
+    Browser.tabs.create({ url: CHATGPT_HOME_URL, pinned: true })
+    return readyPromise
   }
 
   async getProxyTab() {
@@ -62,10 +70,9 @@ class ProxyFetchRequester implements Requester {
       await this.createProxyTab()
       return
     }
-    return new Promise<Browser.Tabs.Tab>((resolve) => {
-      this.waitForProxyTabReady(resolve)
-      Browser.tabs.reload(tab.id!)
-    })
+    const readyPromise = this.waitForProxyTabReady()
+    Browser.tabs.reload(tab.id!)
+    return readyPromise
   }
 
   async fetch(url: string, options?: RequestInitSubset) {
