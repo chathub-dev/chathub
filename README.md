@@ -41,9 +41,9 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 
 ## 📷 Screenshot
 
-![Screenshot](screenshots/extension.png?raw=true)
+![Screenshot](screenshots/extension.png?raw=true#gh-light-mode-only)
 
-![Screenshot (Dark Mode)](screenshots/dark.png?raw=true)
+![Screenshot (Dark Mode)](screenshots/dark.png?raw=true#gh-dark-mode-only)
 
 ## ✨ Features
 
