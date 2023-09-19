@@ -37,7 +37,12 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 
 </div>
 
-##
+---
+
+**Help nominate me as a GitHub Star**: https://stars.github.com/nominate/
+> I nominate @wong2 as a GitHub Star
+
+---
 
 ## 📷 Screenshot
 
