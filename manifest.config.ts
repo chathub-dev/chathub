@@ -67,6 +67,11 @@ export default defineManifest(async (env) => {
           enabled: true,
           path: 'src/rules/qianwen.json',
         },
+        {
+          id: 'ruleset_baichuan',
+          enabled: true,
+          path: 'src/rules/baichuan.json',
+        },
       ],
     },
   }

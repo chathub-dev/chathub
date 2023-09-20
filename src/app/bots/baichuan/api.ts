@@ -9,6 +9,7 @@ interface UserInfo {
 export async function getUserInfo(): Promise<UserInfo> {
   const resp = await ofetch<{ data?: UserInfo; code: number; msg: string }>(
     'https://www.baichuan-ai.com/api/user/user-info',
+    { method: 'POST' },
   )
   if (resp.code === 401) {
     throw new ChatError('请先登录百川账号', ErrorCode.BAICHUAN_WEB_UNAUTHORIZED)

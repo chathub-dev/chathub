@@ -1,0 +1,25 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": {
+      "type": "modifyHeaders",
+      "requestHeaders": [
+        {
+          "header": "origin",
+          "operation": "set",
+          "value": "https://www.baichuan-ai.com"
+        },
+        {
+          "header": "referer",
+          "operation": "set",
+          "value": "https://www.baichuan-ai.com"
+        }
+      ]
+    },
+    "condition": {
+      "requestDomains": ["www.baichuan-ai.com"],
+      "resourceTypes": ["xmlhttprequest"]
+    }
+  }
+]
