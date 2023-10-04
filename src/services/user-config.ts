@@ -42,10 +42,9 @@ export enum ClaudeMode {
 
 export enum ClaudeAPIModel {
   'claude-2' = 'claude-2',
-  'claude-instant-1' = 'claude-instant-v1',
-  'claude-1' = 'claude-v1',
-  'claude-1-100k' = 'claude-v1-100k',
-  'claude-instant-1-100k' = 'claude-instant-v1-100k',
+  'claude-2.0' = 'claude-2.0',
+  'claude-instant-1' = 'claude-instant-1',
+  'claude-instant-1.2' = 'claude-instant-1.2',
 }
 
 export enum OpenRouterClaudeModel {

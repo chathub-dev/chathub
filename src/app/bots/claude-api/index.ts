@@ -62,14 +62,14 @@ export class ClaudeApiBot extends AbstractBot {
 
   private getModelName() {
     switch (this.config.claudeApiModel) {
+      case ClaudeAPIModel['claude-2']:
+        return 'claude-2'
+      case ClaudeAPIModel['claude-2.0']:
+        return 'claude-2.0'
       case ClaudeAPIModel['claude-instant-1']:
         return 'claude-instant-1'
-      case ClaudeAPIModel['claude-1']:
-        return 'claude-1'
-      case ClaudeAPIModel['claude-instant-1-100k']:
-        return 'claude-instant-1-100k'
-      case ClaudeAPIModel['claude-1-100k']:
-        return 'claude-1-100k'
+      case ClaudeAPIModel['claude-instant-1.2']:
+        return 'claude-instant-1.2'
     }
   }
 
