@@ -80,13 +80,16 @@ export class BaichuanWebBot extends AbstractBot {
 
     for await (const uint8Array of streamAsyncIterable(resp.body!)) {
       const str = decoder.decode(uint8Array)
-      console.debug('baichuan', str)
+      console.debug('baichuan stream', str)
       const lines = str.split('\n')
       for (const line of lines) {
         if (!line) {
           continue
         }
         const data = JSON.parse(line)
+        if (!data.answer) {
+          continue
+        }
         answerMessageId = data.answer.id
         const text = data.answer.data
         if (text) {
