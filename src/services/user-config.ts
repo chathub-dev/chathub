@@ -43,9 +43,6 @@ export enum ClaudeMode {
 export enum ClaudeAPIModel {
   'claude-2' = 'claude-2',
   'claude-instant-1' = 'claude-instant-v1',
-  'claude-1' = 'claude-v1',
-  'claude-1-100k' = 'claude-v1-100k',
-  'claude-instant-1-100k' = 'claude-instant-v1-100k',
 }
 
 export enum OpenRouterClaudeModel {
@@ -94,6 +91,12 @@ export async function getUserConfig(): Promise<UserConfig> {
     result.chatgptWebappModelName = ChatGPTWebModel['GPT-3.5']
   } else if (result.chatgptWebappModelName === 'gpt-4-mobile') {
     result.chatgptWebappModelName = ChatGPTWebModel['GPT-4']
+  }
+  if (
+    result.claudeApiModel !== ClaudeAPIModel['claude-2'] ||
+    result.claudeApiModel !== ClaudeAPIModel['claude-instant-1']
+  ) {
+    result.claudeApiModel = ClaudeAPIModel['claude-2']
   }
   return defaults(result, userConfigWithDefaultValue)
 }
