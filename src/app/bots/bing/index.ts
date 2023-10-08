@@ -1,6 +1,8 @@
 import { ofetch } from 'ofetch'
 import WebSocketAsPromised from 'websocket-as-promised'
+import { requestHostPermission } from '~app/utils/permissions'
 import { BingConversationStyle, getUserConfig } from '~services/user-config'
+import { uuid } from '~utils'
 import { ChatError, ErrorCode } from '~utils/errors'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
 import { createConversation } from './api'
@@ -13,23 +15,42 @@ const OPTIONS_SETS = [
   'disable_emoji_spoken_text',
   'responsible_ai_policy_235',
   'enablemm',
-  'iycapbing',
-  'iyxapbing',
-  'objopinion',
-  'rweasgv2',
-  'dagslnv1',
   'dv3sugg',
-  'autosave',
-  'iyoloxap',
-  'iyoloneutral',
-  'clgalileo',
-  'gencontentv3',
+  'iyxapbing',
+  'iycapbing',
+  'galileo',
+  'saharagenconv5',
+  'log2sph',
+  'savememfilter',
+  'uprofgen',
+  'uprofupd',
+  'uprofupdasy',
+  'vidsumsnip',
+]
+
+const SLICE_IDS = [
+  'tnaenableux',
+  'adssqovr',
+  'tnaenable',
+  'arankc_1_9_3',
+  'rankcf',
+  '0731ziv2s0',
+  '926buffall',
+  'inosanewsmob',
+  'wrapnoins',
+  'prechr',
+  'sydtransl',
+  '806log2sph',
+  '927uprofasy',
+  '919vidsnip',
+  '829suggtrims0',
 ]
 
 export class BingWebBot extends AbstractBot {
   private conversationContext?: ConversationInfo
 
   private buildChatRequest(conversation: ConversationInfo, message: string, imageUrl?: string) {
+    const requestId = uuid()
     const optionsSets = OPTIONS_SETS
     if (conversation.conversationStyle === BingConversationStyle.Precise) {
       optionsSets.push('h3precise')
@@ -50,35 +71,22 @@ export class BingWebBot extends AbstractBot {
             'GenerateContentQuery',
             'SearchQuery',
           ],
-          sliceIds: [
-            'winmuid1tf',
-            'anssupfor_c',
-            'imgchatgptv2',
-            'tts2cf',
-            'contansperf',
-            'mlchatpc8500w',
-            'mlchatpc2',
-            'ctrlworkpay',
-            'winshortmsgtf',
-            'cibctrl',
-            'sydtransctrl',
-            'sydconfigoptc',
-            '0705trt4',
-            '517opinion',
-            '628ajcopus0',
-            '330uaugs0',
-            '529rwea',
-            '0626snptrcs0',
-            '424dagslnv1',
-          ],
+          sliceIds: SLICE_IDS,
+          verbosity: 'verbose',
+          scenario: 'SERP',
+          plugins: [],
           isStartOfSession: conversation.invocationId === 0,
           message: {
+            timestamp: new Date().toISOString(),
             author: 'user',
             inputMethod: 'Keyboard',
             text: message,
             imageUrl,
             messageType: 'Chat',
+            requestId,
+            messageId: requestId,
           },
+          requestId,
           conversationId: conversation.conversationId,
           conversationSignature: conversation.conversationSignature,
           participant: { id: conversation.clientId },
@@ -91,11 +99,15 @@ export class BingWebBot extends AbstractBot {
   }
 
   async doSendMessage(params: SendMessageParams) {
+    if (!(await requestHostPermission('wss://*.bing.com/'))) {
+      throw new ChatError('Missing bing.com permission', ErrorCode.MISSING_HOST_PERMISSION)
+    }
     if (!this.conversationContext) {
       const [conversation, { bingConversationStyle }] = await Promise.all([createConversation(), getUserConfig()])
       this.conversationContext = {
         conversationId: conversation.conversationId,
         conversationSignature: conversation.conversationSignature,
+        encryptedConversationSignature: conversation.encryptedConversationSignature,
         clientId: conversation.clientId,
         invocationId: 0,
         conversationStyle: bingConversationStyle,
@@ -109,7 +121,7 @@ export class BingWebBot extends AbstractBot {
       imageUrl = await this.uploadImage(params.image)
     }
 
-    const wsp = new WebSocketAsPromised('wss://sydney.bing.com/sydney/ChatHub', {
+    const wsp = new WebSocketAsPromised(this.buildWssUrl(conversation.encryptedConversationSignature), {
       packMessage: websocketUtils.packMessage,
       unpackMessage: websocketUtils.unpackMessage,
     })
@@ -233,5 +245,12 @@ export class BingWebBot extends AbstractBot {
       throw new Error('Failed to upload image')
     }
     return `https://www.bing.com/images/blob?bcid=${resp.blobId}`
+  }
+
+  private buildWssUrl(encryptedConversationSignature: string | undefined) {
+    if (!encryptedConversationSignature) {
+      return 'wss://sydney.bing.com/sydney/ChatHub'
+    }
+    return `wss://sydney.bing.com/sydney/ChatHub?sec_access_token=${encodeURIComponent(encryptedConversationSignature)}`
   }
 }

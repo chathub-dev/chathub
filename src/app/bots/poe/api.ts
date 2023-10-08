@@ -36,9 +36,7 @@ interface ChannelData {
 
 async function getFormkey() {
   const html: string = await ofetch('https://poe.com', { parseResponse: (txt) => txt })
-  const r = html.match(/<head>(.+)<\/head>/)!
-  const headHtml = r[1]
-  const formkey = await decodePoeFormkey(headHtml)
+  const formkey = await decodePoeFormkey(html)
   return formkey
 }
 

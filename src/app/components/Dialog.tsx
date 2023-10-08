@@ -4,7 +4,7 @@ import closeIcon from '~/assets/icons/close.svg'
 import { cx } from '~/utils'
 
 interface Props {
-  title: string
+  title?: string
   open: boolean
   onClose: () => void
   className?: string
@@ -42,16 +42,20 @@ const Dialog: FC<PropsWithChildren<Props>> = (props) => {
                 props.className,
               )}
             >
-              <HeadlessDialog.Title
-                className={cx(
-                  !props.borderless && 'border-b',
-                  'border-solid border-primary-border flex flex-row justify-center items-center py-4 px-5',
-                )}
-              >
-                <span className="ml-auto" />
-                <span className="font-bold text-primary-text text-base">{props.title}</span>
-                <img src={closeIcon} className="w-4 h-4 ml-auto mr-[10px] cursor-pointer" onClick={props.onClose} />
-              </HeadlessDialog.Title>
+              {props.title ? (
+                <HeadlessDialog.Title
+                  className={cx(
+                    !props.borderless && 'border-b',
+                    'border-solid border-primary-border flex flex-row justify-center items-center py-4 px-5',
+                  )}
+                >
+                  <span className="ml-auto" />
+                  <span className="font-bold text-primary-text text-base">{props.title}</span>
+                  <img src={closeIcon} className="w-4 h-4 ml-auto mr-[10px] cursor-pointer" onClick={props.onClose} />
+                </HeadlessDialog.Title>
+              ) : (
+                <HeadlessDialog.Title></HeadlessDialog.Title>
+              )}
               {props.children}
             </HeadlessDialog.Panel>
           </Transition.Child>

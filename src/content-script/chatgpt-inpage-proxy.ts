@@ -12,6 +12,7 @@ function injectTip() {
   div.style.padding = '10px'
   div.style.margin = '10px'
   div.style.border = '1px solid'
+  div.style.color = 'red'
   document.body.appendChild(div)
 }
 

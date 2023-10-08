@@ -1,36 +1,58 @@
 import { getBrowser, getOS } from '~app/utils/navigator'
-import { activateLicense, deactivateLicense, validateLicense } from './lemonsqueezy'
+import * as lemonsqueezy from './lemonsqueezy'
+
+interface PremiumActivation {
+  licenseKey: string
+  instanceId: string
+}
 
 function getInstanceName() {
   return `${getOS()} / ${getBrowser()}`
 }
 
-export async function validateLicenseKey(key: string) {
-  let instanceId = localStorage.getItem(`license_instance_id:${key}`)
-  if (!instanceId) {
-    instanceId = await activateLicense(key, getInstanceName())
-    localStorage.setItem(`license_instance_id:${key}`, instanceId)
-  }
-  return validateLicense(key, instanceId)
+export async function activatePremium(licenseKey: string): Promise<PremiumActivation> {
+  const instanceId = await lemonsqueezy.activateLicense(licenseKey, getInstanceName())
+  const data = { licenseKey, instanceId }
+  localStorage.setItem('premium', JSON.stringify(data))
+  return data
 }
 
-export async function deactivateLicenseKey(key: string) {
-  const instanceId = localStorage.getItem(`license_instance_id:${key}`)
-  if (!instanceId) {
+export async function validatePremium() {
+  const activation = getPremiumActivation()
+  if (!activation) {
+    return { valid: false }
+  }
+  return lemonsqueezy.validateLicense(activation.licenseKey, activation.instanceId)
+}
+
+export async function deactivatePremium() {
+  const activation = getPremiumActivation()
+  if (!activation) {
     return
   }
-  await deactivateLicense(key, instanceId)
-  localStorage.removeItem(`license_instance_id:${key}`)
+  await lemonsqueezy.deactivateLicense(activation.licenseKey, activation.instanceId)
+  localStorage.removeItem('premium')
 }
 
-export function getLicenseInstanceId(key: string) {
-  return localStorage.getItem(`license_instance_id:${key}`)
-}
-
-export function clearLicenseInstances() {
-  for (const k of Object.keys(localStorage)) {
-    if (k.startsWith('license_instance_id:')) {
-      localStorage.removeItem(k)
-    }
+export function getPremiumActivation(): PremiumActivation | null {
+  const data = localStorage.getItem('premium')
+  if (data) {
+    return JSON.parse(data)
   }
+  // Migrate old storage
+  const key = localStorage.getItem('licenseKey')
+  if (!key) {
+    return null
+  }
+  const licenseKey: string = JSON.parse(key)
+  const instanceId = localStorage.getItem(`license_instance_id:${licenseKey}`)
+  if (!instanceId) {
+    localStorage.removeItem('licenseKey')
+    return null
+  }
+  const d = { licenseKey, instanceId }
+  localStorage.setItem('premium', JSON.stringify(d))
+  localStorage.removeItem('licenseKey')
+  localStorage.removeItem(`license_instance_id:${licenseKey}`)
+  return d
 }

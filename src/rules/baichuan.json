@@ -8,19 +8,18 @@
         {
           "header": "origin",
           "operation": "set",
-          "value": "https://www.bing.com"
+          "value": "https://www.baichuan-ai.com"
         },
         {
           "header": "referer",
           "operation": "set",
-          "value": "https://www.bing.com"
+          "value": "https://www.baichuan-ai.com"
         }
       ]
     },
     "condition": {
-      "urlFilter": "bing",
-      "isUrlFilterCaseSensitive": false,
-      "resourceTypes": ["xmlhttprequest", "websocket"]
+      "requestDomains": ["www.baichuan-ai.com"],
+      "resourceTypes": ["xmlhttprequest"]
     }
   }
 ]

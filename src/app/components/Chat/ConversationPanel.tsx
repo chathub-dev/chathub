@@ -18,6 +18,7 @@ import Tooltip from '../Tooltip'
 import ChatMessageInput from './ChatMessageInput'
 import ChatMessageList from './ChatMessageList'
 import WebAccessCheckbox from './WebAccessCheckbox'
+import ChatbotName from './ChatbotName'
 
 interface Props {
   botId: BotId
@@ -93,15 +94,15 @@ const ConversationPanel: FC<Props> = (props) => {
           <div className="flex flex-row items-center">
             <motion.img
               src={botInfo.avatar}
-              className="w-[18px] h-[18px] object-contain rounded-full"
+              className="w-[18px] h-[18px] object-contain rounded-full mr-2"
               whileHover={{ rotate: 180 }}
             />
-            <Tooltip content={props.bot.name || botInfo.name}>
-              <span className="font-semibold text-primary-text text-sm cursor-default ml-2 mr-1">{botInfo.name}</span>
-            </Tooltip>
-            {mode === 'compact' && props.onSwitchBot && (
-              <SwitchBotDropdown selectedBotId={props.botId} onChange={props.onSwitchBot} />
-            )}
+            <ChatbotName
+              botId={props.botId}
+              name={botInfo.name}
+              fullName={props.bot.name}
+              onSwitchBot={mode === 'compact' ? props.onSwitchBot : undefined}
+            />
           </div>
           <WebAccessCheckbox botId={props.botId} />
           <div className="flex flex-row items-center gap-3">

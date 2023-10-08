@@ -35,7 +35,7 @@
   "Four in one": "4つ合わせて",
   "Activate up to 5 devices": "最大5台のデバイスをアクティブ化する",
   "Deactivate": "非アクティブ化",
-  "Get premium license": "プレミアムライセンスを入手する",
+  "Buy premium license": "プレミアムライセンスを入手する",
   "Theme Settings": "テーマ設定",
   "Theme Mode": "テーマモード",
   "Theme Color": "テーマカラー",
@@ -87,5 +87,10 @@
   "Display": "表示",
   "Display Settings": "表示設定",
   "Auto": "自動",
-  "Language": "言語"
+  "Language": "言語",
+  "Buy once, use forever": "一度購入し、永久に使用する",
+  "20% OFF: ends in": "20％オフ：終了日",
+  "Special Offer: 20% OFF": "特別オファー：20％オフ",
+  "TODAY ONLY": "今日限り",
+  "Get Discount": "割引を入手する"
 }

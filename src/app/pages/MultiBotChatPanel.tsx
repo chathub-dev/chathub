@@ -1,32 +1,36 @@
-import { cx } from '~/utils'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
-import { uniqBy } from 'lodash-es'
-import { FC, Suspense, useCallback, useEffect, useMemo, useState } from 'react'
+import { sample, uniqBy } from 'lodash-es'
+import { FC, Suspense, useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { cx } from '~/utils'
 import Button from '~app/components/Button'
 import ChatMessageInput from '~app/components/Chat/ChatMessageInput'
 import LayoutSwitch from '~app/components/Chat/LayoutSwitch'
-import PremiumFeatureModal from '~app/components/Premium/Modal'
-import { Layout } from '~app/consts'
+import { CHATBOTS, Layout } from '~app/consts'
 import { useChat } from '~app/hooks/use-chat'
 import { usePremium } from '~app/hooks/use-premium'
 import { trackEvent } from '~app/plausible'
+import { showPremiumModalAtom } from '~app/state'
 import { BotId } from '../bots'
 import ConversationPanel from '../components/Chat/ConversationPanel'
 
+const DEFAULT_BOTS: BotId[] = ['chatgpt', 'claude', 'bard', 'bing', 'llama', 'pi']
+
 const layoutAtom = atomWithStorage<Layout>('multiPanelLayout', 2, undefined, { unstable_getOnInit: true })
-const twoPanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:2', ['chatgpt', 'claude'])
-const threePanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:3', ['chatgpt', 'claude', 'bard'])
-const fourPanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:4', ['chatgpt', 'claude', 'bard', 'bing'])
-const sixPanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:6', [
-  'chatgpt',
-  'claude',
-  'bard',
-  'bing',
-  'pi',
-  'llama',
-])
+const twoPanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:2', DEFAULT_BOTS.slice(0, 2))
+const threePanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:3', DEFAULT_BOTS.slice(0, 3))
+const fourPanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:4', DEFAULT_BOTS.slice(0, 4))
+const sixPanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:6', DEFAULT_BOTS.slice(0, 6))
+
+function replaceDeprecatedBots(bots: BotId[]): BotId[] {
+  return bots.map((bot) => {
+    if (CHATBOTS[bot]) {
+      return bot
+    }
+    return sample(DEFAULT_BOTS)!
+  })
+}
 
 const GeneralChatPanel: FC<{
   chats: ReturnType<typeof useChat>[]
@@ -37,15 +41,15 @@ const GeneralChatPanel: FC<{
   const generating = useMemo(() => chats.some((c) => c.generating), [chats])
   const [layout, setLayout] = useAtom(layoutAtom)
 
-  const [premiumModalOpen, setPremiumModalOpen] = useState(false)
+  const setPremiumModalOpen = useSetAtom(showPremiumModalAtom)
   const premiumState = usePremium()
   const disabled = useMemo(() => !premiumState.isLoading && !premiumState.activated, [premiumState])
 
   useEffect(() => {
     if (disabled && (chats.length > 2 || supportImageInput)) {
-      setPremiumModalOpen(true)
+      setPremiumModalOpen('all-in-one-layout')
     }
-  }, [chats.length, disabled, supportImageInput])
+  }, [chats.length, disabled, setPremiumModalOpen, supportImageInput])
 
   const sendSingleMessage = useCallback(
     (input: string, botId: BotId) => {
@@ -58,13 +62,13 @@ const GeneralChatPanel: FC<{
   const sendAllMessage = useCallback(
     (input: string, image?: File) => {
       if (disabled && chats.length > 2) {
-        setPremiumModalOpen(true)
+        setPremiumModalOpen('all-in-one-layout')
         return
       }
       uniqBy(chats, (c) => c.botId).forEach((c) => c.sendMessage(input, image))
       trackEvent('send_messages', { layout, disabled })
     },
-    [chats, disabled, layout],
+    [chats, disabled, layout, setPremiumModalOpen],
   )
 
   const onSwitchBot = useCallback(
@@ -126,13 +130,13 @@ const GeneralChatPanel: FC<{
           supportImageInput={supportImageInput}
         />
       </div>
-      <PremiumFeatureModal open={premiumModalOpen} setOpen={setPremiumModalOpen} feature="all-in-one-layout" />
     </div>
   )
 }
 
 const TwoBotChatPanel = () => {
-  const [multiPanelBotIds, setBots] = useAtom(twoPanelBotsAtom)
+  const [bots, setBots] = useAtom(twoPanelBotsAtom)
+  const multiPanelBotIds = useMemo(() => replaceDeprecatedBots(bots), [bots])
   const chat1 = useChat(multiPanelBotIds[0])
   const chat2 = useChat(multiPanelBotIds[1])
   const chats = useMemo(() => [chat1, chat2], [chat1, chat2])
@@ -140,7 +144,8 @@ const TwoBotChatPanel = () => {
 }
 
 const ThreeBotChatPanel = () => {
-  const [multiPanelBotIds, setBots] = useAtom(threePanelBotsAtom)
+  const [bots, setBots] = useAtom(threePanelBotsAtom)
+  const multiPanelBotIds = useMemo(() => replaceDeprecatedBots(bots), [bots])
   const chat1 = useChat(multiPanelBotIds[0])
   const chat2 = useChat(multiPanelBotIds[1])
   const chat3 = useChat(multiPanelBotIds[2])
@@ -149,7 +154,8 @@ const ThreeBotChatPanel = () => {
 }
 
 const FourBotChatPanel = () => {
-  const [multiPanelBotIds, setBots] = useAtom(fourPanelBotsAtom)
+  const [bots, setBots] = useAtom(fourPanelBotsAtom)
+  const multiPanelBotIds = useMemo(() => replaceDeprecatedBots(bots), [bots])
   const chat1 = useChat(multiPanelBotIds[0])
   const chat2 = useChat(multiPanelBotIds[1])
   const chat3 = useChat(multiPanelBotIds[2])
@@ -159,7 +165,8 @@ const FourBotChatPanel = () => {
 }
 
 const SixBotChatPanel = () => {
-  const [multiPanelBotIds, setBots] = useAtom(sixPanelBotsAtom)
+  const [bots, setBots] = useAtom(sixPanelBotsAtom)
+  const multiPanelBotIds = useMemo(() => replaceDeprecatedBots(bots), [bots])
   const chat1 = useChat(multiPanelBotIds[0])
   const chat2 = useChat(multiPanelBotIds[1])
   const chat3 = useChat(multiPanelBotIds[2])

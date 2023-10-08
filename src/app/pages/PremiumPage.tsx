@@ -1,7 +1,7 @@
 import { useSearch } from '@tanstack/react-router'
-import ConfettiExplosion from 'react-confetti-explosion'
-import { useAtom } from 'jotai'
+import { get as getPath } from 'lodash-es'
 import { useCallback, useState } from 'react'
+import ConfettiExplosion from 'react-confetti-explosion'
 import { Toaster } from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
 import Button from '~app/components/Button'
@@ -9,38 +9,49 @@ import DiscountBadge from '~app/components/Premium/DiscountBadge'
 import FeatureList from '~app/components/Premium/FeatureList'
 import PriceSection from '~app/components/Premium/PriceSection'
 import { usePremium } from '~app/hooks/use-premium'
+import { useDiscountCode } from '~app/hooks/use-purchase-info'
 import { trackEvent } from '~app/plausible'
 import { premiumRoute } from '~app/router'
-import { licenseKeyAtom } from '~app/state'
-import { deactivateLicenseKey } from '~services/premium'
+import { activatePremium, deactivatePremium } from '~services/premium'
 
 function PremiumPage() {
   const { t } = useTranslation()
-  const [licenseKey, setLicenseKey] = useAtom(licenseKeyAtom)
   const premiumState = usePremium()
+  const [activating, setActivating] = useState(false)
   const [deactivating, setDeactivating] = useState(false)
+  const [activationError, setActivationError] = useState('')
   const { source } = useSearch({ from: premiumRoute.id })
   const [isExploding, setIsExploding] = useState(false)
+  const discountCode = useDiscountCode()
 
-  const activateLicense = useCallback(() => {
+  const activate = useCallback(async () => {
     const key = window.prompt('Enter your license key', '')
-    if (key) {
-      setLicenseKey(key)
-    }
-  }, [setLicenseKey])
-
-  const deactivateLicense = useCallback(async () => {
-    if (!licenseKey) {
+    if (!key) {
       return
     }
+    setActivationError('')
+    setActivating(true)
+    trackEvent('activate_license')
+    try {
+      await activatePremium(key)
+    } catch (err) {
+      console.error('activation', err)
+      setActivationError(getPath(err, 'data.error') || 'Activation failed')
+      setActivating(false)
+      return
+    }
+    setTimeout(() => location.reload(), 500)
+  }, [])
+
+  const deactivateLicense = useCallback(async () => {
     if (!window.confirm('Are you sure to deactivate this device?')) {
       return
     }
     setDeactivating(true)
-    await deactivateLicenseKey(licenseKey)
-    setLicenseKey('')
+    trackEvent('deactivate_license')
+    await deactivatePremium()
     setTimeout(() => location.reload(), 500)
-  }, [licenseKey, setLicenseKey])
+  }, [])
 
   return (
     <div className="flex flex-col bg-primary-background dark:text-primary-text rounded-[20px] h-full p-[50px] overflow-y-auto">
@@ -48,7 +59,7 @@ function PremiumPage() {
       {!premiumState.activated && (
         <div className="flex flex-col gap-4 mt-9">
           <DiscountBadge />
-          <PriceSection />
+          <PriceSection align="left" />
         </div>
       )}
       <div className="mt-8">
@@ -73,19 +84,19 @@ function PremiumPage() {
         ) : (
           <>
             <a
-              href={`https://chathub.gg/api/premium/redirect?source=${source || ''}`}
+              href={`https://chathub.gg/api/premium/redirect?source=${source || ''}&discountCode=${discountCode || ''}`}
               target="_blank"
               rel="noreferrer"
               onClick={() => trackEvent('click_buy_premium', { source: 'premium_page' })}
             >
-              <Button text={t('Get premium license')} color="primary" className="w-fit !py-2 rounded-lg" />
+              <Button text={t('Buy premium license')} color="primary" className="w-fit !py-2 rounded-lg" />
             </a>
             <Button
               text={t('Activate license')}
               color="flat"
               className="w-fit !py-2 rounded-lg"
-              onClick={activateLicense}
-              isLoading={premiumState.isLoading}
+              onClick={activate}
+              isLoading={activating || premiumState.isLoading}
             />
           </>
         )}
@@ -98,7 +109,9 @@ function PremiumPage() {
           {t('Manage order and devices')}
         </a>
       </div>
-      {!!premiumState.error && <span className="mt-3 text-red-500 font-medium">{premiumState.error}</span>}
+      {!!(premiumState.error || activationError) && (
+        <span className="mt-3 text-red-500 font-medium">{premiumState.error || activationError}</span>
+      )}
       <Toaster position="top-right" />
       {isExploding && <ConfettiExplosion duration={3000} onComplete={() => setIsExploding(false)} />}
     </div>

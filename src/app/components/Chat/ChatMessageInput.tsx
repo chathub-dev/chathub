@@ -137,7 +137,10 @@ const ChatMessageInput: FC<Props> = (props) => {
   }, [])
 
   const selectImage = useCallback(async () => {
-    const file = await fileOpen({ mimeTypes: ['image/jpg', 'image/png', 'image/gif'] })
+    const file = await fileOpen({
+      mimeTypes: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'],
+      extensions: ['.jpg', '.jpeg', '.png', '.gif'],
+    })
     setImage(file)
     inputRef.current?.focus()
   }, [])
