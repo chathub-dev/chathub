@@ -21,3 +21,10 @@ export type ResponseCitation = {
     text: string
   }
 }
+
+export interface ImageContent {
+  asset_pointer: string
+  size_bytes: number
+  width: number
+  height: number
+}

@@ -1,3 +1,4 @@
+import { ofetch } from 'ofetch'
 import { RequestInitSubset } from '~types/messaging'
 import { ChatError, ErrorCode } from '~utils/errors'
 import { Requester, globalFetchRequester, proxyFetchRequester } from './requesters'
@@ -35,7 +36,7 @@ class ChatGPTClient {
     return data.accessToken
   }
 
-  private async requestBackendAPIWithToken(token: string, method: string, path: string, data?: unknown) {
+  private async requestBackendAPIWithToken(token: string, method: 'GET' | 'POST', path: string, data?: unknown) {
     return this.fetch(`https://chat.openai.com/backend-api${path}`, {
       method,
       headers: {
@@ -55,6 +56,41 @@ class ChatGPTClient {
     await this.requestBackendAPIWithToken(token, 'POST', `/conversation/gen_title/${conversationId}`, {
       message_id: messageId,
     })
+  }
+
+  async createFileUpload(token: string, file: File): Promise<{ fileId: string; uploadUrl: string }> {
+    const resp = await this.requestBackendAPIWithToken(token, 'POST', '/files', {
+      file_name: file.name,
+      file_size: file.size,
+      use_case: 'multimodal',
+    })
+    const data = await resp.json()
+    if (data.status !== 'success') {
+      throw new Error('Failed to init ChatGPT file upload')
+    }
+    return {
+      fileId: data.file_id,
+      uploadUrl: data.upload_url,
+    }
+  }
+
+  async completeFileUpload(token: string, fileId: string) {
+    await this.requestBackendAPIWithToken(token, 'POST', `/files/${fileId}/uploaded`, {})
+  }
+
+  async uploadFile(token: string, file: File) {
+    const { fileId, uploadUrl } = await this.createFileUpload(token, file)
+    await ofetch(uploadUrl, {
+      method: 'PUT',
+      body: file,
+      headers: {
+        'x-ms-blob-type': 'BlockBlob',
+        'x-ms-version': '2020-04-08',
+        'Content-Type': file.type,
+      },
+    })
+    await this.completeFileUpload(token, fileId)
+    return fileId
   }
 
   // Switch to proxy mode, or refresh the proxy tab

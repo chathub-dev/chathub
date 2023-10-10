@@ -6,7 +6,8 @@ import { parseSSEResponse } from '~utils/sse'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
 import { getArkoseToken } from './arkose'
 import { chatGPTClient } from './client'
-import { ResponseContent } from './types'
+import { ImageContent, ResponseContent } from './types'
+import { getImageSize } from '~app/utils/image-size'
 
 function removeCitations(text: string) {
   return text.replaceAll(/\u3010\d+\u2020source\u3011/g, '')
@@ -36,12 +37,25 @@ export class ChatGPTWebBot extends AbstractBot {
     if (!this.accessToken) {
       this.accessToken = await chatGPTClient.getAccessToken()
     }
+
     const modelName = await this.getModelName()
     console.debug('Using model:', modelName)
 
     let arkoseToken: string | undefined
     if (modelName.startsWith('gpt-4')) {
       arkoseToken = await getArkoseToken()
+    }
+
+    let image: ImageContent | undefined = undefined
+    if (params.image) {
+      const fileId = await chatGPTClient.uploadFile(this.accessToken, params.image)
+      const size = await getImageSize(params.image)
+      image = {
+        asset_pointer: `file-service://${fileId}`,
+        width: size.width,
+        height: size.height,
+        size_bytes: params.image.size,
+      }
     }
 
     const resp = await chatGPTClient.fetch('https://chat.openai.com/backend-api/conversation', {
@@ -57,10 +71,9 @@ export class ChatGPTWebBot extends AbstractBot {
           {
             id: uuidv4(),
             author: { role: 'user' },
-            content: {
-              content_type: 'text',
-              parts: [params.prompt],
-            },
+            content: image
+              ? { content_type: 'multimodal_text', parts: [image, params.prompt] }
+              : { content_type: 'text', parts: [params.prompt] },
           },
         ],
         model: modelName,
