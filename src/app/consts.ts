@@ -4,7 +4,9 @@ import bardLogo from '~/assets/bard-logo.svg'
 import bingLogo from '~/assets/bing-logo.svg'
 import chatglmLogo from '~/assets/chatglm-logo.svg'
 import chatgptLogo from '~/assets/chatgpt-logo.svg'
+import falconLogo from '~/assets/falcon-logo.jpeg'
 import llamaLogo from '~/assets/llama-logo.png'
+import mistralLogo from '~/assets/mistral-logo.png'
 import piLogo from '~/assets/pi-logo.png'
 import qianwenLogo from '~/assets/qianwen-logo.png'
 import vicunaLogo from '~/assets/vicuna-logo.jpg'
@@ -36,6 +38,14 @@ export const CHATBOTS: Record<BotId, { name: string; avatar: any }> = {
   vicuna: {
     name: 'Vicuna',
     avatar: vicunaLogo,
+  },
+  falcon: {
+    name: 'Falcon',
+    avatar: falconLogo,
+  },
+  mistral: {
+    name: 'Mistral',
+    avatar: mistralLogo,
   },
   pi: {
     name: 'Pi',

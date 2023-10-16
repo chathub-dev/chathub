@@ -15,6 +15,8 @@ export type BotId =
   | 'claude'
   | 'xunfei'
   | 'vicuna'
+  | 'falcon'
+  | 'mistral'
   | 'chatglm'
   | 'llama'
   | 'pi'
@@ -42,6 +44,10 @@ export function createBotInstance(botId: BotId) {
       return new LMSYSBot('llama-2-70b-chat')
     case 'wizardlm':
       return new LMSYSBot('wizardlm-13b')
+    case 'falcon':
+      return new LMSYSBot('falcon-180b-chat')
+    case 'mistral':
+      return new LMSYSBot('mistral-7b-instruct')
     case 'pi':
       return new PiBot()
     case 'qianwen':
