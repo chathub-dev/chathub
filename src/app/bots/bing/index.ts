@@ -75,6 +75,7 @@ export class BingWebBot extends AbstractBot {
           verbosity: 'verbose',
           scenario: 'SERP',
           plugins: [],
+          conversationHistoryOptionsSets: ['autosave', 'savemem', 'uprofupd', 'uprofgen'],
           isStartOfSession: conversation.invocationId === 0,
           message: {
             timestamp: new Date().toISOString(),
