@@ -41,10 +41,7 @@ export class ChatGPTWebBot extends AbstractBot {
     const modelName = await this.getModelName()
     console.debug('Using model:', modelName)
 
-    let arkoseToken: string | undefined
-    if (modelName.startsWith('gpt-4')) {
-      arkoseToken = await getArkoseToken()
-    }
+    const arkoseToken = await getArkoseToken()
 
     let image: ImageContent | undefined = undefined
     if (params.image) {
