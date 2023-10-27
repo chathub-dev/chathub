@@ -51,12 +51,17 @@ export class BingWebBot extends AbstractBot {
 
   private buildChatRequest(conversation: ConversationInfo, message: string, imageUrl?: string) {
     const requestId = uuid()
-    const optionsSets = OPTIONS_SETS
+
+    const optionsSets = [...OPTIONS_SETS]
+    let tone = 'Balanced'
     if (conversation.conversationStyle === BingConversationStyle.Precise) {
       optionsSets.push('h3precise')
+      tone = 'Precise'
     } else if (conversation.conversationStyle === BingConversationStyle.Creative) {
       optionsSets.push('h3imaginative')
+      tone = 'Creative'
     }
+
     return {
       arguments: [
         {
@@ -91,6 +96,7 @@ export class BingWebBot extends AbstractBot {
           conversationId: conversation.conversationId,
           conversationSignature: conversation.conversationSignature,
           participant: { id: conversation.clientId },
+          tone,
         },
       ],
       invocationId: conversation.invocationId.toString(),
