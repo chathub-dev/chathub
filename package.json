@@ -108,5 +108,6 @@
     "webextension-polyfill": "^0.10.0",
     "websocket-as-promised": "^2.0.1",
     "zod": "^3.21.4"
-  }
+  },
+  "packageManager": "yarn@4.0.1"
 }
