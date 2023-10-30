@@ -22,7 +22,7 @@
     "@types/uuid": "^9.0.2",
     "@types/webextension-polyfill": "^0.10.2",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
-    "@typescript-eslint/parser": "^5.60.1",
+    "@typescript-eslint/parser": "^6.9.1",
     "@vitejs/plugin-react": "^4.0.4",
     "autoprefixer": "^10.4.14",
     "chrome-types": "^0.1.231",
