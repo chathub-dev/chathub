@@ -65,7 +65,7 @@
     "humanize-duration": "^3.29.0",
     "i18next": "^23.4.2",
     "i18next-browser-languagedetector": "^7.1.0",
-    "immer": "^9.0.19",
+    "immer": "^10.0.3",
     "inter-ui": "^3.19.3",
     "jotai": "^2.3.0",
     "jotai-immer": "^0.2.0",

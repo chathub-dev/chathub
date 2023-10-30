@@ -2638,7 +2638,7 @@ __metadata:
     humanize-duration: "npm:^3.29.0"
     i18next: "npm:^23.4.2"
     i18next-browser-languagedetector: "npm:^7.1.0"
-    immer: "npm:^9.0.19"
+    immer: "npm:^10.0.3"
     inter-ui: "npm:^3.19.3"
     jotai: "npm:^2.3.0"
     jotai-immer: "npm:^0.2.0"
@@ -4402,10 +4402,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"immer@npm:^9.0.19":
-  version: 9.0.19
-  resolution: "immer@npm:9.0.19"
-  checksum: 69a5f5c1f03471e74adacb7dfc21bdb08156c3d958035142a71e318295d2dcbbd245d9f280fd6cdd54b94bcc642b3f6c2fb1169a97be31ff63a59b2f0469be78
+"immer@npm:^10.0.3":
+  version: 10.0.3
+  resolution: "immer@npm:10.0.3"
+  checksum: 282a4f8479a40f7d12b2b3243c095e3e892bf99058e2ffcdd6b8e9fd143e6a90f2717ab9b6c8b97c927ffb8054465c8f647056f41660dbfd672e240cf1063503
   languageName: node
   linkType: hard
 
