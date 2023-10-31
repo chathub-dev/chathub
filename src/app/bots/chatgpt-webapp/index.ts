@@ -95,6 +95,13 @@ export class ChatGPTWebBot extends AbstractBot {
         console.error(err)
         return
       }
+      if (!data.message && data.error) {
+        params.onEvent({
+          type: 'ERROR',
+          error: new ChatError(data.error, ErrorCode.UNKOWN_ERROR),
+        })
+        return
+      }
       if (getPath(data, 'message.author.role') !== 'assistant') {
         return
       }
