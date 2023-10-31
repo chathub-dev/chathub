@@ -13,7 +13,7 @@
         {
           "header": "referer",
           "operation": "set",
-          "value": "https://qianwen.aliyun.com/chat"
+          "value": "https://qianwen.aliyun.com/"
         }
       ]
     },

@@ -34,6 +34,7 @@ export class QianwenWebBot extends AbstractBot {
       signal: params.signal,
       headers: {
         'Content-Type': 'application/json',
+        'X-Platform': 'pc_tongyi',
         'X-Xsrf-Token': this.conversationContext.csrfToken,
       },
       body: JSON.stringify({
@@ -41,11 +42,12 @@ export class QianwenWebBot extends AbstractBot {
         msgId: generateMessageId(),
         parentMsgId: this.conversationContext.lastMessageId || '0',
         contents: [{ contentType: 'text', content: params.prompt }],
-        timeout: 17,
         sessionId: this.conversationContext.conversationId,
+        sessionType: 'text_chat',
         model: '',
-        userAction: 'chat',
+        modelType: '',
         openSearch: true,
+        timeout: 120,
       }),
     })
 

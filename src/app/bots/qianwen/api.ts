@@ -13,8 +13,12 @@ interface CreationResponse {
 export async function createConversation(firstQuery: string, csrfToken: string) {
   const resp = await ofetch<CreationResponse>('https://qianwen.aliyun.com/addSession', {
     method: 'POST',
-    body: { firstQuery },
+    body: {
+      firstQuery,
+      sessionType: 'text_chat',
+    },
     headers: {
+      'X-Platform': 'pc_tongyi',
       'X-Xsrf-Token': csrfToken,
     },
   })
