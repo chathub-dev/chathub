@@ -3,9 +3,10 @@ import humanizeDuration from 'humanize-duration'
 import { FC, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { usePurchaseInfo } from '~app/hooks/use-purchase-info'
+import { Campaign } from '~services/server-api'
 import { cx } from '~utils'
 
-const DiscountCountDown: FC<{ price: number; endsAt: Dayjs }> = ({ price, endsAt }) => {
+const DiscountCountDown: FC<{ originalPrice: number; endsAt: Dayjs }> = (props) => {
   const [now, setNow] = useState(() => dayjs())
   const { t } = useTranslation()
 
@@ -16,16 +17,24 @@ const DiscountCountDown: FC<{ price: number; endsAt: Dayjs }> = ({ price, endsAt
     return () => clearInterval(interval)
   }, [])
 
-  if (endsAt.isBefore(now)) {
+  if (props.endsAt.isBefore(now)) {
     return null
   }
 
   return (
     <div className="bg-[#FF6B6B] text-white px-4 py-1 rounded-xl font-medium text-sm mt-2 flex flex-row items-center gap-1">
-      <del className="font-bold">${price / 100}</del>
+      <del className="font-bold">${props.originalPrice / 100}</del>
       <span>
-        {t('20% OFF: ends in')} {humanizeDuration(endsAt.diff(now), { units: ['d', 'h', 'm', 's'], round: true })}
+        {t('20% OFF: ends in')} {humanizeDuration(props.endsAt.diff(now), { units: ['d', 'h', 'm', 's'], round: true })}
       </span>
+    </div>
+  )
+}
+
+const CampaignBanner: FC<{ campaign: Campaign }> = (props) => {
+  return (
+    <div className="bg-[#FF6B6B] text-white px-4 py-1 rounded-xl font-medium text-sm mb-3">
+      <span>{props.campaign.description}</span>
     </div>
   )
 }
@@ -38,9 +47,12 @@ const PriceSection: FC<{ align: 'center' | 'left' }> = (props) => {
     if (!purchaseInfoQuery.data) {
       return null
     }
-    const { price, discount } = purchaseInfoQuery.data
+    const { price, discount, campaign } = purchaseInfoQuery.data
     if (discount) {
       return discount.price / 100
+    }
+    if (campaign) {
+      return campaign.price / 100
     }
     return price / 100
   }, [purchaseInfoQuery.data])
@@ -57,6 +69,7 @@ const PriceSection: FC<{ align: 'center' | 'left' }> = (props) => {
 
   return (
     <div className={cx('flex flex-col', props.align === 'center' ? 'items-center' : 'items-start')}>
+      {purchaseInfoQuery.data?.campaign && <CampaignBanner campaign={purchaseInfoQuery.data.campaign} />}
       <div className="flex flex-row gap-3">
         <span className="text-[64px] leading-none font-bold text-primary-blue">
           {calculatedPrice ? `$${calculatedPrice}` : '$$$'}
@@ -67,7 +80,7 @@ const PriceSection: FC<{ align: 'center' | 'left' }> = (props) => {
         </div>
       </div>
       {discountEndsAt && purchaseInfoQuery.data && (
-        <DiscountCountDown price={purchaseInfoQuery.data.price} endsAt={discountEndsAt} />
+        <DiscountCountDown originalPrice={purchaseInfoQuery.data.price} endsAt={discountEndsAt} />
       )}
     </div>
   )

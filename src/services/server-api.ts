@@ -40,14 +40,23 @@ export async function createDiscount() {
   })
 }
 
+export interface Discount {
+  code: string
+  startTime: number
+  price: number
+  percent: number
+}
+
+export interface Campaign {
+  description: string
+  code: string
+  price: number
+}
+
 interface PurchaseInfo {
   price: number
-  discount?: {
-    code: string
-    startTime: number
-    price: number
-    percent: number
-  }
+  discount?: Discount
+  campaign?: Campaign
 }
 
 export async function fetchPurchaseInfo() {

@@ -31,8 +31,9 @@ const PremiumModal: FC = () => {
 
   const onClickBuy = useCallback(() => {
     trackEvent('click_buy_premium', { source: 'premium_modal' })
+    setOpen(false)
     navigate({ to: '/premium', search: { source: 'after_click_buy_premium' } })
-  }, [navigate])
+  }, [navigate, setOpen])
 
   const close = useCallback(() => {
     setOpen(false)
