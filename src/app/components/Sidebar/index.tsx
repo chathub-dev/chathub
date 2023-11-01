@@ -47,9 +47,11 @@ function Sidebar() {
       if (getPremiumActivation()) {
         return
       }
-      const { show } = await api.checkDiscount({ appOpenTimes, premiumModalOpenTimes })
+      const { show, campaign } = await api.checkDiscount({ appOpenTimes, premiumModalOpenTimes })
       if (show) {
         setShowDiscountModal(true)
+      } else if (campaign) {
+        setShowDiscountModal(campaign)
       }
     })
   }, [])

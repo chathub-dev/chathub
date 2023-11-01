@@ -4,6 +4,7 @@ import { atomFamily, atomWithStorage } from 'jotai/utils'
 import { BotId, createBotInstance } from '~app/bots'
 import { FeatureId } from '~app/components/Premium/FeatureList'
 import { getDefaultThemeColor } from '~app/utils/color-scheme'
+import { Campaign } from '~services/server-api'
 import { ChatMessageModel } from '~types'
 import { uuid } from '~utils'
 
@@ -28,5 +29,5 @@ export const sidebarCollapsedAtom = atomWithStorage('sidebarCollapsed', false, u
 export const themeColorAtom = atomWithStorage('themeColor', getDefaultThemeColor())
 export const followArcThemeAtom = atomWithStorage('followArcTheme', false)
 export const sidePanelBotAtom = atomWithStorage<BotId>('sidePanelBot', 'chatgpt')
-export const showDiscountModalAtom = atom(false)
+export const showDiscountModalAtom = atom<false | true | Campaign>(false)
 export const showPremiumModalAtom = atom<false | true | FeatureId>(false)
