@@ -1,10 +1,10 @@
 import { useNavigate } from '@tanstack/react-router'
 import { useCallback, useEffect, useState } from 'react'
+import allInOneIcon from '~/assets/all-in-one.svg'
 import { BotId } from '~app/bots'
 import { CHATBOTS } from '~app/consts'
+import { trackEvent } from '~app/plausible'
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from './Command'
-import { Columns } from 'lucide-react'
-import allInOneIcon from '~/assets/all-in-one.svg'
 
 function CommandBar() {
   const [open, setOpen] = useState(false)
@@ -13,6 +13,7 @@ function CommandBar() {
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === 'k' && e.metaKey) {
+        trackEvent('command-k')
         setOpen((open) => !open)
       }
     }
