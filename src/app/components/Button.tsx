@@ -1,6 +1,8 @@
 import { cx } from '~/utils'
 import { ButtonHTMLAttributes, FC, ReactNode } from 'react'
 import { BeatLoader } from 'react-spinners'
+import React from 'react'
+import { motion } from 'framer-motion'
 
 export interface Props {
   text: string
@@ -13,11 +15,12 @@ export interface Props {
   icon?: ReactNode
 }
 
-const Button: FC<Props> = (props) => {
+const Button = React.forwardRef<HTMLButtonElement, Props>((props, ref) => {
   const size = props.size || 'normal'
   const type = props.type || 'button'
   return (
     <button
+      ref={ref}
       type={type}
       className={cx(
         size === 'normal' && 'text-base font-medium px-6 py-[5px] rounded-full',
@@ -38,6 +41,10 @@ const Button: FC<Props> = (props) => {
       )}
     </button>
   )
-}
+})
+
+Button.displayName = 'Button'
 
 export default Button
+
+export const MotionButton = motion(Button)
