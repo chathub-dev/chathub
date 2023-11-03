@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { FC, PropsWithChildren, useCallback, useEffect, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
 import { BiExport, BiImport } from 'react-icons/bi'
@@ -35,6 +35,15 @@ const BING_STYLE_OPTIONS = [
   { name: 'Balanced', value: BingConversationStyle.Balanced },
   { name: 'Creative', value: BingConversationStyle.Creative },
 ]
+
+const ChatBotSettingPanel: FC<PropsWithChildren<{ title: string }>> = (props) => {
+  return (
+    <div className="flex flex-col gap-1 border border-primary-border px-5 py-4 rounded-lg max-w-[650px] shadow-sm">
+      <p className="font-bold text-md">{props.title}</p>
+      {props.children}
+    </div>
+  )
+}
 
 function SettingPage() {
   const { t } = useTranslation()
@@ -132,8 +141,7 @@ function SettingPage() {
           <p className="font-bold text-lg">{t('Chatbots')}</p>
           <EnabledBotsSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
         </div>
-        <div className="flex flex-col gap-1">
-          <p className="font-bold text-lg">ChatGPT</p>
+        <ChatBotSettingPanel title="ChatGPT">
           <RadioGroup
             options={Object.entries(ChatGPTMode).map(([k, v]) => ({ label: `${k} ${t('Mode')}`, value: v }))}
             value={userConfig.chatgptMode}
@@ -150,9 +158,8 @@ function SettingPage() {
           ) : (
             <ChatGPWebSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
           )}
-        </div>
-        <div className="flex flex-col gap-1">
-          <p className="font-bold text-lg">Claude</p>
+        </ChatBotSettingPanel>
+        <ChatBotSettingPanel title="Claude">
           <RadioGroup
             options={Object.entries(ClaudeMode).map(([k, v]) => ({ label: `${k} ${t('Mode')}`, value: v }))}
             value={userConfig.claudeMode}
@@ -167,9 +174,8 @@ function SettingPage() {
           ) : (
             <ClaudePoeSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
           )}
-        </div>
-        <div className="flex flex-col gap-1">
-          <p className="font-bold text-lg">Bing</p>
+        </ChatBotSettingPanel>
+        <ChatBotSettingPanel title="Bing">
           <div className="flex flex-row gap-3 items-center justify-between w-[250px]">
             <p className="font-medium text-base">{t('Chat style')}</p>
             <div className="w-[150px]">
@@ -180,7 +186,7 @@ function SettingPage() {
               />
             </div>
           </div>
-        </div>
+        </ChatBotSettingPanel>
       </div>
       <Button color={dirty ? 'primary' : 'flat'} text={t('Save')} className="w-fit my-8" onClick={save} />
       <Toaster position="top-right" />
