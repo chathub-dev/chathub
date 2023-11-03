@@ -17,7 +17,6 @@ import { showDiscountModalAtom, sidebarCollapsedAtom } from '~app/state'
 import { getPremiumActivation } from '~services/premium'
 import * as api from '~services/server-api'
 import { getAppOpenTimes, getPremiumModalOpenTimes } from '~services/storage/open-times'
-import CommandBar from '../CommandBar'
 import GuideModal from '../GuideModal'
 import ThemeSettingModal from '../ThemeSettingModal'
 import Tooltip from '../Tooltip'
@@ -121,7 +120,6 @@ function Sidebar() {
           </Tooltip>
         </div>
       </div>
-      <CommandBar />
       <GuideModal />
       <ThemeSettingModal open={themeSettingModalOpen} onClose={() => setThemeSettingModalOpen(false)} />
     </motion.aside>
