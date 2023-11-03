@@ -1,3 +1,4 @@
+import { useBlocker } from '@tanstack/react-router'
 import { FC, PropsWithChildren, useCallback, useEffect, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
@@ -95,6 +96,19 @@ function SettingPage() {
     toast.success('Saved')
     setTimeout(() => location.reload(), 500)
   }, [userConfig])
+
+  useBlocker(t('You have unsaved changes, are you sure you want to leave?'), dirty)
+
+  useEffect(() => {
+    const listener = (e: Event) => {
+      if (dirty) {
+        e.preventDefault()
+        e.returnValue = false
+      }
+    }
+    window.addEventListener('beforeunload', listener)
+    return () => window.removeEventListener('beforeunload', listener)
+  }, [dirty])
 
   if (!userConfig) {
     return null
