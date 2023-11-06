@@ -34,9 +34,9 @@ export enum PoeClaudeModel {
 }
 
 export enum ClaudeMode {
-  Poe = 'poe',
-  API = 'api',
   Webapp = 'webapp',
+  API = 'api',
+  Poe = 'poe',
   OpenRouter = 'openrouter',
 }
 
@@ -67,7 +67,7 @@ const userConfigWithDefaultValue = {
   azureOpenAIApiDeploymentName: '',
   enabledBots: Object.keys(CHATBOTS).slice(0, 8) as BotId[],
   claudeApiKey: '',
-  claudeMode: ClaudeMode.Poe,
+  claudeMode: ClaudeMode.Webapp,
   claudeApiModel: ClaudeAPIModel['claude-2'],
   chatgptWebAccess: false,
   claudeWebAccess: false,

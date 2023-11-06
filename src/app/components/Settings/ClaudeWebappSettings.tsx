@@ -16,7 +16,6 @@ const ClaudeWebappSettings: FC<Props> = () => {
       <div className="w-[250px] mb-1">
         <Select options={[{ name: 'Claude 2', value: 'claude-2' }]} value="claude-2" onChange={console.log} />
       </div>
-      <p className="text-sm mt-1 text-secondary-text">{t('Available in the US and UK')}</p>
     </div>
   )
 }
