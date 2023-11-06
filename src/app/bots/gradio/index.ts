@@ -20,7 +20,12 @@ interface ConversationContext {
 export class GradioBot extends AbstractBot {
   private conversationContext?: ConversationContext
 
-  constructor(public wsUrl: string, public model: string, public params: number[], public mode?: 'text' | 'html') {
+  constructor(
+    public wsUrl: string,
+    public model: string,
+    public params: number[],
+    public mode?: 'text' | 'html',
+  ) {
     super()
   }
 
