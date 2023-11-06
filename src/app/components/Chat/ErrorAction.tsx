@@ -139,6 +139,17 @@ const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
       </p>
     )
   }
+  if (error.code === ErrorCode.LMSYS_WS_ERROR) {
+    return (
+      <p className="ml-2 text-secondary-text text-sm">
+        Please visit{' '}
+        <a href="https://chat.lmsys.org" target="_blank" rel="noreferrer" className="underline">
+          LMSYS.org
+        </a>{' '}
+        and try again
+      </p>
+    )
+  }
   if (
     error.code === ErrorCode.NETWORK_ERROR ||
     (error.code === ErrorCode.UNKOWN_ERROR && error.message.includes('Failed to fetch'))

@@ -104,7 +104,7 @@ export class GradioBot extends AbstractBot {
     try {
       await wsp.open()
     } catch (err) {
-      console.error('lmsys ws open error', err)
+      console.error('WS open error', err)
       throw new ChatError('Failed to establish websocket connection.', ErrorCode.NETWORK_ERROR)
     }
 
