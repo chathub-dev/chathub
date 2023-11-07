@@ -11,6 +11,16 @@ export type ResponseContent =
       content_type: 'tether_browsing_display'
       result: string
     }
+  | {
+      content_type: 'multimodal_text'
+      parts: {
+        content_type: 'image_asset_pointer'
+        asset_pointer: string // file-service://file-5JUtfsLd8O0GEZzjtFmWvZr8
+        size_bytes: number
+        width: number
+        height: number
+      }[]
+    }
 
 export type ResponseCitation = {
   start_ix: number

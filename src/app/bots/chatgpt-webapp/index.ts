@@ -102,13 +102,17 @@ export class ChatGPTWebBot extends AbstractBot {
         })
         return
       }
-      if (getPath(data, 'message.author.role') !== 'assistant') {
+
+      const role: string = getPath(data, 'message.author.role')
+      if (role !== 'assistant') {
         return
       }
+
       const content = data.message?.content as ResponseContent | undefined
       if (!content) {
         return
       }
+
       let text: string
       if (content.content_type === 'text') {
         text = content.parts[0]
@@ -123,10 +127,7 @@ export class ChatGPTWebBot extends AbstractBot {
           conversationId: data.conversation_id,
           lastMessageId: data.message.id,
         }
-        params.onEvent({
-          type: 'UPDATE_ANSWER',
-          data: { text },
-        })
+        params.onEvent({ type: 'UPDATE_ANSWER', data: { text } })
       }
     }).catch((err: Error) => {
       if (err.message.includes('token_expired')) {
