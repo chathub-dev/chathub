@@ -46,7 +46,6 @@
     "@floating-ui/react": "^0.26.1",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
-    "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-tooltip": "^1.0.7",
     "@sentry/integrations": "^7.77.0",
     "@sentry/react": "^7.77.0",
@@ -54,7 +53,6 @@
     "browser-fs-access": "^0.35.0",
     "cachified": "^3.5.4",
     "clsx": "^2.0.0",
-    "cmdk": "^0.2.0",
     "dayjs": "^1.11.10",
     "eventsource-parser": "^1.1.1",
     "framer-motion": "^10.16.4",
@@ -71,7 +69,6 @@
     "jotai-immer": "^0.2.0",
     "js-base64": "^3.7.5",
     "lodash-es": "^4.17.21",
-    "lucide-react": "^0.292.0",
     "md5": "^2.3.0",
     "nanoid": "^5.0.3",
     "ofetch": "^1.3.3",
@@ -90,7 +87,6 @@
     "react-spinners": "^0.13.8",
     "react-textarea-autosize": "^8.5.3",
     "react-viewport-list": "^7.1.1",
-    "react-wrap-balancer": "^1.1.0",
     "rehype-highlight": "^6.0.0",
     "rehype-stringify": "^9.0.4",
     "remark-breaks": "^3.0.3",
@@ -106,8 +102,7 @@
     "unified": "^10.1.2",
     "uuid": "^9.0.1",
     "webextension-polyfill": "^0.10.0",
-    "websocket-as-promised": "^2.0.1",
-    "zod": "^3.22.4"
+    "websocket-as-promised": "^2.0.1"
   },
   "packageManager": "yarn@4.0.1"
 }
