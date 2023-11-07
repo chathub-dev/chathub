@@ -77,6 +77,7 @@ export class ChatGPTWebBot extends AbstractBot {
         conversation_id: this.conversationContext?.conversationId || undefined,
         parent_message_id: this.conversationContext?.lastMessageId || uuidv4(),
         arkose_token: arkoseToken,
+        conversation_mode: { kind: 'primary_assistant' },
       }),
     })
 
