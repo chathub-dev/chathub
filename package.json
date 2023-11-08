@@ -92,7 +92,7 @@
     "remark-breaks": "^3.0.3",
     "remark-gfm": "^3.0.1",
     "remark-math": "^5.1.1",
-    "remark-parse": "^10.0.2",
+    "remark-parse": "^11.0.0",
     "remark-rehype": "^10.1.0",
     "remark-supersub": "^1.0.0",
     "slashes": "^3.0.12",
