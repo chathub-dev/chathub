@@ -135,6 +135,9 @@ export class ChatGPTApiBot extends AbstractChatGPTApiBot {
     if (chatgptApiModel === 'gpt-4-turbo') {
       return 'gpt-4-1106-preview'
     }
+    if (chatgptApiModel === 'gpt-3.5-turbo') {
+      return 'gpt-3.5-turbo-1106'
+    }
     return chatgptApiModel
   }
 

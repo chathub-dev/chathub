@@ -92,6 +92,9 @@ export async function getUserConfig(): Promise<UserConfig> {
   } else if (result.chatgptWebappModelName === 'gpt-4-mobile') {
     result.chatgptWebappModelName = ChatGPTWebModel['GPT-4']
   }
+  if (result.chatgptApiModel === 'gpt-3.5-turbo-16k') {
+    result.chatgptApiModel = 'gpt-3.5-turbo'
+  }
   if (
     result.claudeApiModel !== ClaudeAPIModel['claude-2'] ||
     result.claudeApiModel !== ClaudeAPIModel['claude-instant-1']
