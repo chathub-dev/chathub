@@ -37,7 +37,7 @@ const FeatureItem: FC<Feature & { highlight?: boolean }> = (props) => {
 }
 
 const FeatureList: FC<{ highlightFeature?: FeatureId }> = (props) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const features: Feature[] = useMemo(() => {
     return [
@@ -83,6 +83,9 @@ const FeatureList: FC<{ highlightFeature?: FeatureId }> = (props) => {
           highlight={props.highlightFeature && props.highlightFeature === feature.id}
         />
       ))}
+      {i18n.language === 'zh-CN' && (
+        <span className="text-sm text-secondary-text">请注意：ChatHub会员并不为您提供ChatGPT账号或API key</span>
+      )}
     </div>
   )
 }
