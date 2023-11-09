@@ -39,20 +39,5 @@ export function getPremiumActivation(): PremiumActivation | null {
   if (data) {
     return JSON.parse(data)
   }
-  // Migrate old storage
-  const key = localStorage.getItem('licenseKey')
-  if (!key) {
-    return null
-  }
-  const licenseKey: string = JSON.parse(key)
-  const instanceId = localStorage.getItem(`license_instance_id:${licenseKey}`)
-  if (!instanceId) {
-    localStorage.removeItem('licenseKey')
-    return null
-  }
-  const d = { licenseKey, instanceId }
-  localStorage.setItem('premium', JSON.stringify(d))
-  localStorage.removeItem('licenseKey')
-  localStorage.removeItem(`license_instance_id:${licenseKey}`)
-  return d
+  return null
 }
