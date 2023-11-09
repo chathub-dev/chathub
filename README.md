@@ -91,6 +91,7 @@ English &nbsp;&nbsp;|&nbsp;&nbsp; [Indonesia](README_IN.md) &nbsp;&nbsp;|&nbsp;&
 ## 🔨 Build from Source
 
 - Clone the source code
+- `corepack enable`
 - `yarn install`
 - `yarn build`
 - Load `dist` folder to browser by following steps in _Manual Installation_
