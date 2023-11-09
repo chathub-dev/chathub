@@ -228,6 +228,10 @@ export class BingWebBot extends AbstractBot {
     this.conversationContext = undefined
   }
 
+  get supportsImageInput() {
+    return true
+  }
+
   private async uploadImage(image: File) {
     const formData = new FormData()
     formData.append(
