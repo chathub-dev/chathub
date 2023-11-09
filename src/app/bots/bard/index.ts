@@ -67,6 +67,10 @@ export class BardBot extends AbstractBot {
     this.conversationContext = undefined
   }
 
+  get supportsImageInput() {
+    return true
+  }
+
   private async uploadImage(image: File) {
     const headers = {
       'content-type': 'application/x-www-form-urlencoded;charset=UTF-8',

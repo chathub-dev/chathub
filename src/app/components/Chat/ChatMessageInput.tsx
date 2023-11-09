@@ -13,7 +13,7 @@ import {
 } from '@floating-ui/react'
 import { fileOpen } from 'browser-fs-access'
 import { cx } from '~/utils'
-import { FC, ReactNode, memo, useCallback, useMemo, useRef, useState } from 'react'
+import { ClipboardEventHandler, FC, ReactNode, memo, useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GoBook, GoImage } from 'react-icons/go'
 import { RiDeleteBackLine } from 'react-icons/ri'
@@ -145,6 +145,19 @@ const ChatMessageInput: FC<Props> = (props) => {
     inputRef.current?.focus()
   }, [])
 
+  const onPaste: ClipboardEventHandler<HTMLTextAreaElement> = useCallback((event) => {
+    const files = event.clipboardData.files
+    if (!files.length) {
+      return
+    }
+    const imageFile = Array.from(files).find((file) => file.type.startsWith('image/'))
+    if (imageFile) {
+      event.preventDefault()
+      setImage(imageFile)
+      inputRef.current?.focus()
+    }
+  }, [])
+
   return (
     <form className={cx('flex flex-row items-center gap-3', props.className)} onSubmit={onFormSubmit} ref={formRef}>
       {props.mode === 'full' && (
@@ -195,6 +208,7 @@ const ChatMessageInput: FC<Props> = (props) => {
           value={value}
           onValueChange={onValueChange}
           autoFocus={props.autoFocus}
+          onPaste={props.supportImageInput ? onPaste : undefined}
         />
       </div>
       {props.actionButton || <Button text="-" className="invisible" size={props.mode === 'full' ? 'normal' : 'tiny'} />}

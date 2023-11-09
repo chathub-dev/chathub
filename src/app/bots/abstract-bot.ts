@@ -78,6 +78,10 @@ export abstract class AbstractBot {
     return undefined
   }
 
+  get supportsImageInput() {
+    return false
+  }
+
   abstract doSendMessage(params: SendMessageParams): Promise<void>
   abstract resetConversation(): void
 }
@@ -117,5 +121,9 @@ export abstract class AsyncAbstractBot extends AbstractBot {
 
   get name() {
     return this.#bot.name
+  }
+
+  get supportsImageInput() {
+    return this.#bot.supportsImageInput
   }
 }
