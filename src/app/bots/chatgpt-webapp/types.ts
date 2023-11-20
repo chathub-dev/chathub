@@ -13,13 +13,7 @@ export type ResponseContent =
     }
   | {
       content_type: 'multimodal_text'
-      parts: {
-        content_type: 'image_asset_pointer'
-        asset_pointer: string // file-service://file-5JUtfsLd8O0GEZzjtFmWvZr8
-        size_bytes: number
-        width: number
-        height: number
-      }[]
+      parts: ({ content_type: 'image_asset_pointer' } & ImageContent)[]
     }
 
 export type ResponseCitation = {
@@ -33,7 +27,7 @@ export type ResponseCitation = {
 }
 
 export interface ImageContent {
-  asset_pointer: string
+  asset_pointer: string // file-service://file-5JUtfsLd8O0GEZzjtFmWvZr8
   size_bytes: number
   width: number
   height: number
