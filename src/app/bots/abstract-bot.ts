@@ -2,12 +2,14 @@ import { Sentry } from '~services/sentry'
 import { ChatError, ErrorCode } from '~utils/errors'
 import { streamAsyncIterable } from '~utils/stream-async-iterable'
 
+export type AnwserPayload = {
+  text: string
+}
+
 export type Event =
   | {
       type: 'UPDATE_ANSWER'
-      data: {
-        text: string
-      }
+      data: AnwserPayload
     }
   | {
       type: 'DONE'
@@ -44,7 +46,7 @@ export abstract class AbstractBot {
         return new ChatError((err as Error).message, ErrorCode.UNKOWN_ERROR)
       }
     }
-    const stream = new ReadableStream({
+    const stream = new ReadableStream<AnwserPayload['text']>({
       start: (controller) => {
         this.doSendMessage({
           prompt: params.prompt,
