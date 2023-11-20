@@ -1,6 +1,7 @@
 import { removeSlashes } from 'slashes'
 import { PROMPT_TEMPLATE } from './prompts'
 import { searchRelatedContext } from './web-search'
+import { AnwserPayload } from '~app/bots/abstract-bot'
 
 const TOOLS = {
   web_search:
@@ -28,26 +29,26 @@ const ACTION_INPUT_REGEX = /"action_input":\s*"((?:\\.|[^"])+)(?:"\s*(```)?)?/
 
 async function* execute(
   input: string,
-  llm: (prompt: string, rawUserInput: string) => AsyncGenerator<string>,
+  llm: (prompt: string, rawUserInput: string) => AsyncGenerator<AnwserPayload>,
   signal?: AbortSignal,
-): AsyncGenerator<string> {
+): AsyncGenerator<AnwserPayload> {
   let prompt = buildToolUsingPrompt(input)
 
   let outputType: 'tool' | 'answer' | undefined = undefined
-  let output: string | undefined = undefined
+  let output: AnwserPayload | undefined = undefined
 
-  for await (const text of llm(prompt, input)) {
-    output = text
+  for await (const payload of llm(prompt, input)) {
+    output = payload
     console.debug('llm output', output)
-    if (outputType === 'answer' || FINAL_ANSWER_KEYWORD_REGEX.test(text)) {
+    if (outputType === 'answer' || FINAL_ANSWER_KEYWORD_REGEX.test(payload.text)) {
       outputType = 'answer'
-      const answer = text.match(ACTION_INPUT_REGEX)?.[1]
+      const answer = payload.text.match(ACTION_INPUT_REGEX)?.[1]
       if (answer) {
-        yield removeSlashes(answer)
+        yield { text: removeSlashes(answer) }
       }
     } else if (outputType === 'tool') {
       continue
-    } else if (WEB_SEARCH_KEYWORD_REGEX.test(text)) {
+    } else if (WEB_SEARCH_KEYWORD_REGEX.test(payload.text)) {
       outputType = 'tool'
     }
   }
@@ -57,10 +58,10 @@ async function* execute(
   }
 
   if (outputType === 'tool') {
-    const actionInput = removeSlashes(output!.match(ACTION_INPUT_REGEX)![1])
+    const actionInput = removeSlashes(output!.text.match(ACTION_INPUT_REGEX)![1])
     let context = ''
     if (actionInput) {
-      yield `Searching the web for _${actionInput}_`
+      yield { text: `Searching the web for _${actionInput}_` }
       context = await searchRelatedContext(actionInput, signal)
     }
     const promptWithContext = buildPromptWithContext(input, context)

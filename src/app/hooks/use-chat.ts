@@ -49,9 +49,9 @@ export function useChat(botId: BotId) {
       })
 
       try {
-        for await (const text of resp) {
+        for await (const answer of resp) {
           updateMessage(botMessageId, (message) => {
-            message.text = text
+            message.text = answer.text
           })
         }
       } catch (err: unknown) {

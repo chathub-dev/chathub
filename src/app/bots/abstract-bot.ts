@@ -46,7 +46,7 @@ export abstract class AbstractBot {
         return new ChatError((err as Error).message, ErrorCode.UNKOWN_ERROR)
       }
     }
-    const stream = new ReadableStream<AnwserPayload['text']>({
+    const stream = new ReadableStream<AnwserPayload>({
       start: (controller) => {
         this.doSendMessage({
           prompt: params.prompt,
@@ -55,7 +55,7 @@ export abstract class AbstractBot {
           signal: params.signal,
           onEvent(event) {
             if (event.type === 'UPDATE_ANSWER') {
-              controller.enqueue(event.data.text)
+              controller.enqueue(event.data)
             } else if (event.type === 'DONE') {
               controller.close()
             } else if (event.type === 'ERROR') {
