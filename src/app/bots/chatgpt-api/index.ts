@@ -120,7 +120,7 @@ export class ChatGPTApiBot extends AbstractChatGPTApiBot {
   }
 
   async fetchCompletionApi(messages: ChatMessage[], signal?: AbortSignal) {
-    const { openaiApiKey, openaiApiHost, chatgptApiModel } = this.config
+    const { openaiApiKey, openaiApiHost } = this.config
     const hasImageInput = messages.some(
       (message) => isArray(message.content) && message.content.some((part) => part.type === 'image_url'),
     )
