@@ -72,6 +72,11 @@ export default defineManifest(async () => {
           enabled: true,
           path: 'src/rules/baichuan.json',
         },
+        {
+          id: 'ruleset_pplx',
+          enabled: true,
+          path: 'src/rules/pplx.json',
+        },
       ],
     },
   }

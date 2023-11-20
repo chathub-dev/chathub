@@ -1,0 +1,25 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": {
+      "type": "modifyHeaders",
+      "requestHeaders": [
+        {
+          "header": "user-agent",
+          "operation": "set",
+          "value": "Ask/2.2.1/334 (iOS; iPhone) isiOSOnMac/false"
+        },
+        {
+          "header": "X-Client-Name",
+          "operation": "set",
+          "value": "Perplexity-iOS"
+        }
+      ]
+    },
+    "condition": {
+      "requestDomains": ["labs-api.perplexity.ai", "www.perplexity.ai"],
+      "resourceTypes": ["xmlhttprequest", "websocket"]
+    }
+  }
+]
