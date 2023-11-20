@@ -1,12 +1,11 @@
+import { isArray } from 'lodash-es'
 import { DEFAULT_CHATGPT_SYSTEM_MESSAGE } from '~app/consts'
 import { UserConfig } from '~services/user-config'
 import { ChatError, ErrorCode } from '~utils/errors'
 import { parseSSEResponse } from '~utils/sse'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
-import { ChatMessage, ContentPart } from './types'
-import { updateTokenUsage } from './usage'
 import { file2base64 } from '../bing/utils'
-import { isArray } from 'lodash-es'
+import { ChatMessage, ContentPart } from './types'
 
 interface ConversationContext {
   messages: ChatMessage[]
@@ -65,7 +64,6 @@ export abstract class AbstractChatGPTApiBot extends AbstractBot {
       params.onEvent({ type: 'DONE' })
       const messages = this.conversationContext!.messages
       messages.push(result)
-      updateTokenUsage(messages).catch(console.error)
     }
 
     await parseSSEResponse(resp, (message) => {
