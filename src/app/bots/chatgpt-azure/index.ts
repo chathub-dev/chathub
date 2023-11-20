@@ -1,6 +1,6 @@
 import { UserConfig } from '~services/user-config'
 import { AbstractChatGPTApiBot } from '../chatgpt-api'
-import { ChatMessage } from '../chatgpt-api/consts'
+import { ChatMessage } from '../chatgpt-api/types'
 
 export class ChatGPTAzureApiBot extends AbstractChatGPTApiBot {
   constructor(

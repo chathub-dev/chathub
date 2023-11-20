@@ -165,4 +165,8 @@ export class ChatGPTWebBot extends AbstractBot {
   get name() {
     return `ChatGPT (webapp/${this.model})`
   }
+
+  get supportsImageInput() {
+    return true
+  }
 }

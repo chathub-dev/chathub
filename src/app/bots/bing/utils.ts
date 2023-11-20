@@ -20,7 +20,7 @@ export function convertMessageToMarkdown(message: ChatResponseMessage): string {
 const RecordSeparator = String.fromCharCode(30)
 
 export const websocketUtils = {
-  packMessage(data: any) {
+  packMessage(data: unknown) {
     return `${JSON.stringify(data)}${RecordSeparator}`
   },
   unpackMessage(data: string | ArrayBuffer | Blob) {
@@ -32,12 +32,16 @@ export const websocketUtils = {
   },
 }
 
-export async function file2base64(file: File): Promise<string> {
+export async function file2base64(file: File, keepHeader = false): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.onload = () => {
-      const base64String = (reader.result as string).replace('data:', '').replace(/^.+,/, '')
-      resolve(base64String)
+      if (keepHeader) {
+        resolve(reader.result as string)
+      } else {
+        const base64String = (reader.result as string).replace('data:', '').replace(/^.+,/, '')
+        resolve(base64String)
+      }
     }
     reader.onerror = reject
     reader.readAsDataURL(file)

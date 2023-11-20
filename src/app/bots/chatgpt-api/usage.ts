@@ -1,5 +1,5 @@
 import { incrTokenUsage } from '~services/storage/token-usage'
-import { ChatMessage } from './consts'
+import { ChatMessage } from './types'
 
 import GPT3Tokenizer from 'gpt3-tokenizer'
 
