@@ -1,3 +1,14 @@
+export type ResponsePayload = {
+  conversation_id: string
+  message: {
+    id: string
+    author: { role: 'assistant' | 'tool' | 'user' }
+    content: ResponseContent
+    recipient: 'all' | string
+  }
+  error: null
+}
+
 export type ResponseContent =
   | {
       content_type: 'text'

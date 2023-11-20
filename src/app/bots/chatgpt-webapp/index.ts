@@ -7,7 +7,7 @@ import { parseSSEResponse } from '~utils/sse'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
 import { getArkoseToken } from './arkose'
 import { chatGPTClient } from './client'
-import { ImageContent, ResponseContent } from './types'
+import { ImageContent, ResponseContent, ResponsePayload } from './types'
 
 function removeCitations(text: string) {
   return text.replaceAll(/\u3010\d+\u2020source\u3011/g, '')
@@ -112,34 +112,36 @@ export class ChatGPTWebBot extends AbstractBot {
         params.onEvent({ type: 'DONE' })
         return
       }
-      let data
+      let parsed: ResponsePayload | { message: null; error: string }
       try {
-        data = JSON.parse(message)
+        parsed = JSON.parse(message)
       } catch (err) {
         console.error(err)
         return
       }
-      if (!data.message && data.error) {
+      if (!parsed.message && parsed.error) {
         params.onEvent({
           type: 'ERROR',
-          error: new ChatError(data.error, ErrorCode.UNKOWN_ERROR),
+          error: new ChatError(parsed.error, ErrorCode.UNKOWN_ERROR),
         })
         return
       }
 
-      const role: string = getPath(data, 'message.author.role')
+      const payload = parsed as ResponsePayload
+
+      const role = getPath(payload, 'message.author.role')
       if (role !== 'assistant' && role !== 'tool') {
         return
       }
 
-      const content = data.message?.content as ResponseContent | undefined
+      const content = payload.message?.content as ResponseContent | undefined
       if (!content) {
         return
       }
 
       const { text } = parseResponseContent(content)
       if (text) {
-        this.conversationContext = { conversationId: data.conversation_id, lastMessageId: data.message.id }
+        this.conversationContext = { conversationId: payload.conversation_id, lastMessageId: payload.message.id }
         params.onEvent({ type: 'UPDATE_ANSWER', data: { text } })
       }
     }).catch((err: Error) => {
