@@ -8,6 +8,9 @@ on:
     tags:
       - 'v*.*.*'
 
+env:
+  VITE_PLAUSIBLE_API_HOST: ${{ vars.VITE_PLAUSIBLE_API_HOST }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
