@@ -1,5 +1,5 @@
 import WebSocketAsPromised from 'websocket-as-promised'
-import { requestHostPermission } from '~app/utils/permissions'
+import { requestHostPermissions } from '~app/utils/permissions'
 import { ChatError, ErrorCode } from '~utils/errors'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
 import { createSession } from './api'
@@ -29,9 +29,6 @@ export class PerplexityLabsBot extends AbstractBot {
   }
 
   private async setupWebsocket(sessionId: string): Promise<WebSocketAsPromised> {
-    if (!(await requestHostPermission('wss://*.perplexity.ai/'))) {
-      throw new ChatError('Missing wss://*.perplexity.ai permission', ErrorCode.MISSING_HOST_PERMISSION)
-    }
     const wsp = new WebSocketAsPromised(
       `wss://labs-api.perplexity.ai/socket.io/?EIO=4&transport=websocket&sid=${sessionId}`,
     )
@@ -52,7 +49,7 @@ export class PerplexityLabsBot extends AbstractBot {
   }
 
   async doSendMessage(params: SendMessageParams) {
-    if (!(await requestHostPermission('https://*.perplexity.ai/'))) {
+    if (!(await requestHostPermissions(['https://*.perplexity.ai/', 'wss://*.perplexity.ai/']))) {
       throw new ChatError('Missing perplexity.ai permission', ErrorCode.MISSING_HOST_PERMISSION)
     }
 
