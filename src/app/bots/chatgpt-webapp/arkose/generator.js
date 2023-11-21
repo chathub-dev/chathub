@@ -23,6 +23,9 @@ class ArkoseTokenGenerator {
       },
       onError: (r) => {
         console.debug('enforcement.onError', r)
+        this.pendingPromises.forEach((promise) => {
+          promise.reject(new Error('Error generating arkose token'))
+        })
       },
       onFailed: (r) => {
         console.debug('enforcement.onFailed', r)
