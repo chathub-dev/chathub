@@ -39,7 +39,7 @@ export class ClaudeWebBot extends AbstractBot {
         text: params.prompt,
         completion: {
           prompt: params.prompt,
-          model: 'claude-2',
+          model: 'claude-2.1',
         },
         attachments: [],
       }),
