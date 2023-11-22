@@ -18,7 +18,7 @@
       ]
     },
     "condition": {
-      "requestDomains": ["labs-api.perplexity.ai", "www.perplexity.ai"],
+      "requestDomains": ["labs-api.perplexity.ai"],
       "resourceTypes": ["xmlhttprequest", "websocket"]
     }
   }
