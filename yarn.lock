@@ -1427,27 +1427,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry-internal/tracing@npm:7.77.0":
-  version: 7.77.0
-  resolution: "@sentry-internal/tracing@npm:7.77.0"
+"@sentry-internal/tracing@npm:7.82.0":
+  version: 7.82.0
+  resolution: "@sentry-internal/tracing@npm:7.82.0"
   dependencies:
-    "@sentry/core": "npm:7.77.0"
-    "@sentry/types": "npm:7.77.0"
-    "@sentry/utils": "npm:7.77.0"
-  checksum: 9cb934de672436402c2b32bcf586a318dedf85a2039d5728f364cbdc7d33fdb6d277aa20257614d24666c1b78aacbd8416aa4689ea1596751a0d398dde77f443
+    "@sentry/core": "npm:7.82.0"
+    "@sentry/types": "npm:7.82.0"
+    "@sentry/utils": "npm:7.82.0"
+  checksum: 8c7b4ba380024477f2fd04f1c24083c089f50a5354697d7b4752a155dd0f28c62605e66304117fd2fe88e223bcfc4474507e4cdb22baafa013215c4a441f63f5
   languageName: node
   linkType: hard
 
-"@sentry/browser@npm:7.77.0":
-  version: 7.77.0
-  resolution: "@sentry/browser@npm:7.77.0"
+"@sentry/browser@npm:7.82.0":
+  version: 7.82.0
+  resolution: "@sentry/browser@npm:7.82.0"
   dependencies:
-    "@sentry-internal/tracing": "npm:7.77.0"
-    "@sentry/core": "npm:7.77.0"
-    "@sentry/replay": "npm:7.77.0"
-    "@sentry/types": "npm:7.77.0"
-    "@sentry/utils": "npm:7.77.0"
-  checksum: 86f1e675690b47554242d9a19687e78444a5bf554d477d10c86058e695bab970b49a3aa5414b74c7377d9485039f55811ba72a576988a793aaf629fd7027fa88
+    "@sentry-internal/tracing": "npm:7.82.0"
+    "@sentry/core": "npm:7.82.0"
+    "@sentry/replay": "npm:7.82.0"
+    "@sentry/types": "npm:7.82.0"
+    "@sentry/utils": "npm:7.82.0"
+  checksum: c9ee94bd3988e9f399a0eabdbe72cc1e889662655a8613f9e0810b8bcdbb62bad39940562f6109d0a143b9e45869bc343afacb435923ee1a6d56d2d0bfc5b61b
   languageName: node
   linkType: hard
 
@@ -1458,6 +1458,16 @@ __metadata:
     "@sentry/types": "npm:7.77.0"
     "@sentry/utils": "npm:7.77.0"
   checksum: 59c468ef1cf9f035bb302bcc89f509916d0b19550cac296da83f526c0c779d53dbc5a0eb1c363d2e6ce46d2356c898d4fdecc8956e5c5c7d8dadb3470dbd5147
+  languageName: node
+  linkType: hard
+
+"@sentry/core@npm:7.82.0":
+  version: 7.82.0
+  resolution: "@sentry/core@npm:7.82.0"
+  dependencies:
+    "@sentry/types": "npm:7.82.0"
+    "@sentry/utils": "npm:7.82.0"
+  checksum: 98e0c30e8585251c7912cc04d312c0e993efd6bc589919fc6a62e710e1fb5ca65fb4b6612eb476bcae50febc579232eb5639f7173ccda41ffb8a1e5cfd59f347
   languageName: node
   linkType: hard
 
@@ -1473,29 +1483,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/react@npm:^7.77.0":
-  version: 7.77.0
-  resolution: "@sentry/react@npm:7.77.0"
+"@sentry/react@npm:^7.82.0":
+  version: 7.82.0
+  resolution: "@sentry/react@npm:7.82.0"
   dependencies:
-    "@sentry/browser": "npm:7.77.0"
-    "@sentry/types": "npm:7.77.0"
-    "@sentry/utils": "npm:7.77.0"
+    "@sentry/browser": "npm:7.82.0"
+    "@sentry/types": "npm:7.82.0"
+    "@sentry/utils": "npm:7.82.0"
     hoist-non-react-statics: "npm:^3.3.2"
   peerDependencies:
     react: 15.x || 16.x || 17.x || 18.x
-  checksum: 057446db99869d3452be8639eb8190d00ddfa97c35403e734272b084c0f79c287baf8c76440591f056fba0fa436ae8510b1089ea17f1ce2b3315b0f727419e24
+  checksum: 5fa4fad9a2a0928f5dc8c354b5ee2a666503866df193723dc08a36620da285a141a6b688dc926e340b615e7dd6cd52e2a74c3a99f69ee2d9b0e21a2a11970bce
   languageName: node
   linkType: hard
 
-"@sentry/replay@npm:7.77.0":
-  version: 7.77.0
-  resolution: "@sentry/replay@npm:7.77.0"
+"@sentry/replay@npm:7.82.0":
+  version: 7.82.0
+  resolution: "@sentry/replay@npm:7.82.0"
   dependencies:
-    "@sentry-internal/tracing": "npm:7.77.0"
-    "@sentry/core": "npm:7.77.0"
-    "@sentry/types": "npm:7.77.0"
-    "@sentry/utils": "npm:7.77.0"
-  checksum: 8ad22c824dbc6ecc0adda85ae9039524c258d10b124f70661d2f233abf6bf370070e6dddbd694f6d0283bc980e491dd811c4dd40b0c144d8bd4db9e4c6d4848e
+    "@sentry-internal/tracing": "npm:7.82.0"
+    "@sentry/core": "npm:7.82.0"
+    "@sentry/types": "npm:7.82.0"
+    "@sentry/utils": "npm:7.82.0"
+  checksum: bebfbfd4d1bfd68b99b57715bc9e599b15089fc41d9f9c041aa220baf3a9c4f416328f5193ba0cce30c5cdf3008f9df478026c9783c7c601ee31ac4c782e03af
   languageName: node
   linkType: hard
 
@@ -1506,12 +1516,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/types@npm:7.82.0":
+  version: 7.82.0
+  resolution: "@sentry/types@npm:7.82.0"
+  checksum: c9f4c2f1dac3725fe43c0682ff76249b5860e085745ac3f688dda083f3abcdd2bd7717d005554ad9c174a65a4b5867c073c47baa97b1df2fb530526e18ab912c
+  languageName: node
+  linkType: hard
+
 "@sentry/utils@npm:7.77.0":
   version: 7.77.0
   resolution: "@sentry/utils@npm:7.77.0"
   dependencies:
     "@sentry/types": "npm:7.77.0"
   checksum: 958a60c85584321ab9c52add6c17774334605731f78a60544b0de0dfa5180610d30659adb211d6b6d6b06ca191bc13085da1919a8223f428b2e952515a5b7e4b
+  languageName: node
+  linkType: hard
+
+"@sentry/utils@npm:7.82.0":
+  version: 7.82.0
+  resolution: "@sentry/utils@npm:7.82.0"
+  dependencies:
+    "@sentry/types": "npm:7.82.0"
+  checksum: f4af4d3fd6e8ce8790c2ea7442ab2e356cc52793b5eae75ca75adc2dd378e00dfb67e1d4eb99950e946c8c1dd5abb63a7c01c8533ca60383126b877c05e97d4f
   languageName: node
   linkType: hard
 
@@ -2440,7 +2466,7 @@ __metadata:
     "@heroicons/react": "npm:^2.0.18"
     "@radix-ui/react-tooltip": "npm:^1.0.7"
     "@sentry/integrations": "npm:^7.77.0"
-    "@sentry/react": "npm:^7.77.0"
+    "@sentry/react": "npm:^7.82.0"
     "@tanstack/react-router": "npm:^0.0.1-beta.83"
     "@types/humanize-duration": "npm:^3.27.2"
     "@types/lodash-es": "npm:^4.17.10"
