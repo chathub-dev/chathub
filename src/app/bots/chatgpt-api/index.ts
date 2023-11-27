@@ -5,7 +5,7 @@ import { ChatError, ErrorCode } from '~utils/errors'
 import { parseSSEResponse } from '~utils/sse'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
 import { file2base64 } from '../bing/utils'
-import { ChatMessage, ContentPart } from './types'
+import { ChatMessage } from './types'
 
 interface ConversationContext {
   messages: ChatMessage[]
@@ -17,14 +17,16 @@ export abstract class AbstractChatGPTApiBot extends AbstractBot {
   private conversationContext?: ConversationContext
 
   private buildUserMessage(prompt: string, imageUrl?: string): ChatMessage {
-    const contents: ContentPart[] = [{ type: 'text', text: prompt }]
-    if (imageUrl) {
-      contents.push({
-        type: 'image_url',
-        image_url: { url: imageUrl, detail: 'low' },
-      })
+    if (!imageUrl) {
+      return { role: 'user', content: prompt }
     }
-    return { role: 'user', content: contents }
+    return {
+      role: 'user',
+      content: [
+        { type: 'text', text: prompt },
+        { type: 'image_url', image_url: { url: imageUrl, detail: 'low' } },
+      ],
+    }
   }
 
   private buildMessages(prompt: string, imageUrl?: string): ChatMessage[] {
