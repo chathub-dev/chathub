@@ -25,6 +25,7 @@ export type BotId =
   | 'wizardlm'
   | 'qianwen'
   | 'baichuan'
+  | 'yi'
 
 export function createBotInstance(botId: BotId) {
   switch (botId) {
@@ -50,6 +51,8 @@ export function createBotInstance(botId: BotId) {
       return new LMSYSBot('falcon-180b-chat')
     case 'mistral':
       return new LMSYSBot('mistral-7b-instruct')
+    case 'yi':
+      return new LMSYSBot('yi-34b-chat')
     case 'pi':
       return new PiBot()
     case 'qianwen':
