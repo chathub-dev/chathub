@@ -50,6 +50,11 @@ export enum OpenRouterClaudeModel {
   'claude-instant-v1' = 'claude-instant-v1',
 }
 
+export enum PerplexityMode {
+  Webapp = 'webapp',
+  API = 'api',
+}
+
 const userConfigWithDefaultValue = {
   openaiApiKey: '',
   openaiApiHost: 'https://api.openai.com',
@@ -74,6 +79,8 @@ const userConfigWithDefaultValue = {
   openrouterOpenAIModel: CHATGPT_API_MODELS[0] as (typeof CHATGPT_API_MODELS)[number],
   openrouterClaudeModel: OpenRouterClaudeModel['claude-2'],
   openrouterApiKey: '',
+  perplexityMode: PerplexityMode.Webapp,
+  perplexityApiKey: '',
 }
 
 export type UserConfig = typeof userConfigWithDefaultValue

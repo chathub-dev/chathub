@@ -17,12 +17,14 @@ import ClaudePoeSettings from '~app/components/Settings/ClaudePoeSettings'
 import ClaudeWebappSettings from '~app/components/Settings/ClaudeWebappSettings'
 import EnabledBotsSettings from '~app/components/Settings/EnabledBotsSettings'
 import KDB from '~app/components/Settings/KDB'
+import PerplexityAPISettings from '~app/components/Settings/PerplexitySettings'
 import { ALL_IN_ONE_PAGE_ID, CHATBOTS } from '~app/consts'
 import { exportData, importData } from '~app/utils/export'
 import {
   BingConversationStyle,
   ChatGPTMode,
   ClaudeMode,
+  PerplexityMode,
   UserConfig,
   getUserConfig,
   updateUserConfig,
@@ -189,6 +191,16 @@ function SettingPage() {
                 />
               </div>
             </div>
+          </ChatBotSettingPanel>
+          <ChatBotSettingPanel title="Perplexity">
+            <RadioGroup
+              options={Object.entries(PerplexityMode).map(([k, v]) => ({ label: `${k} ${t('Mode')}`, value: v }))}
+              value={userConfig.perplexityMode}
+              onChange={(v) => updateConfigValue({ perplexityMode: v as PerplexityMode })}
+            />
+            {userConfig.perplexityMode === PerplexityMode.API && (
+              <PerplexityAPISettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
+            )}
           </ChatBotSettingPanel>
         </div>
         <div>

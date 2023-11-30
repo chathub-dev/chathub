@@ -4,7 +4,7 @@ import { BingWebBot } from './bing'
 import { ChatGPTBot } from './chatgpt'
 import { ClaudeBot } from './claude'
 import { LMSYSBot } from './lmsys'
-import { PerplexityLabsBot } from './perplexity'
+import { PerplexityBot } from './perplexity'
 import { PiBot } from './pi'
 import { QianwenWebBot } from './qianwen'
 import { XunfeiBot } from './xunfei'
@@ -60,7 +60,7 @@ export function createBotInstance(botId: BotId) {
     case 'baichuan':
       return new BaichuanWebBot()
     case 'perplexity':
-      return new PerplexityLabsBot('pplx-70b-online')
+      return new PerplexityBot()
   }
 }
 
