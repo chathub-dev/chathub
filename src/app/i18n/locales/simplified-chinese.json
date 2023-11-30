@@ -93,5 +93,6 @@
   "20% OFF: ends in": "八折优惠，限时",
   "Special Offer: 20% OFF": "特别优惠：立享八折",
   "TODAY ONLY": "今日限定",
-  "Get Discount": "获取优惠"
+  "Get Discount": "获取优惠",
+  "Webapp mode uses your login session in current browser": "Webapp模式会使用当前浏览器中的登录状态"
 }
