@@ -23,9 +23,6 @@ const ChatGPWebSettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
       {userConfig.chatgptWebappModelName.startsWith('gpt-4') && (
         <p className="text-sm text-secondary-text">{t('GPT-4 models require ChatGPT Plus')}</p>
       )}
-      {userConfig.chatgptWebappModelName.includes('mobile') && (
-        <p className="text-sm text-secondary-text">{t('Model used by ChatGPT iOS app, potentially faster')}</p>
-      )}
     </div>
   )
 }
