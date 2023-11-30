@@ -150,6 +150,17 @@ const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
       </p>
     )
   }
+  if (error.code === ErrorCode.PPLX_FORBIDDEN_ERROR) {
+    return (
+      <p className="ml-2 text-secondary-text text-sm">
+        Please visit{' '}
+        <a href="https://labs.perplexity.ai" target="_blank" rel="noreferrer" className="underline">
+          labs.perplexity.ai
+        </a>{' '}
+        and try again
+      </p>
+    )
+  }
   if (
     error.code === ErrorCode.NETWORK_ERROR ||
     (error.code === ErrorCode.UNKOWN_ERROR && error.message.includes('Failed to fetch'))

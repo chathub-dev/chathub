@@ -1,7 +1,16 @@
-import { ofetch } from 'ofetch'
+import { FetchError, ofetch } from 'ofetch'
+import { ChatError, ErrorCode } from '~utils/errors'
 
 async function getSessionId() {
-  const resp: string = await ofetch('https://labs-api.perplexity.ai/socket.io/?transport=polling&EIO=4')
+  let resp: string
+  try {
+    resp = await ofetch('https://labs-api.perplexity.ai/socket.io/?transport=polling&EIO=4')
+  } catch (err) {
+    if (err instanceof FetchError && err.status === 403) {
+      throw new ChatError('Please pass Perplexity security check', ErrorCode.PPLX_FORBIDDEN_ERROR)
+    }
+    throw err
+  }
   const data = JSON.parse(resp.slice(1))
   const sessionId: string = data.sid
   return sessionId
