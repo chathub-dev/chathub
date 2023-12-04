@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { ClaudeAPIModel, UserConfig } from '~services/user-config'
 import { Input } from '../Input'
 import Select from '../Select'
+import Blockquote from './Blockquote'
 
 interface Props {
   userConfig: UserConfig
@@ -14,6 +15,7 @@ const ClaudeAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-col gap-1">
+        <Blockquote className="mb-1">{t('Your keys are stored locally')}</Blockquote>
         <p className="font-medium text-sm">API Key</p>
         <Input
           className="w-[300px]"

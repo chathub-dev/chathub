@@ -1,8 +1,10 @@
 import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 import { CHATGPT_API_MODELS, DEFAULT_CHATGPT_SYSTEM_MESSAGE } from '~app/consts'
 import { UserConfig } from '~services/user-config'
 import { Input, Textarea } from '../Input'
 import Select from '../Select'
+import Blockquote from './Blockquote'
 
 interface Props {
   userConfig: UserConfig
@@ -10,9 +12,11 @@ interface Props {
 }
 
 const ChatGPTAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
+  const { t } = useTranslation()
   return (
     <div className="flex flex-col gap-2 w-[400px]">
       <div className="flex flex-col gap-1">
+        <Blockquote className="mb-1">{t('Your keys are stored locally')}</Blockquote>
         <p className="font-medium text-sm">API Key</p>
         <Input
           placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"

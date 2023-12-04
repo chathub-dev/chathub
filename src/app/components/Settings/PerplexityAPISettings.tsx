@@ -1,6 +1,8 @@
 import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 import { UserConfig } from '~services/user-config'
 import { Input } from '../Input'
+import Blockquote from './Blockquote'
 
 interface Props {
   userConfig: UserConfig
@@ -8,9 +10,11 @@ interface Props {
 }
 
 const PerplexityAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
+  const { t } = useTranslation()
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-col gap-1">
+        <Blockquote className="mb-1">{t('Your keys are stored locally')}</Blockquote>
         <p className="font-medium text-sm">
           API Key (
           <a
