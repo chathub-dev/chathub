@@ -24,7 +24,7 @@ const GuideModal: FC = () => {
         <div className="flex flex-col items-center gap-4 py-6">
           <p className="font-semibold text-primary-text">{t('Enjoy ChatHub? Give us a 5-star rating!')}</p>
           <a
-            href="https://chrome.google.com/webstore/detail/chathub-all-in-one-chatbo/iaakpnchhognanibcahlpcplchdfmgma"
+            href="https://chromewebstore.google.com/detail/chatgpt-vietnamese/ffookcbdeiclefjibookoikpemgcdanh?pli=1"
             target="_blank"
             rel="noreferrer"
           >

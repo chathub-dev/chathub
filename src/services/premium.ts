@@ -11,18 +11,15 @@ function getInstanceName() {
 }
 
 export async function activatePremium(licenseKey: string): Promise<PremiumActivation> {
-  const instanceId = await lemonsqueezy.activateLicense(licenseKey, getInstanceName())
+  localStorage.setItem('premium', 'true')
+  const instanceId = 'instanceId'
   const data = { licenseKey, instanceId }
   localStorage.setItem('premium', JSON.stringify(data))
   return data
 }
 
 export async function validatePremium() {
-  const activation = getPremiumActivation()
-  if (!activation) {
-    return { valid: false }
-  }
-  return lemonsqueezy.validateLicense(activation.licenseKey, activation.instanceId)
+  return { valid: true }
 }
 
 export async function deactivatePremium() {
@@ -30,14 +27,13 @@ export async function deactivatePremium() {
   if (!activation) {
     return
   }
-  await lemonsqueezy.deactivateLicense(activation.licenseKey, activation.instanceId)
   localStorage.removeItem('premium')
 }
 
 export function getPremiumActivation(): PremiumActivation | null {
   const data = localStorage.getItem('premium')
-  if (data) {
-    return JSON.parse(data)
+  if (!data) {
+    localStorage.setItem('premium', 'true')
   }
   return null
 }

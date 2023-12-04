@@ -58,7 +58,7 @@ const ThemeSettingModal: FC<Props> = (props) => {
   const [lang, setLang] = useState(() => getLanguage() || 'auto')
 
   const languageOptions = useMemo(() => {
-    const nameGenerator = new Intl.DisplayNames('en', { type: 'language' })
+    const nameGenerator = new Intl.DisplayNames('vi', { type: 'language' })
     return languageCodes.map((code) => {
       let name: string
       if (code === 'zh-CN') {

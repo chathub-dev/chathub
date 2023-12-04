@@ -49,8 +49,7 @@ const FeatureList: FC<{ highlightFeature?: FeatureId }> = (props) => {
       {
         id: 'web-access',
         title: t('Web Access'),
-        desc: t('Improving accuracy by searching up-to-date information from the internet'),
-        link: 'https://github.com/chathub-dev/chathub/wiki/Web-Access',
+        desc: t('Improving accuracy by searching up-to-date information from the internet')
       },
       {
         title: t('Full-text search for chat history'),
@@ -59,17 +58,10 @@ const FeatureList: FC<{ highlightFeature?: FeatureId }> = (props) => {
         title: t('Customize theme'),
       },
       {
-        title: t('Quick access in Chrome side bar'),
-        link: 'https://github.com/chathub-dev/chathub/wiki/Access-from-Chrome-side-panel',
+        title: t('Quick access in Chrome side bar')
       },
       {
         title: t('Compare with image input'),
-      },
-      {
-        title: t('Activate up to 5 devices'),
-      },
-      {
-        title: t('Support the development of ChatHub'),
       },
     ]
   }, [t])

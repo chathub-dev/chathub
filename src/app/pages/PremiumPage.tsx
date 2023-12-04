@@ -100,14 +100,6 @@ function PremiumPage() {
             />
           </>
         )}
-        <a
-          href="https://app.lemonsqueezy.com/my-orders/"
-          target="_blank"
-          rel="noreferrer"
-          className="underline ml-2 text-sm text-secondary-text font-medium w-fit"
-        >
-          {t('Manage order and devices')}
-        </a>
       </div>
       {!!(premiumState.error || activationError) && (
         <span className="mt-3 text-red-500 font-medium">{premiumState.error || activationError}</span>

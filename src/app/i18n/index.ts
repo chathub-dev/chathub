@@ -2,6 +2,7 @@ import i18n, { Resource } from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
 import { getLanguage } from '~services/storage/language'
+import vietnamese from './locales/vietnamese.json'
 import french from './locales/french.json'
 import german from './locales/german.json'
 import indonesia from './locales/indonesia.json'
@@ -15,6 +16,7 @@ import traditionalChinese from './locales/traditional-chinese.json'
 const resources: Resource = {
   'zh-CN': { translation: simplifiedChinese },
   'zh-TW': { translation: traditionalChinese },
+  vi: { translation: vietnamese },
   es: { translation: spanish },
   pt: { translation: portuguese },
   ja: { translation: japanese },
@@ -31,7 +33,7 @@ i18n
   .use(LanguageDetector)
   .init({
     lng: getLanguage(),
-    fallbackLng: 'en',
+    fallbackLng: 'vi',
     resources,
     interpolation: {
       escapeValue: false, // react already safes from xss
