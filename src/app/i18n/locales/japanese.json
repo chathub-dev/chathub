@@ -92,5 +92,7 @@
   "20% OFF: ends in": "20％オフ：終了日",
   "Special Offer: 20% OFF": "特別オファー：20％オフ",
   "TODAY ONLY": "今日限り",
-  "Get Discount": "割引を入手する"
+  "Get Discount": "割引を入手する",
+  "Webapp mode uses your login session in current browser": "Webアプリモードでは、現在のブラウザでのログインセッションが使用されます",
+  "Your keys are stored locally": "キーはローカルに保存されます"
 }
