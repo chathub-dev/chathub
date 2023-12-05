@@ -21,25 +21,25 @@ export const CHATBOTS: Record<BotId, { name: string; avatar: string }> = {
     name: 'ChatGPT',
     avatar: chatgptLogo,
   },
-  bing: {
-    name: 'Bing',
-    avatar: bingLogo,
+  claude: {
+    name: 'Claude',
+    avatar: claudeLogo,
   },
   bard: {
     name: 'Bard',
     avatar: bardLogo,
   },
-  claude: {
-    name: 'Claude',
-    avatar: claudeLogo,
-  },
-  llama: {
-    name: 'Llama 2',
-    avatar: llamaLogo,
+  bing: {
+    name: 'Bing',
+    avatar: bingLogo,
   },
   perplexity: {
     name: 'Perplexity',
     avatar: pplxLogo,
+  },
+  llama: {
+    name: 'Llama 2',
+    avatar: llamaLogo,
   },
   vicuna: {
     name: 'Vicuna',
