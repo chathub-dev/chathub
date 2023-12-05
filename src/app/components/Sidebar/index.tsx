@@ -62,7 +62,7 @@ function Sidebar() {
         collapsed ? 'items-center px-[15px]' : 'w-[230px] px-4',
       )}
     >
-      <div className={cx('flex mt-10 gap-3 items-center', collapsed ? 'flex-col-reverse' : 'flex-row justify-between')}>
+      <div className={cx('flex mt-8 gap-3 items-center', collapsed ? 'flex-col-reverse' : 'flex-row justify-between')}>
         {collapsed ? <img src={minimalLogo} className="w-[30px]" /> : <img src={logo} className="w-[100px] ml-2" />}
         <motion.img
           src={collapseIcon}
