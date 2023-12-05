@@ -31,7 +31,7 @@ class ChatGPTClient {
     }
     const data = await resp.json().catch(() => ({}))
     if (!data.accessToken) {
-      throw new ChatError('UNAUTHORIZED', ErrorCode.CHATGPT_UNAUTHORIZED)
+      throw new ChatError('There is no logged-in ChatGPT account in this browser.', ErrorCode.CHATGPT_UNAUTHORIZED)
     }
     return data.accessToken
   }

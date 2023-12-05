@@ -8,7 +8,7 @@ import Button, { Props as ButtonProps } from '../Button'
 import MessageBubble from './MessageBubble'
 
 const ActionButton: FC<ButtonProps> = (props) => {
-  return <Button {...props} size="small" className="drop-shadow-lg" color="primary" />
+  return <Button {...props} size="small" className="font-medium underline" color="primary" />
 }
 
 const ChatGPTAuthErrorAction = () => {

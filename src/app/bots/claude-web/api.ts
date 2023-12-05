@@ -11,7 +11,7 @@ export async function fetchOrganizationId(): Promise<string> {
     throw new ChatError('Claude webapp not avaiable in your country', ErrorCode.CLAUDE_WEB_UNAVAILABLE)
   }
   if (resp.status === 403) {
-    throw new ChatError('UNAUTHORIZED', ErrorCode.CLAUDE_WEB_UNAUTHORIZED)
+    throw new ChatError('There is no logged-in Claude account in this browser.', ErrorCode.CLAUDE_WEB_UNAUTHORIZED)
   }
   const orgs = await resp.json()
   return orgs[0].uuid
@@ -26,7 +26,7 @@ export async function createConversation(organizationId: string): Promise<string
     })
   } catch (err) {
     if (err instanceof FetchError && err.status === 403) {
-      throw new ChatError('UNAUTHORIZED', ErrorCode.CLAUDE_WEB_UNAUTHORIZED)
+      throw new ChatError('There is no logged-in Claude account in this browser.', ErrorCode.CLAUDE_WEB_UNAUTHORIZED)
     }
     throw err
   }
