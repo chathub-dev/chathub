@@ -13,6 +13,11 @@ export async function fetchRequestParams() {
   })
   const atValue = extractFromHTML('SNlM0e', html)
   const blValue = extractFromHTML('cfb2h', html)
+
+  if (!atValue) {
+    throw new ChatError('There is no logged-in Google account in this browser', ErrorCode.BARD_UNAUTHORIZED)
+  }
+
   return { atValue, blValue }
 }
 

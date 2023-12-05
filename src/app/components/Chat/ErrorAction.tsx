@@ -109,6 +109,13 @@ const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
       </a>
     )
   }
+  if (error.code === ErrorCode.BARD_UNAUTHORIZED) {
+    return (
+      <a href="https://bard.google.com" target="_blank" rel="noreferrer">
+        <ActionButton text={t('Login to bard.google.com')} />
+      </a>
+    )
+  }
   if (error.code === ErrorCode.CHATGPT_CLOUDFLARE || error.code === ErrorCode.CHATGPT_UNAUTHORIZED) {
     return <ChatGPTAuthErrorAction />
   }
