@@ -95,5 +95,6 @@
   "Get Discount": "割引を入手する",
   "Webapp mode uses your login session in current browser": "Webアプリモードでは、現在のブラウザでのログインセッションが使用されます",
   "Your keys are stored locally": "キーはローカルに保存されます",
-  "Login to Claude.ai": "Claude.aiにログインする"
+  "Login to Claude.ai": "Claude.aiにログインする",
+  "Login to Bard": "Bardにログインする"
 }
