@@ -95,5 +95,6 @@
   "TODAY ONLY": "今日限定",
   "Get Discount": "获取优惠",
   "Webapp mode uses your login session in current browser": "Webapp模式会使用当前浏览器中的登录状态",
-  "Your keys are stored locally": "您的key只会保存在本地"
+  "Your keys are stored locally": "您的key只会保存在本地",
+  "Login to Claude.ai": "登录Claude.ai"
 }
