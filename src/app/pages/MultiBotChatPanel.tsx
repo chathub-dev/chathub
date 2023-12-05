@@ -15,7 +15,7 @@ import { showPremiumModalAtom } from '~app/state'
 import { BotId } from '../bots'
 import ConversationPanel from '../components/Chat/ConversationPanel'
 
-const DEFAULT_BOTS: BotId[] = ['chatgpt', 'claude', 'bard', 'bing', 'llama', 'pi']
+const DEFAULT_BOTS: BotId[] = Object.keys(CHATBOTS).slice(0, 6) as BotId[]
 
 const layoutAtom = atomWithStorage<Layout>('multiPanelLayout', 2, undefined, { unstable_getOnInit: true })
 const twoPanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:2', DEFAULT_BOTS.slice(0, 2))
