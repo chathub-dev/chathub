@@ -104,7 +104,7 @@ function SettingPage() {
 
   useEffect(() => {
     getUserConfig().then((config) => setUserConfig(config))
-  })
+  }, [])
 
   const updateConfigValue = useCallback(
     (update: Partial<UserConfig>) => {
