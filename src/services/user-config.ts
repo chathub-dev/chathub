@@ -101,6 +101,8 @@ export async function getUserConfig(): Promise<UserConfig> {
   }
   if (result.chatgptApiModel === 'gpt-3.5-turbo-16k') {
     result.chatgptApiModel = 'gpt-3.5-turbo'
+  } else if (result.chatgptApiModel === 'gpt-4-32k') {
+    result.chatgptApiModel = 'gpt-4'
   }
   if (
     result.claudeApiModel !== ClaudeAPIModel['claude-2'] ||
