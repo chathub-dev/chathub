@@ -40,7 +40,7 @@ const BING_STYLE_OPTIONS = [
 
 const ChatBotSettingPanel: FC<PropsWithChildren<{ title: string }>> = (props) => {
   return (
-    <div className="flex flex-col gap-1 border border-primary-border px-5 py-4 rounded-lg max-w-[650px] shadow-sm">
+    <div className="flex flex-col gap-1 border border-primary-border px-5 py-4 rounded-lg max-w-[680px] shadow-sm">
       <p className="font-bold text-md">{props.title}</p>
       {props.children}
     </div>
@@ -180,7 +180,7 @@ function SettingPage() {
             )}
           </ChatBotSettingPanel>
           <ChatBotSettingPanel title="Bing">
-            <div className="flex flex-row gap-3 items-center justify-between w-[250px]">
+            <div className="flex flex-row gap-5 items-center">
               <p className="font-medium text-base">{t('Chat style')}</p>
               <div className="w-[150px]">
                 <Select
