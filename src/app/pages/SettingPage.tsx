@@ -40,34 +40,71 @@ const BING_STYLE_OPTIONS = [
 
 const ChatBotSettingPanel: FC<PropsWithChildren<{ title: string }>> = (props) => {
   return (
-    <div className="flex flex-col gap-1 border border-primary-border px-5 py-4 rounded-lg max-w-[680px] shadow-sm">
+    <div className="flex flex-col gap-1 border border-primary-border px-5 py-4 rounded-lg shadow-sm">
       <p className="font-bold text-md">{props.title}</p>
       {props.children}
     </div>
   )
 }
 
-function SettingPage() {
+function ExportDataPanel() {
   const { t } = useTranslation()
+  return (
+    <div>
+      <p className="font-bold mb-1 text-lg">{t('Export/Import All Data')}</p>
+      <p className="mb-3 opacity-80">{t('Data includes all your settings, chat histories, and local prompts')}</p>
+      <div className="flex flex-row gap-3">
+        <Button size="small" text={t('Export')} icon={<BiExport />} onClick={exportData} />
+        <Button size="small" text={t('Import')} icon={<BiImport />} onClick={importData} />
+      </div>
+    </div>
+  )
+}
+
+function ShortcutPanel() {
   const [shortcuts, setShortcuts] = useState<string[]>([])
-  const [userConfig, setUserConfig] = useState<UserConfig | undefined>(undefined)
-  const [dirty, setDirty] = useState(false)
+  const { t } = useTranslation()
 
   useEffect(() => {
     Browser.commands.getAll().then((commands) => {
       for (const c of commands) {
         if (c.name === 'open-app' && c.shortcut) {
-          console.log(c.shortcut)
+          console.debug(c.shortcut)
           setShortcuts(c.shortcut ? [c.shortcut] : [])
         }
       }
     })
-    getUserConfig().then((config) => setUserConfig(config))
   }, [])
 
-  const openShortcutPage = useCallback(() => {
-    Browser.tabs.create({ url: 'chrome://extensions/shortcuts' })
-  }, [])
+  return (
+    <div className="flex flex-col gap-2">
+      <p className="font-bold text-lg">{t('Shortcut to open this app')}</p>
+      <div className="flex flex-row gap-2 items-center">
+        {shortcuts.length > 0 && (
+          <div className="flex flex-row gap-1">
+            {shortcuts.map((s) => (
+              <KDB key={s} text={s} />
+            ))}
+          </div>
+        )}
+        <Button
+          text={t('Change shortcut')}
+          size="small"
+          onClick={() => Browser.tabs.create({ url: 'chrome://extensions/shortcuts' })}
+        />
+      </div>
+    </div>
+  )
+}
+
+function SettingPage() {
+  const { t } = useTranslation()
+  const [userConfig, setUserConfig] = useState<UserConfig | undefined>(undefined)
+  const [dirty, setDirty] = useState(false)
+
+  useEffect(() => {
+    getUserConfig().then((config) => setUserConfig(config))
+  })
 
   const updateConfigValue = useCallback(
     (update: Partial<UserConfig>) => {
@@ -107,27 +144,8 @@ function SettingPage() {
     <PagePanel title={`${t('Settings')} (v${getVersion()})`}>
       <div className="flex flex-row mt-3 mb-5 gap-3">
         <div className="flex flex-col gap-5">
-          <div>
-            <p className="font-bold mb-1 text-lg">{t('Export/Import All Data')}</p>
-            <p className="mb-3 opacity-80">{t('Data includes all your settings, chat histories, and local prompts')}</p>
-            <div className="flex flex-row gap-3">
-              <Button size="small" text={t('Export')} icon={<BiExport />} onClick={exportData} />
-              <Button size="small" text={t('Import')} icon={<BiImport />} onClick={importData} />
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <p className="font-bold text-lg">{t('Shortcut to open this app')}</p>
-            <div className="flex flex-row gap-2 items-center">
-              {shortcuts.length > 0 && (
-                <div className="flex flex-row gap-1">
-                  {shortcuts.map((s) => (
-                    <KDB key={s} text={s} />
-                  ))}
-                </div>
-              )}
-              <Button text={t('Change shortcut')} size="small" onClick={openShortcutPage} />
-            </div>
-          </div>
+          <ExportDataPanel />
+          <ShortcutPanel />
           <div>
             <p className="font-bold mb-2 text-lg">{t('Startup page')}</p>
             <div className="w-[200px]">
@@ -141,67 +159,69 @@ function SettingPage() {
               />
             </div>
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 max-w-[700px]">
             <p className="font-bold text-lg">{t('Chatbots')}</p>
             <EnabledBotsSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
           </div>
-          <ChatBotSettingPanel title="ChatGPT">
-            <RadioGroup
-              options={Object.entries(ChatGPTMode).map(([k, v]) => ({ label: `${k} ${t('Mode')}`, value: v }))}
-              value={userConfig.chatgptMode}
-              onChange={(v) => updateConfigValue({ chatgptMode: v as ChatGPTMode })}
-            />
-            {userConfig.chatgptMode === ChatGPTMode.API ? (
-              <ChatGPTAPISettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
-            ) : userConfig.chatgptMode === ChatGPTMode.Azure ? (
-              <ChatGPTAzureSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
-            ) : userConfig.chatgptMode === ChatGPTMode.Poe ? (
-              <ChatGPTPoeSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
-            ) : userConfig.chatgptMode === ChatGPTMode.OpenRouter ? (
-              <ChatGPTOpenRouterSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
-            ) : (
-              <ChatGPWebSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
-            )}
-          </ChatBotSettingPanel>
-          <ChatBotSettingPanel title="Claude">
-            <RadioGroup
-              options={Object.entries(ClaudeMode).map(([k, v]) => ({ label: `${k} ${t('Mode')}`, value: v }))}
-              value={userConfig.claudeMode}
-              onChange={(v) => updateConfigValue({ claudeMode: v as ClaudeMode })}
-            />
-            {userConfig.claudeMode === ClaudeMode.API ? (
-              <ClaudeAPISettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
-            ) : userConfig.claudeMode === ClaudeMode.Webapp ? (
-              <ClaudeWebappSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
-            ) : userConfig.claudeMode === ClaudeMode.OpenRouter ? (
-              <ClaudeOpenRouterSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
-            ) : (
-              <ClaudePoeSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
-            )}
-          </ChatBotSettingPanel>
-          <ChatBotSettingPanel title="Bing">
-            <div className="flex flex-row gap-5 items-center">
-              <p className="font-medium text-base">{t('Chat style')}</p>
-              <div className="w-[150px]">
-                <Select
-                  options={BING_STYLE_OPTIONS}
-                  value={userConfig.bingConversationStyle}
-                  onChange={(v) => updateConfigValue({ bingConversationStyle: v })}
-                  position="top"
-                />
+          <div className="flex flex-col gap-5 w-fit max-w-[700px]">
+            <ChatBotSettingPanel title="ChatGPT">
+              <RadioGroup
+                options={Object.entries(ChatGPTMode).map(([k, v]) => ({ label: `${k} ${t('Mode')}`, value: v }))}
+                value={userConfig.chatgptMode}
+                onChange={(v) => updateConfigValue({ chatgptMode: v as ChatGPTMode })}
+              />
+              {userConfig.chatgptMode === ChatGPTMode.API ? (
+                <ChatGPTAPISettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
+              ) : userConfig.chatgptMode === ChatGPTMode.Azure ? (
+                <ChatGPTAzureSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
+              ) : userConfig.chatgptMode === ChatGPTMode.Poe ? (
+                <ChatGPTPoeSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
+              ) : userConfig.chatgptMode === ChatGPTMode.OpenRouter ? (
+                <ChatGPTOpenRouterSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
+              ) : (
+                <ChatGPWebSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
+              )}
+            </ChatBotSettingPanel>
+            <ChatBotSettingPanel title="Claude">
+              <RadioGroup
+                options={Object.entries(ClaudeMode).map(([k, v]) => ({ label: `${k} ${t('Mode')}`, value: v }))}
+                value={userConfig.claudeMode}
+                onChange={(v) => updateConfigValue({ claudeMode: v as ClaudeMode })}
+              />
+              {userConfig.claudeMode === ClaudeMode.API ? (
+                <ClaudeAPISettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
+              ) : userConfig.claudeMode === ClaudeMode.Webapp ? (
+                <ClaudeWebappSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
+              ) : userConfig.claudeMode === ClaudeMode.OpenRouter ? (
+                <ClaudeOpenRouterSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
+              ) : (
+                <ClaudePoeSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
+              )}
+            </ChatBotSettingPanel>
+            <ChatBotSettingPanel title="Bing">
+              <div className="flex flex-row gap-5 items-center">
+                <p className="font-medium text-base">{t('Chat style')}</p>
+                <div className="w-[150px]">
+                  <Select
+                    options={BING_STYLE_OPTIONS}
+                    value={userConfig.bingConversationStyle}
+                    onChange={(v) => updateConfigValue({ bingConversationStyle: v })}
+                    position="top"
+                  />
+                </div>
               </div>
-            </div>
-          </ChatBotSettingPanel>
-          <ChatBotSettingPanel title="Perplexity">
-            <RadioGroup
-              options={Object.entries(PerplexityMode).map(([k, v]) => ({ label: `${k} ${t('Mode')}`, value: v }))}
-              value={userConfig.perplexityMode}
-              onChange={(v) => updateConfigValue({ perplexityMode: v as PerplexityMode })}
-            />
-            {userConfig.perplexityMode === PerplexityMode.API && (
-              <PerplexityAPISettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
-            )}
-          </ChatBotSettingPanel>
+            </ChatBotSettingPanel>
+            <ChatBotSettingPanel title="Perplexity">
+              <RadioGroup
+                options={Object.entries(PerplexityMode).map(([k, v]) => ({ label: `${k} ${t('Mode')}`, value: v }))}
+                value={userConfig.perplexityMode}
+                onChange={(v) => updateConfigValue({ perplexityMode: v as PerplexityMode })}
+              />
+              {userConfig.perplexityMode === PerplexityMode.API && (
+                <PerplexityAPISettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
+              )}
+            </ChatBotSettingPanel>
+          </div>
         </div>
         <div>
           {dirty && (
@@ -215,8 +235,8 @@ function SettingPage() {
             />
           )}
         </div>
-        <Toaster position="top-right" />
       </div>
+      <Toaster position="bottom-right" />
     </PagePanel>
   )
 }
