@@ -30,7 +30,7 @@ async function _compressImageFile(image: File): Promise<File> {
 }
 
 const cache = createCache({
-  ttl: 5 * 60,
+  ttl: 60,
   storage: { type: 'memory' },
 })
 
