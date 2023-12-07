@@ -2161,6 +2161,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"async-cache-dedupe@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "async-cache-dedupe@npm:2.0.0"
+  dependencies:
+    mnemonist: "npm:^0.39.5"
+    safe-stable-stringify: "npm:^2.4.3"
+  checksum: be1882b62855f4764db082c9a6b6a5e6118ff262afd6e7d6c87b919d8d78f73faa1a5e771950c9ddf6446b4203ec7f79f671d08b8c9ab55dd26c1882dd411918
+  languageName: node
+  linkType: hard
+
 "asynciterator.prototype@npm:^1.0.0":
   version: 1.0.0
   resolution: "asynciterator.prototype@npm:1.0.0"
@@ -2266,6 +2276,15 @@ __metadata:
   version: 0.35.0
   resolution: "browser-fs-access@npm:0.35.0"
   checksum: 9d309e27809e9cc419be4ed71d4cecdad7bf0915cb6e87c706031f51fb1b9d5e35ef7092b4e044adc3b68319baa31ae7ed0d2b8ffeac6e0430abdadbd22dfa36
+  languageName: node
+  linkType: hard
+
+"browser-image-compression@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "browser-image-compression@npm:2.0.2"
+  dependencies:
+    uzip: "npm:0.20201231.0"
+  checksum: 32be07f8849f2de501a71f6dd07e691c085fc7a2055456eb120fe5d765e3fcf7de00696915a8d614527d4df10f34c31526304b7d18aae036bb1c58d801e3fcbd
   languageName: node
   linkType: hard
 
@@ -2456,8 +2475,10 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^6.9.1"
     "@typescript-eslint/parser": "npm:^6.9.1"
     "@vitejs/plugin-react": "npm:^4.1.1"
+    async-cache-dedupe: "npm:^2.0.0"
     autoprefixer: "npm:^10.4.16"
     browser-fs-access: "npm:^0.35.0"
+    browser-image-compression: "npm:^2.0.2"
     cachified: "npm:^3.5.4"
     chrome-types: "npm:^0.1.240"
     clsx: "npm:^2.0.0"
@@ -5944,6 +5965,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mnemonist@npm:^0.39.5":
+  version: 0.39.6
+  resolution: "mnemonist@npm:0.39.6"
+  dependencies:
+    obliterator: "npm:^2.0.1"
+  checksum: a538945ea547976136ee6e16f224c0a50983143619941f6c4d2c82159e36eb6f8ee93d69d3a1267038fc5b16f88e2d43390023de10dfb145fa15c5e2befa1cdf
+  languageName: node
+  linkType: hard
+
 "mri@npm:^1.1.0":
   version: 1.2.0
   resolution: "mri@npm:1.2.0"
@@ -6163,6 +6193,13 @@ __metadata:
     define-properties: "npm:^1.1.4"
     es-abstract: "npm:^1.20.4"
   checksum: 3381204390f10c9f653a4875a50d221c67b5c16cb80a6ac06c706fc82a7cad8400857d4c7a0731193b0abb56b84fe803eabcf7addcf32de76397bbf207e68c66
+  languageName: node
+  linkType: hard
+
+"obliterator@npm:^2.0.1":
+  version: 2.0.4
+  resolution: "obliterator@npm:2.0.4"
+  checksum: ff2c10d4de7d62cd1d588b4d18dfc42f246c9e3a259f60d5716f7f88e5b3a3f79856b3207db96ec9a836a01d0958a21c15afa62a3f4e73a1e0b75f2c2f6bab40
   languageName: node
   linkType: hard
 
@@ -7192,6 +7229,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"safe-stable-stringify@npm:^2.4.3":
+  version: 2.4.3
+  resolution: "safe-stable-stringify@npm:2.4.3"
+  checksum: 81dede06b8f2ae794efd868b1e281e3c9000e57b39801c6c162267eb9efda17bd7a9eafa7379e1f1cacd528d4ced7c80d7460ad26f62ada7c9e01dec61b2e768
+  languageName: node
+  linkType: hard
+
 "safer-buffer@npm:>= 2.1.2 < 3.0.0":
   version: 2.1.2
   resolution: "safer-buffer@npm:2.1.2"
@@ -8153,6 +8197,13 @@ __metadata:
   bin:
     uvu: bin.js
   checksum: ad32eb5f7d94bdeb71f80d073003f0138e24f61ed68cecc8e15d2f30838f44c9670577bb1775c8fac894bf93d1bc1583d470a9195e49bfa6efa14cc6f4942bff
+  languageName: node
+  linkType: hard
+
+"uzip@npm:0.20201231.0":
+  version: 0.20201231.0
+  resolution: "uzip@npm:0.20201231.0"
+  checksum: 44b261b20ac7e4d71e7099d7a7c4885626044be61cd246e76cf548fa444a4a37c301d1a683679168bc29c91d2ec81d62b8c1c75217a26b37f6ce35223866c2d2
   languageName: node
   linkType: hard
 
