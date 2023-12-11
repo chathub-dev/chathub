@@ -113,6 +113,9 @@ export class GrokWebBot extends AbstractBot {
         if (err.status === 401) {
           throw new ChatError('Grok is only available to Twitter Premium+ subscribers', ErrorCode.GROK_UNAVAILABLE)
         }
+        if (err.status === 451) {
+          throw new ChatError('Grok is not available in your country', ErrorCode.GROK_UNAVAILABLE)
+        }
         // csrf & cookie mismatch
         if (err.status === 403) {
           this.csrfToken = await this.readCsrfToken({ refresh: true })
