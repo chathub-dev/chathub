@@ -3,6 +3,7 @@ import { BardBot } from './bard'
 import { BingWebBot } from './bing'
 import { ChatGPTBot } from './chatgpt'
 import { ClaudeBot } from './claude'
+import { GrokWebBot } from './grok'
 import { LMSYSBot } from './lmsys'
 import { PerplexityBot } from './perplexity'
 import { PiBot } from './pi'
@@ -26,6 +27,7 @@ export type BotId =
   | 'qianwen'
   | 'baichuan'
   | 'yi'
+  | 'grok'
 
 export function createBotInstance(botId: BotId) {
   switch (botId) {
@@ -61,6 +63,8 @@ export function createBotInstance(botId: BotId) {
       return new BaichuanWebBot()
     case 'perplexity':
       return new PerplexityBot()
+    case 'grok':
+      return new GrokWebBot()
   }
 }
 

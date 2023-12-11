@@ -35,6 +35,11 @@ export default defineManifest(async () => {
         matches: ['https://chat.openai.com/*'],
         js: ['src/content-script/chatgpt-inpage-proxy.ts'],
       },
+      {
+        matches: ['https://twitter.com/*'],
+        js: ['src/content-script/twitter.ts'],
+        run_at: 'document_start',
+      },
     ],
     commands: {
       'open-app': {

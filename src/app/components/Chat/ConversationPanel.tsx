@@ -93,7 +93,7 @@ const ConversationPanel: FC<Props> = (props) => {
           <div className="flex flex-row items-center">
             <motion.img
               src={botInfo.avatar}
-              className="w-[18px] h-[18px] object-contain rounded-full mr-2"
+              className="w-[18px] h-[18px] object-contain rounded-sm mr-2"
               whileHover={{ rotate: 180 }}
             />
             <ChatbotName

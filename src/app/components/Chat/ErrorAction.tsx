@@ -116,6 +116,13 @@ const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
       </a>
     )
   }
+  if (error.code === ErrorCode.TWITTER_UNAUTHORIZED) {
+    return (
+      <a href="https://twitter.com" target="_blank" rel="noreferrer">
+        <ActionButton text={t('Login to Twitter')} />
+      </a>
+    )
+  }
   if (error.code === ErrorCode.CHATGPT_CLOUDFLARE || error.code === ErrorCode.CHATGPT_UNAUTHORIZED) {
     return <ChatGPTAuthErrorAction />
   }

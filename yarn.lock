@@ -1627,6 +1627,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/js-cookie@npm:^3":
+  version: 3.0.6
+  resolution: "@types/js-cookie@npm:3.0.6"
+  checksum: 173afaf5ea9d86c22395b9d2a00b6adb0006dcfef165d6dcb0395cdc32f5a5dcf9c3c60f97194119963a15849b8f85121e1ae730b03e40bc0c29b84396ba22f9
+  languageName: node
+  linkType: hard
+
 "@types/json-schema@npm:^7.0.12":
   version: 7.0.14
   resolution: "@types/json-schema@npm:7.0.14"
@@ -2462,6 +2469,7 @@ __metadata:
     "@sentry/react": "npm:^7.77.0"
     "@tanstack/react-router": "npm:^0.0.1-beta.83"
     "@types/humanize-duration": "npm:^3.27.2"
+    "@types/js-cookie": "npm:^3"
     "@types/lodash-es": "npm:^4.17.10"
     "@types/md5": "npm:^2.3.4"
     "@types/react": "npm:18.2.18"
@@ -2501,6 +2509,7 @@ __metadata:
     jotai: "npm:^2.5.1"
     jotai-immer: "npm:^0.2.0"
     js-base64: "npm:^3.7.5"
+    js-cookie: "npm:^3.0.5"
     lodash-es: "npm:^4.17.21"
     md5: "npm:^2.3.0"
     nanoid: "npm:^5.0.3"
@@ -4841,6 +4850,13 @@ __metadata:
   version: 3.7.5
   resolution: "js-base64@npm:3.7.5"
   checksum: 641f4979fc5cf90b897e265a158dfcbef483219c76bc9a755875cb03ff73efdb1bd468a42e0343e05a3af7226f9d333c08ee4bb10f42a4c526988845ce1dcf1b
+  languageName: node
+  linkType: hard
+
+"js-cookie@npm:^3.0.5":
+  version: 3.0.5
+  resolution: "js-cookie@npm:3.0.5"
+  checksum: 04a0e560407b4489daac3a63e231d35f4e86f78bff9d792011391b49c59f721b513411cd75714c418049c8dc9750b20fcddad1ca5a2ca616c3aca4874cce5b3a
   languageName: node
   linkType: hard
 
