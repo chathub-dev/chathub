@@ -144,8 +144,6 @@ function SettingPage() {
     <PagePanel title={`${t('Settings')} (v${getVersion()})`}>
       <div className="flex flex-row mt-3 mb-5 gap-3">
         <div className="flex flex-col gap-5">
-          <ExportDataPanel />
-          <ShortcutPanel />
           <div>
             <p className="font-bold mb-2 text-lg">{t('Startup page')}</p>
             <div className="w-[200px]">
@@ -222,6 +220,8 @@ function SettingPage() {
               )}
             </ChatBotSettingPanel>
           </div>
+          <ShortcutPanel />
+          <ExportDataPanel />
         </div>
         <div>
           {dirty && (
