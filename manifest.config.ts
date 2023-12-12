@@ -29,16 +29,11 @@ export default defineManifest(async () => {
       'https://*.claude.ai/',
     ],
     optional_host_permissions: ['https://*/*', 'wss://*/*'],
-    permissions: ['storage', 'unlimitedStorage', 'sidePanel', 'declarativeNetRequestWithHostAccess'],
+    permissions: ['storage', 'unlimitedStorage', 'sidePanel', 'declarativeNetRequestWithHostAccess', 'scripting'],
     content_scripts: [
       {
         matches: ['https://chat.openai.com/*'],
         js: ['src/content-script/chatgpt-inpage-proxy.ts'],
-      },
-      {
-        matches: ['https://twitter.com/*'],
-        js: ['src/content-script/twitter.ts'],
-        run_at: 'document_start',
       },
     ],
     commands: {

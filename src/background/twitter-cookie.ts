@@ -3,6 +3,7 @@
  */
 
 import Browser from 'webextension-polyfill'
+import Cookie from 'cookie'
 
 const storageKey = 'twitter-csrf-token'
 
@@ -14,32 +15,18 @@ async function readTwitterCsrfToken({ refresh }: { refresh?: boolean } = {}) {
     }
   }
 
-  return new Promise((resolve, reject) => {
-    let tabId: number | undefined
+  const tab = await Browser.tabs.create({ url: 'https://about.twitter.com/en/404', active: false })
 
-    const listener = (changes: Browser.Storage.StorageAreaOnChangedChangesType) => {
-      console.debug('storage.session changes', changes)
-      if (changes[storageKey] && 'newValue' in changes[storageKey]) {
-        clearTimeout(timer)
-        Browser.storage.session.onChanged.removeListener(listener)
-        resolve(changes[storageKey].newValue)
-        if (tabId) {
-          Browser.tabs.remove(tabId)
-          tabId = undefined
-        }
-      }
-    }
-    Browser.storage.session.onChanged.addListener(listener)
-
-    const timer = setTimeout(() => {
-      Browser.storage.session.onChanged.removeListener(listener)
-      reject('Twitter CSRF timeout')
-    }, 10 * 1000)
-
-    Browser.tabs.create({ url: 'https://twitter.com/', active: false }).then((tab) => {
-      tabId = tab.id
-    })
+  const results = await Browser.scripting.executeScript({
+    target: { tabId: tab.id! },
+    func: () => document.cookie,
+    injectImmediately: true,
   })
+
+  const cookies = Cookie.parse(results[0].result || '')
+  const csrfToken = cookies.ct0 || ''
+  await Browser.storage.session.set({ [storageKey]: csrfToken })
+  return csrfToken
 }
 
 export { readTwitterCsrfToken }
