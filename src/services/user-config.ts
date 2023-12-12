@@ -1,7 +1,7 @@
 import { defaults } from 'lodash-es'
 import Browser from 'webextension-polyfill'
-import { BotId } from '~app/bots'
-import { ALL_IN_ONE_PAGE_ID, CHATBOTS, CHATGPT_API_MODELS, DEFAULT_CHATGPT_SYSTEM_MESSAGE } from '~app/consts'
+import { BotId, CHATBOTS } from '~app/bots'
+import { ALL_IN_ONE_PAGE_ID, CHATGPT_API_MODELS, DEFAULT_CHATGPT_SYSTEM_MESSAGE } from '~app/consts'
 
 export enum BingConversationStyle {
   Creative = 'creative',
