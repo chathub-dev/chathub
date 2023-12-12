@@ -23,8 +23,9 @@ async function main() {
     }
   })
   if ((window as any).__NEXT_DATA__) {
-    await Browser.runtime.sendMessage({ event: 'PROXY_TAB_READY' })
-    injectTip()
+    if (await Browser.runtime.sendMessage({ event: 'PROXY_TAB_READY' })) {
+      injectTip()
+    }
   }
 }
 

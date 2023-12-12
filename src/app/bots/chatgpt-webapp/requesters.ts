@@ -39,6 +39,7 @@ class ProxyFetchRequester implements Requester {
           Browser.runtime.onMessage.removeListener(listener)
           clearTimeout(timer)
           resolve(sender.tab!)
+          return true
         }
       }
       const timer = setTimeout(() => {
