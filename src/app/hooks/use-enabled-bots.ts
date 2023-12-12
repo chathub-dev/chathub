@@ -1,5 +1,6 @@
 import useSWR from 'swr/immutable'
-import { BotId, CHATBOTS } from '~app/bots'
+import { BotId } from '~app/bots'
+import { CHATBOTS } from '~app/consts'
 import { getUserConfig } from '~services/user-config'
 
 export function useEnabledBots() {

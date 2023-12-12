@@ -1,5 +1,6 @@
 import { FC, useCallback } from 'react'
-import { BotId, CHATBOTS } from '~app/bots'
+import { BotId } from '~app/bots'
+import { CHATBOTS } from '~app/consts'
 import { UserConfig } from '~services/user-config'
 
 interface Props {
