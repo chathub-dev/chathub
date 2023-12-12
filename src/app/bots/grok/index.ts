@@ -80,6 +80,9 @@ export class GrokWebBot extends AbstractBot {
           continue
         }
         const payload: StreamMessage = JSON.parse(line)
+        if (!payload.result) {
+          continue
+        }
         if (!result && !payload.result.message && payload.result.query) {
           params.onEvent({ type: 'UPDATE_ANSWER', data: { text: '_' + payload.result.query + '_' } })
         } else {
