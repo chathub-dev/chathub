@@ -17,16 +17,19 @@ async function readTwitterCsrfToken({ refresh }: { refresh?: boolean } = {}) {
 
   const tab = await Browser.tabs.create({ url: 'https://about.twitter.com/en/404', active: false })
 
-  const results = await Browser.scripting.executeScript({
-    target: { tabId: tab.id! },
-    func: () => document.cookie,
-    injectImmediately: true,
-  })
-
-  const cookies = Cookie.parse(results[0].result || '')
-  const csrfToken = cookies.ct0 || ''
-  await Browser.storage.session.set({ [storageKey]: csrfToken })
-  return csrfToken
+  try {
+    const results = await Browser.scripting.executeScript({
+      target: { tabId: tab.id! },
+      func: () => document.cookie,
+      injectImmediately: true,
+    })
+    const cookies = Cookie.parse(results[0].result || '')
+    const csrfToken = cookies.ct0 || ''
+    await Browser.storage.session.set({ [storageKey]: csrfToken })
+    return csrfToken
+  } finally {
+    await Browser.tabs.remove(tab.id!)
+  }
 }
 
 export { readTwitterCsrfToken }
