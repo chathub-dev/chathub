@@ -4,8 +4,10 @@ import { useTranslation } from 'react-i18next'
 import { BiExport, BiImport } from 'react-icons/bi'
 import Browser from 'webextension-polyfill'
 import Button, { MotionButton } from '~app/components/Button'
+import { Input } from '~app/components/Input'
 import RadioGroup from '~app/components/RadioGroup'
 import Select from '~app/components/Select'
+import Blockquote from '~app/components/Settings/Blockquote'
 import ChatGPTAPISettings from '~app/components/Settings/ChatGPTAPISettings'
 import ChatGPTAzureSettings from '~app/components/Settings/ChatGPTAzureSettings'
 import ChatGPTOpenRouterSettings from '~app/components/Settings/ChatGPTOpenRouterSettings'
@@ -195,6 +197,30 @@ function SettingPage() {
               ) : (
                 <ClaudePoeSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
               )}
+            </ChatBotSettingPanel>
+            <ChatBotSettingPanel title="Gemini Pro">
+              <div className="flex flex-col gap-1">
+                <p className="font-medium text-sm">
+                  API Key (
+                  <a
+                    href="https://makersuite.google.com/app/apikey"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline"
+                  >
+                    how to create key
+                  </a>
+                  )
+                </p>
+                <Input
+                  className="w-[300px]"
+                  placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                  value={userConfig.geminiApiKey}
+                  onChange={(e) => updateConfigValue({ geminiApiKey: e.currentTarget.value })}
+                  type="password"
+                />
+                <Blockquote className="mt-1">{t('Your keys are stored locally')}</Blockquote>
+              </div>
             </ChatBotSettingPanel>
             <ChatBotSettingPanel title="Bing">
               <div className="flex flex-row gap-5 items-center">

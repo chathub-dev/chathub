@@ -81,6 +81,7 @@ const userConfigWithDefaultValue = {
   openrouterApiKey: '',
   perplexityMode: PerplexityMode.Webapp,
   perplexityApiKey: '',
+  geminiApiKey: '',
 }
 
 export type UserConfig = typeof userConfigWithDefaultValue

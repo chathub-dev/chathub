@@ -15,6 +15,7 @@ import xunfeiLogo from '~/assets/xunfei-logo.png'
 import pplxLogo from '~/assets/pplx-logo.jpg'
 import yiLogo from '~/assets/yi-logo.svg'
 import grokLogo from '~/assets/grok-logo.png'
+import geminiLogo from '~/assets/gemini-logo.png'
 import { BotId } from './bots'
 
 export const CHATBOTS: Record<BotId, { name: string; avatar: string }> = {
@@ -49,6 +50,10 @@ export const CHATBOTS: Record<BotId, { name: string; avatar: string }> = {
   falcon: {
     name: 'Falcon',
     avatar: falconLogo,
+  },
+  gemini: {
+    name: 'Gemini Pro',
+    avatar: geminiLogo,
   },
   grok: {
     name: 'Grok',

@@ -3,6 +3,7 @@ import { BardBot } from './bard'
 import { BingWebBot } from './bing'
 import { ChatGPTBot } from './chatgpt'
 import { ClaudeBot } from './claude'
+import { GeminiBot } from './gemini-api'
 import { GrokWebBot } from './grok'
 import { LMSYSBot } from './lmsys'
 import { PerplexityBot } from './perplexity'
@@ -28,6 +29,7 @@ export type BotId =
   | 'baichuan'
   | 'yi'
   | 'grok'
+  | 'gemini'
 
 export function createBotInstance(botId: BotId) {
   switch (botId) {
@@ -65,6 +67,8 @@ export function createBotInstance(botId: BotId) {
       return new PerplexityBot()
     case 'grok':
       return new GrokWebBot()
+    case 'gemini':
+      return new GeminiBot()
   }
 }
 

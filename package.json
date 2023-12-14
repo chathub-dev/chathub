@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "@floating-ui/react": "^0.26.1",
+    "@google/generative-ai": "^0.1.1",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
     "@radix-ui/react-tooltip": "^1.0.7",

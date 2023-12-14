@@ -861,6 +861,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@google/generative-ai@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "@google/generative-ai@npm:0.1.1"
+  checksum: 1b42c54490670769eeb9eaa620fd9bc947a80849eeee14998c4fa91c37abbd2072cd746dd97d302d2e09a94d2b8011e7e3b3e492932a9a3c54dbbdb03cb8c44f
+  languageName: node
+  linkType: hard
+
 "@headlessui/react@npm:^1.7.17":
   version: 1.7.17
   resolution: "@headlessui/react@npm:1.7.17"
@@ -2461,6 +2468,7 @@ __metadata:
   dependencies:
     "@crxjs/vite-plugin": "npm:^2.0.0-beta.18"
     "@floating-ui/react": "npm:^0.26.1"
+    "@google/generative-ai": "npm:^0.1.1"
     "@headlessui/react": "npm:^1.7.17"
     "@headlessui/tailwindcss": "npm:^0.2.0"
     "@heroicons/react": "npm:^2.0.18"
