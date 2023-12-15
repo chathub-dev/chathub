@@ -13,20 +13,19 @@ interface Props {
 const ClaudeAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
   const { t } = useTranslation()
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 w-[400px]">
       <div className="flex flex-col gap-1">
-        <Blockquote className="mb-1">{t('Your keys are stored locally')}</Blockquote>
         <p className="font-medium text-sm">API Key</p>
         <Input
-          className="w-[300px]"
           placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
           value={userConfig.claudeApiKey}
           onChange={(e) => updateConfigValue({ claudeApiKey: e.currentTarget.value })}
           type="password"
         />
+        <Blockquote className="mt-1">{t('Your keys are stored locally')}</Blockquote>
       </div>
-      <div className="flex flex-col gap-1 w-[300px]">
-        <p className="font-medium text-sm">{t('Model')}</p>
+      <div className="flex flex-col gap-1">
+        <p className="font-medium text-sm">{t('API Model')}</p>
         <Select
           options={Object.entries(ClaudeAPIModel).map(([k, v]) => ({ name: k, value: v }))}
           value={userConfig.claudeApiModel}

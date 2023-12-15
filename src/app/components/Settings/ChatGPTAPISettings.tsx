@@ -16,7 +16,6 @@ const ChatGPTAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
   return (
     <div className="flex flex-col gap-2 w-[400px]">
       <div className="flex flex-col gap-1">
-        <Blockquote className="mb-1">{t('Your keys are stored locally')}</Blockquote>
         <p className="font-medium text-sm">API Key</p>
         <Input
           placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -24,6 +23,7 @@ const ChatGPTAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
           onChange={(e) => updateConfigValue({ openaiApiKey: e.currentTarget.value })}
           type="password"
         />
+        <Blockquote className="mt-1">{t('Your keys are stored locally')}</Blockquote>
       </div>
       <div className="flex flex-col gap-1">
         <p className="font-medium text-sm">API Host</p>

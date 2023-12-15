@@ -14,7 +14,6 @@ const PerplexityAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => 
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-col gap-1">
-        <Blockquote className="mb-1">{t('Your keys are stored locally')}</Blockquote>
         <p className="font-medium text-sm">
           API Key (
           <a
@@ -34,6 +33,7 @@ const PerplexityAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => 
           onChange={(e) => updateConfigValue({ perplexityApiKey: e.currentTarget.value })}
           type="password"
         />
+        <Blockquote className="mt-1">{t('Your keys are stored locally')}</Blockquote>
       </div>
     </div>
   )
