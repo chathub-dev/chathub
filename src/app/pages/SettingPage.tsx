@@ -224,7 +224,7 @@ function SettingPage() {
             </ChatBotSettingPanel>
             <ChatBotSettingPanel title="Bing">
               <div className="flex flex-row gap-5 items-center">
-                <p className="font-medium text-base">{t('Chat style')}</p>
+                <p className="font-medium">{t('Chat style')}</p>
                 <div className="w-[150px]">
                   <Select
                     options={BING_STYLE_OPTIONS}
