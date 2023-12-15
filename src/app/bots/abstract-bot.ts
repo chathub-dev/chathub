@@ -102,18 +102,26 @@ class DummyBot extends AbstractBot {
 
 export abstract class AsyncAbstractBot extends AbstractBot {
   #bot: AbstractBot
+  #initializeError?: Error
 
   constructor() {
     super()
     this.#bot = new DummyBot()
-    this.initializeBot().then((bot) => {
-      this.#bot = bot
-    })
+    this.initializeBot()
+      .then((bot) => {
+        this.#bot = bot
+      })
+      .catch((err) => {
+        this.#initializeError = err
+      })
   }
 
   abstract initializeBot(): Promise<AbstractBot>
 
   doSendMessage(params: SendMessageParams) {
+    if (this.#bot instanceof DummyBot && this.#initializeError) {
+      throw this.#initializeError
+    }
     return this.#bot.doSendMessage(params)
   }
 
