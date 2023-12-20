@@ -41,6 +41,6 @@ function extractVariable(variableName: string, html: string) {
 }
 
 export async function getCsrfToken() {
-  const html = await ofetch('https://qianwen.aliyun.com', { parseResponse: (t) => t })
+  const html = await ofetch('https://tongyi.aliyun.com/qianwen/', { parseResponse: (t) => t })
   return extractVariable('csrfToken', html)
 }

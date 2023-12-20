@@ -8,12 +8,12 @@
         {
           "header": "origin",
           "operation": "set",
-          "value": "https://qianwen.aliyun.com"
+          "value": "https://tongyi.aliyun.com"
         },
         {
           "header": "referer",
           "operation": "set",
-          "value": "https://qianwen.aliyun.com/"
+          "value": "https://tongyi.aliyun.com/"
         }
       ]
     },
