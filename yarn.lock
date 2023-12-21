@@ -2498,6 +2498,7 @@ __metadata:
     cachified: "npm:^3.5.4"
     chrome-types: "npm:^0.1.240"
     clsx: "npm:^2.0.0"
+    compare-versions: "npm:^6.1.0"
     cookie: "npm:^0.6.0"
     dayjs: "npm:^1.11.10"
     eslint: "npm:^8.53.0"
@@ -2714,6 +2715,13 @@ __metadata:
   version: 8.3.0
   resolution: "commander@npm:8.3.0"
   checksum: 8b043bb8322ea1c39664a1598a95e0495bfe4ca2fad0d84a92d7d1d8d213e2a155b441d2470c8e08de7c4a28cf2bc6e169211c49e1b21d9f7edc6ae4d9356060
+  languageName: node
+  linkType: hard
+
+"compare-versions@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "compare-versions@npm:6.1.0"
+  checksum: 5378edc8a53ac98ed907da463e1d6c26f1ed2664006d6a0d54bbdf7f046a36c43e244740854fc0edfc1e09253b9a0b7c98d1282dfee9f6f1a87199599f611218
   languageName: node
   linkType: hard
 

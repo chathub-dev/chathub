@@ -9,12 +9,13 @@ import feedbackIcon from '~/assets/icons/feedback.svg'
 import githubIcon from '~/assets/icons/github.svg'
 import settingIcon from '~/assets/icons/setting.svg'
 import themeIcon from '~/assets/icons/theme.svg'
-import logo from '~/assets/santa-logo.png'
 import minimalLogo from '~/assets/minimal-logo.svg'
+import logo from '~/assets/santa-logo.png'
 import { cx } from '~/utils'
 import { useEnabledBots } from '~app/hooks/use-enabled-bots'
-import { showDiscountModalAtom, sidebarCollapsedAtom } from '~app/state'
+import { releaseNotesAtom, showDiscountModalAtom, sidebarCollapsedAtom } from '~app/state'
 import { getPremiumActivation } from '~services/premium'
+import { checkReleaseNotes } from '~services/release-notes'
 import * as api from '~services/server-api'
 import { getAppOpenTimes, getPremiumModalOpenTimes } from '~services/storage/open-times'
 import GuideModal from '../GuideModal'
@@ -40,19 +41,25 @@ function Sidebar() {
   const [themeSettingModalOpen, setThemeSettingModalOpen] = useState(false)
   const enabledBots = useEnabledBots()
   const setShowDiscountModal = useSetAtom(showDiscountModalAtom)
+  const setReleaseNotes = useSetAtom(releaseNotesAtom)
 
   useEffect(() => {
-    Promise.all([getAppOpenTimes(), getPremiumModalOpenTimes()]).then(async ([appOpenTimes, premiumModalOpenTimes]) => {
-      if (getPremiumActivation()) {
-        return
-      }
-      const { show, campaign } = await api.checkDiscount({ appOpenTimes, premiumModalOpenTimes })
-      if (show) {
-        setShowDiscountModal(true)
-      } else if (campaign) {
-        setShowDiscountModal(campaign)
-      }
-    })
+    Promise.all([getAppOpenTimes(), getPremiumModalOpenTimes(), checkReleaseNotes()]).then(
+      async ([appOpenTimes, premiumModalOpenTimes, releaseNotes]) => {
+        if (!getPremiumActivation()) {
+          const { show, campaign } = await api.checkDiscount({ appOpenTimes, premiumModalOpenTimes })
+          if (show) {
+            setShowDiscountModal(true)
+            return
+          }
+          if (campaign) {
+            setShowDiscountModal(campaign)
+            return
+          }
+        }
+        setReleaseNotes(releaseNotes)
+      },
+    )
   }, [])
 
   return (

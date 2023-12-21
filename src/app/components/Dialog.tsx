@@ -38,7 +38,7 @@ const Dialog: FC<PropsWithChildren<Props>> = (props) => {
           >
             <HeadlessDialog.Panel
               className={cx(
-                'mx-auto rounded-3xl bg-primary-background shadow-2xl max-h-full overflow-hidden flex flex-col',
+                'mx-auto rounded-2xl bg-primary-background shadow-2xl max-h-full overflow-hidden flex flex-col',
                 props.className,
               )}
             >
@@ -46,7 +46,7 @@ const Dialog: FC<PropsWithChildren<Props>> = (props) => {
                 <HeadlessDialog.Title
                   className={cx(
                     !props.borderless && 'border-b',
-                    'border-solid border-primary-border flex flex-row justify-center items-center py-4 px-5',
+                    'border-solid border-primary-border flex flex-row justify-center items-center py-3 px-5',
                   )}
                 >
                   <span className="ml-auto" />

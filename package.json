@@ -57,6 +57,7 @@
     "browser-image-compression": "^2.0.2",
     "cachified": "^3.5.4",
     "clsx": "^2.0.0",
+    "compare-versions": "^6.1.0",
     "cookie": "^0.6.0",
     "dayjs": "^1.11.10",
     "eventsource-parser": "^1.1.1",

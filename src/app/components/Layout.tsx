@@ -1,9 +1,10 @@
 import { Outlet } from '@tanstack/react-router'
 import { useAtomValue } from 'jotai'
 import { followArcThemeAtom, themeColorAtom } from '~app/state'
+import ReleaseNotesModal from './Modals/ReleaseNotesModal'
 import DiscountModal from './Premium/DiscountModal'
-import Sidebar from './Sidebar'
 import PremiumModal from './Premium/Modal'
+import Sidebar from './Sidebar'
 
 function Layout() {
   const themeColor = useAtomValue(themeColorAtom)
@@ -19,6 +20,7 @@ function Layout() {
       </div>
       <DiscountModal />
       <PremiumModal />
+      <ReleaseNotesModal />
     </main>
   )
 }
