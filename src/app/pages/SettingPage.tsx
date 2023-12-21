@@ -1,9 +1,8 @@
 import { FC, PropsWithChildren, useCallback, useEffect, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
-import { BiExport, BiImport } from 'react-icons/bi'
 import Browser from 'webextension-polyfill'
-import Button, { MotionButton } from '~app/components/Button'
+import { MotionButton } from '~app/components/Button'
 import { Input } from '~app/components/Input'
 import RadioGroup from '~app/components/RadioGroup'
 import Select from '~app/components/Select'
@@ -18,10 +17,10 @@ import ClaudeOpenRouterSettings from '~app/components/Settings/ClaudeOpenRouterS
 import ClaudePoeSettings from '~app/components/Settings/ClaudePoeSettings'
 import ClaudeWebappSettings from '~app/components/Settings/ClaudeWebappSettings'
 import EnabledBotsSettings from '~app/components/Settings/EnabledBotsSettings'
-import KDB from '~app/components/Settings/KDB'
+import ExportDataPanel from '~app/components/Settings/ExportDataPanel'
 import PerplexityAPISettings from '~app/components/Settings/PerplexityAPISettings'
+import ShortcutPanel from '~app/components/Settings/ShortcutPanel'
 import { ALL_IN_ONE_PAGE_ID, CHATBOTS } from '~app/consts'
-import { exportData, importData } from '~app/utils/export'
 import {
   BingConversationStyle,
   ChatGPTMode,
@@ -45,56 +44,6 @@ const ChatBotSettingPanel: FC<PropsWithChildren<{ title: string }>> = (props) =>
     <div className="flex flex-col gap-1 border border-primary-border px-5 py-4 rounded-lg shadow-sm">
       <p className="font-bold text-md">{props.title}</p>
       {props.children}
-    </div>
-  )
-}
-
-function ExportDataPanel() {
-  const { t } = useTranslation()
-  return (
-    <div>
-      <p className="font-bold mb-1 text-lg">{t('Export/Import All Data')}</p>
-      <p className="mb-3 opacity-80">{t('Data includes all your settings, chat histories, and local prompts')}</p>
-      <div className="flex flex-row gap-3">
-        <Button size="small" text={t('Export')} icon={<BiExport />} onClick={exportData} />
-        <Button size="small" text={t('Import')} icon={<BiImport />} onClick={importData} />
-      </div>
-    </div>
-  )
-}
-
-function ShortcutPanel() {
-  const [shortcuts, setShortcuts] = useState<string[]>([])
-  const { t } = useTranslation()
-
-  useEffect(() => {
-    Browser.commands.getAll().then((commands) => {
-      for (const c of commands) {
-        if (c.name === 'open-app' && c.shortcut) {
-          console.debug(c.shortcut)
-          setShortcuts(c.shortcut ? [c.shortcut] : [])
-        }
-      }
-    })
-  }, [])
-
-  return (
-    <div className="flex flex-col gap-2">
-      <p className="font-bold text-lg">{t('Shortcut to open this app')}</p>
-      <div className="flex flex-row gap-2 items-center">
-        {shortcuts.length > 0 && (
-          <div className="flex flex-row gap-1">
-            {shortcuts.map((s) => (
-              <KDB key={s} text={s} />
-            ))}
-          </div>
-        )}
-        <Button
-          text={t('Change shortcut')}
-          size="small"
-          onClick={() => Browser.tabs.create({ url: 'chrome://extensions/shortcuts' })}
-        />
-      </div>
     </div>
   )
 }
