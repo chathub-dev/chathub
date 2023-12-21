@@ -47,6 +47,10 @@ export const CHATBOTS: Record<BotId, { name: string; avatar: string }> = {
     name: 'Gemini Pro',
     avatar: geminiLogo,
   },
+  mistral: {
+    name: 'Mixtral',
+    avatar: mistralLogo,
+  },
   vicuna: {
     name: 'Vicuna',
     avatar: vicunaLogo,
@@ -58,10 +62,6 @@ export const CHATBOTS: Record<BotId, { name: string; avatar: string }> = {
   grok: {
     name: 'Grok',
     avatar: grokLogo,
-  },
-  mistral: {
-    name: 'Mistral',
-    avatar: mistralLogo,
   },
   pi: {
     name: 'Pi',

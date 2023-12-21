@@ -54,7 +54,7 @@ export function createBotInstance(botId: BotId) {
     case 'falcon':
       return new LMSYSBot('falcon-180b-chat')
     case 'mistral':
-      return new LMSYSBot('mistral-7b-instruct')
+      return new LMSYSBot('mixtral-8x7b-instruct-v0.1')
     case 'yi':
       return new LMSYSBot('yi-34b-chat')
     case 'pi':
