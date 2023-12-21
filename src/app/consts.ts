@@ -43,6 +43,10 @@ export const CHATBOTS: Record<BotId, { name: string; avatar: string }> = {
     name: 'Llama 2',
     avatar: llamaLogo,
   },
+  gemini: {
+    name: 'Gemini Pro',
+    avatar: geminiLogo,
+  },
   vicuna: {
     name: 'Vicuna',
     avatar: vicunaLogo,
@@ -50,10 +54,6 @@ export const CHATBOTS: Record<BotId, { name: string; avatar: string }> = {
   falcon: {
     name: 'Falcon',
     avatar: falconLogo,
-  },
-  gemini: {
-    name: 'Gemini Pro',
-    avatar: geminiLogo,
   },
   grok: {
     name: 'Grok',
