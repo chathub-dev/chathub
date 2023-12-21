@@ -1,4 +1,4 @@
-import { cachified } from 'cachified'
+import { cachified } from '@epic-web/cachified'
 import { truncate } from 'lodash-es'
 import type { SearchResultItem } from './base'
 import { BingNewsSearch } from './bing-news'
