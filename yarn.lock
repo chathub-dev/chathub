@@ -449,9 +449,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@crxjs/vite-plugin@npm:^2.0.0-beta.18":
-  version: 2.0.0-beta.18
-  resolution: "@crxjs/vite-plugin@npm:2.0.0-beta.18"
+"@crxjs/vite-plugin@npm:2.0.0-beta.21":
+  version: 2.0.0-beta.21
+  resolution: "@crxjs/vite-plugin@npm:2.0.0-beta.21"
   dependencies:
     "@rollup/pluginutils": "npm:^4.1.2"
     "@webcomponents/custom-elements": "npm:^1.5.0"
@@ -469,7 +469,7 @@ __metadata:
     react-refresh: "npm:^0.13.0"
     rollup: "npm:2.78.1"
     rxjs: "npm:7.5.7"
-  checksum: 232e718fe617def8af5388e86ede5678458fa0168a15f7e0df324985e18d98dabd2255172a6b71881d4ccf2950d5eb6180849c292bd23e95a6387f29ba37b2ac
+  checksum: 4ee1bb6bec4908d88ed1845c2d58eb012c1e88aa594be8896b79c68438c1853a34b3cdb77ef89e8e7abe318e367bd1bea83d56be13ec24ac3d65e15d26af8467
   languageName: node
   linkType: hard
 
@@ -2537,7 +2537,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "chathub-extension@workspace:."
   dependencies:
-    "@crxjs/vite-plugin": "npm:^2.0.0-beta.18"
+    "@crxjs/vite-plugin": "npm:2.0.0-beta.21"
     "@epic-web/cachified": "npm:^4.0.0"
     "@floating-ui/react": "npm:^0.26.4"
     "@google/generative-ai": "npm:^0.1.3"
