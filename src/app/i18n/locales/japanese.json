@@ -98,5 +98,6 @@
   "Login to Claude.ai": "Claude.aiにログインする",
   "Login to Bard": "Bardにログインする",
   "Recent Updates": "最近の更新",
-  "Added a separate Gemini Pro bot, can be enabled in the settings": "独立したGemini Proボットを追加しました。設定で有効にできます"
+  "Added a separate Gemini Pro bot, can be enabled in the settings": "独立したGemini Proボットを追加しました。設定で有効にできます",
+  "Save changes": "変更を保存する"
 }
