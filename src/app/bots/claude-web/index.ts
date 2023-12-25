@@ -11,8 +11,14 @@ interface ConversationContext {
 export class ClaudeWebBot extends AbstractBot {
   private organizationId?: string
   private conversationContext?: ConversationContext
+  private model: string
 
-  async doSendMessage(params: SendMessageParams) {
+  constructor() {
+    super()
+    this.model = 'claude-2.1'
+  }
+
+  async doSendMessage(params: SendMessageParams): Promise<void> {
     if (!(await requestHostPermission('https://*.claude.ai/'))) {
       throw new ChatError('Missing claude.ai permission', ErrorCode.MISSING_HOST_PERMISSION)
     }
@@ -39,11 +45,19 @@ export class ClaudeWebBot extends AbstractBot {
         text: params.prompt,
         completion: {
           prompt: params.prompt,
-          model: 'claude-2.1',
+          model: this.model,
         },
         attachments: [],
       }),
     })
+
+    // different models are available for different accounts
+    if (!resp.ok && resp.status === 403 && this.model === 'claude-2.1') {
+      if ((await resp.text()).includes('model_not_allowed')) {
+        this.model = 'claude-2.0'
+        return this.doSendMessage(params)
+      }
+    }
 
     let result = ''
 
