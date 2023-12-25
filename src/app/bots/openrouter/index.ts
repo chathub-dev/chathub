@@ -104,6 +104,6 @@ export class OpenRouterBot extends AbstractBot {
   }
 
   get name() {
-    return `OpenRouter/${this.config.model})`
+    return `OpenRouter/${this.config.model}`
   }
 }
