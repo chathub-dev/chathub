@@ -1,35 +1,40 @@
 import { ClaudeMode, getUserConfig } from '~/services/user-config'
 import * as agent from '~services/agent'
-import { AsyncAbstractBot, MessageParams } from '../abstract-bot'
+import { ChatError, ErrorCode } from '~utils/errors'
+import { DelegatedBot, MessageParams } from '../abstract-bot'
 import { ClaudeApiBot } from '../claude-api'
 import { ClaudeWebBot } from '../claude-web'
-import { PoeWebBot } from '../poe'
-import { ChatError, ErrorCode } from '~utils/errors'
 import { OpenRouterBot } from '../openrouter'
+import { PoeWebBot } from '../poe'
 
-export class ClaudeBot extends AsyncAbstractBot {
-  async initializeBot() {
-    const { claudeMode, ...config } = await getUserConfig()
-    if (claudeMode === ClaudeMode.API) {
-      if (!config.claudeApiKey) {
-        throw new Error('Claude API key missing')
-      }
-      return new ClaudeApiBot({
-        claudeApiKey: config.claudeApiKey,
-        claudeApiModel: config.claudeApiModel,
-      })
+async function initializeBot() {
+  const { claudeMode, ...config } = await getUserConfig()
+  if (claudeMode === ClaudeMode.API) {
+    if (!config.claudeApiKey) {
+      throw new Error('Claude API key missing')
     }
-    if (claudeMode === ClaudeMode.Webapp) {
-      return new ClaudeWebBot()
+    return new ClaudeApiBot({
+      claudeApiKey: config.claudeApiKey,
+      claudeApiModel: config.claudeApiModel,
+    })
+  }
+  if (claudeMode === ClaudeMode.Webapp) {
+    return new ClaudeWebBot()
+  }
+  if (claudeMode === ClaudeMode.OpenRouter) {
+    if (!config.openrouterApiKey) {
+      throw new ChatError('OpenRouter API key not set', ErrorCode.API_KEY_NOT_SET)
     }
-    if (claudeMode === ClaudeMode.OpenRouter) {
-      if (!config.openrouterApiKey) {
-        throw new ChatError('OpenRouter API key not set', ErrorCode.API_KEY_NOT_SET)
-      }
-      const model = `anthropic/${config.openrouterClaudeModel}`
-      return new OpenRouterBot({ apiKey: config.openrouterApiKey, model })
-    }
-    return new PoeWebBot(config.poeModel)
+    const model = `anthropic/${config.openrouterClaudeModel}`
+    return new OpenRouterBot({ apiKey: config.openrouterApiKey, model })
+  }
+  return new PoeWebBot(config.poeModel)
+}
+
+export class ClaudeBot extends DelegatedBot {
+  static async initialize() {
+    const bot = await initializeBot()
+    return new ClaudeBot(bot)
   }
 
   async sendMessage(params: MessageParams) {

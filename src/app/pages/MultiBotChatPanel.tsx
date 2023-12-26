@@ -18,10 +18,18 @@ import ConversationPanel from '../components/Chat/ConversationPanel'
 const DEFAULT_BOTS: BotId[] = Object.keys(CHATBOTS).slice(0, 6) as BotId[]
 
 const layoutAtom = atomWithStorage<Layout>('multiPanelLayout', 2, undefined, { getOnInit: true })
-const twoPanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:2', DEFAULT_BOTS.slice(0, 2))
-const threePanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:3', DEFAULT_BOTS.slice(0, 3))
-const fourPanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:4', DEFAULT_BOTS.slice(0, 4))
-const sixPanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:6', DEFAULT_BOTS.slice(0, 6))
+const twoPanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:2', DEFAULT_BOTS.slice(0, 2), undefined, {
+  getOnInit: true,
+})
+const threePanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:3', DEFAULT_BOTS.slice(0, 3), undefined, {
+  getOnInit: true,
+})
+const fourPanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:4', DEFAULT_BOTS.slice(0, 4), undefined, {
+  getOnInit: true,
+})
+const sixPanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:6', DEFAULT_BOTS.slice(0, 6), undefined, {
+  getOnInit: true,
+})
 
 function replaceDeprecatedBots(bots: BotId[]): BotId[] {
   return bots.map((bot) => {
@@ -204,7 +212,7 @@ const MultiBotChatPanel: FC = () => {
 
 const MultiBotChatPanelPage: FC = () => {
   return (
-    <Suspense>
+    <Suspense fallback={<div className="bg-primary-background w-full h-full rounded-2xl"></div>}>
       <MultiBotChatPanel />
     </Suspense>
   )

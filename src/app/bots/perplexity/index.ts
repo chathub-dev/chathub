@@ -1,10 +1,9 @@
 import { PerplexityMode, getUserConfig } from '~/services/user-config'
-import { AsyncAbstractBot } from '../abstract-bot'
 import { PerplexityApiBot } from '../perplexity-api'
 import { PerplexityLabsBot } from '../perplexity-web'
 
-export class PerplexityBot extends AsyncAbstractBot {
-  async initializeBot() {
+export class PerplexityBot {
+  static async initialize() {
     const { perplexityMode, ...config } = await getUserConfig()
     if (perplexityMode === PerplexityMode.API) {
       if (!config.perplexityApiKey) {

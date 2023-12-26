@@ -4,7 +4,7 @@ import Layout from './components/Layout'
 import MultiBotChatPanel from './pages/MultiBotChatPanel'
 import PremiumPage from './pages/PremiumPage'
 import SettingPage from './pages/SettingPage'
-import SingleBotChatPanel from './pages/SingleBotChatPanel'
+import SingleBotChatPanelPage from './pages/SingleBotChatPanel'
 
 const rootRoute = new RootRoute()
 
@@ -22,7 +22,7 @@ const indexRoute = new Route({
 
 function ChatRoute() {
   const { botId } = useParams({ from: chatRoute.id })
-  return <SingleBotChatPanel botId={botId as BotId} />
+  return <SingleBotChatPanelPage botId={botId as BotId} />
 }
 
 const chatRoute = new Route({

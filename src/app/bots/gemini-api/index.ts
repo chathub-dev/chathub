@@ -1,6 +1,6 @@
-import { GoogleGenerativeAI, ChatSession } from '@google/generative-ai'
-import { AbstractBot, AsyncAbstractBot, SendMessageParams } from '../abstract-bot'
+import { ChatSession, GoogleGenerativeAI } from '@google/generative-ai'
 import { getUserConfig } from '~services/user-config'
+import { AbstractBot, SendMessageParams } from '../abstract-bot'
 
 interface ConversationContext {
   chatSession: ChatSession
@@ -47,8 +47,8 @@ export class GeminiApiBot extends AbstractBot {
   }
 }
 
-export class GeminiBot extends AsyncAbstractBot {
-  async initializeBot() {
+export class GeminiBot {
+  static async initialize() {
     const { geminiApiKey } = await getUserConfig()
     if (!geminiApiKey) {
       throw new Error('Gemini API key missing')

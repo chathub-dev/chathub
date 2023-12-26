@@ -88,52 +88,24 @@ export abstract class AbstractBot {
   abstract resetConversation(): void
 }
 
-class DummyBot extends AbstractBot {
-  async doSendMessage(_params: SendMessageParams) {
-    // dummy
-  }
-  resetConversation() {
-    // dummy
-  }
-  get name() {
-    return ''
-  }
-}
-
-export abstract class AsyncAbstractBot extends AbstractBot {
-  #bot: AbstractBot
-  #initializeError?: Error
-
-  constructor() {
+export abstract class DelegatedBot extends AbstractBot {
+  constructor(private bot: AbstractBot) {
     super()
-    this.#bot = new DummyBot()
-    this.initializeBot()
-      .then((bot) => {
-        this.#bot = bot
-      })
-      .catch((err) => {
-        this.#initializeError = err
-      })
   }
-
-  abstract initializeBot(): Promise<AbstractBot>
 
   doSendMessage(params: SendMessageParams) {
-    if (this.#bot instanceof DummyBot && this.#initializeError) {
-      throw this.#initializeError
-    }
-    return this.#bot.doSendMessage(params)
+    return this.bot.doSendMessage(params)
   }
 
   resetConversation() {
-    return this.#bot.resetConversation()
+    return this.bot.resetConversation()
   }
 
   get name() {
-    return this.#bot.name
+    return this.bot.name
   }
 
   get supportsImageInput() {
-    return this.#bot.supportsImageInput
+    return this.bot.supportsImageInput
   }
 }

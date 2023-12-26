@@ -31,16 +31,17 @@ export type BotId =
   | 'grok'
   | 'gemini'
 
-export function createBotInstance(botId: BotId) {
+export async function createBotInstance(botId: BotId) {
+  console.debug('createBotInstance', botId)
   switch (botId) {
     case 'chatgpt':
-      return new ChatGPTBot()
+      return ChatGPTBot.initialize()
     case 'bing':
       return new BingWebBot()
     case 'bard':
       return new BardBot()
     case 'claude':
-      return new ClaudeBot()
+      return ClaudeBot.initialize()
     case 'xunfei':
       return new XunfeiBot()
     case 'vicuna':
@@ -64,12 +65,10 @@ export function createBotInstance(botId: BotId) {
     case 'baichuan':
       return new BaichuanWebBot()
     case 'perplexity':
-      return new PerplexityBot()
+      return PerplexityBot.initialize()
     case 'grok':
       return new GrokWebBot()
     case 'gemini':
-      return new GeminiBot()
+      return GeminiBot.initialize()
   }
 }
-
-export type BotInstance = ReturnType<typeof createBotInstance>

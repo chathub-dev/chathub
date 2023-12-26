@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, Suspense } from 'react'
 import { useChat } from '~app/hooks/use-chat'
 import { BotId } from '../bots'
 import ConversationPanel from '../components/Chat/ConversationPanel'
@@ -24,4 +24,12 @@ const SingleBotChatPanel: FC<Props> = ({ botId }) => {
   )
 }
 
-export default SingleBotChatPanel
+const SingleBotChatPanelPage: FC<Props> = ({ botId }) => {
+  return (
+    <Suspense fallback={<div className="bg-primary-background w-full h-full rounded-2xl"></div>}>
+      <SingleBotChatPanel botId={botId} />
+    </Suspense>
+  )
+}
+
+export default SingleBotChatPanelPage

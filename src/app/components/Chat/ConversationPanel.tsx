@@ -5,11 +5,12 @@ import clearIcon from '~/assets/icons/clear.svg'
 import historyIcon from '~/assets/icons/history.svg'
 import shareIcon from '~/assets/icons/share.svg'
 import { cx } from '~/utils'
+import { AbstractBot } from '~app/bots/abstract-bot'
 import { CHATBOTS } from '~app/consts'
 import { ConversationContext, ConversationContextValue } from '~app/context'
 import { trackEvent } from '~app/plausible'
 import { ChatMessageModel } from '~types'
-import { BotId, BotInstance } from '../../bots'
+import { BotId } from '../../bots'
 import Button from '../Button'
 import HistoryDialog from '../History/Dialog'
 import ShareDialog from '../Share/Dialog'
@@ -21,7 +22,7 @@ import WebAccessCheckbox from './WebAccessCheckbox'
 
 interface Props {
   botId: BotId
-  bot: BotInstance
+  bot: AbstractBot
   messages: ChatMessageModel[]
   onUserSendMessage: (input: string, image?: File) => void
   resetConversation: () => void
