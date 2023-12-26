@@ -26,7 +26,7 @@ const ChatGPTAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
         {i18n.language === 'zh-CN' ? (
           <Blockquote className="mt-1 text-xs">
             推广：有需要可以购买{' '}
-            <a href="https://sourl.cn/Hcespe" className="underline" target="_blank" rel="noreferrer">
+            <a href="https://dub.sh/RHolg6n" className="underline" target="_blank" rel="noreferrer">
               AiHubMix
             </a>{' '}
             的OpenAI API密钥，价格低，速度快
