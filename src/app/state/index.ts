@@ -8,7 +8,7 @@ import { Campaign } from '~services/server-api'
 import { ChatMessageModel } from '~types'
 import { uuid } from '~utils'
 
-type Param = { botId: BotId; page: string }
+type Param = { botId: BotId }
 
 export const chatFamily = atomFamily(
   (param: Param) => {
@@ -21,7 +21,7 @@ export const chatFamily = atomFamily(
       conversationId: uuid(),
     })
   },
-  (a, b) => a.botId === b.botId && a.page === b.page,
+  (a, b) => a.botId === b.botId,
 )
 
 export const licenseKeyAtom = atomWithStorage('licenseKey', '', undefined, { getOnInit: true })

@@ -10,7 +10,7 @@ import { ChatError } from '~utils/errors'
 import { BotId } from '../bots'
 
 export function useChat(botId: BotId) {
-  const chatAtom = useMemo(() => chatFamily({ botId, page: 'singleton' }), [botId])
+  const chatAtom = useMemo(() => chatFamily({ botId }), [botId])
   const [chatState, setChatState] = useAtom(chatAtom)
 
   const updateMessage = useCallback(
