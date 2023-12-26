@@ -36,7 +36,7 @@ function PremiumPage() {
       await activatePremium(key)
     } catch (err) {
       console.error('activation', err)
-      setActivationError(getPath(err, 'data.error') || 'Activation failed')
+      setActivationError(getPath(err, 'data.error') || (err as Error).message || 'Activation failed')
       setActivating(false)
       return
     }
