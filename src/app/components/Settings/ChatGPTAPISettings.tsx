@@ -12,7 +12,7 @@ interface Props {
 }
 
 const ChatGPTAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   return (
     <div className="flex flex-col gap-2 w-[400px]">
       <div className="flex flex-col gap-1">
@@ -23,7 +23,17 @@ const ChatGPTAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
           onChange={(e) => updateConfigValue({ openaiApiKey: e.currentTarget.value })}
           type="password"
         />
-        <Blockquote className="mt-1">{t('Your keys are stored locally')}</Blockquote>
+        {i18n.language === 'zh-CN' ? (
+          <Blockquote className="mt-1 text-xs">
+            推广：有需要可以购买{' '}
+            <a href="https://sourl.cn/Hcespe" className="underline" target="_blank" rel="noreferrer">
+              AiHubMix
+            </a>{' '}
+            的OpenAI API密钥，价格低，速度快
+          </Blockquote>
+        ) : (
+          <Blockquote className="mt-1">{t('Your keys are stored locally')}</Blockquote>
+        )}
       </div>
       <div className="flex flex-col gap-1">
         <p className="font-medium text-sm">API Host</p>
