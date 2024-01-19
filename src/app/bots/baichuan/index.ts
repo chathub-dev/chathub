@@ -49,6 +49,10 @@ export class BaichuanWebBot extends AbstractBot {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        assistant: {},
+        assistant_info: {},
+        retry: 3,
+        type: "input",
         stream: true,
         request_id: uuid(),
         app_info: { id: 10001, name: 'baichuan_web' },
@@ -59,6 +63,7 @@ export class BaichuanWebBot extends AbstractBot {
           from: message.from,
           parent_id: lastMessageId || 0,
           created_at: message.createdAt,
+          attachments: []
         },
         session_info: { id: conversationId, name: '新的对话', created_at: Date.now() },
         parameters: {
@@ -69,6 +74,7 @@ export class BaichuanWebBot extends AbstractBot {
           max_new_tokens: -1,
           do_sample: -1,
           regenerate: 0,
+          wse:true
         },
         history: historyMessages,
       }),
