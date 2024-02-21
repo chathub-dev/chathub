@@ -7,6 +7,8 @@ import { ChatMessageModel } from '~/types'
 import Markdown from '../Markdown'
 import ErrorAction from './ErrorAction'
 import MessageBubble from './MessageBubble'
+import React from 'react';
+
 
 const COPY_ICON_CLASS = 'self-top cursor-pointer invisible group-hover:visible mt-[12px] text-primary-text'
 
@@ -37,6 +39,23 @@ const ChatMessageCard: FC<Props> = ({ message, className }) => {
     }
   }, [copied])
 
+  /* For user-submitted messages do not use Markdown. 
+    Split lines and replace leading spaces with nbsp*/
+  const preprocessMessage = (text: string) => {
+    return text.split('\n').map((line: string, index: number) => {
+      // Replace leading spaces with 'nbsp; entities
+      const processedLine = line.replace(/^[\s\t]+/g, (match: string) =>
+        match.replace(/ /g, '\u00a0').replace(/\t/g, '\u00a0\u00a0'));
+        
+      return (
+        <React.Fragment key={index}>
+          <span style={{ whiteSpace: 'pre-wrap' }}>{processedLine}</span>
+          {index !== text.split('\n').length - 1 && <br />}
+        </React.Fragment>
+      );
+    });
+  };
+
   return (
     <div
       className={cx('group flex gap-3 w-full', message.author === 'user' ? 'flex-row-reverse' : 'flex-row', className)}
@@ -44,7 +63,10 @@ const ChatMessageCard: FC<Props> = ({ message, className }) => {
       <div className="flex flex-col w-11/12  max-w-fit items-start gap-2">
         <MessageBubble color={message.author === 'user' ? 'primary' : 'flat'}>
           {!!imageUrl && <img src={imageUrl} className="max-w-xs my-2" />}
-          {message.text ? (
+          {message.author === 'user' ? (
+            /*Do not use Markdown for user-submitted messages to avoid stripping leading spaces*/
+            preprocessMessage(message.text)
+          ) : message.text ? (
             <Markdown>{message.text}</Markdown>
           ) : (
             !message.error && <BeatLoader size={10} className="leading-tight" color="rgb(var(--primary-text))" />
