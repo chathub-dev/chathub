@@ -14,9 +14,7 @@
 
 ## 📷 Screenshot
 
-![Screenshot](screenshots/extension.png?raw=true#gh-light-mode-only)
-
-![Screenshot (Dark Mode)](screenshots/dark.png?raw=true#gh-dark-mode-only)
+![Screenshot](screenshots/extension.png?raw=true)
 
 ## ✨ Features
 
