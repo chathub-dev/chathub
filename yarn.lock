@@ -340,7 +340,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.16.7, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.20.13":
+"@babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.20.13":
   version: 7.21.5
   resolution: "@babel/runtime@npm:7.21.5"
   dependencies:
@@ -1589,49 +1589,45 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-router@npm:^0.0.1-beta.83":
-  version: 0.0.1-beta.83
-  resolution: "@tanstack/react-router@npm:0.0.1-beta.83"
-  dependencies:
-    "@babel/runtime": "npm:^7.16.7"
-    "@tanstack/react-store": "npm:0.0.1-beta.81"
-    "@tanstack/router": "npm:0.0.1-beta.83"
-  peerDependencies:
-    react: ">=16"
-    react-dom: ">=16"
-  checksum: 0e16cc9180d6155b3be2ebf8ac676133b865789d49e8b58c81d57f1e4632381c0f6250f54e295a6219e3789d79396d58753899342484a9f44db83c6ed0224667
+"@tanstack/history@npm:1.41.0":
+  version: 1.41.0
+  resolution: "@tanstack/history@npm:1.41.0"
+  checksum: 8a4c0832e1bf97371ad21cef9c8aea564b11b19c89269e18bd021e5ddd8161a05d81d63e202d3d207fff12dfe91c9e4ae57b06b8f0af9d0637dbb39431e17ebf
   languageName: node
   linkType: hard
 
-"@tanstack/react-store@npm:0.0.1-beta.81":
-  version: 0.0.1-beta.81
-  resolution: "@tanstack/react-store@npm:0.0.1-beta.81"
+"@tanstack/react-router@npm:^1.43.6":
+  version: 1.43.6
+  resolution: "@tanstack/react-router@npm:1.43.6"
   dependencies:
-    "@tanstack/store": "npm:0.0.1-beta.81"
+    "@tanstack/history": "npm:1.41.0"
+    "@tanstack/react-store": "npm:^0.2.1"
+    tiny-invariant: "npm:^1.3.1"
+    tiny-warning: "npm:^1.0.3"
+  peerDependencies:
+    react: ">=18"
+    react-dom: ">=18"
+  checksum: af77f74481bc1acfde5e9f03861fdc8bc653391112d09bc8b3478565fa76210ea9d216e10daf0fd50539b5f6a11d8ced932666d172abc0f61e06f4b11069d2c1
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-store@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "@tanstack/react-store@npm:0.2.1"
+  dependencies:
+    "@tanstack/store": "npm:0.1.3"
     use-sync-external-store: "npm:^1.2.0"
   peerDependencies:
     react: ">=16"
     react-dom: ">=16"
-  checksum: 27add7064a6a0aa2934f6a503bd923815f32f7fc299b60010baf60576af4d6cbc207a619c517f064a5dd36b8d8429f0745d2b9f7c51b63cfb1219108fc20f17c
+  checksum: b4feb33c4eea6a1185cd8a9401864a02601cb833c8cde221bf8bca657b0d9b90aeab87775500dcf1417f724ea33f28a9728cd9d4acbed4619068048cc089bb3f
   languageName: node
   linkType: hard
 
-"@tanstack/router@npm:0.0.1-beta.83":
-  version: 0.0.1-beta.83
-  resolution: "@tanstack/router@npm:0.0.1-beta.83"
-  dependencies:
-    "@babel/runtime": "npm:^7.16.7"
-    "@tanstack/store": "npm:0.0.1-beta.81"
-    tiny-invariant: "npm:^1.3.1"
-    tiny-warning: "npm:^1.0.3"
-  checksum: 173ad01901755cdfa10722a9eced69ff29ff7ee4d69439b951e9e4069a3fc9b161dfcddb77203e4d596974a9ddef1ce6c0f83e81d5dc979c4b5be64d75914fcd
-  languageName: node
-  linkType: hard
-
-"@tanstack/store@npm:0.0.1-beta.81":
-  version: 0.0.1-beta.81
-  resolution: "@tanstack/store@npm:0.0.1-beta.81"
-  checksum: 6923ae463ea19699b8010a5d35d188a9ba03ae5e8fbe8d7db41fa9514091dedccaa9ce96bb6654a07d2c0e41176b93d016999e1fbd51b4187ad143e0cae93bfb
+"@tanstack/store@npm:0.1.3":
+  version: 0.1.3
+  resolution: "@tanstack/store@npm:0.1.3"
+  checksum: e56b2576cd963a7c4ca945fb16f2adf6692143aff1fb62c7a6739c7c004c3e3848d66d6838109f56236ee8988c69d3c807389db39011c59a53abc761df1b9ac0
   languageName: node
   linkType: hard
 
@@ -2536,7 +2532,7 @@ __metadata:
     "@radix-ui/react-tooltip": "npm:^1.0.7"
     "@sentry/integrations": "npm:^7.90.0"
     "@sentry/react": "npm:^7.90.0"
-    "@tanstack/react-router": "npm:^0.0.1-beta.83"
+    "@tanstack/react-router": "npm:^1.43.6"
     "@types/cookie": "npm:^0.6.0"
     "@types/humanize-duration": "npm:^3.27.3"
     "@types/lodash-es": "npm:^4.17.12"

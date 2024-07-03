@@ -52,7 +52,7 @@
     "@radix-ui/react-tooltip": "^1.0.7",
     "@sentry/integrations": "^7.90.0",
     "@sentry/react": "^7.90.0",
-    "@tanstack/react-router": "^0.0.1-beta.83",
+    "@tanstack/react-router": "^1.43.6",
     "async-cache-dedupe": "^2.0.0",
     "browser-fs-access": "^0.35.0",
     "browser-image-compression": "^2.0.2",
