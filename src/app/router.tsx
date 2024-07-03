@@ -1,4 +1,4 @@
-import { createHashHistory, ReactRouter, RootRoute, Route, useParams } from '@tanstack/react-router'
+import { createHashHistory, Router as ReactRouter, RootRoute, Route, useParams } from '@tanstack/react-router'
 import { BotId } from './bots'
 import Layout from './components/Layout'
 import MultiBotChatPanel from './pages/MultiBotChatPanel'
