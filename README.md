@@ -16,6 +16,12 @@
 
 ![Screenshot](screenshots/extension.png?raw=true)
 
+## 🤝 Sponsors
+
+<a href="https://getstream.io/chat/sdk/react/?utm_source=github&utm_medium=referral&utm_content=&utm_campaign=wong2">
+  <img src="screenshots/stream-logo.jpg" width="200" />
+</a>
+
 ## ✨ Features
 
 - 🤖 Use different chatbots in one app, currently supporting ChatGPT, new Bing Chat, Google Bard, Claude, and open-source models including LLama2, Vicuna, ChatGLM etc
