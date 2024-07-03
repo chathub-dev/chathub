@@ -51,7 +51,7 @@
     "@heroicons/react": "^2.1.1",
     "@radix-ui/react-tooltip": "^1.0.7",
     "@sentry/integrations": "^7.90.0",
-    "@sentry/react": "^7.90.0",
+    "@sentry/react": "^7.93.0",
     "@tanstack/react-router": "^0.0.1-beta.83",
     "async-cache-dedupe": "^2.0.0",
     "browser-fs-access": "^0.35.0",
