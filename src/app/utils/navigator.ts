@@ -2,28 +2,26 @@ const ua = navigator.userAgent
 
 const getBrowser = (): 'Opera' | 'Chrome' | 'Firefox' | 'Safari' | 'IE' | 'Edge' | 'Unknown' | undefined => {
   if (ua.indexOf('Opera') > -1) {
-    return 'Opera'
+    return 'Opera';
+  }
+  if (ua.indexOf('Edge') > -1) {
+    return 'Edge';
   }
   if (ua.indexOf('Chrome') > -1) {
-    return 'Chrome'
+    return 'Chrome';
   }
   if (ua.indexOf('Firefox') > -1) {
-    return 'Firefox'
+    return 'Firefox';
   }
   if (ua.indexOf('Safari') > -1) {
-    return 'Safari'
+    return 'Safari';
   }
-  if (ua.indexOf('MSIE') > -1) {
-    return 'IE'
+  if (ua.indexOf('MSIE') > -1 || ua.indexOf('Trident') > -1) {
+    return 'IE';
   }
-  if (ua.indexOf('Trident') > -1) {
-    return 'IE'
-  }
-  if (ua.indexOf('Edge' || 'Chrome') > -1) {
-    return 'Edge'
-  }
-  return 'Unknown'
-}
+  return 'Unknown';
+};
+
 
 const getOS = (): 'Windows' | 'Mac' | 'Linux' | 'Android' | 'iOS' | 'Unknown' => {
   if (ua.indexOf('Windows') > -1) {
