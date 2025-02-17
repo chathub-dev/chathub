@@ -50,6 +50,7 @@
 - iFlytek Spark
 - Tongyi Qianwen
 - Baichuan
+- Deepseek (via API/PPIO)
 - ...
 
 ## 🔨 Build from Source

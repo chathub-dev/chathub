@@ -20,6 +20,8 @@ import ClaudeWebappSettings from '~app/components/Settings/ClaudeWebappSettings'
 import EnabledBotsSettings from '~app/components/Settings/EnabledBotsSettings'
 import ExportDataPanel from '~app/components/Settings/ExportDataPanel'
 import PerplexityAPISettings from '~app/components/Settings/PerplexityAPISettings'
+import DeepSeekAPISettings from '~app/components/Settings/DeepSeekAPISettings'
+import DeepSeekPPIOSettings from '~app/components/Settings/DeepSeekPPIOSettings'
 import ShortcutPanel from '~app/components/Settings/ShortcutPanel'
 import { ALL_IN_ONE_PAGE_ID, CHATBOTS } from '~app/consts'
 import {
@@ -27,6 +29,7 @@ import {
   ChatGPTMode,
   ClaudeMode,
   PerplexityMode,
+  DeepSeekMode,
   UserConfig,
   getUserConfig,
   updateUserConfig,
@@ -192,6 +195,18 @@ function SettingPage() {
             />
             {userConfig.perplexityMode === PerplexityMode.API && (
               <PerplexityAPISettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
+            )}
+          </ChatBotSettingPanel>
+          <ChatBotSettingPanel title="DeepSeek">
+            <RadioGroup
+              options={Object.entries(DeepSeekMode).map(([k, v]) => ({ label: `${k} ${t('Mode')}`, value: v }))}
+              value={userConfig.deepseekMode}
+              onChange={(v) => updateConfigValue({ deepseekMode: v as DeepSeekMode })}
+            />
+            {userConfig.deepseekMode === DeepSeekMode.API ? (
+              <DeepSeekAPISettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
+            ) : (
+              <DeepSeekPPIOSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
             )}
           </ChatBotSettingPanel>
         </div>
