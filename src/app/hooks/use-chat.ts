@@ -1,6 +1,5 @@
 import { useAtom } from 'jotai'
 import { useCallback, useEffect, useMemo } from 'react'
-import { trackEvent } from '~app/plausible'
 import { chatFamily } from '~app/state'
 import { compressImageFile } from '~app/utils/image-compression'
 import { setConversationMessages } from '~services/chat-history'
@@ -27,7 +26,6 @@ export function useChat(botId: BotId) {
 
   const sendMessage = useCallback(
     async (input: string, image?: File) => {
-      trackEvent('send_message', { botId, withImage: !!image, name: chatState.bot.name })
 
       const botMessageId = uuid()
       setChatState((draft) => {
@@ -83,6 +81,20 @@ export function useChat(botId: BotId) {
     [botId, chatState.bot, setChatState, updateMessage],
   )
 
+  const modifyLastMessage = useCallback(
+    async (text: string) => {
+      chatState.bot.modifyLastMessage(text)
+
+    // 最後のボットメッセージを見つけて更新
+    setChatState((draft) => {
+      const lastBotMessage = [...draft.messages].reverse().find(m => m.author === botId)
+      if (lastBotMessage) {
+        lastBotMessage.text = text
+      }
+    })
+
+  }, [chatState.bot, setChatState])
+
   const resetConversation = useCallback(() => {
     chatState.bot.resetConversation()
     setChatState((draft) => {
@@ -122,6 +134,7 @@ export function useChat(botId: BotId) {
       resetConversation,
       generating: !!chatState.generatingMessageId,
       stopGenerating,
+      modifyLastMessage
     }),
     [
       botId,
@@ -131,6 +144,7 @@ export function useChat(botId: BotId) {
       resetConversation,
       sendMessage,
       stopGenerating,
+      modifyLastMessage
     ],
   )
 

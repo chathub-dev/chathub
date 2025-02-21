@@ -5,6 +5,7 @@ import { UserConfig } from '~services/user-config'
 import { Input, Textarea } from '../Input'
 import Select from '../Select'
 import Blockquote from './Blockquote'
+import Range from '../Range'
 
 interface Props {
   userConfig: UserConfig
@@ -14,7 +15,7 @@ interface Props {
 const ChatGPTAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
   const { t } = useTranslation()
   return (
-    <div className="flex flex-col gap-2 w-[400px]">
+    <div className="flex flex-col gap-2 max-w-[800px]">
       <div className="flex flex-col gap-1">
         <p className="font-medium text-sm">API Key</p>
         <Input
@@ -40,6 +41,20 @@ const ChatGPTAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
           value={userConfig.chatgptApiModel}
           onChange={(v) => updateConfigValue({ chatgptApiModel: v })}
         />
+      </div>
+      <div className="flex flex-col gap-1">
+        <p className="font-medium text-sm">Temperature</p>
+        <Range
+          value={userConfig.chatgptApiTemperature}
+          onChange={(value) => updateConfigValue({ chatgptApiTemperature: value })}
+          min={0}
+          max={2}
+          step={0.1}
+          className="mt-1"
+        />
+        <Blockquote className="mt-1">
+          {t('Higher values make the output more random, while lower values make it more focused and deterministic')}
+        </Blockquote>
       </div>
       <div className="flex flex-col gap-1">
         <p className="font-medium text-sm">System Message</p>

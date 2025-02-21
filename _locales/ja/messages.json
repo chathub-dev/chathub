@@ -1,8 +1,8 @@
 {
   "appName": {
-    "message": "ChatHub - オールインワンチャットボットクライアント"
+    "message": "HuddleLLM OSS - オールインワンチャットボットクライアント オープンソース版"
   },
   "appDesc": {
-    "message": "ChatGPT、Bing、Bard、およびClaudeを一つのプラットフォームで使用します"
+    "message": "ChatGPT、Gemini、およびClaudeを一つのプラットフォームで使用します。OpenSourceアプリケーションです。"
   }
 }

@@ -1,11 +1,24 @@
 import { compareVersions } from 'compare-versions'
 import Browser from 'webextension-polyfill'
 import { getVersion } from '~utils'
+// translate
+
 
 const RELEASE_NOTES = [
   {
-    version: '1.45.0',
-    notes: ['Added a separate Gemini Pro bot, can be enabled in the settings'],
+    version: '2.3.0',
+    notes: ['Add propaganda feature'],
+  },
+  {
+    version: '2.3.3',
+    notes: ['Propaganda UI enhancement'],
+  },
+  {
+    version: '2.3.5',
+    notes: [
+      `releasenote-propaganda`,
+      `releasenote-code-expand`,
+    ],
   },
 ]
 

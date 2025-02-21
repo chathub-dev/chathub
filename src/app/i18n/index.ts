@@ -1,6 +1,6 @@
 import i18n, { Resource } from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
-import { initReactI18next } from 'react-i18next'
+import { initReactI18next, Translation } from 'react-i18next'
 import { getLanguage } from '~services/storage/language'
 import french from './locales/french.json'
 import german from './locales/german.json'
@@ -11,6 +11,7 @@ import simplifiedChinese from './locales/simplified-chinese.json'
 import spanish from './locales/spanish.json'
 import thai from './locales/thai.json'
 import traditionalChinese from './locales/traditional-chinese.json'
+import english from './locales/english.json'
 
 const resources: Resource = {
   'zh-CN': { translation: simplifiedChinese },
@@ -22,6 +23,7 @@ const resources: Resource = {
   fr: { translation: french },
   in: { translation: indonesia },
   th: { translation: thai },
+  en: { translation: english}
 }
 
 export const languageCodes = Object.keys(resources)

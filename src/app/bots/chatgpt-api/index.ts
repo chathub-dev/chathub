@@ -1,9 +1,9 @@
 import { isArray } from 'lodash-es'
 import { DEFAULT_CHATGPT_SYSTEM_MESSAGE } from '~app/consts'
-import { UserConfig } from '~services/user-config'
+import { UserConfig, getUserConfig } from '~services/user-config'
 import { ChatError, ErrorCode } from '~utils/errors'
 import { parseSSEResponse } from '~utils/sse'
-import { AbstractBot, SendMessageParams } from '../abstract-bot'
+import { AsyncAbstractBot, AbstractBot, SendMessageParams, MessageParams } from '../abstract-bot'
 import { file2base64 } from '../bing/utils'
 import { ChatMessage } from './types'
 
@@ -11,7 +11,7 @@ interface ConversationContext {
   messages: ChatMessage[]
 }
 
-const CONTEXT_SIZE = 9
+const CONTEXT_SIZE = 40
 
 export abstract class AbstractChatGPTApiBot extends AbstractBot {
   private conversationContext?: ConversationContext
@@ -37,6 +37,26 @@ export abstract class AbstractChatGPTApiBot extends AbstractBot {
       ...this.conversationContext!.messages.slice(-(CONTEXT_SIZE + 1)),
       this.buildUserMessage(prompt, imageUrl),
     ]
+  }
+
+  async modifyLastMessage(message: string): Promise<void> {
+    console.log('modifyLastMessage', message)
+    if (!this.conversationContext || this.conversationContext.messages.length === 0) {
+      return
+    }
+
+    // 最後のメッセージを取得
+    const lastMessage = this.conversationContext.messages[this.conversationContext.messages.length - 1]
+    
+    // 最後のメッセージがassistantのものでない場合は何もしない
+    if (lastMessage.role !== 'assistant') {
+      return
+    }
+
+    // 新しいコンテンツで最後のメッセージを更新
+    if (typeof message === 'string') {
+      lastMessage.content = message
+    }
   }
 
   getSystemMessage() {
@@ -96,6 +116,10 @@ export abstract class AbstractChatGPTApiBot extends AbstractBot {
     if (!done) {
       finish()
     }
+
+
+
+
   }
 
   resetConversation() {
@@ -119,13 +143,36 @@ export class ChatGPTApiBot extends AbstractChatGPTApiBot {
     return this.config.chatgptApiSystemMessage || DEFAULT_CHATGPT_SYSTEM_MESSAGE
   }
 
+  
+
   async fetchCompletionApi(messages: ChatMessage[], signal?: AbortSignal) {
+
+    const model = this.getModelName()
+
+    if (model === 'o1' || model.startsWith('o1-')) {
+      // System PromptはArrayの最初の要素にしか存在しないから、一番目だけチェックする
+      if (messages[0]?.role === 'system') {
+        const systemMessage = messages[0];
+        messages[0] = {
+          role: 'user',
+          content: systemMessage.content,
+        };
+      }
+    }
+
     const { openaiApiKey, openaiApiHost } = this.config
     const hasImageInput = messages.some(
       (message) => isArray(message.content) && message.content.some((part) => part.type === 'image_url'),
     )
-    const model = hasImageInput ? 'gpt-4-vision-preview' : this.getModelName()
-    const resp = await fetch(`${openaiApiHost}/v1/chat/completions`, {
+
+    
+    const api_path = 'v1/chat/completions';
+    // API Hostの最後のslashを削除
+    const baseUrl = openaiApiHost.endsWith('/') ? openaiApiHost.slice(0, -1) : openaiApiHost;
+    const fullUrlStr = `${baseUrl}/${api_path}`.replace('v1/v1/', 'v1/')
+    
+    
+    const resp = await fetch(`${fullUrlStr}`, {
       method: 'POST',
       signal,
       headers: {
@@ -135,7 +182,7 @@ export class ChatGPTApiBot extends AbstractChatGPTApiBot {
       body: JSON.stringify({
         model,
         messages,
-        max_tokens: hasImageInput ? 500 : undefined,
+        max_tokens: undefined,
         stream: true,
       }),
     })
@@ -147,16 +194,15 @@ export class ChatGPTApiBot extends AbstractChatGPTApiBot {
     }
     return resp
   }
+  
 
-  private getModelName() {
+  public getModelName() {
     const { chatgptApiModel } = this.config
-    if (chatgptApiModel === 'gpt-4-turbo') {
-      return 'gpt-4-1106-preview'
-    }
-    if (chatgptApiModel === 'gpt-3.5-turbo') {
-      return 'gpt-3.5-turbo-1106'
-    }
     return chatgptApiModel
+  }
+
+  get modelName() {
+    return this.config.chatgptApiModel
   }
 
   get name() {
@@ -166,4 +212,7 @@ export class ChatGPTApiBot extends AbstractChatGPTApiBot {
   get supportsImageInput() {
     return true
   }
+
+
+
 }

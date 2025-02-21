@@ -2,7 +2,6 @@ import { useAtom, useSetAtom } from 'jotai'
 import { FC, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import * as api from '~/services/server-api'
-import { trackEvent } from '~app/plausible'
 import { showDiscountModalAtom, showPremiumModalAtom } from '~app/state'
 import discountBg from '~assets/discount-bg.png'
 import Button from '../Button'
@@ -52,7 +51,6 @@ const DiscountModal: FC = () => {
   const { t } = useTranslation()
 
   const createDiscount = useCallback(async () => {
-    trackEvent('create_discount')
     setCreating(true)
     await api.createDiscount()
     setCreating(false)
@@ -67,7 +65,6 @@ const DiscountModal: FC = () => {
 
   useEffect(() => {
     if (open) {
-      trackEvent('show_discount_modal')
     }
   }, [open])
 

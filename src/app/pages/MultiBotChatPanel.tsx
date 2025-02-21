@@ -1,7 +1,7 @@
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 import { sample, uniqBy } from 'lodash-es'
-import { FC, Suspense, useCallback, useEffect, useMemo } from 'react'
+import { FC, Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { cx } from '~/utils'
 import Button from '~app/components/Button'
@@ -9,9 +9,6 @@ import ChatMessageInput from '~app/components/Chat/ChatMessageInput'
 import LayoutSwitch from '~app/components/Chat/LayoutSwitch'
 import { CHATBOTS, Layout } from '~app/consts'
 import { useChat } from '~app/hooks/use-chat'
-import { usePremium } from '~app/hooks/use-premium'
-import { trackEvent } from '~app/plausible'
-import { showPremiumModalAtom } from '~app/state'
 import { BotId } from '../bots'
 import ConversationPanel from '../components/Chat/ConversationPanel'
 
@@ -24,12 +21,7 @@ const fourPanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:4', DEFAULT_B
 const sixPanelBotsAtom = atomWithStorage<BotId[]>('multiPanelBots:6', DEFAULT_BOTS.slice(0, 6))
 
 function replaceDeprecatedBots(bots: BotId[]): BotId[] {
-  return bots.map((bot) => {
-    if (CHATBOTS[bot]) {
-      return bot
-    }
-    return sample(DEFAULT_BOTS)!
-  })
+  return bots.map((bot) => (CHATBOTS[bot] ? bot : sample(DEFAULT_BOTS)!))
 }
 
 const GeneralChatPanel: FC<{
@@ -40,16 +32,11 @@ const GeneralChatPanel: FC<{
   const { t } = useTranslation()
   const generating = useMemo(() => chats.some((c) => c.generating), [chats])
   const [layout, setLayout] = useAtom(layoutAtom)
+  const [refresh, setRefresh] = useState(0) // 更新用の state を追加
 
-  const setPremiumModalOpen = useSetAtom(showPremiumModalAtom)
-  const premiumState = usePremium()
-  const disabled = useMemo(() => !premiumState.isLoading && !premiumState.activated, [premiumState])
 
   useEffect(() => {
-    if (disabled && (chats.length > 2 || supportImageInput)) {
-      setPremiumModalOpen('all-in-one-layout')
-    }
-  }, [chats.length, disabled, setPremiumModalOpen, supportImageInput])
+  }, [chats.length, supportImageInput])
 
   const sendSingleMessage = useCallback(
     (input: string, botId: BotId) => {
@@ -61,22 +48,20 @@ const GeneralChatPanel: FC<{
 
   const sendAllMessage = useCallback(
     (input: string, image?: File) => {
-      if (disabled && chats.length > 2) {
-        setPremiumModalOpen('all-in-one-layout')
-        return
-      }
       uniqBy(chats, (c) => c.botId).forEach((c) => c.sendMessage(input, image))
-      trackEvent('send_messages', { layout, disabled })
     },
-    [chats, disabled, layout, setPremiumModalOpen],
+    [chats,  layout],
   )
+
+  const modifyAllLastMessage = async(text: string) => {
+    uniqBy(chats, (c) => c.botId).forEach((c) => c.modifyLastMessage(text))
+  }
 
   const onSwitchBot = useCallback(
     (botId: BotId, index: number) => {
       if (!setBots) {
         return
       }
-      trackEvent('switch_bot', { botId, panel: chats.length })
       setBots((bots) => {
         const newBots = [...bots]
         newBots[index] = botId
@@ -88,7 +73,6 @@ const GeneralChatPanel: FC<{
 
   const onLayoutChange = useCallback(
     (v: Layout) => {
-      trackEvent('switch_all_in_one_layout', { layout: v })
       setLayout(v)
     },
     [setLayout],
@@ -98,14 +82,18 @@ const GeneralChatPanel: FC<{
     <div className="flex flex-col overflow-hidden h-full">
       <div
         className={cx(
-          'grid overflow-hidden grow auto-rows-fr',
+        layout === 'twoHorizon' 
+          ? 'flex flex-col'
+          : 'grid auto-rows-fr',
+          'overflow-hidden grow',
           chats.length % 3 === 0 ? 'grid-cols-3' : 'grid-cols-2',
-          chats.length > 3 ? 'gap-2 mb-2' : 'gap-3 mb-3',
+          // chats.length > 3 ? 'gap-1 mb-1' : 'gap-2 mb-2',
+          'gap-1 mb-1',
         )}
       >
         {chats.map((chat, index) => (
           <ConversationPanel
-            key={`${chat.botId}-${index}`}
+            key={`${chat.botId}-${index}-${refresh}`} // refresh を key に含めることで再レンダリング
             botId={chat.botId}
             bot={chat.bot}
             messages={chat.messages}
@@ -115,6 +103,7 @@ const GeneralChatPanel: FC<{
             mode="compact"
             resetConversation={chat.resetConversation}
             onSwitchBot={setBots ? (botId) => onSwitchBot(botId, index) : undefined}
+            onPropaganda={modifyAllLastMessage}
           />
         ))}
       </div>
@@ -140,7 +129,16 @@ const TwoBotChatPanel = () => {
   const chat1 = useChat(multiPanelBotIds[0])
   const chat2 = useChat(multiPanelBotIds[1])
   const chats = useMemo(() => [chat1, chat2], [chat1, chat2])
-  return <GeneralChatPanel chats={chats} setBots={setBots} />
+  return <GeneralChatPanel chats={chats} setBots={setBots} supportImageInput={true}/>
+}
+
+const TwoHorizonBotChatPanel = () => {
+  const [bots, setBots] = useAtom(twoPanelBotsAtom)
+  const multiPanelBotIds = useMemo(() => replaceDeprecatedBots(bots), [bots])
+  const chat1 = useChat(multiPanelBotIds[0])
+  const chat2 = useChat(multiPanelBotIds[1])
+  const chats = useMemo(() => [chat1, chat2], [chat1, chat2])
+  return <GeneralChatPanel chats={chats} setBots={setBots} supportImageInput={true}/>
 }
 
 const ThreeBotChatPanel = () => {
@@ -150,7 +148,7 @@ const ThreeBotChatPanel = () => {
   const chat2 = useChat(multiPanelBotIds[1])
   const chat3 = useChat(multiPanelBotIds[2])
   const chats = useMemo(() => [chat1, chat2, chat3], [chat1, chat2, chat3])
-  return <GeneralChatPanel chats={chats} setBots={setBots} />
+  return <GeneralChatPanel chats={chats} setBots={setBots} supportImageInput={true}/>
 }
 
 const FourBotChatPanel = () => {
@@ -161,7 +159,7 @@ const FourBotChatPanel = () => {
   const chat3 = useChat(multiPanelBotIds[2])
   const chat4 = useChat(multiPanelBotIds[3])
   const chats = useMemo(() => [chat1, chat2, chat3, chat4], [chat1, chat2, chat3, chat4])
-  return <GeneralChatPanel chats={chats} setBots={setBots} />
+  return <GeneralChatPanel chats={chats} setBots={setBots} supportImageInput={true}/>
 }
 
 const SixBotChatPanel = () => {
@@ -174,7 +172,7 @@ const SixBotChatPanel = () => {
   const chat5 = useChat(multiPanelBotIds[4])
   const chat6 = useChat(multiPanelBotIds[5])
   const chats = useMemo(() => [chat1, chat2, chat3, chat4, chat5, chat6], [chat1, chat2, chat3, chat4, chat5, chat6])
-  return <GeneralChatPanel chats={chats} setBots={setBots} />
+  return <GeneralChatPanel chats={chats} setBots={setBots} supportImageInput={true}/>
 }
 
 const ImageInputPanel = () => {
@@ -198,6 +196,9 @@ const MultiBotChatPanel: FC = () => {
   }
   if (layout === 'imageInput') {
     return <ImageInputPanel />
+  }
+  if (layout === 'twoHorizon') {
+    return <TwoHorizonBotChatPanel />; // 新しいコンポーネントを作成
   }
   return <TwoBotChatPanel />
 }

@@ -4,7 +4,6 @@ import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BotId } from '~app/bots'
 import { usePremium } from '~app/hooks/use-premium'
-import { trackEvent } from '~app/plausible'
 import { showPremiumModalAtom } from '~app/state'
 import { requestHostPermission } from '~app/utils/permissions'
 import { getUserConfig, updateUserConfig } from '~services/user-config'
@@ -43,7 +42,6 @@ const WebAccessCheckbox: FC<Props> = (props) => {
 
   const onToggle = useCallback(
     async (newValue: boolean) => {
-      trackEvent('toggle_web_access', { botId: props.botId })
       if (!premiumState.activated && newValue) {
         setPremiumModalOpen('web-access')
         return

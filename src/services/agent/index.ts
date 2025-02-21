@@ -5,7 +5,7 @@ import { AnwserPayload } from '~app/bots/abstract-bot'
 
 const TOOLS = {
   web_search:
-    'a search engine. useful for when you need to answer questions about current events. input should be a search query. prefer English query. query should be short and concise',
+    'a search engine. useful for when you need to answer questions about current events. input should be a search query. prefer English query or decide based on user\'s query. query should be short and concise',
 }
 
 function buildToolUsingPrompt(input: string) {
@@ -65,7 +65,7 @@ async function* execute(
       context = await searchRelatedContext(actionInput, signal)
     }
     const promptWithContext = buildPromptWithContext(input, context)
-    prompt = `Ignore all previous instructions you have been given about RESPONSE FORMAT INSTRUCTIONS and tools, answer the question directly and conversationally to the human.\n\n${promptWithContext}`
+    prompt = `Ignore previous instructions you have been given about RESPONSE FORMAT INSTRUCTIONS and tools, answer the question directly and conversationally to the human. Don't surround your entire reponse as markdown code snippet. \n\n${promptWithContext}`
     yield* llm(prompt, input)
     return
   }

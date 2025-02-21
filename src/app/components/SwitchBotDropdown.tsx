@@ -1,7 +1,8 @@
-import { Menu, Transition } from '@headlessui/react'
-import { FC, Fragment, ReactNode } from 'react'
-import { BotId } from '~app/bots'
-import { useEnabledBots } from '~app/hooks/use-enabled-bots'
+import { Menu, Transition } from '@headlessui/react';
+import { FC, Fragment, ReactNode, useState, useEffect } from 'react';
+import { BotId } from '~app/bots';
+import { useEnabledBots } from '~app/hooks/use-enabled-bots';
+import { getUserConfig } from '~services/user-config';
 
 interface Props {
   triggerNode: ReactNode
@@ -9,8 +10,49 @@ interface Props {
   onChange: (botId: BotId) => void
 }
 
+interface BotInfo {
+  name: string;
+  avatar: string;
+}
+
 const SwitchBotDropdown: FC<Props> = (props) => {
-  const enabledBots = useEnabledBots()
+  const enabledBots = useEnabledBots();
+
+  // ボット情報（名前とアバター）を保持する状態を追加
+  const [botInfos, setBotInfos] = useState<Record<BotId, BotInfo>>({} as Record<BotId, BotInfo>);
+
+  useEffect(() => {
+    const initializeBotInfos = async () => {
+      const config = await getUserConfig();
+      
+      const customApiConfigs = config.customApiConfigs || [];
+  
+      const infos = enabledBots.reduce<Record<BotId, BotInfo>>((acc, { botId, bot }) => {
+        if (botId.startsWith('customchat')) {
+        const index = Number(botId.replace('customchat', '')) - 1;
+        const config = customApiConfigs[index];
+        if (config) {
+            acc[botId] = {
+              name: config.name,
+              avatar: config.avatar || bot.avatar // カスタムアバターがない場合はデフォルトを使用
+            };
+          }
+        } else {
+          // 通常のボットの場合はデフォルト値を使用
+          acc[botId] = {
+            name: bot.name,
+            avatar: bot.avatar
+          };
+        }
+        return acc;
+      }, {} as Record<BotId, BotInfo>);
+  
+      setBotInfos(infos);
+    };
+  
+    initializeBotInfos();
+  }, [enabledBots]);
+
   return (
     <Menu as="div" className="relative inline-block text-left h-5">
       <Menu.Button className="flex">{props.triggerNode}</Menu.Button>
@@ -28,6 +70,7 @@ const SwitchBotDropdown: FC<Props> = (props) => {
             if (botId === props.selectedBotId) {
               return null
             }
+            const botInfo = botInfos[botId];
             return (
               <Menu.Item key={botId}>
                 <div
@@ -35,9 +78,9 @@ const SwitchBotDropdown: FC<Props> = (props) => {
                   onClick={() => props.onChange(botId)}
                 >
                   <div className="w-4 h-4">
-                    <img src={bot.avatar} className="w-4 h-4" />
+                    <img src={botInfo?.avatar ?? bot.avatar} className="w-4 h-4" />
                   </div>
-                  <p className="text-sm whitespace-nowrap">{bot.name}</p>
+                  <p className="text-sm whitespace-nowrap">{botInfo?.name ?? bot.name}</p>
                 </div>
               </Menu.Item>
             )

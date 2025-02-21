@@ -2,7 +2,19 @@ import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { UserConfig } from '~services/user-config'
 import { Input } from '../Input'
+import Select from '../Select'
 import Blockquote from './Blockquote'
+
+// Perplexityのモデルを定義
+export enum PerplexityAPIModel {
+  'sonar-reasoning-pro' = 'sonar-reasoning-pro',
+  'sonar-reasoning' = 'sonar-reasoning',
+  'sonar-pro' = 'sonar-pro',
+  'sonar' = 'sonar',
+  'llama-3.1-sonar-huge-128k-online' = 'llama-3.1-sonar-huge-128k-online',
+  'llama-3.1-sonar-large-128k-online' = 'llama-3.1-sonar-large-128k-online',
+  'llama-3.1-sonar-large-128k-chat' = 'llama-3.1-sonar-large-128k-chat',
+}
 
 interface Props {
   userConfig: UserConfig
@@ -34,6 +46,14 @@ const PerplexityAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => 
           type="password"
         />
         <Blockquote className="mt-1">{t('Your keys are stored locally')}</Blockquote>
+      </div>
+      <div className="flex flex-col gap-1">
+        <p className="font-medium text-sm">{t('API Model')}</p>
+        <Select
+          options={Object.entries(PerplexityAPIModel).map(([k, v]) => ({ name: k, value: v }))}
+          value={userConfig.perplexityModel}
+          onChange={(v) => updateConfigValue({ perplexityModel: v })}
+        />
       </div>
     </div>
   )

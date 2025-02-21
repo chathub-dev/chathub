@@ -30,3 +30,11 @@ dist-ssr
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Other miscellaneous
+chathub.bat
+dist.crx
+dist.pem
+*.tar.gz
+chathub.zip
+chathub/*

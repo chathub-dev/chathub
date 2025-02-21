@@ -1,5 +1,4 @@
 import { FC, useCallback, useState } from 'react'
-import { trackEvent } from '~app/plausible'
 import { ChatMessageModel } from '~types'
 import Button from '../Button'
 import { Input } from '../Input'
@@ -16,7 +15,6 @@ const ShareGPTView: FC<Props> = ({ messages }) => {
 
   const upload = useCallback(async () => {
     setUploading(true)
-    trackEvent('share_chat_sharegpt')
     try {
       const id = await uploadToShareGPT(messages)
       setResultId(id)

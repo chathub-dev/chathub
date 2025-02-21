@@ -6,7 +6,7 @@ export default defineManifest(async () => {
     name: '__MSG_appName__',
     description: '__MSG_appDesc__',
     default_locale: 'en',
-    version: '1.45.7',
+    version: '2.3.5',
     icons: {
       '16': 'src/assets/icon.png',
       '32': 'src/assets/icon.png',
@@ -22,11 +22,11 @@ export default defineManifest(async () => {
       'https://*.bing.com/',
       'https://*.openai.com/',
       'https://bard.google.com/',
-      'https://*.chathub.gg/',
       'https://*.duckduckgo.com/',
       'https://*.poe.com/',
       'https://*.anthropic.com/',
       'https://*.claude.ai/',
+      'https://*.azure-api.net/'
     ],
     optional_host_permissions: ['https://*/*', 'wss://*/*'],
     permissions: ['storage', 'unlimitedStorage', 'sidePanel', 'declarativeNetRequestWithHostAccess', 'scripting'],
@@ -44,7 +44,7 @@ export default defineManifest(async () => {
           linux: 'Alt+J',
           mac: 'Command+J',
         },
-        description: 'Open ChatHub app',
+        description: 'Open HuddleLLM app',
       },
     },
     side_panel: {

@@ -71,8 +71,34 @@ export class PerplexityApiBot extends AbstractBot {
     })
   }
 
+  async modifyLastMessage(message: string): Promise<void> {
+    console.log('modifyLastMessage', message)
+    if (!this.conversationContext || this.conversationContext.messages.length === 0) {
+      return
+    }
+
+    // 最後のメッセージを取得
+    const lastMessage = this.conversationContext.messages[this.conversationContext.messages.length - 1]
+    
+    // 最後のメッセージがassistantのものでない場合は何もしない
+    if (lastMessage.role !== 'assistant') {
+      return
+    }
+
+    // 新しいコンテンツで最後のメッセージを更新
+    lastMessage.content = message
+  }
+
   resetConversation() {
     this.conversationContext = undefined
+  }
+
+  public getModelName() {
+    return this.model;
+  }
+
+  get modelName() {
+    return this.model;
   }
 
   get name() {

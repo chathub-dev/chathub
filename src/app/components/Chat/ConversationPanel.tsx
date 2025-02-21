@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { FC, ReactNode, useCallback, useMemo, useState } from 'react'
+import { FC, ReactNode, useCallback, useMemo, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import clearIcon from '~/assets/icons/clear.svg'
 import historyIcon from '~/assets/icons/history.svg'
@@ -7,7 +7,6 @@ import shareIcon from '~/assets/icons/share.svg'
 import { cx } from '~/utils'
 import { CHATBOTS } from '~app/consts'
 import { ConversationContext, ConversationContextValue } from '~app/context'
-import { trackEvent } from '~app/plausible'
 import { ChatMessageModel } from '~types'
 import { BotId, BotInstance } from '../../bots'
 import Button from '../Button'
@@ -18,6 +17,7 @@ import ChatMessageInput from './ChatMessageInput'
 import ChatMessageList from './ChatMessageList'
 import ChatbotName from './ChatbotName'
 import WebAccessCheckbox from './WebAccessCheckbox'
+import { getUserConfig } from '~services/user-config'
 
 interface Props {
   botId: BotId
@@ -29,15 +29,41 @@ interface Props {
   stopGenerating: () => void
   mode?: 'full' | 'compact'
   onSwitchBot?: (botId: BotId) => void
+  onPropaganda?: (text: string) => Promise<void> 
 }
 
 const ConversationPanel: FC<Props> = (props) => {
   const { t } = useTranslation()
   const botInfo = CHATBOTS[props.botId]
   const mode = props.mode || 'full'
-  const marginClass = 'mx-5'
+  const marginClass = 'mx-3'
   const [showHistory, setShowHistory] = useState(false)
   const [showShareDialog, setShowShareDialog] = useState(false)
+  // ボット名とアバターを保持するための状態を追加
+  const [botName, setBotName] = useState<string>(CHATBOTS[props.botId].name)
+  const [botAvatar, setBotAvatar] = useState<string>(CHATBOTS[props.botId].avatar)
+
+  // コンポーネントマウント時に設定を取得
+  useEffect(() => {
+    const initializeBotInfo = async () => {
+      const config = await getUserConfig();
+      const customApiConfigs = config.customApiConfigs || [];
+
+      // botId から対応する rakutenApiConfigs のインデックスを取得
+      const index = Number(props.botId.replace('customchat', '')) - 1;
+      
+      // インデックスが有効な範囲内かどうかを確認
+      if (index >= 0 && index < customApiConfigs.length) {
+        setBotName(customApiConfigs[index].name);
+        // アバター情報も設定
+        if (customApiConfigs[index].avatar) {
+          setBotAvatar(customApiConfigs[index].avatar);
+        }
+      }
+    };
+  
+  initializeBotInfo();
+  }, [props.botId]); // props.botId が変更されたときに再実行
 
   const context: ConversationContextValue = useMemo(() => {
     return {
@@ -60,12 +86,10 @@ const ConversationPanel: FC<Props> = (props) => {
 
   const openHistoryDialog = useCallback(() => {
     setShowHistory(true)
-    trackEvent('open_history_dialog', { botId: props.botId })
   }, [props.botId])
 
   const openShareDialog = useCallback(() => {
     setShowShareDialog(true)
-    trackEvent('open_share_dialog', { botId: props.botId })
   }, [props.botId])
 
   let inputActionButton: ReactNode = null
@@ -92,14 +116,15 @@ const ConversationPanel: FC<Props> = (props) => {
         >
           <div className="flex flex-row items-center">
             <motion.img
-              src={botInfo.avatar}
+              src={botAvatar}
               className="w-[18px] h-[18px] object-contain rounded-sm mr-2"
               whileHover={{ rotate: 180 }}
             />
             <ChatbotName
               botId={props.botId}
-              name={botInfo.name}
+              name={props.bot.chatBotName ?? botName}
               fullName={props.bot.name}
+              model={props.bot.modelName ?? 'Default'}
               onSwitchBot={mode === 'compact' ? props.onSwitchBot : undefined}
             />
           </div>
@@ -131,7 +156,12 @@ const ConversationPanel: FC<Props> = (props) => {
             </Tooltip>
           </div>
         </div>
-        <ChatMessageList botId={props.botId} messages={props.messages} className={marginClass} />
+        <ChatMessageList
+          botId={props.botId}
+          messages={props.messages}
+          className={marginClass}
+          onPropaganda={props.onPropaganda}
+        />
         <div className={cx('mt-3 flex flex-col ', marginClass, mode === 'full' ? 'mb-3' : 'mb-[5px]')}>
           <div className={cx('flex flex-row items-center gap-[5px]', mode === 'full' ? 'mb-3' : 'mb-0')}>
             {mode === 'compact' && (

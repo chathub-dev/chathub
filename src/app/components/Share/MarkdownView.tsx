@@ -1,5 +1,4 @@
 import { FC, useCallback, useMemo, useState } from 'react'
-import { trackEvent } from '~app/plausible'
 import { ChatMessageModel } from '~types'
 import Button from '../Button'
 
@@ -21,7 +20,6 @@ const MarkdownView: FC<Props> = ({ messages }) => {
     navigator.clipboard.writeText(content)
     setCopied(true)
     setTimeout(() => setCopied(false), 500)
-    trackEvent('share_chat_copy_markdown')
   }, [content])
 
   return (

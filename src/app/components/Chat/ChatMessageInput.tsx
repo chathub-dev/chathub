@@ -17,7 +17,6 @@ import { ClipboardEventHandler, FC, ReactNode, memo, useCallback, useMemo, useRe
 import { useTranslation } from 'react-i18next'
 import { GoBook, GoImage } from 'react-icons/go'
 import { RiDeleteBackLine } from 'react-icons/ri'
-import { trackEvent } from '~app/plausible'
 import { Prompt } from '~services/prompts'
 import Button from '../Button'
 import PromptCombobox, { ComboboxContext } from '../PromptCombobox'
@@ -62,12 +61,10 @@ const ChatMessageInput: FC<Props> = (props) => {
     if (p.id === 'PROMPT_LIBRARY') {
       setIsPromptLibraryDialogOpen(true)
       setIsComboboxOpen(false)
-      trackEvent('open_prompt_library', { source: 'combobox' })
     } else {
       setValue(p.prompt)
       setIsComboboxOpen(false)
       inputRef.current?.focus()
-      trackEvent('use_prompt', { source: 'combobox' })
     }
   }, [])
 
@@ -93,7 +90,7 @@ const ChatMessageInput: FC<Props> = (props) => {
       setIsComboboxOpen: (open: boolean) => {
         setIsComboboxOpen(open)
         if (open) {
-          trackEvent('open_prompt_combobox')
+
         } else {
           inputRef.current?.focus()
         }
@@ -133,7 +130,6 @@ const ChatMessageInput: FC<Props> = (props) => {
 
   const openPromptLibrary = useCallback(() => {
     setIsPromptLibraryDialogOpen(true)
-    trackEvent('open_prompt_library')
   }, [])
 
   const selectImage = useCallback(async () => {

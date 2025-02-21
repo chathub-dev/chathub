@@ -9,6 +9,7 @@ interface Props {
   botId: BotId
   messages: ChatMessageModel[]
   className?: string
+  onPropaganda?: (text: string) => void
 }
 
 const ChatMessageList: FC<Props> = (props) => {
@@ -16,7 +17,14 @@ const ChatMessageList: FC<Props> = (props) => {
     <ScrollToBottom className="overflow-auto h-full">
       <div className={cx('flex flex-col gap-3 h-full', props.className)}>
         {props.messages.map((message, index) => {
-          return <ChatMessageCard key={message.id} message={message} className={index === 0 ? 'mt-5' : undefined} />
+          return (
+            <ChatMessageCard
+              key={`${message.id}-${message.text}`}
+              message={message}
+              className={index === 0 ? 'mt-5' : undefined}
+              onPropaganda={props.onPropaganda}
+            />
+          )
         })}
       </div>
     </ScrollToBottom>

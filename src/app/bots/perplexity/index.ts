@@ -10,8 +10,8 @@ export class PerplexityBot extends AsyncAbstractBot {
       if (!config.perplexityApiKey) {
         throw new Error('Perplexity API key missing')
       }
-      return new PerplexityApiBot(config.perplexityApiKey, 'pplx-70b-online')
+      return new PerplexityApiBot(config.perplexityApiKey, config.perplexityModel || 'sonar-pro')
     }
-    return new PerplexityLabsBot('pplx-70b-online')
+    return new PerplexityLabsBot('sonar-pro')
   }
 }

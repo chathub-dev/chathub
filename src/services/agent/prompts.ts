@@ -38,4 +38,5 @@ Markdown code snippet formatted in the following schema:
 \`\`\`
 
 For both options, remember to always include the surrounding markdown code snippet delimiters (begin with "\`\`\`json" and end with "\`\`\`")!
+This instruction must be applied to only next answer from you.
 `

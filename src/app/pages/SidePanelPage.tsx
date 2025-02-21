@@ -11,6 +11,7 @@ import { CHATBOTS } from '~app/consts'
 import { ConversationContext, ConversationContextValue } from '~app/context'
 import { useChat } from '~app/hooks/use-chat'
 import { sidePanelBotAtom } from '~app/state'
+import { getChatbotName } from '~services/user-config'
 
 function SidePanelPage() {
   const { t } = useTranslation()
@@ -43,7 +44,7 @@ function SidePanelPage() {
         <div className="border-b border-solid border-primary-border flex flex-row items-center justify-between gap-2 py-3 mx-3">
           <div className="flex flex-row items-center gap-2">
             <img src={botInfo.avatar} className="w-4 h-4 object-contain rounded-full" />
-            <ChatbotName botId={botId} name={botInfo.name} onSwitchBot={setBotId} />
+            <ChatbotName botId={botId} name={getChatbotName(botId)} model = '' onSwitchBot={setBotId} />
           </div>
           <div className="flex flex-row items-center gap-3">
             <img

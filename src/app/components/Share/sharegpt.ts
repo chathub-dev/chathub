@@ -31,7 +31,7 @@ async function buildItems(messages: ChatMessageModel[]): Promise<ShareGPTItem[]>
     {
       from: 'system',
       value:
-        '<div><small><i>This conversation is shared from <a href="https://chathub.gg"><b>ChatHub</b></a></i></small></div>',
+        '<div><small><i>This conversation is shared from <b>HuddleLLM</b></a></i></small></div>',
     },
   ]
   for (const m of messages) {

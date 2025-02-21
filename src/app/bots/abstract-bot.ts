@@ -80,12 +80,31 @@ export abstract class AbstractBot {
     return undefined
   }
 
+  get chatBotName(): string | undefined {
+    return undefined
+  }
+
+  get avatar(): string | undefined {
+    return undefined
+  }
+
+  get modelName(): string | undefined {
+    return undefined
+  }
+
   get supportsImageInput() {
     return false
   }
 
   abstract doSendMessage(params: SendMessageParams): Promise<void>
   abstract resetConversation(): void
+
+  // すべてのモデルの実装が終わるまでとりあえず何もしない関数
+  async modifyLastMessage(_message: string): Promise<void> {
+    // デフォルトでは何もしない
+    return
+  }
+
 }
 
 class DummyBot extends AbstractBot {
@@ -97,6 +116,10 @@ class DummyBot extends AbstractBot {
   }
   get name() {
     return ''
+  }
+
+  async modifyLastMessage(_message: string) {
+    // dummy
   }
 }
 
@@ -127,6 +150,17 @@ export abstract class AsyncAbstractBot extends AbstractBot {
 
   resetConversation() {
     return this.#bot.resetConversation()
+  }
+
+  modifyLastMessage(message: string) {
+    if (this.#bot instanceof DummyBot && this.#initializeError) {
+      throw this.#initializeError
+    }
+    return this.#bot.modifyLastMessage(message)
+  }
+
+  get modelName() {
+    return this.#bot.modelName
   }
 
   get name() {

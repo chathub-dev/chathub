@@ -12,7 +12,7 @@ interface ConversationContext {
   messages: ChatMessage[]
 }
 
-const CONTEXT_SIZE = 9
+const CONTEXT_SIZE = 40
 
 export class OpenRouterBot extends AbstractBot {
   private conversationContext?: ConversationContext
@@ -88,8 +88,7 @@ export class OpenRouterBot extends AbstractBot {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${this.config.apiKey}`,
-        'HTTP-Referer': 'https://chathub.gg',
-        'X-Title': 'ChatHub',
+        'X-Title': 'HuddleLLM',
       },
       body: JSON.stringify({
         model: this.config.model,

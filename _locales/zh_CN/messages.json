@@ -1,8 +1,8 @@
 {
   "appName": {
-    "message": "ChatHub - All-in-one chatbot client"
+    "message": "HuddleLLM OSS - 多合一聊天AI客户端OSS 改编版"
   },
   "appDesc": {
-    "message": "同时使用ChatGPT, Bing, Bard和更多机器人"
+    "message": "同时使用ChatGPT, Claude, Gemini和更多机器人"
   }
 }

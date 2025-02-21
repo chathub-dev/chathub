@@ -2,15 +2,13 @@
     <img src="./src/assets/icon.png" width="150">
 </p>
 
-<h1 align="center">ChatHub</h1>
+<h1 align="center">ChatHub OSS</h1>
 
-<div align="center">
 
-### Install
 
-<a href="https://chrome.google.com/webstore/detail/chathub-all-in-one-chatbo/iaakpnchhognanibcahlpcplchdfmgma?utm_source=github"><img src="https://user-images.githubusercontent.com/64502893/231991498-8df6dd63-727c-41d0-916f-c90c15127de3.png" width="200" alt="Get ChatHub for Chromium"></a>
+## Install
 
-</div>
+To be updated (You can build by youself for now)
 
 ## 📷 Screenshot
 
@@ -18,9 +16,12 @@
 
 ## 🤝 Sponsors
 
-<a href="https://getstream.io/chat/sdk/react/?utm_source=github&utm_medium=referral&utm_content=&utm_campaign=wong2">
-  <img src="screenshots/stream-logo.jpg" width="200" />
-</a>
+<div style="background-color:#e8f5e9; padding:10px; border-left:5px solid #4caf50; border-radius:5px;"> <!-- 緑とアイコンで強調 -->
+<h2><b>Important Remarks</b> <span style="color:#4caf50;">&#9888;</span></h2>
+
+<p>この拡張機能は、現在はAPIのみをサポートします。<br>
+Webapp機能のサポートはロードマップに存在ありません。</p>
+</div>
 
 ## ✨ Features
 
@@ -38,19 +39,11 @@
 
 ## 🤖 Supported Bots
 
-- ChatGPT (via Webapp/API/Azure/Poe)
-- Bing Chat
+- ChatGPT
 - Google Bard
-- Claude 2 (via Webapp/API/Poe)
-- LLaMA 2
-- ChatGLM
-- Pi by Inflection
-- Vicuna
-- WizardLM
-- iFlytek Spark
-- Tongyi Qianwen
-- Baichuan
-- ...
+- Claude 3.5
+
+
 
 ## 🔨 Build from Source
 

@@ -15,7 +15,7 @@ function Layout() {
       style={{ backgroundColor: followArcTheme ? 'var(--arc-palette-foregroundPrimary)' : themeColor }}
     >
       <Sidebar />
-      <div className="px-[15px] py-3 h-full overflow-hidden">
+      <div className="px-[5px] py-1 h-full overflow-hidden">
         <Outlet />
       </div>
       <DiscountModal />

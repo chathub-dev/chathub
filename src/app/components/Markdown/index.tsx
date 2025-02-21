@@ -2,7 +2,7 @@
 
 import { cx } from '~/utils'
 import 'github-markdown-css'
-import { FC, ReactNode, useEffect, useMemo, useState } from 'react'
+import { FC, ReactNode, useEffect, memo, useMemo, useRef, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { BsClipboard } from 'react-icons/bs'
 import ReactMarkdown from 'react-markdown'
@@ -12,8 +12,16 @@ import remarkBreaks from 'remark-breaks'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
 import supersub from 'remark-supersub'
+import remarkDirective from 'remark-directive';
 import Tooltip from '../Tooltip'
 import './markdown.css'
+import type { Pluggable } from 'unified';
+import {
+  CodeBlockProvider,
+  useCodeBlockContext
+} from './CodeBlockContext';
+import CodeBlock from './Content/CodeBlock'
+
 
 function CustomCode(props: { children: ReactNode; className?: string }) {
   const [copied, setCopied] = useState(false)
@@ -41,13 +49,77 @@ function CustomCode(props: { children: ReactNode; className?: string }) {
   )
 }
 
+export const handleDoubleClick: React.MouseEventHandler<HTMLElement> = (event) => {
+  const range = document.createRange();
+  range.selectNodeContents(event.target as Node);
+  const selection = window.getSelection();
+  if (!selection) {
+    return;
+  }
+  selection.removeAllRanges();
+  selection.addRange(range);
+};
+
+type TCodeProps = {
+  inline?: boolean;
+  className?: string;
+  children: React.ReactNode;
+};
+
+export const code: React.ElementType = memo(({ className, children }: TCodeProps) => {
+  const match = /language-(\w+)/.exec(className ?? '');
+  const lang = match && match[1];
+  const isMath = lang === 'math';
+  const isSingleLine = typeof children === 'string' && children.split('\n').length === 1;
+
+  const { getNextIndex, resetCounter } = useCodeBlockContext();
+  const blockIndex = useRef(getNextIndex(isMath || isSingleLine)).current;
+
+  useEffect(() => {
+    resetCounter();
+  }, [children, resetCounter]);
+
+  if (isMath) {
+    return <>{children}</>;
+  } else if (isSingleLine) {
+    return (
+      <code onDoubleClick={handleDoubleClick} className={className}>
+        {children}
+      </code>
+    );
+  } else {
+    const codeString = typeof children === 'string' 
+      ? children 
+      : reactNodeToString(children);
+    
+    return <CodeBlock language={lang ?? 'text'} code={codeString} />;
+  }
+});
+
+
+
 const Markdown: FC<{ children: string }> = ({ children }) => {
+  const remarkPlugins: Pluggable[] = useMemo(
+    () => [
+      supersub,
+      remarkGfm,
+      remarkDirective,
+      [remarkMath, { singleDollarTextMath: true }],
+    ],
+    [],
+  );
   return (
+    <CodeBlockProvider>
     <ReactMarkdown
-      remarkPlugins={[remarkMath, supersub, remarkBreaks, remarkGfm]}
+      /** @ts-ignore */
+      remarkPlugins={
+        // [[remarkMath, { singleDollarTextMath: true }],remarkBreaks, remarkGfm]
+        
+        remarkPlugins
+      }
       rehypePlugins={[[rehypeHighlight, { detect: true, ignoreMissing: true }]]}
       className={`markdown-body markdown-custom-styles !text-base font-normal`}
-      linkTarget="_blank"
+      // linkTarget="_blank" // Deprecated at markdown 9.0.0
       components={{
         a: ({ node, ...props }) => {
           if (!props.title) {
@@ -59,20 +131,12 @@ const Markdown: FC<{ children: string }> = ({ children }) => {
             </Tooltip>
           )
         },
-        code: ({ node, inline, className, children, ...props }) => {
-          if (inline) {
-            return (
-              <code className={className} {...props}>
-                {children}
-              </code>
-            )
-          }
-          return <CustomCode className={className}>{children}</CustomCode>
-        },
+        code
       }}
     >
       {children}
     </ReactMarkdown>
+    </CodeBlockProvider>
   )
 }
 

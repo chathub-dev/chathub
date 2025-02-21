@@ -1,4 +1,4 @@
-import { Link } from '@tanstack/react-router'
+import { Link, LinkOptions } from '@tanstack/react-router'
 import { motion } from 'framer-motion'
 import { useAtom, useSetAtom } from 'jotai'
 import { useEffect, useState } from 'react'
@@ -9,12 +9,11 @@ import feedbackIcon from '~/assets/icons/feedback.svg'
 import githubIcon from '~/assets/icons/github.svg'
 import settingIcon from '~/assets/icons/setting.svg'
 import themeIcon from '~/assets/icons/theme.svg'
-import minimalLogo from '~/assets/minimal-logo.svg'
-import logo from '~/assets/santa-logo.png'
+import minimalLogo from '~/assets/icon.png'
+import logo from '~/assets/logo.png'
 import { cx } from '~/utils'
 import { useEnabledBots } from '~app/hooks/use-enabled-bots'
 import { releaseNotesAtom, showDiscountModalAtom, sidebarCollapsedAtom } from '~app/state'
-import { getPremiumActivation } from '~services/premium'
 import { checkReleaseNotes } from '~services/release-notes'
 import * as api from '~services/server-api'
 import { getAppOpenTimes, getPremiumModalOpenTimes } from '~services/storage/open-times'
@@ -23,6 +22,10 @@ import ThemeSettingModal from '../ThemeSettingModal'
 import Tooltip from '../Tooltip'
 import NavLink from './NavLink'
 import PremiumEntry from './PremiumEntry'
+import { getUserConfig } from '~services/user-config'
+import { CHATBOTS } from '~app/consts'
+import { BotId } from '~app/bots'
+
 
 function IconButton(props: { icon: string; onClick?: () => void }) {
   return (
@@ -40,53 +43,124 @@ function Sidebar() {
   const [collapsed, setCollapsed] = useAtom(sidebarCollapsedAtom)
   const [themeSettingModalOpen, setThemeSettingModalOpen] = useState(false)
   const enabledBots = useEnabledBots()
-  const setShowDiscountModal = useSetAtom(showDiscountModalAtom)
   const setReleaseNotes = useSetAtom(releaseNotesAtom)
+  // ボットの名前を保持するための状態を追加
+  const [botNames, setBotNames] = useState<Partial<Record<BotId, string>>>({}) 
+  const [botShortNames, setBotShortNames] = useState<Partial<Record<BotId, string>>>({}) 
+  // 必要なステートを追加
+  const [botAvatars, setBotAvatars] = useState<Partial<Record<BotId, string>>>({})
+
+// コンポーネントマウント時にアバター情報を含めて設定を取得
+useEffect(() => {
+  const initializeConfig = async () => {
+    const config = await getUserConfig()
+    if (config.customApiConfigs) {
+      const newBotNames: Partial<Record<BotId, string>> = {}
+      const newBotShortNames: Partial<Record<BotId, string>> = {}
+      const newBotAvatars: Partial<Record<BotId, string>> = {}
+      
+      config.customApiConfigs.forEach((config, index) => {
+        const botId = `customchat${index + 1}` as BotId
+        newBotNames[botId] = config.name
+        newBotShortNames[botId] = config.shortName
+        newBotAvatars[botId] = config.avatar  // avatar情報を取得
+      })
+
+      setBotNames(newBotNames)
+      setBotShortNames(newBotShortNames)
+      setBotAvatars(newBotAvatars)  // ステートを更新
+    }
+  }
+
+  initializeConfig()
+}, [])
+
+  // コンポーネントマウント時に設定を取得
+  useEffect(() => {
+    const initializeConfig = async () => {
+      const config = await getUserConfig()
+      // Custom APIの設定に基づいてボット名を更新
+      if (config.customApiConfigs) {
+        const newBotNames: Partial<Record<BotId, string>> = {}
+        const newBotShortNames: Partial<Record<BotId, string>> = {}
+        config.customApiConfigs.forEach((config, index) => {
+          const botId = `customchat${index + 1}` as BotId // BotId型にキャスト
+          newBotNames[botId] = config.name
+          newBotShortNames[botId] = config.shortName
+        })
+        setBotNames(newBotNames)
+        setBotShortNames(newBotShortNames)
+      }
+    }
+
+    initializeConfig()
+  }, [])
 
   useEffect(() => {
     Promise.all([getAppOpenTimes(), getPremiumModalOpenTimes(), checkReleaseNotes()]).then(
       async ([appOpenTimes, premiumModalOpenTimes, releaseNotes]) => {
-        if (!getPremiumActivation()) {
-          const { show, campaign } = await api.checkDiscount({ appOpenTimes, premiumModalOpenTimes })
-          if (show) {
-            setShowDiscountModal(true)
-            return
-          }
-          if (campaign) {
-            setShowDiscountModal(campaign)
-            return
-          }
-        }
         setReleaseNotes(releaseNotes)
       },
     )
   }, [])
 
+  // ボット名を取得する関数
+  const getBotDisplayName = (botId: BotId) => {
+    // カスタムチャットボットの場合は状態から名前を取得
+    if (botId.startsWith('customchat')) {
+      return botNames[botId] ?? CHATBOTS[botId].name
+    }
+    // 通常のボットの場合はデフォルトの名前を使用
+    return CHATBOTS[botId].name
+  }
+
+  // ボット略称を取得する関数
+  const getBotShortDisplayName = (botId: BotId) => {
+    // カスタムチャットボットの場合は状態から名前を取得
+    if (botId.startsWith('customchat')) {
+      return botShortNames[botId] ?? undefined
+    }
+    // 通常のボットの場合はundefined
+    return undefined
+  }
+  
+  // ボットアバターを取得する関数
+  const getBotAvatar = (botId: BotId) => {
+    // カスタムチャットボットの場合は状態からアバターを取得
+    if (botId.startsWith('customchat')) {
+      return botAvatars[botId] ?? CHATBOTS[botId].avatar
+    }
+    // 通常のボットの場合はデフォルトのアバターを使用
+    return CHATBOTS[botId].avatar
+  }
+
+
   return (
     <motion.aside
       className={cx(
         'flex flex-col bg-primary-background bg-opacity-40 overflow-hidden',
-        collapsed ? 'items-center px-[15px]' : 'w-[230px] px-4',
+        collapsed ? 'items-center px-[2px]' : 'w-[230px] px-4',
       )}
     >
       <div className={cx('flex mt-8 gap-3 items-center', collapsed ? 'flex-col-reverse' : 'flex-row justify-between')}>
-        {collapsed ? <img src={minimalLogo} className="w-[30px]" /> : <img src={logo} className="w-[100px] ml-2" />}
+        {collapsed ? <img src={minimalLogo} className="w-[30px]" /> : <img src={logo} className="w-[140px] ml-2" />}
         <motion.img
           src={collapseIcon}
-          className={cx('w-6 h-6 cursor-pointer')}
+          className={cx('w-10 h-10 cursor-pointer')}
           animate={{ rotate: collapsed ? 180 : 0 }}
           onClick={() => setCollapsed((c) => !c)}
         />
       </div>
       <div className="flex flex-col gap-[13px] mt-10 overflow-y-auto scrollbar-none">
-        <NavLink to="/" text={'All-In-One'} icon={allInOneIcon} iconOnly={collapsed} />
+        <NavLink to="/" text={'All-In-One'} shortText={'A-One'} icon={allInOneIcon} iconOnly={collapsed} />
         {enabledBots.map(({ botId, bot }) => (
           <NavLink
             key={botId}
             to="/chat/$botId"
             params={{ botId }}
-            text={bot.name}
-            icon={bot.avatar}
+            text={getBotDisplayName(botId)}
+            shortText={getBotShortDisplayName(botId)}
+            icon={getBotAvatar(botId)}
             iconOnly={collapsed}
           />
         ))}
@@ -95,20 +169,20 @@ function Sidebar() {
         {!collapsed && <hr className="border-[#ffffff4d]" />}
         {!collapsed && (
           <div className="my-5">
-            <PremiumEntry text={t('Premium')} />
+            <PremiumEntry text={t('OpenSource')} />
           </div>
         )}
         <div className={cx('flex mt-5 gap-[10px] mb-4', collapsed ? 'flex-col' : 'flex-row ')}>
           {!collapsed && (
             <Tooltip content={t('GitHub')}>
-              <a href="https://github.com/chathub-dev/chathub?utm_source=extension" target="_blank" rel="noreferrer">
+              <a href="https://github.com/bondICha/chathub-OSS" target="_blank" rel="noreferrer">
                 <IconButton icon={githubIcon} />
               </a>
             </Tooltip>
           )}
           {!collapsed && (
             <Tooltip content={t('Feedback')}>
-              <a href="https://github.com/chathub-dev/chathub/issues" target="_blank" rel="noreferrer">
+              <a href="https://github.com/bondICha/chathub-OSS/issues" target="_blank" rel="noreferrer">
                 <IconButton icon={feedbackIcon} />
               </a>
             </Tooltip>

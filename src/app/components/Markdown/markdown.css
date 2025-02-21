@@ -31,4 +31,8 @@
     color: inherit;
     text-decoration: underline;
   }
+  & pre code.hljs{
+    white-space: pre-wrap !important;
+    padding-right: 0.25rem !important;
+  }
 }

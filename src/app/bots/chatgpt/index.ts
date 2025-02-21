@@ -9,8 +9,27 @@ import { PoeWebBot } from '../poe'
 import { OpenRouterBot } from '../openrouter'
 
 export class ChatGPTBot extends AsyncAbstractBot {
+  private chatGptNumber: number; // ChatGPT Numberを格納するフィールド
+  constructor(params: {
+      chatGptNumber: number; // ChatGPT Numberをオプション引数として追加
+    }) {
+      super(); // 親クラスのコンストラクタを呼び出す
+      this.chatGptNumber = params.chatGptNumber ?? 0; // 値が未定義の場合は0を使用
+  }
+
   async initializeBot() {
     const { chatgptMode, ...config } = await getUserConfig()
+    
+    if (this.chatGptNumber > 0){
+      return new ChatGPTApiBot({
+        openaiApiKey: config.customApiKey,
+        openaiApiHost: config.customApiConfigs[this.chatGptNumber-1].host ?? config.customApiHost,
+        chatgptApiModel: config.customApiConfigs[this.chatGptNumber-1].model,
+        chatgptApiTemperature: config.customApiConfigs[this.chatGptNumber-1].temperature,
+        chatgptApiSystemMessage: config.customApiConfigs[this.chatGptNumber-1].systemMessage,
+      })
+    }
+    
     if (chatgptMode === ChatGPTMode.API) {
       if (!config.openaiApiKey) {
         throw new ChatError('OpenAI API key not set', ErrorCode.API_KEY_NOT_SET)
