@@ -20,6 +20,12 @@ const RELEASE_NOTES = [
       `releasenote-code-expand`,
     ],
   },
+  {
+    version: '2.3.6',
+    notes: [
+      `releasenote-claude3-7`
+    ],
+  },
 ]
 
 export async function checkReleaseNotes(): Promise<string[]> {

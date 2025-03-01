@@ -8,7 +8,7 @@
     "build": "tsc && vite build"
   },
   "devDependencies": {
-    "@crxjs/vite-plugin": "2.0.0-beta.21",
+    "@crxjs/vite-plugin": "2.0.0-beta.32",
     "@headlessui/tailwindcss": "^0.2.0",
     "@types/cookie": "^0.6.0",
     "@types/humanize-duration": "^3.27.3",
@@ -41,7 +41,7 @@
     "tailwind-scrollbar": "^3.0.5",
     "tailwindcss": "^3.4.0",
     "typescript": "^5.3.3",
-    "vite": "4.5.1",
+    "vite": "5.4.11",
     "vite-tsconfig-paths": "^4.2.2"
   },
   "dependencies": {

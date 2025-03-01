@@ -120,5 +120,9 @@
   "Propaganda action is irreversible.\nClick again to confirm.": "宣傳行為不可逆，再次點擊以確認。",
   "Propaganda👊": "宣傳👊",
   "releasenote-propaganda": "## 新增 Propaganda 功能\n\n點擊聊天 message 旁邊的「📢」icon，就可以將你覺得讚的 AI 回答，套用到其他 AI 身上喔！當你對某個 AI 的 response 特別滿意，而且想要用這個回答跟其他 AI 繼續聊下去的時候，就可以使用這個 feature 啦！\n\n請參考[功能說明 video](https://www.youtube.com/watch?v=PZUbT2Id-dI)。", 
-  "releasenote-code-expand": "## Code Block放大功能介紹啦！\n\n現在可以透過Code Block右上角的放大圖示，實現Code Block的放大顯示呢！超方便的啦～"
+  "releasenote-code-expand": "## Code Block放大功能介紹啦！\n\n現在可以透過Code Block右上角的放大圖示，實現Code Block的放大顯示呢！超方便的啦～",
+  "releasenote-claude3-7": "## Claude 3.7 支援來啦！\n\n新增支援 Claude 3.7 Sonnet model 囉！現在可以在 Claude API 和自定義 API 設定中使用這個 model 喔！\n\n另外，所有 API 設定（ChatGPT、Claude、Gemini 和 Perplexity）現在都支援手動輸入自定義 model 名稱啦！超貼心的啦～",
+  "Choose a model": "選擇 model",
+  "Or enter model name manually": "或是手動輸入 model 名稱",
+  "Custom model name (optional)": "自定義 model 名稱（選擇後自動填入，或自己輸入都可以喔）"
 }

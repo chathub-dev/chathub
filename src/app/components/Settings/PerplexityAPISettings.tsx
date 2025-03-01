@@ -49,11 +49,25 @@ const PerplexityAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => 
       </div>
       <div className="flex flex-col gap-1">
         <p className="font-medium text-sm">{t('API Model')}</p>
-        <Select
-          options={Object.entries(PerplexityAPIModel).map(([k, v]) => ({ name: k, value: v }))}
-          value={userConfig.perplexityModel}
-          onChange={(v) => updateConfigValue({ perplexityModel: v })}
-        />
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <p className="text-sm text-gray-300 mb-1">{t('Choose a model')}</p>
+            <Select
+              options={Object.entries(PerplexityAPIModel).map(([k, v]) => ({ name: k, value: v }))}
+              value={Object.values(PerplexityAPIModel).includes(userConfig.perplexityModel as PerplexityAPIModel) ? userConfig.perplexityModel : 'custom'}
+              onChange={(v) => updateConfigValue({ perplexityModel: v })}
+            />
+          </div>
+          <div>
+            <p className="text-sm text-gray-300 mb-1">{t('Or enter model name manually')}</p>
+            <Input
+              className='w-full'
+              placeholder="Custom model name (optional)"
+              value={userConfig.perplexityModel}
+              onChange={(e) => updateConfigValue({ perplexityModel: e.currentTarget.value })}
+            />
+          </div>
+        </div>
       </div>
     </div>
   )

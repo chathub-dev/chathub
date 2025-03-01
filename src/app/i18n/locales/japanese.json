@@ -123,6 +123,7 @@
   "Propaganda action is irreversible.\nClick again to confirm.": "一度実行したプロパガンダは取り消しできません。\nもう一度クリックして確認してください。",
   "Propaganda👊": "プロパガンダ👊",
   "releasenote-propaganda": "## Propaganda機能のUI強化\n\nチャットメッセージの横にある「📢」アイコンをクリックすると、気に入ったAIの回答を他のAIに上書きできます。あるAIの回答が気に入り、その回答を基に他のAIと会話を続けたい場合に便利です。\n本機能の詳細な操作方法につきましては、[機能説明動画](https://www.youtube.com/watch?v=PZUbT2Id-dI)をご参照ください。",
-  "releasenote-code-expand": "## コード表示拡大機能のご案内\n\nコードブロック右上の拡大アイコンより、コードの拡大表示が可能になりました。"
-
+  "releasenote-code-expand": "## コード表示拡大機能のご案内\n\nコードブロック右上の拡大アイコンより、コードの拡大表示が可能になりました。",
+  "releasenote-claude3-7": "## Claude 3.7 対応のお知らせ\n\n新しいClaude 3.7 Sonnetモデルに対応しました。Claude APIとカスタムAPIの両方の設定で利用可能です。\n\nさらに、すべてのAPI設定（ChatGPT、Claude、Gemini、Perplexity）でカスタムモデル名を手動で入力できるようになりました。",
+  "Custom model name (optional)": "カスタムモデル名（手動入力時のみ利用）"
 }

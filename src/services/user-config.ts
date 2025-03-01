@@ -43,6 +43,7 @@ export enum ClaudeMode {
 }
 
 export enum ClaudeAPIModel {
+  'Claude 3.7 Sonnet' = 'claude-3-7-sonnet-latest',
   'Claude 3.5 Haiku' = 'claude-3-5-haiku-latest',
   'Claude 3.5 Sonnet' = 'claude-3-5-sonnet-latest',
 }
@@ -65,6 +66,8 @@ export enum CustomAPIModel {
   'Gemini 2.0 Flash Thinking' = 'google/gemini-2.0-flash-thinking-exp-01-21',
   'Gemini 1.0 Pro Vision' = 'google/gemini-1.0-pro-vision',
   'RakutenAI-7B' = 'RakutenAI-7B-chat-v1',
+  'RakutenAI-2.0-MoE' = 'RakutenAI-2.0-MoE',
+  'Claude 3.7 Sonnet' = 'anthropic.claude-3-7-sonnet-20250219-v1:0',
   'Claude 3.5 Sonnet v2' = 'anthropic.claude-3-5-sonnet-20241022-v2:0',
   'Claude 3.5 Sonnet' = 'us.anthropic.claude-3-5-sonnet-20240620-v1:0',
   'Claude 3.5 Haiku' = 'anthropic.claude-3-5-haiku-20241022-v1:0',
@@ -221,7 +224,7 @@ const defaultCustomApiConfigs: customApiConfig[] = [
 const userConfigWithDefaultValue = {
   openaiApiKey: '',
   openaiApiHost: 'https://api.openai.com',
-  chatgptApiModel: CHATGPT_API_MODELS[0] as (typeof CHATGPT_API_MODELS)[number] | string,
+  chatgptApiModel: CHATGPT_API_MODELS[0] as string,
   chatgptApiTemperature: 1,
   chatgptApiSystemMessage: DEFAULT_CHATGPT_SYSTEM_MESSAGE,
   chatgptMode: ChatGPTMode.API,
@@ -237,19 +240,19 @@ const userConfigWithDefaultValue = {
   claudeApiKey: '',
   claudeApiHost: 'https://api.anthropic.com/',
   claudeMode: ClaudeMode.API,
-  claudeApiModel: ClaudeAPIModel['Claude 3.5 Haiku'] as string,
+  claudeApiModel: ClaudeAPIModel['Claude 3.7 Sonnet'] as string,
   claudeApiSystemMessage: DEFAULT_CLAUDE_SYSTEM_MESSAGE,
   claudeApiTemperature: 1.0,
   chatgptWebAccess: false,
   claudeWebAccess: false,
-  openrouterOpenAIModel: CHATGPT_API_MODELS[0] as (typeof CHATGPT_API_MODELS)[number],
-  openrouterClaudeModel: OpenRouterClaudeModel['claude-2'],
+  openrouterOpenAIModel: CHATGPT_API_MODELS[0] as string,
+  openrouterClaudeModel: OpenRouterClaudeModel['claude-2'] as string,
   openrouterApiKey: '',
   perplexityMode: PerplexityMode.Webapp,
   perplexityApiKey: '',
-  perplexityModel: 'sonar-pro',
+  perplexityModel: 'sonar-pro' as string,
   geminiApiKey: '',
-  geminiApiModel: GeminiAPIModel['Gemini 2.0 Flash Experimental'],
+  geminiApiModel: GeminiAPIModel['Gemini 2.0 Flash Experimental'] as string,
   geminiApiSystemMessage: DEFAULT_CHATGPT_SYSTEM_MESSAGE,
   geminiApiTemperature: 1.0,
   customApiConfigs: defaultCustomApiConfigs,
@@ -263,18 +266,46 @@ export type UserConfig = typeof userConfigWithDefaultValue
 export async function getUserConfig(): Promise<UserConfig> {
   const result = await Browser.storage.sync.get(null) // 全ての設定を取得
   
-  // rakutenApiConfigsの復元
-  const configCount = result.customApiConfigCount || defaultCustomApiConfigs.length
+  // 設定の復元（古いrakutenApiConfigと新しいcustomApiConfigの両方に対応）
+  const configCount = result.customApiConfigCount || result.rakutenApiConfigCount || defaultCustomApiConfigs.length
   const configs: customApiConfig[] = []
   
   for (let i = 0; i < configCount; i++) {
-    const config = result[`customApiConfig_${i}`]
-    if (config) {
-      configs.push(config)
+    // 新しい形式を優先して確認
+    const newConfig = result[`customApiConfig_${i}`]
+    const oldConfig = result[`rakutenApiConfig_${i}`]
+    
+    if (newConfig) {
+      configs.push(newConfig)
+    } else if (oldConfig) {
+      // 古い形式から新しい形式に変換
+      configs.push({
+        ...oldConfig,
+        id: i + 1,
+        apiKey: oldConfig.apiKey || ''
+      })
+      // 古い形式の設定を削除
+      delete result[`rakutenApiConfig_${i}`]
     } else {
       // 設定が見つからない場合はデフォルト値を使用
       configs.push(defaultCustomApiConfigs[i])
     }
+  }
+  
+  // 古い設定のクリーンアップと変換
+  if (result.rakutenApiConfigCount) {
+    // 古い設定を新しい設定に変換
+    if (result.rakutenApiHost) {
+      result.customApiHost = result.rakutenApiHost
+    }
+    if (result.rakutenApiKey) {
+      result.customApiKey = result.rakutenApiKey
+    }
+    
+    // 古い設定を削除
+    delete result.rakutenApiConfigCount
+    delete result.rakutenApiHost
+    delete result.rakutenApiKey
   }
   
   result.customApiConfigs = configs
@@ -296,11 +327,8 @@ export async function getUserConfig(): Promise<UserConfig> {
   } else if (result.chatgptApiModel === 'gpt-4-32k') {
     result.chatgptApiModel = 'gpt-4'
   }
-  if (
-    result.claudeApiModel !== ClaudeAPIModel['Claude 3.5 Sonnet'] &&
-    result.claudeApiModel !== ClaudeAPIModel['Claude 3.5 Haiku']
-  ) {
-    result.claudeApiModel = ClaudeAPIModel['Claude 3.5 Haiku']
+  if (result.claudeApiHost === '') {
+    result.claudeApiHost = 'https://api.anthropic.com/'
   }
   if (!Object.values(GeminiAPIModel).includes(result.geminiApiModel as GeminiAPIModel)) {
     result.geminiApiModel = GeminiAPIModel['Gemini 2.0 Flash Experimental']

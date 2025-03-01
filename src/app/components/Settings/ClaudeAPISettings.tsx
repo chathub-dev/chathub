@@ -28,11 +28,25 @@ const ClaudeAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
       </div>
       <div className="flex flex-col gap-1">
         <p className="font-medium text-sm">{t('API Model')}</p>
-        <Select
-          options={Object.entries(ClaudeAPIModel).map(([k, v]) => ({ name: k, value: v }))}
-          value={userConfig.claudeApiModel}
-          onChange={(v) => updateConfigValue({ claudeApiModel: v })}
-        />
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <p className="text-sm text-gray-300 mb-1">{t('Choose a model')}</p>
+            <Select
+              options={Object.entries(ClaudeAPIModel).map(([k, v]) => ({ name: k, value: v }))}
+              value={Object.values(ClaudeAPIModel).includes(userConfig.claudeApiModel as ClaudeAPIModel) ? userConfig.claudeApiModel : 'custom'}
+              onChange={(v) => updateConfigValue({ claudeApiModel: v })}
+            />
+          </div>
+          <div>
+            <p className="text-sm text-gray-300 mb-1">{t('Or enter model name manually')}</p>
+            <Input
+              className='w-full'
+              placeholder="Custom model name (optional)"
+              value={userConfig.claudeApiModel}
+              onChange={(e) => updateConfigValue({ claudeApiModel: e.currentTarget.value })}
+            />
+          </div>
+        </div>
       </div>
       <div className="flex flex-col gap-1">
         <div className="flex items-center justify-between">

@@ -30,11 +30,25 @@ const GeminiAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
       </div>
       <div className="flex flex-col gap-1">
         <p className="font-medium text-sm">{t('API Model')}</p>
-        <Select
-          options={Object.entries(GeminiAPIModel).map(([k, v]) => ({ name: k, value: v }))}
-          value={userConfig.geminiApiModel}
-          onChange={(v) => updateConfigValue({ geminiApiModel: v })}
-        />
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <p className="text-sm text-gray-300 mb-1">{t('Choose a model')}</p>
+            <Select
+              options={Object.entries(GeminiAPIModel).map(([k, v]) => ({ name: k, value: v }))}
+              value={Object.values(GeminiAPIModel).includes(userConfig.geminiApiModel as GeminiAPIModel) ? userConfig.geminiApiModel : 'custom'}
+              onChange={(v) => updateConfigValue({ geminiApiModel: v })}
+            />
+          </div>
+          <div>
+            <p className="text-sm text-gray-300 mb-1">{t('Or enter model name manually')}</p>
+            <Input
+              className='w-full'
+              placeholder="Custom model name (optional)"
+              value={userConfig.geminiApiModel}
+              onChange={(e) => updateConfigValue({ geminiApiModel: e.currentTarget.value })}
+            />
+          </div>
+        </div>
       </div>
       <div className="flex flex-col gap-1">
         <p className="font-medium text-sm">Temperature</p>

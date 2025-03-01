@@ -2,6 +2,8 @@ import { useTranslation } from 'react-i18next'
 import { BiExport, BiImport } from 'react-icons/bi'
 import { exportData, importData } from '~app/utils/export'
 import Button from '../Button'
+import React from 'react';
+
 
 function ExportDataPanel() {
   const { t } = useTranslation()
