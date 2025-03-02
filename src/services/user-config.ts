@@ -1,6 +1,7 @@
 import { defaults } from 'lodash-es'
 import Browser from 'webextension-polyfill'
 import { BotId } from '~app/bots'
+import { ModelUpdateNote } from '~app/state'
 import { ALL_IN_ONE_PAGE_ID, CHATBOTS, CHATGPT_API_MODELS, DEFAULT_CHATGPT_SYSTEM_MESSAGE, DEFAULT_CLAUDE_SYSTEM_MESSAGE } from '~app/consts'
 import { CHATBOTS_UPDATED_EVENT } from '~app/consts'
 import defaultLogo from '~/assets/logos/CCLLM.png'
@@ -61,26 +62,16 @@ export enum CustomAPIModel {
   'OpenAI GPT 4o' = 'gpt-4o',
   'OpenAI GPT 4o mini' = 'gpt-4o-mini',
   'OpenAI GPT o3-mini' = 'o3-mini',
-  'Gemini 2.0 Flash' = 'google/gemini-1.5-flash-001',
+  'Gemini 2.0 Flash' = 'google/gemini-2.0-flash-001',
   'Gemini 2.0 Pro' = 'google/gemini-2.0-pro-exp-02-05',
   'Gemini 2.0 Flash Thinking' = 'google/gemini-2.0-flash-thinking-exp-01-21',
   'Gemini 1.0 Pro Vision' = 'google/gemini-1.0-pro-vision',
   'RakutenAI-7B' = 'RakutenAI-7B-chat-v1',
   'RakutenAI-2.0-MoE' = 'RakutenAI-2.0-MoE',
-  'Claude 3.7 Sonnet' = 'anthropic.claude-3-7-sonnet-20250219-v1:0',
+  'Claude 3.7 Sonnet' = 'us.anthropic.claude-3-7-sonnet-20250219-v1:0',
   'Claude 3.5 Sonnet v2' = 'anthropic.claude-3-5-sonnet-20241022-v2:0',
-  'Claude 3.5 Sonnet' = 'us.anthropic.claude-3-5-sonnet-20240620-v1:0',
   'Claude 3.5 Haiku' = 'anthropic.claude-3-5-haiku-20241022-v1:0',
-  'Claude 3 Haiku' = 'us.anthropic.claude-3-haiku-20240307-v1:0',
-  'Starling LM 7B beta' = 'Starling-LM-7B-beta',
-  'Qwen 2.5 1.5b Instruct' = 'qwen2.5-1.5b-instruct',
-  'APPLEPIE-r1n4m-800' = 'APPLEPIE-r1n4m-800_dfull_tp03_1ep_1e6',
-  'MANGOPIE-r1n5-800' = 'MANGOPIE-r1n5-800_dfull_tp03_1ep_1e6_1',
-  'SFT' = 'v0.1-sft-v1',
-  'checkpoint-9000' = 'checkpoint-9000',
-  'Mixtral 8x22B Instruct' = 'Mixtral-8x22B-Instruct-v0.1',
   'Rakuten AI 7B Translate' = 'rakuten-ai-7b-translate-2410',
-  '1.5b DPO ep3' = '1.5b-dpo-ep3-checkpoint-969',
 }
 
 export enum OpenRouterClaudeModel {
@@ -349,6 +340,41 @@ export async function getUserConfig(): Promise<UserConfig> {
 
   
   return defaults(result, userConfigWithDefaultValue)
+}
+
+const MODEL_UPDATE_MAPPINGS: Record<string, string[]> = {
+  'gpt-4o': ['OpenAI GPT o3-mini'],
+  'gpt-4o-mini': ['OpenAI GPT o3-mini'],
+  'gemini-1-5': [
+    'Gemini 2.0 Flash Thinking Mode Experimental',
+    'Gemini 2.0 Flash',
+    'Gemini 2.0 Pro',
+    'Gemini 2.0 Flash Experimental',
+    'Gemini 2.0 Pro Experimental',
+  ],
+  'claude-3-5': ['Claude 3.7 Sonnet'],
+  'RakutenAI-7B': ['RakutenAI-2.0-MoE']
+}
+
+export function checkForModelUpdates(config: UserConfig): ModelUpdateNote[] {
+  const updates: ModelUpdateNote[] = []
+  
+  config.customApiConfigs.forEach((config) => {
+    for (const [oldPattern, newModels] of Object.entries(MODEL_UPDATE_MAPPINGS)) {
+      // 完全一致または部分一致（ただしバージョン番号などの一部が含まれている場合）を確認
+      if (config.model.toLowerCase().includes(oldPattern.toLowerCase())) {
+        updates.push({
+          oldModel: config.model,
+          newModels: newModels,
+          configId: config.id
+        })
+        break // 一つのモデルに対して複数の更新を防ぐ
+      }
+    }
+  })
+  
+  console.log('Model updates found:', updates) // デバッグ用ログ
+  return updates
 }
 
 export async function updateUserConfig(updates: Partial<UserConfig>) {

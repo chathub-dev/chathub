@@ -32,3 +32,14 @@ export const sidePanelBotAtom = atomWithStorage<BotId>('sidePanelBot', 'chatgpt'
 export const showDiscountModalAtom = atom<false | true | Campaign>(false)
 export const showPremiumModalAtom = atom<false | true | FeatureId>(false)
 export const releaseNotesAtom = atom<string[]>([])
+
+export interface ModelUpdateNote {
+  oldModel: string;
+  newModels: string[];
+  configId: number;
+}
+
+// 無視するモデルのリストを保存
+export const ignoredModelUpdateNotificationAtom = atomWithStorage<string[]>('ignoredModels', [])
+
+export const modelUpdateNotesAtom = atom<ModelUpdateNote[]>([])
