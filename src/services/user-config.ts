@@ -342,7 +342,7 @@ export async function getUserConfig(): Promise<UserConfig> {
   return defaults(result, userConfigWithDefaultValue)
 }
 
-const MODEL_UPDATE_MAPPINGS: Record<string, string[]> = {
+export const MODEL_UPDATE_MAPPINGS: Record<string, string[]> = {
   'gpt-4o': ['OpenAI GPT o3-mini'],
   'gpt-4o-mini': ['OpenAI GPT o3-mini'],
   'gemini-1-5': [
