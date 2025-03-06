@@ -122,5 +122,13 @@
   "Propaganda action is irreversible.\nClick again to confirm.": "宣传行为不可逆，再次点击确认",
   "Propaganda👊": "宣传👊",
   "releasenote-propaganda": "## 新增Propaganda功能\n\n点击聊天消息旁边的「📢」图标，可以将你满意的AI回答，覆盖到其他AI上面。当你对某AI的回答很满意，并且希望在此回答上与其他AI进行对话时，可以使用此功能。\n\n请参考[功能说明视频](https://www.youtube.com/watch?v=8y_T5vS1mBc)。",
-  "releasenote-code-expand": "## 代码显示放大功能\n\n现在可以通过代码块右上角的放大图标，实现代码的放大显示。"
+  "releasenote-code-expand": "## 代码显示放大功能\n\n现在可以通过代码块右上角的放大图标，实现代码的放大显示。",
+  "Model Updates Available": "模型更新可用",
+  "Update Model": "更新模型",
+  "Change model from": "将模型从",
+  "to": "更改为",
+  "Recommended Models": "推荐模型",
+  "Ignore This Time": "本次忽略",
+  "Never Show Again": "不再显示",
+  "MODEL_UPDATE_WARNING": "检测到过时的模型。你可以更新模型。\n请注意，模型更新可能需要更改端点。\n如果您使用的是公司提供的API，请参阅公司文档。"
 }

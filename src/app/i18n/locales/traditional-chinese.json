@@ -124,5 +124,13 @@
   "releasenote-claude3-7": "## Claude 3.7 支援來啦！\n\n新增支援 Claude 3.7 Sonnet model 囉！現在可以在 Claude API 和自定義 API 設定中使用這個 model 喔！\n\n另外，所有 API 設定（ChatGPT、Claude、Gemini 和 Perplexity）現在都支援手動輸入自定義 model 名稱啦！超貼心的啦～",
   "Choose a model": "選擇 model",
   "Or enter model name manually": "或是手動輸入 model 名稱",
-  "Custom model name (optional)": "自定義 model 名稱（選擇後自動填入，或自己輸入都可以喔）"
+  "Custom model name (optional)": "自定義 model 名稱（選擇後自動填入，或自己輸入都可以喔）",
+  "Model Updates Available": "模型更新可用",
+  "Update Model": "更新模型",
+  "Change model from": "將模型從",
+  "to": "更改為",
+  "Recommended Models": "推薦模型",
+  "Ignore This Time": "本次忽略",
+  "Never Show Again": "不再顯示",
+  "MODEL_UPDATE_WARNING": "檢測到過時的模型。我們建議您更新模型。\n請注意，模型更新可能需要更改端點。\n如果您使用的是公司提供的API，請參閱公司文檔。"
 }

@@ -4,5 +4,13 @@
     "releasenote-claude3-7": "## Claude 3.7 Support\n\nWe've added support for the new Claude 3.7 Sonnet model. You can now use this model in both Claude API and Custom API settings.\n\nAdditionally, we've added the ability to manually enter custom model names for all API settings (ChatGPT, Claude, Gemini, and Perplexity).",
     "Choose a model": "Choose a model",
     "Or enter model name manually": "Or enter model name manually",
-    "Custom model name (optional)": "Custom model name (optional)"
+    "Custom model name (optional)": "Custom model name (optional)",
+    "Model Updates Available": "Model Updates Available",
+    "Update Model": "Update Model",
+    "Change model from": "Change model from",
+    "to": "to",
+    "Recommended Models": "Recommended Models",
+    "Ignore This Time": "Ignore This Time",
+    "Never Show Again": "Never Show Again",
+    "MODEL_UPDATE_WARNING": "Outdated models detected. We recommend updating your models.\nPlease note that model updates may require endpoint changes.\nIf you're using company-provided APIs, please refer to your company's documentation."
 }
