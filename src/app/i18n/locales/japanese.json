@@ -125,6 +125,8 @@
   "releasenote-propaganda": "## Propaganda機能のUI強化\n\nチャットメッセージの横にある「📢」アイコンをクリックすると、気に入ったAIの回答を他のAIに上書きできます。あるAIの回答が気に入り、その回答を基に他のAIと会話を続けたい場合に便利です。\n本機能の詳細な操作方法につきましては、[機能説明動画](https://www.youtube.com/watch?v=PZUbT2Id-dI)をご参照ください。",
   "releasenote-code-expand": "## コード表示拡大機能のご案内\n\nコードブロック右上の拡大アイコンより、コードの拡大表示が可能になりました。",
   "releasenote-claude3-7": "## Claude 3.7 対応のお知らせ\n\n新しいClaude 3.7 Sonnetモデルに対応しました。Claude APIとカスタムAPIの両方の設定で利用可能です。\n\nさらに、すべてのAPI設定（ChatGPT、Claude、Gemini、Perplexity）でカスタムモデル名を手動で入力できるようになりました。",
+  "releasenote-model-suggestion-fix": "## モデル更新通知の修正\nモデル更新通知が無視できない問題を暫定修正しました。現在は通知画面からモデルの更新をすることができません。また、無視ボタンを押すとすべてのモデルの更新通知がされなくなります。今後、修正していきますのでご了承ください。",
+  "releasenote-claude-bedrock-thinking": "## Claude BedrockのThinkingMode対応\nCustom ModelとしてClaude Bedrock APIを使用する際に、思考モードを有効化できるようになりました。\n設定画面で思考モードを有効化できます。",
   "Custom model name (optional)": "カスタムモデル名（手動入力時のみ利用）",
   "Model Updates Available": "モデルアップデートが利用可能です",
   "Update Model": "モデルを更新する",

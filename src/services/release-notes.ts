@@ -26,6 +26,13 @@ const RELEASE_NOTES = [
       `releasenote-claude3-7`
     ],
   },
+  {
+    version: '2.4.0',
+    notes: [
+      `releasenote-model-suggestion-fix`,
+      `releasenote-claude-bedrock-thinking`
+    ],
+  },
 ]
 
 export async function checkReleaseNotes(): Promise<string[]> {

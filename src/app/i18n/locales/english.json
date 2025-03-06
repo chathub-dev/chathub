@@ -1,7 +1,10 @@
 {
+    "com_ui_thoughts": "Thinking Process",
     "releasenote-propaganda": "## Propaganda Feature Enhancement !!\n\nHave you noticed the 「📢」 icon next to the copy button beside chat messages?\n\nWhen you satisfied with one of AI answer, you can click 「📢」 icon and continue the converstaion with that response with all of AI chats\n\nCheck out [detailed video guide](https://www.youtube.com/watch?v=8y_T5vS1mBc) to learn how to use this feature and see it in action.",
     "releasenote-code-expand": "## Code Expansion Feature\n\nYou want to see code bigger? You can do so by clicking the expand icon on the top right corner of the code block.",
     "releasenote-claude3-7": "## Claude 3.7 Support\n\nWe've added support for the new Claude 3.7 Sonnet model. You can now use this model in both Claude API and Custom API settings.\n\nAdditionally, we've added the ability to manually enter custom model names for all API settings (ChatGPT, Claude, Gemini, and Perplexity).",
+    "releasenote-model-suggestion-fix": "## Model Update Notification Fix\nWe've made a temporary fix for the issue where model update notifications couldn't be ignored. Currently, you cannot update models from the notification screen. Also, pressing the ignore button will prevent all model update notifications. We'll be improving this in future updates.",
+    "releasenote-claude-bedrock-thinking": "## Claude Bedrock Thinking Mode Support\nWhen using Claude Bedrock API as a Custom Model, you can now enable the thinking mode.\nThis can be activated in the settings screen.",
     "Choose a model": "Choose a model",
     "Or enter model name manually": "Or enter model name manually",
     "Custom model name (optional)": "Custom model name (optional)",

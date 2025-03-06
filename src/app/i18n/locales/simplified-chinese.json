@@ -1,4 +1,5 @@
 {
+  "com_ui_thoughts": "思考过程",
   "Shortcut to open this app": "打开ChatHub的快捷键",
   "Settings": "设置",
   "Startup page": "启动页面",
@@ -123,6 +124,9 @@
   "Propaganda👊": "宣传👊",
   "releasenote-propaganda": "## 新增Propaganda功能\n\n点击聊天消息旁边的「📢」图标，可以将你满意的AI回答，覆盖到其他AI上面。当你对某AI的回答很满意，并且希望在此回答上与其他AI进行对话时，可以使用此功能。\n\n请参考[功能说明视频](https://www.youtube.com/watch?v=8y_T5vS1mBc)。",
   "releasenote-code-expand": "## 代码显示放大功能\n\n现在可以通过代码块右上角的放大图标，实现代码的放大显示。",
+  "releasenote-claude3-7": "## Claude 3.7 支持\n\n我们已添加对新的Claude 3.7 Sonnet模型的支持。您现在可以在Claude API和自定义API设置中使用此模型。\n\n此外，我们还添加了为所有API设置（ChatGPT、Claude、Gemini和Perplexity）手动输入自定义模型名称的功能。",
+  "releasenote-model-suggestion-fix": "## 模型更新通知修复\n我们对无法忽略模型更新通知的问题进行了临时修复。目前，您无法从通知屏幕更新模型。此外，按下忽略按钮将阻止所有模型更新通知。我们将在未来的更新中改进这一点。",
+  "releasenote-claude-bedrock-thinking": "## Claude Bedrock思考模式支持\n使用Claude Bedrock API作为自定义模型时，您现在可以启用思考模式。\n可以在设置屏幕中激活此功能。",
   "Model Updates Available": "模型更新可用",
   "Update Model": "更新模型",
   "Change model from": "将模型从",
