@@ -45,7 +45,7 @@
     "vite-tsconfig-paths": "^4.2.2"
   },
   "dependencies": {
-    "@anthropic-ai/bedrock-sdk": "^0.12.0",
+    "@aws-sdk/client-bedrock-runtime": "^3.755.0",
     "@epic-web/cachified": "^4.0.0",
     "@floating-ui/react": "^0.26.4",
     "@google/generative-ai": "^0.21.0",

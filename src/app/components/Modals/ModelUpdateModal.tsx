@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useAtom, useSetAtom } from 'jotai'
 import { useTranslation } from 'react-i18next'
 import { modelUpdateNotesAtom, ignoredModelUpdateNotificationAtom } from '~app/state'
@@ -6,6 +6,7 @@ import Dialog from '../Dialog'
 import Button from '../Button'
 import { useUserConfig } from '~app/hooks/use-user-config'
 import { UserConfig, customApiConfig, updateUserConfig, MODEL_UPDATE_MAPPINGS } from '~services/user-config'
+import Browser from 'webextension-polyfill'
 
 const ModelUpdateModal: FC = () => {
   const { t } = useTranslation()
@@ -13,8 +14,61 @@ const ModelUpdateModal: FC = () => {
   const [ignoredModels, setIgnoredModels] = useAtom(ignoredModelUpdateNotificationAtom)
   const config = useUserConfig()
   
-  const handleIgnore = (oldModel: string) => {
-    setIgnoredModels(prev => [...prev, oldModel])
+  // コンポーネントマウント時に、localStorageからignoredModelsを読み込む
+  useEffect(() => {
+    const loadIgnoredModels = async () => {
+      try {
+        // localStorageから直接読み込む
+        const result = await Browser.storage.local.get('ignoredModels')
+        if (result.ignoredModels) {
+          let parsedModels: string[] = []
+          if (typeof result.ignoredModels === 'string') {
+            try {
+              parsedModels = JSON.parse(result.ignoredModels)
+            } catch (e) {
+              console.error('Failed to parse ignoredModels:', e)
+            }
+          } else if (Array.isArray(result.ignoredModels)) {
+            parsedModels = result.ignoredModels
+          }
+          
+          // 無視すべきモデルがある場合、notesからフィルタリング
+          if (parsedModels.length > 0) {
+            setIgnoredModels(parsedModels)
+            setNotes(prev => prev.filter(note => 
+              !parsedModels.some(ignored => 
+                note.oldModel.toLowerCase() === ignored.toLowerCase() ||
+                Object.keys(MODEL_UPDATE_MAPPINGS).some(pattern => 
+                  note.oldModel.toLowerCase().includes(pattern.toLowerCase()) && 
+                  parsedModels.some(im => im.toLowerCase().includes(pattern.toLowerCase()))
+                )
+              )
+            ))
+          }
+        }
+      } catch (e) {
+        console.error('Error loading ignoredModels:', e)
+      }
+    }
+    
+    loadIgnoredModels()
+  }, [setIgnoredModels, setNotes])
+  
+  const handleIgnore = async (oldModel: string) => {
+    // 新しい無視リストを作成
+    const newIgnoredModels = [...ignoredModels, oldModel]
+    setIgnoredModels(newIgnoredModels)
+    
+    // localStorageに保存（文字列として）
+    try {
+      await Browser.storage.local.set({ 
+        ignoredModels: JSON.stringify(newIgnoredModels) 
+      })
+    } catch (e) {
+      console.error('Failed to save ignoredModels:', e)
+    }
+    
+    // 表示中のノートから削除
     setNotes(prev => prev.filter(note => note.oldModel !== oldModel))
   }
   
