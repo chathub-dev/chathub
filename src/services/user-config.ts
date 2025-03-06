@@ -94,75 +94,89 @@ export interface customApiConfig {
   temperature: number,
   systemMessage: string,
   avatar: string,
-  apiKey: string 
+  apiKey: string,
+  thinkingMode: boolean,
+  thinkingBudget: number
 }
 
 const defaultCustomApiConfigs: customApiConfig[] = [
   {
     id: 1,
     name: 'Custom Ai1',
-    shortName: '4o', 
-    model: 'gpt-4o',
+    shortName: 'o3-mi', 
+    model: 'o3-mini',
     host: '',
     temperature: 0.7,
     systemMessage: '',
     avatar: defaultLogo,
-    apiKey: '' 
+    apiKey: '',
+    thinkingMode: false,
+    thinkingBudget: 2000
   },
   {
     id: 2,
     name: 'Custom Ai2',
-    shortName: '4o-mi', 
-    model: 'gpt-4o-mini',
+    shortName: 'o1', 
+    model: 'o1',
     host: '',
     temperature: 1.0,
     systemMessage: '',
     avatar: defaultLogo,
-    apiKey: '' 
+    apiKey: '',
+    thinkingMode: false,
+    thinkingBudget: 2000
   },
   {
     id: 3,
     name: 'Custom Ai3',
     shortName: 'LessT', 
-    model: 'gpt-4o-mini',
+    model: 'o3-mini',
     host: '',
     temperature: 0.2,
     systemMessage: '',
     avatar: defaultLogo,
-    apiKey: '' 
+    apiKey: '',
+    thinkingMode: false,
+    thinkingBudget: 2000
   },
   {
     id: 4,
     name: 'Custom Ai4',
     shortName: 'rand', 
-    model: 'gpt-4o-mini',
+    model: 'o3-mini',
     host: '',
     temperature: 2.0,
     systemMessage: '',
     avatar: defaultLogo,
-    apiKey: '' 
+    apiKey: '',
+    thinkingMode: false,
+    thinkingBudget: 2000
   },
   {
     id: 5,
     name: 'Custom Ai5',
     shortName: 'Claud', 
-    model: 'anthropic.claude-3-5-sonnet-20241022-v2:0',
+    model: 'us.anthropic.claude-3-7-sonnet-20250219-v1:0',
     host: 'https://XXXXXXXXXXXX.azure-api.net/aws-bedrock/',
     temperature: 0.7,
     systemMessage: '',
     avatar: defaultLogo,
-    apiKey: '' 
+    apiKey: '',
+    thinkingMode: false,
+    thinkingBudget: 2000
   },
   {
     id: 6,
     name: 'Custom Ai6',
     shortName: 'ClHa', 
-    model: 'us.anthropic.claude-3-5-sonnet-20240620-v1:0',
+    model: 'us.anthropic.claude-3-7-sonnet-20250219-v1:0',
     host: 'https://XXXXXXXXX.azure-api.net/aws-bedrock/',
     temperature: 1.0,
     systemMessage: '',
     avatar: defaultLogo,
-    apiKey: '' 
+    apiKey: '',
+    thinkingMode: true,
+    thinkingBudget: 2000
   },
   {
     id: 7,
@@ -173,18 +187,22 @@ const defaultCustomApiConfigs: customApiConfig[] = [
     temperature: 0.9,
     systemMessage: '',
     avatar: defaultLogo,
-    apiKey: '' 
+    apiKey: '',
+    thinkingMode: false,
+    thinkingBudget: 2000
   },
   {
     id: 8,
     name: 'Custom Ai8',
     shortName: 'Cus8', 
-    model: 'us.anthropic.claude-3-haiku-20240307-v1:0',
+    model: 'anthropic.claude-3-5-haiku-20241022-v1:0',
     host: 'https://XXXXXXXXXXX.azure-api.net/aws-bedrock/',
     temperature: 0.9,
     systemMessage: '',
     avatar: defaultLogo,
-    apiKey: '' 
+    apiKey: '',
+    thinkingMode: false,
+    thinkingBudget: 2000
   },
   {
     id: 8,
@@ -195,7 +213,9 @@ const defaultCustomApiConfigs: customApiConfig[] = [
     temperature: 0.9,
     systemMessage: '',
     avatar: defaultLogo,
-    apiKey: '' 
+    apiKey: '',
+    thinkingMode: false,
+    thinkingBudget: 2000
   },
   {
     id: 8,
@@ -206,7 +226,9 @@ const defaultCustomApiConfigs: customApiConfig[] = [
     temperature: 0.9,
     systemMessage: '',
     avatar: defaultLogo,
-    apiKey: '' 
+    apiKey: '',
+    thinkingMode: false,
+    thinkingBudget: 2000
   }
 ]
 

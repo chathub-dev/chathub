@@ -34,6 +34,9 @@ export class CustomBot extends AsyncAbstractBot {
                 claudeApiModel: config.model,
                 claudeApiTemperature: config.temperature,
                 claudeApiSystemMessage: config.systemMessage,
+                // Pass the thinkingMode and thinkingBudget values
+                thinkingMode: config.thinkingMode,
+                thinkingBudget: config.thinkingBudget,
             });
         } else {
             return new ChatGPTApiBot({

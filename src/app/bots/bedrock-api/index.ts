@@ -18,7 +18,6 @@ import { FetchHttpHandler } from "@smithy/fetch-http-handler";
 import { HttpRequest } from "@smithy/protocol-http";
 
 
-import AnthropicBedrock from '@anthropic-ai/bedrock-sdk';
 
 const CONTEXT_SIZE = 40;
 
@@ -141,7 +140,9 @@ export abstract class AbstractBedrockApiBot extends AbstractBot {
       const result: ChatMessage = { 
         role: 'assistant', 
         content: [{ text: '' }] 
-      }  
+      }
+      let thinkingContent = '';
+      
       const finish = () => {
         done = true
         params.onEvent({ type: 'DONE' })
@@ -165,6 +166,7 @@ export abstract class AbstractBedrockApiBot extends AbstractBot {
           try {
             const data = JSON.parse(line);
             if (data.type === 'contentDelta' && data.delta) {
+              // 通常のテキスト出力の処理
               if (result.content && result.content.length > 0) {
                 result.content[0].text += data.delta;
               }
@@ -174,7 +176,21 @@ export abstract class AbstractBedrockApiBot extends AbstractBot {
                   text: Array.isArray(result.content) && result.content.length > 0 && 
                         typeof result.content[0].text === 'string'
                         ? result.content[0].text
-                        : "Empty Response"
+                        : "Empty Response",
+                  thinking: thinkingContent || undefined
+                },
+              });
+            } else if (data.type === 'reasoningContent') {
+              // Thinking モードの出力の処理
+              thinkingContent += data.delta || '';
+              params.onEvent({
+                type: 'UPDATE_ANSWER',
+                data: {
+                  text: Array.isArray(result.content) && result.content.length > 0 && 
+                        typeof result.content[0].text === 'string'
+                        ? result.content[0].text
+                        : "Empty Response",
+                  thinking: thinkingContent
                 },
               });
             } else if (data.type === 'stop') {
@@ -259,12 +275,16 @@ class CustomFetchHttpHandler extends FetchHttpHandler {
 
 export class BedrockApiBot extends AbstractBedrockApiBot {
   private client: BedrockRuntimeClient;
+  private userConfig?: UserConfig;
 
   constructor(
     private config: Pick<
       UserConfig,
       'claudeApiKey' | 'claudeApiHost' | 'claudeApiModel' | 'claudeApiSystemMessage' | 'claudeApiTemperature'
-    >,
+    > & {
+      thinkingMode?: boolean;
+      thinkingBudget?: number;
+    },
   ) {
     super()
     const api_path = 'v1/';
@@ -285,15 +305,33 @@ export class BedrockApiBot extends AbstractBedrockApiBot {
 
   async fetchCompletionApi(messages: ChatMessage[], signal?: AbortSignal): Promise<Response> {
     try {
-      const command = new ConverseStreamCommand({
+      // Create the base command object
+      const converceCommandObject: any = {
         modelId: this.getModelName(),
         messages: messages,
-        inferenceConfig: {
+        system: [{ text: this.getSystemMessage() }]
+      };
+  
+      // Add reasoning configuration or temperature based on thinkingMode flag
+      if (this.config.thinkingMode) {
+        const reasoningConfig = {
+          thinking: {
+            type: "enabled",
+            budget_tokens: this.config.thinkingBudget || 2000
+          }
+        };
+        converceCommandObject.additionalModelRequestFields = reasoningConfig;
+        converceCommandObject.inferenceConfig = {
+          maxTokens: 64000,
+        };
+      } else {
+        converceCommandObject.inferenceConfig = {
           maxTokens: 8192,
           temperature: this.config.claudeApiTemperature
-        },
-        system: [{ text: this.getSystemMessage() }],
-      });
+        };
+      }
+
+      const command = new ConverseStreamCommand(converceCommandObject);
 
       const response = await this.client.send(command);
       
@@ -309,6 +347,14 @@ export class BedrockApiBot extends AbstractBedrockApiBot {
             for await (const chunk of stream) {
               if (chunk.contentBlockDelta) {
                 const { delta, contentBlockIndex } = chunk.contentBlockDelta;
+                if (delta && "reasoningContent" in delta) {
+                  const data = {
+                    type: 'reasoningContent',
+                    delta: delta.reasoningContent?.text,
+                    blockIndex: contentBlockIndex
+                  };
+                  await writer.write(new TextEncoder().encode(JSON.stringify(data) + '\n'));
+                }
                 if (delta && 'text' in delta) {
                   const data = {
                     type: 'contentDelta',

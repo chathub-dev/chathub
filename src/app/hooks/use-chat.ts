@@ -56,6 +56,9 @@ export function useChat(botId: BotId) {
         for await (const answer of resp) {
           updateMessage(botMessageId, (message) => {
             message.text = answer.text
+            if (answer.thinking) {
+              message.thinking = answer.thinking
+            }
           })
         }
       } catch (err: unknown) {

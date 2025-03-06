@@ -6,6 +6,7 @@ import { DEFAULT_CHATGPT_SYSTEM_MESSAGE } from '~app/consts';
 import Select from '../Select'
 import Blockquote from './Blockquote'
 import Range from '../Range'
+import Switch from '~app/components/Switch'
 import AvatarSelect from './AvatarSelect'
 import { avatarMap, type AvatarKey } from './AvatarSelect'
 
@@ -183,23 +184,67 @@ const CustomAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
 
 
 
-                                {/* Temperature */}
+                                {/* Thinking Mode Toggle */}
                                 <div className={formRowClass}>
-                                    <p className={labelClass}>{t('Temperature')}</p>
-                                    <div className={inputContainerClass}>
-                                        <Range
-                                            value={config.temperature}
-                                            onChange={(value) => {
+                                    <p className={labelClass}>{t('Thinking Mode')}</p>
+                                    <div className="flex items-center gap-3">
+                                        <Switch
+                                            checked={config.thinkingMode ?? false}
+                                            onChange={(enabled) => {
                                                 const updatedConfigs = [...userConfig.customApiConfigs]
-                                                updatedConfigs[index].temperature = value
+                                                updatedConfigs[index].thinkingMode = enabled
                                                 updateConfigValue({ customApiConfigs: updatedConfigs })
                                             }}
-                                            min={0}
-                                            max={2}
-                                            step={0.1}
                                         />
+                                        <span className="text-sm font-medium">
+                                            {config.thinkingMode ? t('Enabled') : t('Disabled')}
+                                        </span>
+                                        <div className="relative group">
+                                            <span className="cursor-help text-gray-400">ⓘ</span>
+                                            <div className="absolute bottom-full mb-2 hidden group-hover:block bg-gray-800 text-white text-xs p-2 rounded shadow-lg w-64">
+                                                {t('Currently only supported by Claude(Bedrock)')}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+
+                                {/* Conditional rendering based on Thinking Mode */}
+                                {config.thinkingMode ? (
+                                    <div className={formRowClass}>
+                                        <p className={labelClass}>{t('Thinking Budget')}</p>
+                                        <div className={inputContainerClass}>
+                                            <Range
+                                                value={config.thinkingBudget ?? 2000}
+                                                onChange={(value) => {
+                                                    const updatedConfigs = [...userConfig.customApiConfigs]
+                                                    updatedConfigs[index].thinkingBudget = value
+                                                    updateConfigValue({ customApiConfigs: updatedConfigs })
+                                                }}
+                                                min={2000}
+                                                max={32000}
+                                                step={1000}
+                                            />
+                                            <div className="text-sm text-right mt-1">{config.thinkingBudget} tokens</div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className={formRowClass}>
+                                        <p className={labelClass}>{t('Temperature')}</p>
+                                        <div className={inputContainerClass}>
+                                            <Range
+                                                value={config.temperature}
+                                                onChange={(value) => {
+                                                    const updatedConfigs = [...userConfig.customApiConfigs]
+                                                    updatedConfigs[index].temperature = value
+                                                    updateConfigValue({ customApiConfigs: updatedConfigs })
+                                                }}
+                                                min={0}
+                                                max={2}
+                                                step={0.1}
+                                            />
+                                        </div>
+                                    </div>
+                                )}
 
                                 {/* System Message */}
                                 <div className={formRowClass}>

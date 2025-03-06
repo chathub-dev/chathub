@@ -178,7 +178,10 @@ const ChatMessageCard: FC<Props> = ({ message, className, onPropaganda }) => {
       )}
     >
       <div ref={messageRef} className="flex flex-col w-11/12 max-w-fit items-start gap-2">
-        <MessageBubble color={message.author === 'user' ? 'primary' : 'flat'}>
+        <MessageBubble 
+          color={message.author === 'user' ? 'primary' : 'flat'}
+          thinking={message.thinking}
+        >
           {!!imageUrl && <img src={imageUrl} alt="Uploaded content" className="max-w-xs my-2" />}
           {message.text ? (
             <Markdown>{message.text}</Markdown>

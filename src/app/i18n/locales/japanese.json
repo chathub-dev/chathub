@@ -133,5 +133,9 @@
   "Recommended Models": "推奨モデル",
   "Ignore This Time": "今回は無視する",
   "Never Show Again": "二度と通知しない",
-  "MODEL_UPDATE_WARNING": "古いモデルが検出されました。モデルの更新をおすすめします。\nモデルの更新に伴い、Endpointの変更も必要になる場合があります。ご注意ください。\n会社提供のAPIを利用している方は会社提供のドキュメントを参照してください。"
+  "MODEL_UPDATE_WARNING": "古いモデルが検出されました。モデルの更新をおすすめします。\nモデルの更新に伴い、Endpointの変更も必要になる場合があります。ご注意ください。\n会社提供のAPIを利用している方は会社提供のドキュメントを参照してください。",
+  "Currently only supported by Claude(Bedrock)": "現在はClaude(Bedrock)のみ対応しています",
+  "Enabled": "有効",
+  "Disabled": "無効",
+  "com_ui_thoughts": "思考プロセス"
 }

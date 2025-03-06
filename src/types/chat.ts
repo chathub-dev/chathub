@@ -7,6 +7,7 @@ export interface ChatMessageModel {
   text: string
   image?: Blob
   error?: ChatError
+  thinking?: string
 }
 
 export interface ConversationModel {

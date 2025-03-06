@@ -4,6 +4,7 @@ import { streamAsyncIterable } from '~utils/stream-async-iterable'
 
 export type AnwserPayload = {
   text: string
+  thinking?: string
 }
 
 export type Event =

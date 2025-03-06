@@ -1,9 +1,11 @@
 import { cx } from '~/utils'
 import { FC, PropsWithChildren } from 'react'
+import Thinking from './Thinking'
 
 interface Props {
   color: 'primary' | 'flat'
   className?: string
+  thinking?: string
 }
 
 const MessageBubble: FC<PropsWithChildren<Props>> = (props) => {
@@ -15,6 +17,7 @@ const MessageBubble: FC<PropsWithChildren<Props>> = (props) => {
         props.className,
       )}
     >
+      {props.thinking && <Thinking>{props.thinking}</Thinking>}
       {props.children}
     </div>
   )
