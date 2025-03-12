@@ -55,6 +55,20 @@ export enum PerplexityMode {
   API = 'api',
 }
 
+export enum DeepSeekMode {
+  API = 'api', 
+  PPIO = 'ppio'
+}
+
+export enum DeepSeekAPIModel {
+  'deepseek-chat' = 'deepseek-chat' 
+}
+
+export enum DeepSeekPPIOModel {
+  'deepseek-v3/community' = 'deepseek/deepseek-v3/community',
+  'deepseek-v3' = 'deepseek/deepseek-v3'
+}
+
 const userConfigWithDefaultValue = {
   openaiApiKey: '',
   openaiApiHost: 'https://api.openai.com',
@@ -82,6 +96,11 @@ const userConfigWithDefaultValue = {
   perplexityMode: PerplexityMode.Webapp,
   perplexityApiKey: '',
   geminiApiKey: '',
+  deepseekMode: DeepSeekMode.API,
+  deepseekApiModel: DeepSeekAPIModel['deepseek-chat'],
+  deepseekPpioModel: DeepSeekPPIOModel['deepseek-v3/community'],
+  deepseekApiKey: '',
+  deepseekPpioKey: ''
 }
 
 export type UserConfig = typeof userConfigWithDefaultValue
