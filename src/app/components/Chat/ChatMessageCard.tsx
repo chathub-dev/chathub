@@ -1,6 +1,6 @@
 import { cx } from '~/utils'
 import { FC, memo, useEffect, useMemo, useRef, useState, useCallback } from 'react'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { CopyToClipboard } from 'react-copy-to-clipboard-ts'
 import { IoCheckmarkSharp, IoCopyOutline, IoMegaphoneOutline as IoPropaganda } from 'react-icons/io5'
 import { BsCheckAll } from "react-icons/bs";
 import { LuCircleCheckBig } from "react-icons/lu";
@@ -68,7 +68,7 @@ const ChatMessageCard: FC<Props> = ({ message, className, onPropaganda }) => {
   const [messageHeight, setMessageHeight] = useState(0)
   const [confirmationStage, setConfirmationStage] = useState<ConfirmationStage>('none')
   const messageRef = useRef<HTMLDivElement>(null)
-  const timerRef = useRef<NodeJS.Timeout | null>(null)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const { t } = useTranslation()
 
 
@@ -146,8 +146,8 @@ const ChatMessageCard: FC<Props> = ({ message, className, onPropaganda }) => {
     <div className="flex flex-col">
       <CopyToClipboard text={copyText!} onCopy={() => setCopied(true)}>
         <button aria-label={copied ? "Copied" : "Copy"} className={COPY_ICON_CLASS}>
-          {copied ? <IoCheckmarkSharp /> : <IoCopyOutline />}
-        </button>
+        {copied ? <IoCheckmarkSharp /> : <IoCopyOutline />}
+      </button>
       </CopyToClipboard>
       {message.author !== 'user' && onPropaganda && (
         <SimpleTooltip align="right" content={getTooltipContent()}>

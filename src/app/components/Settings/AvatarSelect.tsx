@@ -1,178 +1,184 @@
-import { Menu, Transition } from '@headlessui/react'
-import { FC, Fragment, useState, useEffect } from 'react'
-import { ChevronUpDownIcon } from '@heroicons/react/20/solid'
-import Select from '../Select'
+import { FC, useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import IconSelect from './IconSelect';
+import BotIcon from '../BotIcon';
+import { Input } from '../Input';
 
+// デフォルトアイコン
+const defaultIcon = 'OpenAI.Black';
 
-import ccllmLogo from '~/assets/logos/CCLLM.png'
-import alpacaLogo from '~/assets/logos/alpaca.png'
-import anthropicLogo from '~/assets/logos/anthropic.png'
-import baichuanLogo from '~/assets/logos/baichuan.png'
-import bardLogo from '~/assets/logos/bard.svg'
-import bingLogo from '~/assets/logos/bing.svg'
-import chatglmLogo from '~/assets/logos/chatglm.svg'
-import chatgptLogo from '~/assets/logos/chatgpt.svg'
-import chathubLogo from '~/assets/logos/chathub.svg'
-import dollyLogo from '~/assets/logos/dolly.png'
-import falconLogo from '~/assets/logos/falcon.jpeg'
-import geminiLogo from '~/assets/logos/gemini.svg'
-import grokLogo from '~/assets/logos/grok.png'
-import guanacoLogo from '~/assets/logos/guanaco.png'
-import koalaLogo from '~/assets/logos/koala.jpg'
-import llamaLogo from '~/assets/logos/llama.png'
-import mistralLogo from '~/assets/logos/mistral.png'
-import oasstLogo from '~/assets/logos/oasst.svg'
-import piLogo from '~/assets/logos/pi.png'
-import pplxLogo from '~/assets/logos/pplx.jpg'
-import qianwenLogo from '~/assets/logos/qianwen.png'
-import customLogo from '~/assets/logos/rakuten.svg'
-import rwkvLogo from '~/assets/logos/rwkv.png'
-import stablelmLogo from '~/assets/logos/stablelm.png'
-import vicunaLogo from '~/assets/logos/vicuna.jpg'
-import wizardlmLogo from '~/assets/logos/wizardlm.png'
-import xunfeiLogo from '~/assets/logos/xunfei.png'
-import yiLogo from '~/assets/logos/yi.svg'
-import hyperbolicLogo from '~/assets/logos/hyperbolic.svg'
-import deepseekLogo from '~/assets/logos/deepseek.svg'
-import sambaNovaLogo from '~/assets/logos/SambaNova.svg'
-
-
-
-// アバターの定義
-export const avatarMap = {
-  'HuddleLLM': ccllmLogo,
-  'alpaca': alpacaLogo,
-  'anthropic': anthropicLogo,
-  'baichuan': baichuanLogo,
-  'bard': bardLogo,
-  'bing': bingLogo,
-  'chatglm': chatglmLogo,
-  'chatgpt': chatgptLogo,
-  'chathub': chathubLogo,
-  'deepseek': deepseekLogo,
-  'dolly': dollyLogo,
-  'falcon': falconLogo,
-  'gemini': geminiLogo,
-  'grok': grokLogo,
-  'guanaco': guanacoLogo,
-  'hyperbolic': hyperbolicLogo,
-  'koala': koalaLogo,
-  'llama': llamaLogo,
-  'mistral': mistralLogo,
-  'oasst': oasstLogo,
-  'pi': piLogo,
-  'perplexity': pplxLogo,
-  'qianwen': qianwenLogo,
-  'custom': customLogo,
-  'rwkv': rwkvLogo,
-  'SambaNova': sambaNovaLogo,
-  'stablelm': stablelmLogo,
-  'vicuna': vicunaLogo,
-  'wizardlm': wizardlmLogo,
-  'xunfei': xunfeiLogo,
-  'yi': yiLogo,
-} as const
-
-// avatarMapのキーの型を定義
-export type AvatarKey = keyof typeof avatarMap;
-
-// オプションの生成
-const avatarOptions = Object.entries(avatarMap).map(([key, logo]) => ({
-  name: key,
-  icon: logo,
-}))
-
+// 画像URLかどうか確認する正規表現
+const isImageUrlRegex = /\.(jpg|jpeg|png|gif|svg|webp)($|\?)/i;
 
 interface AvatarSelectProps {
-  value: string
-  onChange: (value: string) => void
+  value: string;
+  onChange: (value: string) => void;
 }
 
 const AvatarSelect: FC<AvatarSelectProps> = ({ value, onChange }) => {
-  const options = Object.entries(avatarMap).map(([key, icon]) => ({
-    value: icon,
-    name: key,
-    icon: icon,
-  }))
-
-  return (
-    <Select
-      options={options}
-      value={value}
-      onChange={onChange}
-      showIcon
-    />
-  )
-}
-
-export default AvatarSelect
-
-
-/*
-const AvatarSelect: FC<AvatarSelectProps> = ({ value, onChange }) => {
-  // デフォルト値の設定
-  const defaultAvatar = avatarMap['chathub']
-  const [currentValue, setCurrentValue] = useState(value || defaultAvatar)
-
-  useEffect(() => {
-    if (value && value !== currentValue) {
-      setCurrentValue(value)
+  const { t } = useTranslation();
+  const [isSelectOpen, setIsSelectOpen] = useState(false);
+  const [currentIconValue, setCurrentIconValue] = useState(defaultIcon);
+  const [customUrl, setCustomUrl] = useState('');
+  const [urlMode, setUrlMode] = useState(false);
+  
+  // アイコン値を処理
+  const processIconValue = (iconValue: string) => {
+    // URLの場合はそのまま返し、URLモードを有効化
+    if (iconValue && (iconValue.startsWith('http') || iconValue.startsWith('data:'))) {
+      setUrlMode(true);
+      setCustomUrl(iconValue);
+      return iconValue;
     }
-  }, [value])
-
-  // 現在選択されているアイコンを取得
-  const currentLogo = currentValue || chathubLogo
-  const currentName = avatarOptions.find(option => option.icon   === currentValue)?.name || 'Chathub'
-
+    
+    // その他のアイコン識別子の場合
+    setUrlMode(false);
+    return iconValue || defaultIcon;
+  };
+  
+  // コンポーネントがマウントされた時に初期値を設定
+  useEffect(() => {
+    setCurrentIconValue(processIconValue(value));
+  }, [value]);
+  
+  // アイコン名を表示用にフォーマット
+  const getIconDisplayName = (iconValue: string) => {
+    if (!iconValue) return 'Default';
+    
+    // URLの場合は短縮表示
+    if (iconValue.startsWith('http') || iconValue.startsWith('data:')) {
+      return t('Custom Image URL');
+    }
+    
+    // 特別なアイコン識別子の場合はフォーマットして表示
+    if (iconValue.includes('.')) {
+      const parts = iconValue.split('.');
+      return parts[0];
+    }
+    
+    return iconValue;
+  };
+  
+  // アイコン変更時の処理
+  const handleIconChange = (newValue: string) => {
+    onChange(newValue);
+    setCurrentIconValue(newValue);
+    setIsSelectOpen(false);
+  };
+  
+  // カスタムURLの適用
+  const applyCustomUrl = () => {
+    if (customUrl) {
+      onChange(customUrl);
+      setCurrentIconValue(customUrl);
+      setIsSelectOpen(false);
+    }
+  };
+  
+  // URLモードとアイコン選択モードの切り替え
+  const toggleUrlMode = () => {
+    setUrlMode(!urlMode);
+  };
+  
   return (
-    <Menu as="div" className="relative inline-block text-left w-full">
-      <div>
-        <Menu.Button className="relative w-full cursor-default rounded-md bg-white pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none text-sm py-1.5">
-    <div className="flex items-center gap-2">
-            <img src={currentLogo} alt="" className="w-5 h-5" />
-            <span className="block truncate">{currentName}</span>
-          </div>
-          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-            <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-          </span>
-        </Menu.Button>
-      </div>
-
-      <Transition
-        as={Fragment}
-        enter="transition ease-out duration-100"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
+    <div className="flex flex-col gap-2">
+      {/* アイコン表示部分 */}
+      <div
+        className="flex items-center gap-3 p-3 border dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 relative group" // Added bg, border for dark mode
+        onClick={() => setIsSelectOpen(!isSelectOpen)}
       >
-        <Menu.Items className="absolute z-10 mt-1 max-h-120 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-          {avatarOptions.map((option) => (
-            <Menu.Item key={option.icon}>
-              {({ active }) => (
-                <div
-                  className={`${
-                    active ? 'bg-primary-blue text-white' : 'text-[#303030]'
-                  } cursor-pointer select-none relative py-2 pl-3 pr-9 flex items-center gap-2`}
-                  onClick={() => {
-                    setCurrentValue(option.icon)
-                    onChange(option.icon)
-                  }}
-                >
-                  <img src={option.icon} alt="" className="w-5 h-5" />
-                  <span className={`block truncate ${currentValue === option.icon ? 'font-semibold' : 'font-normal'}`}>
-                    {option.name}
-                  </span>
+        <div className="w-12 h-12 flex items-center justify-center overflow-hidden">
+          <BotIcon iconName={currentIconValue} size={36} />
+        </div>
+        <div className="flex flex-col flex-1 min-w-0">
+          <span className="font-medium truncate dark:text-white">{getIconDisplayName(currentIconValue)}</span>
+          <span className="text-sm text-gray-500 dark:text-gray-400">{t('Current icon')}</span>
+        </div>
+        
+        {/* マウスオーバー時に表示されるヒント */}
+        <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+          <span className="text-white font-medium">{t('Click to select icon')}</span>
+        </div>
+      </div>
+      
+      {/* アイコン選択パネル */}
+     {isSelectOpen && (
+       <div className="border rounded-lg p-4 bg-white dark:bg-gray-800 shadow-lg">
+         {/* タブ切り替え */}
+         <div className="flex border-b mb-4">
+           <button
+             className={`py-2 px-4 font-medium text-sm ${!urlMode ? 'border-b-2 border-blue-500 text-blue-500 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400'}`}
+             onClick={() => setUrlMode(false)}
+             type="button"
+           >
+             {t('Built-in Icons')}
+           </button>
+           <button
+             className={`py-2 px-4 font-medium text-sm ${urlMode ? 'border-b-2 border-blue-500 text-blue-500 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400'}`}
+             onClick={() => setUrlMode(true)}
+             type="button"
+           >
+             {t('Custom Image URL')}
+           </button>
+         </div>
+         
+         {urlMode ? (
+           <div className="space-y-4">
+             <div>
+               <label className="block text-sm font-medium mb-1 dark:text-gray-200">
+                 {t('Enter image URL (jpg, png, svg, gif)')}
+               </label>
+               <div className="flex gap-2">
+                 <Input
+                   className="flex-1"
+                   value={customUrl}
+                   placeholder="https://example.com/image.png"
+                   onChange={(e) => setCustomUrl(e.currentTarget.value)}
+                 />
+                 <button
+                   className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed" // Apply button dark mode styles
+                   onClick={applyCustomUrl}
+                   disabled={!customUrl}
+                   type="button"
+                 >
+                   {t('Apply')}
+                 </button>
+               </div>
+             </div>
+             
+             {customUrl && (
+               <div className="mt-4">
+                 <p className="text-sm font-medium mb-2 dark:text-gray-200">{t('Preview')}:</p>
+                 <div className="p-4 border dark:border-gray-600 rounded-md flex justify-center">
+                   <div className="w-16 h-16 flex items-center justify-center">
+                     <BotIcon iconName={customUrl} size={48} />
+                   </div>
+                 </div>
+               </div>
+             )}
+           </div>
+         ) : (
+           <div className="max-h-[400px] overflow-y-auto pr-2">
+             <IconSelect
+               value={currentIconValue}
+               onChange={handleIconChange}
+             />
+           </div>
+         )}
+         
+         <div className="flex justify-end mt-4 pt-2 border-t">
+           <button
+             className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200" // Cancel button dark mode styles
+             onClick={() => setIsSelectOpen(false)}
+             type="button"
+           >
+             {t('Cancel')}
+           </button>
+         </div>
+       </div>
+     )}
     </div>
-              )}
-            </Menu.Item>
-          ))}
-        </Menu.Items>
-      </Transition>
-    </Menu>
-  )
-}
+  );
+};
 
-export default AvatarSelect
-*/
+export default AvatarSelect;

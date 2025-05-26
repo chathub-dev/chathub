@@ -21,7 +21,7 @@ i18n
   .use(LanguageDetector)
   .init({
     lng: getLanguage(),
-    fallbackLng: 'en',
+    fallbackLng: 'zh-CN',
     resources,
     interpolation: {
       escapeValue: false, // react already safes from xss

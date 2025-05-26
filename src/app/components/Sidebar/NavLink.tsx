@@ -1,7 +1,8 @@
 import { Link, LinkOptions } from '@tanstack/react-router'
 import { cx } from '~/utils'
+import BotIcon from '../BotIcon'
 
-function NavLink(props: LinkOptions & { text: string; icon: any; iconOnly?: boolean; shortText?: string }) {
+function NavLink(props: LinkOptions & { text: string; icon: string; iconOnly?: boolean; shortText?: string }) {
   const { text, icon, iconOnly, shortText, ...linkProps } = props
 
   return (
@@ -20,7 +21,11 @@ function NavLink(props: LinkOptions & { text: string; icon: any; iconOnly?: bool
       title={text}
       {...linkProps}
     >
-      <img src={icon} className="w-5 h-5" />
+      {icon.startsWith('http') || icon.startsWith('data:') || icon.startsWith('~') ? (
+        <img src={icon} className="w-5 h-5" />
+      ) : (
+        <BotIcon iconName={icon} size={20} />
+      )}
       <span
         className={cx(
           'font-medium text-sm',

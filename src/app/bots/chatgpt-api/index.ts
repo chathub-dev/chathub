@@ -3,9 +3,11 @@ import { DEFAULT_CHATGPT_SYSTEM_MESSAGE } from '~app/consts'
 import { UserConfig, getUserConfig } from '~services/user-config'
 import { ChatError, ErrorCode } from '~utils/errors'
 import { parseSSEResponse } from '~utils/sse'
-import { AsyncAbstractBot, AbstractBot, SendMessageParams, MessageParams } from '../abstract-bot'
-import { file2base64 } from '../bing/utils'
+import { AsyncAbstractBot, AbstractBot, SendMessageParams, MessageParams, ConversationHistory } from '../abstract-bot'
+import { file2base64 } from '~app/utils/file-utils'
 import { ChatMessage } from './types'
+import { ChatMessageModel } from '~types'
+import { uuid } from '~utils'
 
 interface ConversationContext {
   messages: ChatMessage[]
@@ -15,6 +17,60 @@ const CONTEXT_SIZE = 40
 
 export abstract class AbstractChatGPTApiBot extends AbstractBot {
   private conversationContext?: ConversationContext
+
+  // ConversationHistoryインターフェースの実装
+  public setConversationHistory(history: ConversationHistory): void {
+    if (history.messages && Array.isArray(history.messages)) {
+      // ChatMessageModelからChatMessageへの変換
+      const messages: ChatMessage[] = history.messages.map(msg => {
+        if (msg.author === 'user') {
+          return {
+            role: 'user',
+            content: msg.text
+          };
+        } else {
+          return {
+            role: 'assistant',
+            content: msg.text
+          };
+        }
+      });
+      
+      this.conversationContext = {
+        messages: messages
+      };
+    }
+  }
+
+  public getConversationHistory(): ConversationHistory | undefined {
+    if (!this.conversationContext) {
+      return undefined;
+    }
+    
+    // ChatMessageからChatMessageModelへの変換
+    const messages = this.conversationContext.messages.map(msg => {
+      const role = msg.role === 'user' ? 'user' : 'assistant';
+      let content = '';
+      
+      if (typeof msg.content === 'string') {
+        content = msg.content;
+      } else if (Array.isArray(msg.content)) {
+        // 安全にtextプロパティにアクセス
+        const textPart = msg.content.find(part => part.type === 'text');
+        if (textPart && 'text' in textPart) {
+          content = textPart.text || '';
+        }
+      }
+      
+      return {
+        id: uuid(),
+        author: role,
+        text: content
+      };
+    });
+    
+    return { messages };
+  }
 
   private buildUserMessage(prompt: string, imageUrl?: string): ChatMessage {
     if (!imageUrl) {
@@ -105,10 +161,8 @@ export abstract class AbstractChatGPTApiBot extends AbstractBot {
         const delta = data.choices[0].delta
         if (delta?.content) {
           result.content += delta.content
-          params.onEvent({
-            type: 'UPDATE_ANSWER',
-            data: { text: result.content },
-          })
+          // 思考タグを処理するために共通メソッドを使用
+          this.emitUpdateAnswer(params, { text: result.content })
         }
       }
     })
@@ -130,17 +184,21 @@ export abstract class AbstractChatGPTApiBot extends AbstractBot {
 }
 
 export class ChatGPTApiBot extends AbstractChatGPTApiBot {
+  // Define a specific type for the config needed by ChatGPTApiBot
   constructor(
-    private config: Pick<
-      UserConfig,
-      'openaiApiKey' | 'openaiApiHost' | 'chatgptApiModel' | 'chatgptApiTemperature' | 'chatgptApiSystemMessage'
-    >,
+    private config: {
+      apiKey: string;
+      host: string;
+      model: string;
+      temperature: number;
+      systemMessage: string;
+    },
   ) {
     super()
   }
 
   getSystemMessage() {
-    return this.config.chatgptApiSystemMessage || DEFAULT_CHATGPT_SYSTEM_MESSAGE
+    return this.config.systemMessage || DEFAULT_CHATGPT_SYSTEM_MESSAGE // Use config.systemMessage
   }
 
   
@@ -160,7 +218,7 @@ export class ChatGPTApiBot extends AbstractChatGPTApiBot {
       }
     }
 
-    const { openaiApiKey, openaiApiHost } = this.config
+    const { apiKey: openaiApiKey, host: openaiApiHost } = this.config // Use config.apiKey and config.host
     const hasImageInput = messages.some(
       (message) => isArray(message.content) && message.content.some((part) => part.type === 'image_url'),
     )
@@ -197,16 +255,16 @@ export class ChatGPTApiBot extends AbstractChatGPTApiBot {
   
 
   public getModelName() {
-    const { chatgptApiModel } = this.config
+    const { model: chatgptApiModel } = this.config // Use config.model
     return chatgptApiModel
   }
 
-  get modelName() {
-    return this.config.chatgptApiModel
+  get modelName(): string { // Add type annotation
+    return this.config.model // Use config.model
   }
 
   get name() {
-    return `ChatGPT (API/${this.config.chatgptApiModel})`
+    return `ChatGPT (API/${this.config.model})` // Use config.model
   }
 
   get supportsImageInput() {

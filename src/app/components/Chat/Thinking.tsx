@@ -20,10 +20,10 @@ const CONTENT_STYLES = {
 
 export const ThinkingContent: FC<{ children: React.ReactNode; isPart?: boolean }> = memo(
   ({ isPart, children }) => (
-    <div className={CONTENT_STYLES.wrapper}>
-      <div className={isPart === true ? CONTENT_STYLES.partBorder : CONTENT_STYLES.border} />
+      <div className={CONTENT_STYLES.wrapper}>
+        <div className={isPart === true ? CONTENT_STYLES.partBorder : CONTENT_STYLES.border} />
       <p className={CONTENT_STYLES.text}>{children}</p>
-    </div>
+      </div>
   ),
 );
 
@@ -71,7 +71,12 @@ const Thinking: React.ElementType = memo(({ children }: { children: React.ReactN
           gridTemplateRows: isExpanded ? '1fr' : '0fr',
         }}
       >
-        <div className="overflow-hidden">
+        <div 
+          className="overflow-auto" 
+          style={{
+            maxHeight: isExpanded ? '45vh' : 'auto',
+          }}
+        >
           <ThinkingContent isPart={true}>{children}</ThinkingContent>
         </div>
       </div>

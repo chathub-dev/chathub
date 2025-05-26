@@ -1,20 +1,19 @@
 import { FC } from 'react'
 import { useChat } from '~app/hooks/use-chat'
-import { BotId } from '../bots'
 import ConversationPanel from '../components/Chat/ConversationPanel'
 import { getUserConfig } from '~services/user-config'
 
 
 interface Props {
-  botId: BotId
+  index: number
 }
 
-const SingleBotChatPanel: FC<Props> = ({ botId }) => {
-  const chat = useChat(botId)
+const SingleBotChatPanel: FC<Props> = ({ index }) => {
+  const chat = useChat(index)
   return (
     <div className="overflow-hidden h-full">
       <ConversationPanel
-        botId={botId}
+        index={index}
         bot={chat.bot}
         messages={chat.messages}
         onUserSendMessage={chat.sendMessage}

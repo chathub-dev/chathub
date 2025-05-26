@@ -19,7 +19,7 @@
     "paths": {
       "~*": ["./src/*"]
     },
-    "types": ["chrome-types"]
+    "types": ["chrome-types", "jest"]
   },
   "include": ["src", "vite.config.ts", "manifest.config.ts"]
 }

@@ -22,14 +22,14 @@ const GuideModal: FC = () => {
     return (
       <Dialog title="🌟🌟🌟🌟🌟" open={open} onClose={() => setOpen(false)} className="rounded-2xl w-[600px]">
         <div className="flex flex-col items-center gap-4 py-6">
-          <p className="font-semibold text-primary-text">{t('Enjoy ChatHub? Give us a 5-star rating!')}</p>
-          <a
+          <p className="font-semibold text-primary-text">{t('Thank you for using HuddleLLM!')}</p>
+          {/* <a
             href="https://chrome.google.com/webstore/detail/chathub-all-in-one-chatbo/iaakpnchhognanibcahlpcplchdfmgma"
             target="_blank"
             rel="noreferrer"
           >
             <Button text={t('Write review')} />
-          </a>
+          </a> */}
         </div>
       </Dialog>
     )

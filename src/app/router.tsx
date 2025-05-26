@@ -1,10 +1,9 @@
-import { createHashHistory, createRootRoute, createRoute, createRouter, useParams } from '@tanstack/react-router'
-import { BotId } from './bots'
+import { createHashHistory, createRootRoute, createRoute, createRouter, useParams, Navigate } from '@tanstack/react-router'
 import Layout from './components/Layout'
 import MultiBotChatPanel from './pages/MultiBotChatPanel'
-import PremiumPage from './pages/PremiumPage'
 import SettingPage from './pages/SettingPage'
 import SingleBotChatPanel from './pages/SingleBotChatPanel'
+// SearchQueryHandler のインポートは不要になります
 
 const rootRoute = createRootRoute()
 
@@ -20,15 +19,15 @@ const indexRoute = createRoute({
   component: MultiBotChatPanel,
 })
 
-function ChatRoute() {
-  const { botId } = useParams({ from: chatRoute.id })
-  return <SingleBotChatPanel botId={botId as BotId} />
+function CustomChatRoute() {
+  const { index } = useParams({ from: customChatRoute.id })
+  return <SingleBotChatPanel index={parseInt(index, 10)} />
 }
 
-const chatRoute = createRoute({
+const customChatRoute = createRoute({
   getParentRoute: () => layoutRoute,
-  path: 'chat/$botId',
-  component: ChatRoute,
+  path: 'chat/custom/$index',
+  component: CustomChatRoute,
 })
 
 const settingRoute = createRoute({
@@ -37,18 +36,10 @@ const settingRoute = createRoute({
   component: SettingPage,
 })
 
-export const premiumRoute = createRoute({
-  getParentRoute: () => layoutRoute,
-  path: 'premium',
-  component: PremiumPage,
-  validateSearch: (search: Record<string, unknown>) => {
-    return {
-      source: search.source as string | undefined,
-    }
-  },
-})
+// searchRoute の定義を削除 コメントは不要なので削除
+// const searchRoute = createRoute({ ... })
 
-const routeTree = rootRoute.addChildren([layoutRoute.addChildren([indexRoute, chatRoute, settingRoute, premiumRoute])])
+const routeTree = rootRoute.addChildren([layoutRoute.addChildren([indexRoute, customChatRoute, settingRoute])])
 
 const hashHistory = createHashHistory()
 const router = createRouter({ routeTree, history: hashHistory })

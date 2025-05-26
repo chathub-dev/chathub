@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { Prism, SyntaxHighlighterProps } from 'react-syntax-highlighter'; // SyntaxHighlighterProps もインポート
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+
+// 型アサーションを使用して型エラーを回避
+const SyntaxHighlighter = (Prism as any) as React.FC<SyntaxHighlighterProps>;
+import { CopyToClipboard } from 'react-copy-to-clipboard-ts';
 import { FiCopy, FiCheck, FiMaximize2, FiX } from 'react-icons/fi';
 
 interface Props {
@@ -46,9 +49,11 @@ const CodeBlock: React.FC<Props> = ({ code, language }) => {
         <SyntaxHighlighter
           language={language}
           style={vscDarkPlus}
-          customStyle={{ margin: 0 }}
+          customStyle={{ margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}
+          wrapLines={true}
+          lineProps={{ style: { whiteSpace: 'pre-wrap', wordBreak: 'break-all' } }}
         >
-          {code}
+            {code}
         </SyntaxHighlighter>
       </Container>
 
@@ -64,9 +69,11 @@ const CodeBlock: React.FC<Props> = ({ code, language }) => {
             <SyntaxHighlighter
               language={language}
               style={vscDarkPlus}
-              customStyle={{ margin: 0 }}
+              customStyle={{ margin: 0, flexGrow: 1, whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}
+              wrapLines={true} // wrapLines を維持しつつ lineProps も試す
+              lineProps={{ style: { whiteSpace: 'pre-wrap', wordBreak: 'break-all' } }} // 各行にスタイルを適用
             >
-              {code}
+                {code}
             </SyntaxHighlighter>
           </ExpandedContainer>
         </ExpandedOverlay>
@@ -78,7 +85,8 @@ const CodeBlock: React.FC<Props> = ({ code, language }) => {
 const Container = styled.div`
   border: 1px solid #2d2d2d;
   border-radius: 4px;
-  overflow: hidden;
+  overflow: auto; // Keep overflow auto
+  /* white-space and word-break are now applied via customStyle */
 `;
 
 const CodeBar = styled.div`
@@ -136,7 +144,8 @@ const ExpandedContainer = styled.div`
   height: 90%;
   background-color: #1e1e1e;
   border-radius: 4px;
-  overflow: hidden;
+  overflow: auto; // Keep overflow auto
+  /* white-space and word-break are now applied via customStyle */
   display: flex;
   flex-direction: column;
 `;

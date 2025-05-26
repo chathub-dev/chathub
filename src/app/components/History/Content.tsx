@@ -3,7 +3,6 @@ import { flatMap } from 'lodash-es'
 import { FC, memo, useMemo, useRef } from 'react'
 import { ViewportList } from 'react-viewport-list'
 import useSWR from 'swr'
-import { BotId } from '~app/bots'
 import { loadHistoryMessages } from '~services/chat-history'
 import { ChatMessageModel } from '~types'
 import { formatTime } from '~utils/format'
@@ -30,8 +29,8 @@ const Timestamp = memo((props: { timestamp: number }) => {
 
 Timestamp.displayName = 'Timestamp'
 
-const HistoryContent: FC<{ botId: BotId; keyword: string }> = ({ botId, keyword }) => {
-  const historyQuery = useSWR(`history:${botId}`, () => loadHistoryMessages(botId), { suspense: true })
+const HistoryContent: FC<{ index: number; keyword: string }> = ({ index, keyword }) => {
+  const historyQuery = useSWR(`history:${index}`, () => loadHistoryMessages(index), { suspense: true })
   const ref = useRef<HTMLDivElement | null>(null)
 
   const fuse = useMemo(() => {
@@ -83,7 +82,7 @@ const HistoryContent: FC<{ botId: BotId; keyword: string }> = ({ botId, keyword 
           return (
             <ChatMessage
               key={item.message.id}
-              botId={botId}
+              index={index}
               message={item.message}
               conversationId={item.conversationId}
             />

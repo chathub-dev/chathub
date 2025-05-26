@@ -1,12 +1,11 @@
 import { FC } from 'react'
 import { cx } from '~/utils'
 import ScrollToBottom from 'react-scroll-to-bottom'
-import { BotId } from '~app/bots'
 import { ChatMessageModel } from '~types'
 import ChatMessageCard from './ChatMessageCard'
 
 interface Props {
-  botId: BotId
+  index: number
   messages: ChatMessageModel[]
   className?: string
   onPropaganda?: (text: string) => void

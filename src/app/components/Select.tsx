@@ -59,7 +59,7 @@ function Select<T extends string>(props: Props<T>) {
             <Listbox.Button
               ref={buttonRef}
               className={cx(
-                'relative w-full cursor-default rounded-md bg-white pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none leading-6',
+                'relative w-full cursor-default rounded-md bg-white dark:bg-gray-700 pl-3 pr-10 text-left text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 focus:outline-none leading-6', // Dark mode styles for button
                 size === 'normal' ? 'text-sm py-1.5' : 'text-xs py-1',
                 disabled && 'cursor-not-allowed opacity-50',
               )}
@@ -72,7 +72,7 @@ function Select<T extends string>(props: Props<T>) {
                 <span className="block truncate">{selectedOption?.name || 'Select an option'}</span>
               </div>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                <ChevronUpDownIcon className="h-5 w-5 text-gray-400 dark:text-gray-500" aria-hidden="true" />
               </span>
             </Listbox.Button>
 
@@ -88,7 +88,7 @@ function Select<T extends string>(props: Props<T>) {
             >
               <Listbox.Options
                 className={cx(
-                  'absolute z-10 mt-1 max-h-80	 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
+                  'absolute z-10 mt-1 max-h-80	 w-full overflow-auto rounded-md bg-white dark:bg-gray-800 py-1 text-base shadow-lg ring-1 ring-black dark:ring-gray-700 ring-opacity-5 focus:outline-none', // Dark mode styles for options panel
                   size === 'normal' ? 'text-sm' : 'text-xs',
                   dropPosition === 'top' && 'bottom-full mb-1',
                 )}
@@ -98,7 +98,7 @@ function Select<T extends string>(props: Props<T>) {
                     key={option.value}
                     className={({ active }) =>
                       cx(
-                        active ? 'bg-primary-blue text-white' : 'text-[#303030]',
+                        active ? 'bg-primary-blue text-white' : 'text-[#303030] dark:text-gray-200', // Dark mode text color for inactive options
                         'relative cursor-default select-none py-2 pl-3 pr-9',
                       )
                     }
@@ -115,7 +115,7 @@ function Select<T extends string>(props: Props<T>) {
                         {selected ? (
                           <span
                             className={cx(
-                              active ? 'text-white' : 'text-[#303030]',
+                              active ? 'text-white' : 'text-primary-blue dark:text-white', // Dark mode check icon color (keep white if active, use primary-blue or white otherwise)
                               'absolute inset-y-0 right-0 flex items-center pr-4',
                             )}
                           >

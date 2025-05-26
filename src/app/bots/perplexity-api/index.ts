@@ -1,5 +1,7 @@
 import { parseSSEResponse } from '~utils/sse'
-import { AbstractBot, SendMessageParams } from '../abstract-bot'
+import { AbstractBot, SendMessageParams, ConversationHistory } from '../abstract-bot'
+import { ChatMessageModel } from '~types'
+import { uuid } from '~utils'
 
 interface ChatMessage {
   role: 'user' | 'assistant'
@@ -18,6 +20,47 @@ export class PerplexityApiBot extends AbstractBot {
     public model: string,
   ) {
     super()
+  }
+
+  // ConversationHistoryインターフェースの実装
+  public setConversationHistory(history: ConversationHistory): void {
+    if (history.messages && Array.isArray(history.messages)) {
+      // ChatMessageModelからChatMessageへの変換
+      const messages: ChatMessage[] = history.messages.map(msg => {
+        if (msg.author === 'user') {
+          return {
+            role: 'user',
+            content: msg.text
+          };
+        } else {
+          return {
+            role: 'assistant',
+            content: msg.text
+          };
+        }
+      });
+      
+      this.conversationContext = {
+        messages: messages
+      };
+    }
+  }
+
+  public getConversationHistory(): ConversationHistory | undefined {
+    if (!this.conversationContext) {
+      return undefined;
+    }
+    
+    // ChatMessageからChatMessageModelへの変換
+    const messages = this.conversationContext.messages.map(msg => {
+      return {
+        id: uuid(),
+        author: msg.role,
+        text: msg.content
+      };
+    });
+    
+    return { messages };
   }
 
   async doSendMessage(params: SendMessageParams) {
@@ -46,7 +89,8 @@ export class PerplexityApiBot extends AbstractBot {
         const message = data.choices[0].message
         if (message.role === 'assistant' && message.content) {
           answer = message.content
-          params.onEvent({ type: 'UPDATE_ANSWER', data: { text: answer } })
+          // 思考タグを処理するために、AbstractBotの共通メソッドを使用
+          this.emitUpdateAnswer(params, { text: answer })
         }
       }
     })

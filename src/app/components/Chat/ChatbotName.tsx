@@ -1,15 +1,14 @@
 import { FC, memo } from 'react'
 import dropdownIcon from '~/assets/icons/dropdown.svg'
-import { BotId } from '~app/bots'
 import SwitchBotDropdown from '../SwitchBotDropdown'
 import Tooltip from '../Tooltip'
 
 interface Props {
-  botId: BotId
-  name: string 
+  index: number
+  name: string
   model: string | undefined
   fullName?: string
-  onSwitchBot?: (botId: BotId) => void
+  onSwitchBot?: (index: number) => void
 }
 
 const ChatbotName: FC<Props> = (props) => {
@@ -44,7 +43,11 @@ const ChatbotName: FC<Props> = (props) => {
       <img src={dropdownIcon} className="w-5 h-5" />
     </div>
   )
-  return <SwitchBotDropdown selectedBotId={props.botId} onChange={props.onSwitchBot} triggerNode={triggerNode} />
+  return <SwitchBotDropdown
+    selectedIndex={props.index}
+    onChange={(index) => props.onSwitchBot?.(index)}
+    triggerNode={triggerNode}
+  />
 }
 
 export default memo(ChatbotName)

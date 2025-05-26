@@ -1,26 +1,37 @@
 import { cx } from '~/utils'
-import { FC, memo, useCallback } from 'react'
+import { FC, memo, useCallback, useState, useEffect } from 'react'
 import { FiTrash2 } from 'react-icons/fi'
 import { useSWRConfig } from 'swr'
-import { CHATBOTS } from '~/app/consts'
-import { BotId } from '~app/bots'
 import { deleteHistoryMessage } from '~services/chat-history'
+import { getUserConfig } from '~services/user-config'
 import { ChatMessageModel } from '~types'
 import Markdown from '../Markdown'
 
 interface Props {
-  botId: BotId
+  index: number
   message: ChatMessageModel
   conversationId: string
 }
 
-const ChatMessage: FC<Props> = ({ botId, message, conversationId }) => {
+const ChatMessage: FC<Props> = ({ index, message, conversationId }) => {
   const { mutate } = useSWRConfig()
+  const [botName, setBotName] = useState('Custom Bot')
+
+  useEffect(() => {
+    const fetchBotName = async () => {
+      const config = await getUserConfig();
+      const customConfig = config.customApiConfigs?.[index];
+      if (customConfig) {
+        setBotName(customConfig.name);
+      }
+    };
+    fetchBotName();
+  }, [index]);
 
   const deleteMessage = useCallback(async () => {
-    await deleteHistoryMessage(botId, conversationId, message.id)
-    mutate(`history:${botId}`)
-  }, [botId, conversationId, message.id, mutate])
+    await deleteHistoryMessage(index, conversationId, message.id)
+    mutate(`history:${index}`)
+  }, [index, conversationId, message.id, mutate])
 
   if (!message.text) {
     return null
@@ -35,7 +46,7 @@ const ChatMessage: FC<Props> = ({ botId, message, conversationId }) => {
     >
       <div className="flex flex-row justify-between">
         <span className="text-xs text-secondary-tex">
-          {message.author === 'user' ? 'You' : CHATBOTS[message.author].name}
+          {message.author === 'user' ? 'You' : botName}
         </span>
         {!!conversationId && (
           <FiTrash2 className="invisible group-hover:visible cursor-pointer" onClick={deleteMessage} />

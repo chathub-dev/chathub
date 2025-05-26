@@ -6,10 +6,9 @@ import { setConversationMessages } from '~services/chat-history'
 import { ChatMessageModel } from '~types'
 import { uuid } from '~utils'
 import { ChatError } from '~utils/errors'
-import { BotId } from '../bots'
 
-export function useChat(botId: BotId) {
-  const chatAtom = useMemo(() => chatFamily({ botId, page: 'singleton' }), [botId])
+export function useChat(index: number) {
+  const chatAtom = useMemo(() => chatFamily({ index, page: 'singleton' }), [index])
   const [chatState, setChatState] = useAtom(chatAtom)
 
   const updateMessage = useCallback(
@@ -31,7 +30,7 @@ export function useChat(botId: BotId) {
       setChatState((draft) => {
         draft.messages.push(
           { id: uuid(), text: input, image, author: 'user' },
-          { id: botMessageId, text: '', author: botId },
+          { id: botMessageId, text: '', author: index }, // Use index as author
         )
       })
 
@@ -45,7 +44,7 @@ export function useChat(botId: BotId) {
       if (image) {
         compressedImage = await compressImageFile(image)
       }
-
+      
       const resp = await chatState.bot.sendMessage({
         prompt: input,
         image: compressedImage,
@@ -81,7 +80,7 @@ export function useChat(botId: BotId) {
         draft.generatingMessageId = ''
       })
     },
-    [botId, chatState.bot, setChatState, updateMessage],
+    [index, chatState.bot, setChatState, updateMessage],
   )
 
   const modifyLastMessage = useCallback(
@@ -90,7 +89,7 @@ export function useChat(botId: BotId) {
 
     // 最後のボットメッセージを見つけて更新
     setChatState((draft) => {
-      const lastBotMessage = [...draft.messages].reverse().find(m => m.author === botId)
+      const lastBotMessage = [...draft.messages].reverse().find(m => m.author === index) // Use index to find bot message
       if (lastBotMessage) {
         lastBotMessage.text = text
       }
@@ -124,13 +123,13 @@ export function useChat(botId: BotId) {
 
   useEffect(() => {
     if (chatState.messages.length) {
-      setConversationMessages(botId, chatState.conversationId, chatState.messages)
+      setConversationMessages(index, chatState.conversationId, chatState.messages)
     }
-  }, [botId, chatState.conversationId, chatState.messages])
+  }, [index, chatState.conversationId, chatState.messages])
 
   const chat = useMemo(
     () => ({
-      botId,
+      index,
       bot: chatState.bot,
       messages: chatState.messages,
       sendMessage,
@@ -140,7 +139,7 @@ export function useChat(botId: BotId) {
       modifyLastMessage
     }),
     [
-      botId,
+      index,
       chatState.bot,
       chatState.generatingMessageId,
       chatState.messages,

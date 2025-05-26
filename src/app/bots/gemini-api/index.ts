@@ -1,10 +1,18 @@
 import { GoogleGenerativeAI, ChatSession, GenerativeModel } from '@google/generative-ai'
 import { DEFAULT_CHATGPT_SYSTEM_MESSAGE } from '~app/consts'
-import { UserConfig } from '~services/user-config'
 import { ChatError, ErrorCode } from '~utils/errors'
-import { AbstractBot, AsyncAbstractBot, SendMessageParams, MessageParams } from '../abstract-bot'
-import { GeminiAPIModel, getUserConfig } from '~services/user-config'
-import { file2base64 } from '../bing/utils'
+import { AbstractBot, SendMessageParams, ConversationHistory } from '../abstract-bot'
+import { file2base64 } from '~app/utils/file-utils'
+
+// GeminiApiBotのコンストラクタに渡すオプションの型定義
+interface GeminiApiBotOptions {
+  geminiApiKey: string;
+  geminiApiModel: string;
+  geminiApiSystemMessage?: string;
+  geminiApiTemperature?: number;
+}
+import { ChatMessageModel } from '~types'
+import { uuid } from '~utils'
 
 
 interface ChatMessage {
@@ -32,6 +40,59 @@ export abstract class AbstractGeminiApiBot extends AbstractBot {
     this.modelInstance = model
   }
   
+  // ConversationHistoryインターフェースの実装
+  public async setConversationHistory(history: ConversationHistory): Promise<void> {
+    if (history.messages && Array.isArray(history.messages)) {
+      // ChatMessageModelからChatMessageへの変換
+      const messages: ChatMessage[] = history.messages.map(msg => {
+        if (msg.author === 'user') {
+          return {
+            role: 'user',
+            parts: [{ text: msg.text }]
+          };
+        } else {
+          return {
+            role: 'model',
+            parts: [{ text: msg.text }]
+          };
+        }
+      });
+      
+      // チャットセッションを作成
+      const chat = await this.modelInstance.startChat({
+        history: messages,
+      });
+      
+      this.conversationContext = {
+        chat: chat,
+        messages: messages
+      };
+    }
+  }
+
+  public getConversationHistory(): ConversationHistory | undefined {
+    if (!this.conversationContext) {
+      return undefined;
+    }
+    
+    // ChatMessageからChatMessageModelへの変換
+    const messages = this.conversationContext.messages.map(msg => {
+      const role = msg.role === 'user' ? 'user' : 'assistant';
+      let text = '';
+      
+      if (msg.parts && msg.parts.length > 0 && 'text' in msg.parts[0]) {
+        text = msg.parts[0].text || '';
+      }
+      
+      return {
+        id: uuid(),
+        author: role,
+        text: text
+      };
+    });
+    
+    return { messages };
+  }
 
 
   private buildUserMessage(prompt: string): ChatMessage {
@@ -84,18 +145,7 @@ export abstract class AbstractGeminiApiBot extends AbstractBot {
         const chunkText = chunk.text()
         console.debug('gemini stream', chunkText)
         text += chunkText
-        if (this.modelName?.includes('thinking')){
-          const parts = text.split('START_MODEL_ANSER: ');
-          if (parts.length > 1) {
-            params.onEvent({ type: 'UPDATE_ANSWER', data: { text: parts[1] } });
-          } else {
-            // 分割しても要素が1つしかない場合は元のテキストをそのまま出力
-            params.onEvent({ type: 'UPDATE_ANSWER', data: { text } });
-          }
-        }
-        else {
-          params.onEvent({ type: 'UPDATE_ANSWER', data: { text } })
-        }
+        params.onEvent({ type: 'UPDATE_ANSWER', data: { text } })
       }
 
       if (!text) {
@@ -147,65 +197,41 @@ export abstract class AbstractGeminiApiBot extends AbstractBot {
 }
 
 export class GeminiApiBot extends AbstractGeminiApiBot {
-  constructor(
-    private config: Pick<
-      UserConfig,
-      'geminiApiKey' | 'geminiApiModel' | 'geminiApiSystemMessage' | 'geminiApiTemperature'
-    >,
-  ) {
-    const currentDate = new Date().toISOString().split('T')[0]
-    let systemMessage = config.geminiApiSystemMessage.replace('{current_date}', currentDate)
-    if (config.geminiApiModel.includes('thinking')){
-      systemMessage = 'You must always put "START_MODEL_ANSER: " in the head of your answer.' + systemMessage
-    }
-    const genAI = new GoogleGenerativeAI(config.geminiApiKey);
+  private config: GeminiApiBotOptions;
+
+  constructor(options: GeminiApiBotOptions) {
+    const currentDate = new Date().toISOString().split('T')[0];
+    let systemMessage = options.geminiApiSystemMessage?.replace('{current_date}', currentDate) || '';
+    const genAI = new GoogleGenerativeAI(options.geminiApiKey);
     const model = genAI.getGenerativeModel({
-      model: config.geminiApiModel,
+      model: options.geminiApiModel,
       systemInstruction: systemMessage,
       generationConfig: {
-        temperature: config.geminiApiTemperature || 0.4,
+        temperature: options.geminiApiTemperature ?? 0.4,
       },
     });
     super(genAI, model);
+    this.config = options; // 設定を保存
   }
 
 
 
-  getSystemMessage() {
-    return this.config.geminiApiSystemMessage || DEFAULT_CHATGPT_SYSTEM_MESSAGE
+  getSystemMessage(): string {
+    return this.config.geminiApiSystemMessage || DEFAULT_CHATGPT_SYSTEM_MESSAGE;
   }
 
-  public getModelName() {
-    return this.config.geminiApiModel
+  public getModelName(): string {
+    return this.config.geminiApiModel;
   }
   
 
-  get modelName() {
-    return this.config.geminiApiModel
+  get modelName(): string {
+    return this.config.geminiApiModel;
   }
 
   get name() {
-    return `Gemini (${this.config.geminiApiModel})`
+    return `Gemini (API)`
   }
 }
 
 
-export class GeminiBot extends AsyncAbstractBot {
-
-  async initializeBot() {
-    const { geminiApiKey, geminiApiModel, geminiApiSystemMessage, geminiApiTemperature  } = await getUserConfig()
-    if (!geminiApiKey) {
-      throw new ChatError('Gemini API key missing', ErrorCode.GEMINI_UNAUTHORIZED)
-    }
-    if (!geminiApiModel) {
-      throw new ChatError('Gemini API model not selected', ErrorCode.GEMINI_CONFIGURATION_ERROR)
-    }
-    return new GeminiApiBot({geminiApiKey, geminiApiModel, geminiApiSystemMessage, geminiApiTemperature})
-  }
-
-
-
-  async sendMessage(params: MessageParams) {
-    return this.doSendMessageGenerator(params)
-  }
-}

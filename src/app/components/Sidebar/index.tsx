@@ -11,6 +11,7 @@ import settingIcon from '~/assets/icons/setting.svg'
 import themeIcon from '~/assets/icons/theme.svg'
 import minimalLogo from '~/assets/icon.png'
 import logo from '~/assets/logo.png'
+import BotIcon from '../BotIcon'
 import { cx } from '~/utils'
 import { useEnabledBots } from '~app/hooks/use-enabled-bots'
 import { releaseNotesAtom, showDiscountModalAtom, sidebarCollapsedAtom } from '~app/state'
@@ -23,8 +24,6 @@ import Tooltip from '../Tooltip'
 import NavLink from './NavLink'
 import PremiumEntry from './PremiumEntry'
 import { getUserConfig } from '~services/user-config'
-import { CHATBOTS } from '~app/consts'
-import { BotId } from '~app/bots'
 
 
 function IconButton(props: { icon: string; onClick?: () => void }) {
@@ -44,57 +43,37 @@ function Sidebar() {
   const [themeSettingModalOpen, setThemeSettingModalOpen] = useState(false)
   const enabledBots = useEnabledBots()
   const setReleaseNotes = useSetAtom(releaseNotesAtom)
-  // ボットの名前を保持するための状態を追加
-  const [botNames, setBotNames] = useState<Partial<Record<BotId, string>>>({}) 
-  const [botShortNames, setBotShortNames] = useState<Partial<Record<BotId, string>>>({}) 
-  // 必要なステートを追加
-  const [botAvatars, setBotAvatars] = useState<Partial<Record<BotId, string>>>({})
+  // ボットの情報を保持するための状態（インデックスベース）
+  const [botNames, setBotNames] = useState<Record<number, string>>({})
+  const [botShortNames, setBotShortNames] = useState<Record<number, string>>({})
+  const [botAvatars, setBotAvatars] = useState<Record<number, string>>({})
 
 // コンポーネントマウント時にアバター情報を含めて設定を取得
 useEffect(() => {
   const initializeConfig = async () => {
-    const config = await getUserConfig()
+    const config = await getUserConfig();
     if (config.customApiConfigs) {
-      const newBotNames: Partial<Record<BotId, string>> = {}
-      const newBotShortNames: Partial<Record<BotId, string>> = {}
-      const newBotAvatars: Partial<Record<BotId, string>> = {}
-      
-      config.customApiConfigs.forEach((config, index) => {
-        const botId = `customchat${index + 1}` as BotId
-        newBotNames[botId] = config.name
-        newBotShortNames[botId] = config.shortName
-        newBotAvatars[botId] = config.avatar  // avatar情報を取得
-      })
+      const newBotNames: Record<number, string> = {};
+      const newBotShortNames: Record<number, string> = {};
+      const newBotAvatars: Record<number, string> = {};
 
-      setBotNames(newBotNames)
-      setBotShortNames(newBotShortNames)
-      setBotAvatars(newBotAvatars)  // ステートを更新
+      config.customApiConfigs.forEach((apiConfig, index) => {
+        newBotNames[index] = apiConfig.name;
+        newBotShortNames[index] = apiConfig.shortName;
+        newBotAvatars[index] = apiConfig.avatar;
+      });
+
+      setBotNames(newBotNames);
+      setBotShortNames(newBotShortNames);
+      setBotAvatars(newBotAvatars); // ステートを更新
+      console.log('Sidebar useEffect: Updated bot states', { newBotNames, newBotShortNames, newBotAvatars }); // ログ追加
     }
-  }
+  };
 
-  initializeConfig()
-}, [])
+  initializeConfig();
 
-  // コンポーネントマウント時に設定を取得
-  useEffect(() => {
-    const initializeConfig = async () => {
-      const config = await getUserConfig()
-      // Custom APIの設定に基づいてボット名を更新
-      if (config.customApiConfigs) {
-        const newBotNames: Partial<Record<BotId, string>> = {}
-        const newBotShortNames: Partial<Record<BotId, string>> = {}
-        config.customApiConfigs.forEach((config, index) => {
-          const botId = `customchat${index + 1}` as BotId // BotId型にキャスト
-          newBotNames[botId] = config.name
-          newBotShortNames[botId] = config.shortName
-        })
-        setBotNames(newBotNames)
-        setBotShortNames(newBotShortNames)
-      }
-    }
+}, []);
 
-    initializeConfig()
-  }, [])
 
   useEffect(() => {
     Promise.all([getAppOpenTimes(), getPremiumModalOpenTimes(), checkReleaseNotes()]).then(
@@ -104,34 +83,19 @@ useEffect(() => {
     )
   }, [])
 
-  // ボット名を取得する関数
-  const getBotDisplayName = (botId: BotId) => {
-    // カスタムチャットボットの場合は状態から名前を取得
-    if (botId.startsWith('customchat')) {
-      return botNames[botId] ?? CHATBOTS[botId].name
-    }
-    // 通常のボットの場合はデフォルトの名前を使用
-    return CHATBOTS[botId].name
+  // ボット名を取得する関数（インデックスベース）
+  const getBotDisplayName = (index: number) => {
+    return botNames[index] ?? `Custom Bot ${index + 1}`;
   }
 
-  // ボット略称を取得する関数
-  const getBotShortDisplayName = (botId: BotId) => {
-    // カスタムチャットボットの場合は状態から名前を取得
-    if (botId.startsWith('customchat')) {
-      return botShortNames[botId] ?? undefined
-    }
-    // 通常のボットの場合はundefined
-    return undefined
+  // ボット略称を取得する関数（インデックスベース）
+  const getBotShortDisplayName = (index: number) => {
+    return botShortNames[index] ?? undefined;
   }
   
-  // ボットアバターを取得する関数
-  const getBotAvatar = (botId: BotId) => {
-    // カスタムチャットボットの場合は状態からアバターを取得
-    if (botId.startsWith('customchat')) {
-      return botAvatars[botId] ?? CHATBOTS[botId].avatar
-    }
-    // 通常のボットの場合はデフォルトのアバターを使用
-    return CHATBOTS[botId].avatar
+  // ボットアバターを取得する関数（インデックスベース）
+  const getBotAvatar = (index: number) => {
+    return botAvatars[index] ?? 'OpenAI.Black';
   }
 
 
@@ -151,19 +115,27 @@ useEffect(() => {
           onClick={() => setCollapsed((c) => !c)}
         />
       </div>
-      <div className="flex flex-col gap-[13px] mt-10 overflow-y-auto scrollbar-none">
+      {/* All-In-One link moved outside the scrollable div */}
+      <div className="mt-10">
         <NavLink to="/" text={'All-In-One'} shortText={'A-One'} icon={allInOneIcon} iconOnly={collapsed} />
-        {enabledBots.map(({ botId, bot }) => (
-          <NavLink
-            key={botId}
-            to="/chat/$botId"
-            params={{ botId }}
-            text={getBotDisplayName(botId)}
-            shortText={getBotShortDisplayName(botId)}
-            icon={getBotAvatar(botId)}
-            iconOnly={collapsed}
-          />
-        ))}
+      </div>
+      {/* Scrollable area for enabled bots */}
+      <div className="flex flex-col gap-[13px] mt-2 overflow-y-auto scrollbar-none flex-grow"> {/* mt-10からmt-2へ変更し、flex-growを追加 */}
+        {/* enabledBots の内容をログで確認  */}
+        {(() => { console.log('Sidebar render: enabledBots', enabledBots); return null; })()}
+        {enabledBots.map(({ index, bot }) => {
+          return (
+            <NavLink
+              key={`custom-${index}`}
+              to="/chat/custom/$index"
+              params={{ index: index.toString() }}
+              text={getBotDisplayName(index)}
+              shortText={getBotShortDisplayName(index)}
+              icon={getBotAvatar(index)}
+              iconOnly={collapsed}
+            />
+          )
+        })}
       </div>
       <div className="mt-auto pt-2">
         {!collapsed && <hr className="border-[#ffffff4d]" />}

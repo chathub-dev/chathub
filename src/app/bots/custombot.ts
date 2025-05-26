@@ -2,14 +2,15 @@
 import { AsyncAbstractBot, MessageParams } from './abstract-bot';
 import { ChatGPTApiBot } from './chatgpt-api';
 import { ClaudeApiBot } from './claude-api';
-import { getUserConfig, customApiConfig } from '~/services/user-config';
+import { getUserConfig, CustomApiConfig, CustomApiProvider } from '~/services/user-config';
 import { ChatError, ErrorCode } from '~utils/errors';
 import { BedrockApiBot } from './bedrock-api';
-import { config } from 'process';
+import { GeminiApiBot } from './gemini-api'; // Import GeminiApiBot
+import { PerplexityApiBot } from './perplexity-api'; // Import PerplexityApiBot
 
 export class CustomBot extends AsyncAbstractBot {
     private customBotNumber: number;
-    private config: customApiConfig | undefined;
+    private config: CustomApiConfig | undefined;
 
     constructor(params: { customBotNumber: number }) {
         super();
@@ -18,41 +19,72 @@ export class CustomBot extends AsyncAbstractBot {
 
     async initializeBot() {
         const { customApiKey, customApiHost, customApiConfigs } = await getUserConfig();
-        const config = customApiConfigs[this.customBotNumber - 1]; // Adjust for zero-index array
+        const config = customApiConfigs[this.customBotNumber - 1];
 
         if (!config) {
             throw new ChatError(`No configuration found for bot number ${this.customBotNumber}`, ErrorCode.CUSTOMBOT_CONFIGURATION_ERROR);
         }
-
         this.config = config
 
-        // Decide which bot to instantiate based on the model string in the config
-        if (config.model.includes('anthropic.claude')) {
-            return new BedrockApiBot({
-                claudeApiKey: config.apiKey || customApiKey,
-                claudeApiHost: config.host || customApiHost,
-                claudeApiModel: config.model,
-                claudeApiTemperature: config.temperature,
-                claudeApiSystemMessage: config.systemMessage,
-                // Pass the thinkingMode and thinkingBudget values
-                thinkingMode: config.thinkingMode,
-                thinkingBudget: config.thinkingBudget,
-            });
-        } else {
-            return new ChatGPTApiBot({
-                openaiApiKey: config.apiKey ||customApiKey,
-                openaiApiHost: config.host || customApiHost,
-                chatgptApiModel: config.model,
-                chatgptApiTemperature: config.temperature,
-                chatgptApiSystemMessage: config.systemMessage,
-            })
-        } 
-        // Add more conditions if needed for different models/bot types
-        throw new ChatError('Unsupported model type for CustomBot', ErrorCode.CUSTOMBOT_CONFIGURATION_ERROR);
+        // プロバイダーが設定されていない場合は、モデル名に基づいて推測する（後方互換性のため）
+        const provider = config.provider || (
+            config.model.includes('anthropic.claude') ? CustomApiProvider.Bedrock : CustomApiProvider.OpenAI
+        );
+
+        // Decide which bot to instantiate based on the provider field
+        switch (provider) {
+            case CustomApiProvider.Bedrock:
+                return new BedrockApiBot({
+                    apiKey: config.apiKey || customApiKey, 
+                    host: config.host || customApiHost,     
+                    model: config.model,                   
+                    temperature: config.temperature,         
+                    systemMessage: config.systemMessage, 
+                    thinkingMode: config.thinkingMode,
+                    thinkingBudget: config.thinkingBudget,
+                });
+            case CustomApiProvider.Anthropic:
+                return new ClaudeApiBot({
+                    apiKey: config.apiKey || customApiKey,         
+                    host: config.host || customApiHost,             
+                    model: config.model,                           
+                    temperature: config.temperature,                 
+                    systemMessage: config.systemMessage,         
+                    thinkingBudget: config.thinkingBudget,       
+                }, config.thinkingMode, config.isAnthropicUsingAuthorizationHeader || false); // 新しいフラグを使用
+            case CustomApiProvider.OpenAI:
+                return new ChatGPTApiBot({
+                    apiKey: config.apiKey || customApiKey,         
+                    host: config.host || customApiHost,             
+                    model: config.model,                           
+                    temperature: config.temperature,                 
+                    systemMessage: config.systemMessage,
+                });
+            case CustomApiProvider.Google:
+                return new GeminiApiBot({
+                    geminiApiKey: config.apiKey || customApiKey,
+                    geminiApiModel: config.model,
+                    geminiApiSystemMessage: config.systemMessage,
+                    geminiApiTemperature: config.temperature,
+                });
+            case CustomApiProvider.Perplexity: // Add Perplexity case
+                return new PerplexityApiBot(
+                    config.apiKey || customApiKey,
+                    config.model,
+                );
+            default:
+                // Log the unsupported provider for debugging before throwing the error
+                console.error(`Unsupported provider detected: ${provider}`);
+                throw new ChatError(`Unsupported provider: ${provider}`, ErrorCode.CUSTOMBOT_CONFIGURATION_ERROR);
+        }
     }
 
     get chatBotName() {
         return this.config?.name
+    }
+
+    get avatar() {
+        return this.config?.avatar
     }
 
     async sendMessage(params: MessageParams) {

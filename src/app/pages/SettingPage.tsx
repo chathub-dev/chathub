@@ -8,45 +8,22 @@ import { Input } from '~app/components/Input'
 import RadioGroup from '~app/components/RadioGroup'
 import Select from '~app/components/Select'
 import Blockquote from '~app/components/Settings/Blockquote'
-import ChatGPTAPISettings from '~app/components/Settings/ChatGPTAPISettings'
-import ChatGPTAzureSettings from '~app/components/Settings/ChatGPTAzureSettings'
-import ChatGPTOpenRouterSettings from '~app/components/Settings/ChatGPTOpenRouterSettings'
-import ChatGPTPoeSettings from '~app/components/Settings/ChatGPTPoeSettings'
-import ChatGPWebSettings from '~app/components/Settings/ChatGPTWebSettings'
-import ClaudeAPISettings from '~app/components/Settings/ClaudeAPISettings'
-import ClaudeOpenRouterSettings from '~app/components/Settings/ClaudeOpenRouterSettings'
-import ClaudePoeSettings from '~app/components/Settings/ClaudePoeSettings'
-import ClaudeWebappSettings from '~app/components/Settings/ClaudeWebappSettings'
-import GeminiAPISettings from '~app/components/Settings/GeminiAPISettings'
 
 import CustomAPISettings from '~app/components/Settings/CustomAPISettings'
-
-import EnabledBotsSettings from '~app/components/Settings/EnabledBotsSettings'
 import ExportDataPanel from '~app/components/Settings/ExportDataPanel'
-import PerplexityAPISettings from '~app/components/Settings/PerplexityAPISettings'
 import ShortcutPanel from '~app/components/Settings/ShortcutPanel'
-
 import Switch from '~app/components/Switch'
 
-import { ALL_IN_ONE_PAGE_ID, CHATBOTS } from '~app/consts'
+import { ALL_IN_ONE_PAGE_ID } from '~app/consts'
 import {
-  BingConversationStyle,
-  ChatGPTMode,
-  ClaudeMode,
-  PerplexityMode,
   UserConfig,
   getUserConfig,
   updateUserConfig,
+  CustomApiConfig,
 } from '~services/user-config'
 import { getVersion } from '~utils'
 import PagePanel from '../components/Page'
-import { BotId } from '~app/bots'
 
-const BING_STYLE_OPTIONS = [
-  { name: 'Precise', value: BingConversationStyle.Precise },
-  { name: 'Balanced', value: BingConversationStyle.Balanced },
-  { name: 'Creative', value: BingConversationStyle.Creative },
-]
 
 const ChatBotSettingPanel: FC<PropsWithChildren<{ title: string }>> = (props) => {
   return (
@@ -64,97 +41,69 @@ function SettingPage() {
 
   useEffect(() => {
     getUserConfig().then((config) => {
-      setUserConfig(config)
-      if (config.useCustomChatbotOnly === null) {
-        promptForCustomChatbotUsage();
-      }
+      setUserConfig(config);
     });
 
   }, [])
 
-  const promptForCustomChatbotUsage = useCallback(async () => {
-    const useCustomOnly = window.confirm(
-      t('Click OK to use only custom chatbots. \n\nClick Cancel to use all predefined bots, such as OpenAI ChatGPT, Anthropic Claude, Perplexity. You can change this setting later.')
-    )
-    
-    // 現在のconfigを取得
-    const currentConfig = await getUserConfig()
-    
-    if (useCustomOnly) {
-      // すべての predefined bots を無効にする
-      const customBots = Object.keys(CHATBOTS)
-        .filter(botId => botId.startsWith('customchat')) as BotId[]
-      
-      // configを更新
-      const newConfig = {
-        ...currentConfig,
-        useCustomChatbotOnly: true,
-        enabledBots: customBots
-      }
-      
-      await updateUserConfig(newConfig)
-      setUserConfig(newConfig)
-    } else {
-      // configを更新
-      const newConfig = {
-        ...currentConfig,
-        useCustomChatbotOnly: false
-      }
-      
-      await updateUserConfig(newConfig)
-      setUserConfig(newConfig)
-    }
-
-    // 成功メッセージを表示してリロード
-    toast.success('Settings saved')
-    setTimeout(() => {
-      location.reload()
-    }, 500)
-
-  }, [t]) // t関数のみを依存配列に入れる
-
-
   const updateConfigValue = useCallback(
     (update: Partial<UserConfig>) => {
-      setUserConfig({ ...userConfig!, ...update })
+      setUserConfig(prevConfig => {
+        if (prevConfig) {
+          return { ...prevConfig, ...update }
+        }
+        return prevConfig
+      })
       setDirty(true)
     },
-    [userConfig],
+    [], // 依存関係を削除
   )
 
   const save = useCallback(async () => {
-    let apiHost = userConfig?.openaiApiHost
-    if (apiHost) {
-      apiHost = apiHost.replace(/\/$/, '')
-      if (!apiHost.startsWith('http')) {
-        apiHost = 'https://' + apiHost
-      }
-      // request host permission to prevent CORS issues
-      try {
-        await Browser.permissions.request({ origins: [apiHost + '/'] })
-      } catch (e) {
-        console.error(e)
-      }
-    } else {
-      apiHost = undefined
+    if (!userConfig) {
+      toast.error(t('Failed to get current settings. Please try again.'));
+      return;
     }
-    await updateUserConfig({ ...userConfig!, openaiApiHost: apiHost })
-    setDirty(false)
-    toast.success('Saved')
-    setTimeout(() => location.reload(), 500)
-  }, [userConfig])
 
-  // CustomChatbot Onlyの切り替え
-  const handleModeToggle = useCallback((enabled: boolean) => {
-    const customBotIds = Object.keys(CHATBOTS)
-      .filter(botId => botId.startsWith('customchat')) as BotId[]
+    // Request host permissions for all custom API hosts to prevent CORS issues
+    if (userConfig.customApiConfigs) {
+      const originsToRequest = userConfig.customApiConfigs
+        .map(config => config.host || userConfig.customApiHost) // Use common host if specific host is empty
+        .filter(host => host && host.startsWith('http')) // Filter valid http/https URLs
+        .map(host => host.replace(/\/$/, '') + '/'); // Ensure trailing slash for permission matching
+      const uniqueOrigins = [...new Set(originsToRequest)]; // Remove duplicates
+
+      if (uniqueOrigins.length > 0) {
+        try {
+          console.log('Requesting permissions for origins:', uniqueOrigins);
+          // Request permissions from the browser
+          await Browser.permissions.request({ origins: uniqueOrigins });
+        } catch (e) {
+          console.error('Error requesting permissions:', e);
+          // Optionally inform the user about the error
+          // toast.error('Failed to request necessary permissions.');
+        }
+      }
+    }
+
+    await updateUserConfig(userConfig);
+    setDirty(false);
     
-    updateConfigValue({ 
-      useCustomChatbotOnly: enabled,
-      enabledBots: enabled ? customBotIds : [],
-    })
-  }, [updateConfigValue])
-
+    // リロードの代わりに、設定を再読み込みして状態を更新
+    try {
+      // 少し待機してからストレージから設定を再読み込み
+      await new Promise(resolve => setTimeout(resolve, 200));
+      
+      const updatedConfig = await getUserConfig();
+      setUserConfig(updatedConfig);
+      
+      toast.success(t('Settings saved. Please reload the extension to reflect changes in the Sidebar.'));
+    } catch (error) {
+      console.error('Failed to reload config after save:', error);
+      toast.success(t('Settings saved'));
+      setTimeout(() => location.reload(), 500);
+    }
+  }, [userConfig, t]); // userConfig を依存配列に戻す
 
   if (!userConfig) {
     return null
@@ -163,112 +112,28 @@ function SettingPage() {
   return (
     <PagePanel title={`${t('Settings')} (v${getVersion()})`}>
       <div className="flex flex-col gap-5 mt-3 mb-10 px-10">
-        <ExportDataPanel />
+        <ExportDataPanel userConfig={userConfig} updateConfigValue={updateConfigValue} />
         <div>
           <p className="font-bold mb-2 text-lg">{t('Startup page')}</p>
           <div className="w-[200px]">
             <Select
               options={[
                 { name: 'All-In-One', value: ALL_IN_ONE_PAGE_ID },
-                ...Object.entries(CHATBOTS).map(([botId, bot]) => ({ name: bot.name, value: botId })),
+                ...(userConfig.customApiConfigs || []).map((config: CustomApiConfig, index: number) => ({
+                  name: config.name,
+                  value: `custom-${index}`,
+                })),
               ]}
               value={userConfig.startupPage}
-              onChange={(v) => updateConfigValue({ startupPage: v })}
+              onChange={(v) => updateConfigValue({ startupPage: v as string })}
             />
           </div>
         </div>
 
-        {/* API Mode Switch を追加 */}
-        <div className="flex flex-col gap-2">
-          <p className="font-bold text-lg">{t('Choose API Setting Mode')}</p>
-          <p>{userConfig.useCustomChatbotOnly 
-                ? t('Using Custom Chatbot only') 
-                : t('Using All Available Chatbots')}</p>
-          <div className="flex items-center gap-3">
-            <Switch
-              checked={userConfig.useCustomChatbotOnly ?? false}
-              onChange={handleModeToggle}
-            />
-            <span className="text-sm font-medium">
-              {userConfig.useCustomChatbotOnly 
-                ? t('Show Standard Chatbot Options') 
-                : t('Use Custom Chatbot Only')}
-            </span>
-          </div>
-        </div>
-        <div className="flex flex-col gap-2 max-w-[900px]">
-          <p className="font-bold text-lg">{t('Select Chatbots')}</p>
-          <EnabledBotsSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
-        </div>
         <div className="flex flex-col gap-4 w-full">
           <p className="font-bold text-lg">{t('Chatbots configuration')}</p>
-          {userConfig.useCustomChatbotOnly === false && (
-            <div className='flex flex-wrap gap-3'>
-              <ChatBotSettingPanel title="ChatGPT">
-                <RadioGroup
-                  options={Object.entries(ChatGPTMode).map(([k, v]) => ({ label: `${k} ${t('Mode')}`, value: v }))}
-                  value={userConfig.chatgptMode}
-                  onChange={(v) => updateConfigValue({ chatgptMode: v as ChatGPTMode })}
-                />
-                {userConfig.chatgptMode === ChatGPTMode.API ? (
-                  <ChatGPTAPISettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
-                ) : userConfig.chatgptMode === ChatGPTMode.Azure ? (
-                  <ChatGPTAzureSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
-                ) : userConfig.chatgptMode === ChatGPTMode.Poe ? (
-                  <ChatGPTPoeSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
-                ) : userConfig.chatgptMode === ChatGPTMode.OpenRouter ? (
-                  <ChatGPTOpenRouterSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
-                ) : (
-                  <ChatGPWebSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
-                )}
-              </ChatBotSettingPanel>
-              <ChatBotSettingPanel title="Claude">
-                <RadioGroup
-                  options={Object.entries(ClaudeMode).map(([k, v]) => ({ label: `${k} ${t('Mode')}`, value: v }))}
-                  value={userConfig.claudeMode}
-                  onChange={(v) => updateConfigValue({ claudeMode: v as ClaudeMode })}
-                />
-                {userConfig.claudeMode === ClaudeMode.API ? (
-                  <ClaudeAPISettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
-                ) : userConfig.claudeMode === ClaudeMode.Webapp ? (
-                  <ClaudeWebappSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
-                ) : userConfig.claudeMode === ClaudeMode.OpenRouter ? (
-                  <ClaudeOpenRouterSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
-                ) : (
-                  <ClaudePoeSettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
-                )}
-              </ChatBotSettingPanel>
-
-              <ChatBotSettingPanel title="Gemini">
-                <GeminiAPISettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
-              </ChatBotSettingPanel>
-              <ChatBotSettingPanel title="Bing">
-                <div className="flex flex-row gap-5 items-center">
-                  <p className="font-medium">{t('Chat style')}</p>
-                  <div className="w-[150px]">
-                    <Select
-                      options={BING_STYLE_OPTIONS}
-                      value={userConfig.bingConversationStyle}
-                      onChange={(v) => updateConfigValue({ bingConversationStyle: v })}
-                      position="top"
-                    />
-                  </div>
-                </div>
-              </ChatBotSettingPanel>
-              <ChatBotSettingPanel title="Perplexity">
-                <RadioGroup
-                  options={Object.entries(PerplexityMode).map(([k, v]) => ({ label: `${k} ${t('Mode')}`, value: v }))}
-                  value={userConfig.perplexityMode}
-                  onChange={(v) => updateConfigValue({ perplexityMode: v as PerplexityMode })}
-                />
-                {userConfig.perplexityMode === PerplexityMode.API && (
-                  <PerplexityAPISettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
-                )}
-              </ChatBotSettingPanel>
-            </div>
-          )} 
           <div className="p-3 w-full border border-gray-500 shadow-md rounded-lg hover:shadow-lg transition-shadow">
-            <p className="font-bold text-md">{t("Custom API")}</p>
+            <p className="font-bold text-md">{t("API Settings")}</p>
             <CustomAPISettings userConfig={userConfig} updateConfigValue={updateConfigValue} />
           </div>
         </div>

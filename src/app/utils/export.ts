@@ -1,5 +1,6 @@
 import { fileOpen, fileSave } from 'browser-fs-access'
 import Browser from 'webextension-polyfill'
+import { CustomApiConfig } from '~services/user-config'
 
 export async function exportData() {
   const [syncData, localData] = await Promise.all([Browser.storage.sync.get(null), Browser.storage.local.get(null)])
@@ -9,7 +10,7 @@ export async function exportData() {
     localStorage: { ...localStorage },
   }
   const blob = new Blob([JSON.stringify(data)], { type: 'application/json' })
-  await fileSave(blob, { fileName: 'chathub.json' })
+  await fileSave(blob, { fileName: 'huddlellm.json' })
 }
 
 export async function importData() {
@@ -40,7 +41,11 @@ export async function importData() {
           temperature: oldConfig.temperature || 0.7,
           systemMessage: oldConfig.systemMessage || '',
           avatar: oldConfig.avatar || '',
-          apiKey: oldConfig.apiKey || oldConfig.token || ''
+          apiKey: oldConfig.apiKey || oldConfig.token || '',
+          thinkingMode: oldConfig.thinkingMode || false,
+          thinkingBudget: oldConfig.thinkingBudget || 2000,
+          provider: oldConfig.provider || 'openai',
+          webAccess: oldConfig.webAccess || false
         }
         delete json.sync[oldKey]
       }
@@ -73,6 +78,49 @@ export async function importData() {
     }
   }
 
-  alert('Imported data successfully')
-  location.reload()
+  alert('Imported data successfully. The page will now reload to apply changes.')
+  // 少し待機してからリロード
+  setTimeout(() => location.reload(), 1000)
+}
+
+/**
+ * カスタムAPIテンプレートをエクスポートする関数
+ * APIキーを除外し、テンプレートとして必要な情報のみを出力する
+ */
+export async function exportCustomAPITemplate() {
+  // ストレージからカスタムAPI設定を取得
+  const syncData = await Browser.storage.sync.get(null)
+  
+  // カスタムAPI設定の抽出
+  const templateData: { sync: Record<string, any> } = {
+    sync: {}
+  }
+  
+  // customApiConfig_XXXキーを検索
+  const configKeys = Object.keys(syncData).filter(key => key.startsWith('customApiConfig_'));
+  
+  // 各カスタムAPI設定を処理
+  for (const configKey of configKeys) {
+    const config = syncData[configKey] as CustomApiConfig | undefined
+    
+    if (config) {
+      // APIキーを除外したコピーを作成
+      const templateConfig: Partial<CustomApiConfig> = {
+        ...config,
+        apiKey: '' // APIキーを空にする
+      }
+      
+      // テンプレートデータに追加
+      templateData.sync[configKey] = templateConfig
+    }
+  }
+  
+  // 共通のAPIホストを含める（APIキーは含めない）
+  if (syncData.customApiHost) {
+    templateData.sync.customApiHost = syncData.customApiHost
+  }
+  
+  // JSONとして保存
+  const blob = new Blob([JSON.stringify(templateData)], { type: 'application/json' })
+  await fileSave(blob, { fileName: 'huddle-llm-template.json' })
 }

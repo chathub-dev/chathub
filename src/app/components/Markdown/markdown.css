@@ -1,3 +1,8 @@
+/* github-markdown-cssの背景色を上書き */
+.markdown-body.markdown-custom-styles {
+  background-color: transparent;
+}
+
 .markdown-custom-styles {
   color: inherit;
   background-color: transparent;
@@ -35,4 +40,5 @@
     white-space: pre-wrap !important;
     padding-right: 0.25rem !important;
   }
+
 }

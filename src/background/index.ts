@@ -46,3 +46,27 @@ Browser.runtime.onMessage.addListener(async (message, sender) => {
     return readTwitterCsrfToken(message.data)
   }
 })
+
+// Omnibox APIのイベントリスナー
+chrome.omnibox.onInputEntered.addListener(async (text, disposition) => {
+  console.log('[background] Omnibox input entered:', text, 'Disposition:', disposition)
+  // 検索キーワードをchrome.storage.localに保存
+  await Browser.storage.local.set({ pendingOmniboxSearch: text })
+
+  const appUrl = Browser.runtime.getURL('app.html')
+
+  if (disposition === 'currentTab') {
+    // 現在アクティブなタブを取得して更新
+    const [currentTab] = await Browser.tabs.query({ active: true, currentWindow: true })
+    if (currentTab && currentTab.id) {
+      await Browser.tabs.update(currentTab.id, { url: appUrl })
+    } else {
+      // アクティブなタブが見つからない場合は新しいタブで開く（フォールバック）
+      await Browser.tabs.create({ url: appUrl })
+    }
+  } else {
+    // 新しいフォアグラウンドタブ、または新しいバックグラウンドタブで開く場合
+    // (またはその他の disposition の場合も新しいタブで開く)
+    await Browser.tabs.create({ url: appUrl, active: (disposition === 'newForegroundTab') })
+  }
+})

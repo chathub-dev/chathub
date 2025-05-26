@@ -4,8 +4,10 @@ import { requestHostPermission } from '~app/utils/permissions';
 import { UserConfig } from '~services/user-config';
 import { ChatError, ErrorCode } from '~utils/errors';
 import { parseSSEResponse } from '~utils/sse';
-import { AbstractBot, SendMessageParams } from '../abstract-bot';
-import { file2base64 } from '../bing/utils';
+import { AbstractBot, SendMessageParams, ConversationHistory } from '../abstract-bot';
+import { file2base64 } from '~app/utils/file-utils';
+import { ChatMessageModel } from '~types';
+import { uuid } from '~utils';
 import {
   BedrockRuntimeClient,
   ConverseCommand,
@@ -40,6 +42,58 @@ interface ConversationContext {
 
 export abstract class AbstractBedrockApiBot extends AbstractBot {
   private conversationContext?: ConversationContext
+
+  // ConversationHistoryインターフェースの実装
+  public setConversationHistory(history: ConversationHistory): void {
+    if (history.messages && Array.isArray(history.messages)) {
+      // ChatMessageModelからChatMessageへの変換
+      const messages: ChatMessage[] = history.messages.map(msg => {
+        if (msg.author === 'user') {
+          return {
+            role: 'user',
+            content: [{ text: msg.text }]
+          };
+        } else {
+          return {
+            role: 'assistant',
+            content: [{ text: msg.text }]
+          };
+        }
+      });
+      
+      this.conversationContext = {
+        messages: messages
+      };
+    }
+  }
+
+  public getConversationHistory(): ConversationHistory | undefined {
+    if (!this.conversationContext) {
+      return undefined;
+    }
+    
+    // ChatMessageからChatMessageModelへの変換
+    const messages = this.conversationContext.messages.map(msg => {
+      const role = msg.role === 'user' ? 'user' : 'assistant';
+      let text = '';
+      
+      if (Array.isArray(msg.content)) {
+        // contentが配列の場合、textプロパティを持つ最初の要素を探す
+        const textContent = msg.content.find(part => 'text' in part && typeof part.text === 'string');
+        if (textContent && 'text' in textContent) {
+          text = textContent.text || '';
+        }
+      }
+      
+      return {
+        id: uuid(),
+        author: role,
+        text: text
+      };
+    });
+    
+    return { messages };
+  }
 
   private buildUserMessage(prompt: string, imageUrl?: string): ChatMessage {
     const content: ContentPart[] = [
@@ -277,11 +331,14 @@ export class BedrockApiBot extends AbstractBedrockApiBot {
   private client: BedrockRuntimeClient;
   private userConfig?: UserConfig;
 
+  // Define a specific type for the config needed by BedrockApiBot
   constructor(
-    private config: Pick<
-      UserConfig,
-      'claudeApiKey' | 'claudeApiHost' | 'claudeApiModel' | 'claudeApiSystemMessage' | 'claudeApiTemperature'
-    > & {
+    private config: {
+      apiKey: string;
+      host: string;
+      model: string;
+      systemMessage: string;
+      temperature: number;
       thinkingMode?: boolean;
       thinkingBudget?: number;
     },
@@ -289,7 +346,7 @@ export class BedrockApiBot extends AbstractBedrockApiBot {
     super()
     const api_path = 'v1/';
     // API Hostの最後のslashを削除
-    const baseUrl = this.config.claudeApiHost.endsWith('/') ? this.config.claudeApiHost.slice(0, -1) : this.config.claudeApiHost;
+    const baseUrl = this.config.host.endsWith('/') ? this.config.host.slice(0, -1) : this.config.host; // Use config.host
     const fullUrlStr = `${baseUrl}/${api_path}`.replace('v1/v1/', 'v1/')
     this.client = new BedrockRuntimeClient({ 
       region: 'us-east-1', // 適切なリージョンを指定
@@ -298,7 +355,7 @@ export class BedrockApiBot extends AbstractBedrockApiBot {
         accessKeyId: 'AWS',
         secretAccessKey: 'AWS',
       },
-      requestHandler: new CustomFetchHttpHandler(this.config.claudeApiKey, {
+      requestHandler: new CustomFetchHttpHandler(this.config.apiKey, { // Use config.apiKey
       }),
     });
   }
@@ -327,7 +384,7 @@ export class BedrockApiBot extends AbstractBedrockApiBot {
       } else {
         converceCommandObject.inferenceConfig = {
           maxTokens: 8192,
-          temperature: this.config.claudeApiTemperature
+          temperature: this.config.temperature // Use config.temperature
         };
       }
 
@@ -408,16 +465,16 @@ export class BedrockApiBot extends AbstractBedrockApiBot {
   }
 
   public getModelName() {
-    const { claudeApiModel } = this.config
+    const { model: claudeApiModel } = this.config // Use config.model
     return claudeApiModel
   }
 
-  get modelName() {
-    return this.config.claudeApiModel
+  get modelName(): string { // Add explicit return type annotation
+    return this.config.model // Use config.model
   }
 
   get name() {
-    return `Claude (API/${this.config.claudeApiModel})`
+    return `Bedrock (${this.config.model})` // Update name logic
   }
 
   get supportsImageInput() {

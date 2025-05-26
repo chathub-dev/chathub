@@ -26,13 +26,13 @@ const Button = React.forwardRef<HTMLButtonElement, Props>((props, ref) => {
         size === 'normal' && 'text-base font-medium px-6 py-[5px] rounded-full',
         size === 'small' && 'text-sm px-4 py-1 rounded-xl',
         size === 'tiny' && 'text-xs px-3 py-[3px] rounded-lg',
-        props.color === 'primary' ? 'text-white bg-primary-blue' : 'text-primary-text bg-secondary',
+        props.color === 'primary' ? 'text-white bg-primary-blue hover:bg-blue-700 dark:hover:bg-blue-600' : 'text-primary-text dark:text-gray-200 bg-secondary dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600', // Add dark mode styles and hover effects
         props.className,
       )}
       onClick={props.onClick}
     >
       {props.isLoading ? (
-        <BeatLoader size={size === 'normal' ? 10 : 5} color={props.color === 'primary' ? 'white' : '#303030'} />
+        <BeatLoader size={size === 'normal' ? 10 : 5} color={props.color === 'primary' ? 'white' : '#A0A0A0'} />
       ) : (
         <div className="flex flex-row items-center gap-1 min-w-max">
           {props.icon}

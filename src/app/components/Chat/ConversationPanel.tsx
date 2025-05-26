@@ -1,15 +1,16 @@
+
 import { motion } from 'framer-motion'
-import { FC, ReactNode, useCallback, useMemo, useState, useEffect } from 'react'
+import { FC, ReactNode, useCallback, useMemo, useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import clearIcon from '~/assets/icons/clear.svg'
 import historyIcon from '~/assets/icons/history.svg'
 import shareIcon from '~/assets/icons/share.svg'
 import { cx } from '~/utils'
-import { CHATBOTS } from '~app/consts'
 import { ConversationContext, ConversationContextValue } from '~app/context'
 import { ChatMessageModel } from '~types'
-import { BotId, BotInstance } from '../../bots'
+import { BotInstance } from '../../bots'
 import Button from '../Button'
+import BotIcon from '../BotIcon'
 import HistoryDialog from '../History/Dialog'
 import ShareDialog from '../Share/Dialog'
 import Tooltip from '../Tooltip'
@@ -20,7 +21,7 @@ import WebAccessCheckbox from './WebAccessCheckbox'
 import { getUserConfig } from '~services/user-config'
 
 interface Props {
-  botId: BotId
+  index: number
   bot: BotInstance
   messages: ChatMessageModel[]
   onUserSendMessage: (input: string, image?: File) => void
@@ -28,20 +29,19 @@ interface Props {
   generating: boolean
   stopGenerating: () => void
   mode?: 'full' | 'compact'
-  onSwitchBot?: (botId: BotId) => void
-  onPropaganda?: (text: string) => Promise<void> 
+  onSwitchBot?: (index: number) => void
+  onPropaganda?: (text: string) => Promise<void>
 }
 
 const ConversationPanel: FC<Props> = (props) => {
   const { t } = useTranslation()
-  const botInfo = CHATBOTS[props.botId]
   const mode = props.mode || 'full'
   const marginClass = 'mx-3'
   const [showHistory, setShowHistory] = useState(false)
   const [showShareDialog, setShowShareDialog] = useState(false)
   // ボット名とアバターを保持するための状態を追加
-  const [botName, setBotName] = useState<string>(CHATBOTS[props.botId].name)
-  const [botAvatar, setBotAvatar] = useState<string>(CHATBOTS[props.botId].avatar)
+  const [botName, setBotName] = useState<string>('Custom Bot')
+  const [botAvatar, setBotAvatar] = useState<string>('OpenAI.Black')
 
   // コンポーネントマウント時に設定を取得
   useEffect(() => {
@@ -49,21 +49,18 @@ const ConversationPanel: FC<Props> = (props) => {
       const config = await getUserConfig();
       const customApiConfigs = config.customApiConfigs || [];
 
-      // botId から対応する rakutenApiConfigs のインデックスを取得
-      const index = Number(props.botId.replace('customchat', '')) - 1;
-      
       // インデックスが有効な範囲内かどうかを確認
-      if (index >= 0 && index < customApiConfigs.length) {
-        setBotName(customApiConfigs[index].name);
+      if (props.index >= 0 && props.index < customApiConfigs.length) {
+        setBotName(customApiConfigs[props.index].name);
         // アバター情報も設定
-        if (customApiConfigs[index].avatar) {
-          setBotAvatar(customApiConfigs[index].avatar);
+        if (customApiConfigs[props.index].avatar) {
+          setBotAvatar(customApiConfigs[props.index].avatar);
         }
       }
     };
   
   initializeBotInfo();
-  }, [props.botId]); // props.botId が変更されたときに再実行
+  }, [props.index]); // props.index が変更されたときに再実行
 
   const context: ConversationContextValue = useMemo(() => {
     return {
@@ -86,11 +83,11 @@ const ConversationPanel: FC<Props> = (props) => {
 
   const openHistoryDialog = useCallback(() => {
     setShowHistory(true)
-  }, [props.botId])
+  }, [props.index])
 
   const openShareDialog = useCallback(() => {
     setShowShareDialog(true)
-  }, [props.botId])
+  }, [props.index])
 
   let inputActionButton: ReactNode = null
   if (props.generating) {
@@ -115,20 +112,25 @@ const ConversationPanel: FC<Props> = (props) => {
           )}
         >
           <div className="flex flex-row items-center">
-            <motion.img
-              src={botAvatar}
-              className="w-[18px] h-[18px] object-contain rounded-sm mr-2"
-              whileHover={{ rotate: 180 }}
+          <motion.div
+            className="mr-2"
+            whileHover={{ rotate: 180 }}
+          >
+            <BotIcon
+              iconName={botAvatar}
+              size={18}
+              className="object-contain rounded-sm"
             />
+          </motion.div>
             <ChatbotName
-              botId={props.botId}
+              index={props.index}
               name={props.bot.chatBotName ?? botName}
               fullName={props.bot.name}
               model={props.bot.modelName ?? 'Default'}
-              onSwitchBot={mode === 'compact' ? props.onSwitchBot : undefined}
+              onSwitchBot={mode === 'compact' ? (index) => props.onSwitchBot?.(index) : undefined}
             />
           </div>
-          <WebAccessCheckbox botId={props.botId} />
+          <WebAccessCheckbox index={props.index} />
           <div className="flex flex-row items-center gap-3">
             <Tooltip content={t('Share conversation')}>
               <motion.img
@@ -157,7 +159,7 @@ const ConversationPanel: FC<Props> = (props) => {
           </div>
         </div>
         <ChatMessageList
-          botId={props.botId}
+          index={props.index}
           messages={props.messages}
           className={marginClass}
           onPropaganda={props.onPropaganda}
@@ -165,7 +167,7 @@ const ConversationPanel: FC<Props> = (props) => {
         <div className={cx('mt-3 flex flex-col ', marginClass, mode === 'full' ? 'mb-3' : 'mb-[5px]')}>
           <div className={cx('flex flex-row items-center gap-[5px]', mode === 'full' ? 'mb-3' : 'mb-0')}>
             {mode === 'compact' && (
-              <span className="font-medium text-xs text-light-text cursor-default">Send to {botInfo.name}</span>
+              <span className="font-medium text-xs text-light-text cursor-default">Send to {botName}</span>
             )}
             <hr className="grow border-primary-border" />
           </div>
@@ -183,7 +185,7 @@ const ConversationPanel: FC<Props> = (props) => {
       {showShareDialog && (
         <ShareDialog open={true} onClose={() => setShowShareDialog(false)} messages={props.messages} />
       )}
-      {showHistory && <HistoryDialog botId={props.botId} open={true} onClose={() => setShowHistory(false)} />}
+      {showHistory && <HistoryDialog index={props.index} open={true} onClose={() => setShowHistory(false)} />}
     </ConversationContext.Provider>
   )
 }

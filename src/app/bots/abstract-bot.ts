@@ -1,6 +1,7 @@
 import { Sentry } from '~services/sentry'
 import { ChatError, ErrorCode } from '~utils/errors'
 import { streamAsyncIterable } from '~utils/stream-async-iterable'
+import { ThinkingParser } from '~utils/thinking-parser'
 
 export type AnwserPayload = {
   text: string
@@ -31,9 +32,98 @@ export interface SendMessageParams extends MessageParams {
   onEvent: (event: Event) => void
 }
 
+export interface ConversationHistory {
+  messages: any[];  // 各ボットの実装に合わせて型を定義
+}
+
 export abstract class AbstractBot {
+  // 思考パーサーインスタンス
+  private thinkingParser = new ThinkingParser();
+
   public async sendMessage(params: MessageParams) {
     return this.doSendMessageGenerator(params)
+  }
+
+  // 会話履歴を設定するメソッド (空の実装 - 各ボット固有の実装に任せる)
+  public setConversationHistory(_history: ConversationHistory): void {
+    // デフォルトでは何もしない - 各ボット実装でオーバーライド
+  }
+
+  // 会話履歴を取得するメソッド (空の実装 - 各ボット固有の実装に任せる)
+  public getConversationHistory(): ConversationHistory | undefined {
+    // デフォルトでは何も返さない - 各ボット実装でオーバーライド
+    return undefined;
+  }
+
+  /**
+   * テキストから思考内容を抽出する処理
+   * @param data 元のデータ
+   * @returns 処理後のデータ
+   */
+  private _processThinkingContent(data: AnwserPayload): AnwserPayload {
+    // テキストがない場合はそのまま返す
+    if (!data.text) {
+      return data;
+    }
+    
+    // テキストから思考内容を抽出
+    const processed = this.thinkingParser.processFragment(data.text);
+    
+    // 処理結果を返す（新しい思考内容があれば反映）
+    return {
+      text: processed.text,
+      thinking: processed.thinking || data.thinking
+    };
+  }
+
+  // 前回のストリーミングチャンクで送信した思考内容を保持
+  private previousThinking: string = '';
+
+  /**
+   * 各ボットの実装から使用するためのイベント発行ヘルパーメソッド
+   * テキストから思考タグを抽出し、差分のみを送信する
+   * @param params SendMessageParamsオブジェクト
+   * @param data イベントデータ (テキストのみ、またはテキストと思考内容)
+   */
+  protected emitUpdateAnswer(params: SendMessageParams, data: AnwserPayload | string): void {
+    // 文字列が渡された場合、AnwserPayloadに変換
+    const payload: AnwserPayload = typeof data === 'string' ? { text: data } : data;
+    
+    // テキスト処理と思考抽出
+    const processedData = this._processThinkingContent(payload);
+    
+    // 思考内容の差分処理
+    if (processedData.thinking) {
+      // 現在の思考内容と前回の思考内容の差分を計算
+      const currentThinking = processedData.thinking;
+      let thinkingDiff = '';
+      
+      if (this.previousThinking && currentThinking.startsWith(this.previousThinking)) {
+        // 前回の内容から新しく追加された部分のみを取得
+        thinkingDiff = currentThinking.substring(this.previousThinking.length);
+      } else {
+        // 前回の思考内容がないか、内容が変わった場合は全体を使用
+        thinkingDiff = currentThinking;
+      }
+      
+      // 前回の思考内容を更新
+      this.previousThinking = currentThinking;
+      
+      // 差分のみを送信
+      params.onEvent({
+        type: 'UPDATE_ANSWER',
+        data: {
+          text: processedData.text,
+          thinking: thinkingDiff
+        }
+      });
+    } else {
+      // 思考内容がない場合はそのまま送信
+      params.onEvent({
+        type: 'UPDATE_ANSWER',
+        data: processedData
+      });
+    }
   }
 
   protected async *doSendMessageGenerator(params: MessageParams) {
@@ -82,7 +172,7 @@ export abstract class AbstractBot {
   }
 
   get chatBotName(): string | undefined {
-    return undefined
+    return this.name
   }
 
   get avatar(): string | undefined {
@@ -134,6 +224,11 @@ export abstract class AsyncAbstractBot extends AbstractBot {
     this.initializeBot()
       .then((bot) => {
         this.#bot = bot
+        // 親クラスの会話履歴があれば、初期化されたボットに設定
+        const history = this.getConversationHistory()
+          if (history) {
+            this.#bot.setConversationHistory(history)
+        }
       })
       .catch((err) => {
         this.#initializeError = err
@@ -158,6 +253,24 @@ export abstract class AsyncAbstractBot extends AbstractBot {
       throw this.#initializeError
     }
     return this.#bot.modifyLastMessage(message)
+  }
+
+  // 会話履歴の設定をオーバーライド
+  setConversationHistory(history: ConversationHistory): void {
+    super.setConversationHistory(history)
+    // 内部ボットにも会話履歴を設定
+    if (!(this.#bot instanceof DummyBot)) {
+      this.#bot.setConversationHistory(history)
+    }
+  }
+
+  // 会話履歴の取得をオーバーライド
+  getConversationHistory(): ConversationHistory | undefined {
+    // 内部ボットから会話履歴を取得
+    if (!(this.#bot instanceof DummyBot)) {
+      return this.#bot.getConversationHistory()
+    }
+    return super.getConversationHistory()
   }
 
   get modelName() {

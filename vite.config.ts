@@ -20,10 +20,22 @@ export default defineConfig(({ mode }) => {
     build: {
       rollupOptions: {
         input: ['app.html'],
+        output: {
+          manualChunks: {
+            vendor: ['react', 'react-dom'],
+            // アイコン関連のパッケージを別チャンクに分割
+            icons: ['react-icons'],
+          },
+        },
       },
+      // チャンクサイズ警告のしきい値を設定
+      chunkSizeWarningLimit: 1000,
     },
     esbuild: {
       drop: mode === 'production' ? ['console', 'debugger'] : [],
+    },
+    optimizeDeps: {
+      include: ['react', 'react-dom'], // React と ReactDOM を明示的に含める
     },
     server: {
       strictPort: true,

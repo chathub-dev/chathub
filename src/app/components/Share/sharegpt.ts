@@ -37,7 +37,7 @@ async function buildItems(messages: ChatMessageModel[]): Promise<ShareGPTItem[]>
   for (const m of messages) {
     if (m.text) {
       items.push({
-        from: m.author === 'user' ? 'human' : m.author,
+        from: m.author === 'user' ? 'human' : 'assistant', // Map bot author (number) to 'assistant'
         value: m.author === 'user' ? m.text : await markdown2html(m.text),
       })
     }

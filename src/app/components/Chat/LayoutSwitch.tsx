@@ -5,6 +5,7 @@ import layoutFourIcon from '~assets/icons/layout-four.svg'
 import layoutImageIcon from '~assets/icons/layout-image-input.svg'
 import layoutThreeIcon from '~assets/icons/layout-three.svg'
 import layoutTwoIcon from '~assets/icons/layout-two.svg'
+import layoutOneIcon from '~assets/icons/layout-one.svg'
 import layoutTwoHorizonIcon  from '~assets/icons/layout-two-vertical.svg'
 import layoutSixIcon from '~assets/icons/layout-six.svg'
 import menuIcon from '~assets/icons/menu.svg' // メニューアイコンを追加
@@ -53,6 +54,11 @@ const LayoutSwitch: FC<Props> = (props) => {
           isOpen && 'flex flex-col md:flex-row bottom-full rounded-2xl mb-2 bg-primary-background min-w-[60px] w-max', // モバイルで開いた時は縦並び
         )}
       >
+      <Item
+        icon={layoutOneIcon}
+        active={props.layout === 'single'}
+          onClick={() => handleItemClick('single')}
+      />
       <Item
         icon={layoutTwoIcon}
         active={props.layout === 2 || props.layout === 'twoVertical'}

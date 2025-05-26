@@ -2,64 +2,62 @@ import { Switch } from '@headlessui/react'
 import { useSetAtom } from 'jotai'
 import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { BotId } from '~app/bots'
 import { usePremium } from '~app/hooks/use-premium'
 import { showPremiumModalAtom } from '~app/state'
 import { requestHostPermission } from '~app/utils/permissions'
-import { getUserConfig, updateUserConfig } from '~services/user-config'
+import { getUserConfig, updateUserConfig, CustomApiConfig } from '~services/user-config'
 import Toggle from '../Toggle'
 
 interface Props {
-  botId: BotId
+  index: number
 }
 
 const WebAccessCheckbox: FC<Props> = (props) => {
   const { t } = useTranslation()
-  const [checked, setChecked] = useState<boolean | null>(null)
+  const [checked, setChecked] = useState<boolean>(false) // 初期値は false
   const setPremiumModalOpen = useSetAtom(showPremiumModalAtom)
   const premiumState = usePremium()
 
-  const configKey = useMemo(() => {
-    if (props.botId === 'chatgpt') {
-      return 'chatgptWebAccess'
-    }
-    if (props.botId === 'claude') {
-      return 'claudeWebAccess'
-    }
-  }, [props.botId])
-
   useEffect(() => {
-    if (!configKey) {
-      return
-    }
-    if (premiumState.activated === false) {
-      setChecked(false)
-      updateUserConfig({ [configKey]: false })
-    } else if (premiumState.activated) {
-      getUserConfig().then((config) => setChecked(config[configKey]))
-    }
-  }, [configKey, premiumState.activated])
+    const fetchWebAccessState = async () => {
+      const config = await getUserConfig();
+      const customConfig = config.customApiConfigs?.[props.index];
+      if (customConfig && typeof customConfig.webAccess === 'boolean') {
+        setChecked(customConfig.webAccess);
+      } else {
+        setChecked(false); // デフォルトは false
+      }
+    };
+    fetchWebAccessState();
+  }, [props.index]);
 
   const onToggle = useCallback(
     async (newValue: boolean) => {
       if (!premiumState.activated && newValue) {
-        setPremiumModalOpen('web-access')
-        return
+        setPremiumModalOpen('web-access');
+        return;
       }
-      if (!(await requestHostPermission('https://*.duckduckgo.com/'))) {
-        return
+      if (newValue && !(await requestHostPermission('https://*.duckduckgo.com/'))) {
+        return;
       }
-      setChecked(newValue)
-      if (configKey) {
-        updateUserConfig({ [configKey]: newValue })
+      
+      setChecked(newValue);
+      
+      const config = await getUserConfig();
+      const updatedCustomApiConfigs = [...(config.customApiConfigs || [])];
+      const customConfigToUpdate = updatedCustomApiConfigs[props.index];
+
+      if (customConfigToUpdate) {
+        const updatedConfig: CustomApiConfig = {
+          ...customConfigToUpdate,
+          webAccess: newValue,
+        };
+        updatedCustomApiConfigs[props.index] = updatedConfig;
+        updateUserConfig({ customApiConfigs: updatedCustomApiConfigs });
       }
     },
-    [configKey, premiumState.activated, props.botId, setPremiumModalOpen],
+    [premiumState.activated, props.index, setPremiumModalOpen],
   )
-
-  if (checked === null) {
-    return null
-  }
 
   return (
     <div className="flex flex-row items-center gap-2 shrink-0 cursor-pointer group">

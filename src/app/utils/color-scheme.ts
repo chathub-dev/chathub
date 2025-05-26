@@ -51,4 +51,4 @@ function getDefaultThemeColor() {
   return '#7EB8D6FF'
 }
 
-export { applyThemeMode, getDefaultThemeColor }
+export { applyThemeMode, getDefaultThemeColor, isSystemDarkMode }
