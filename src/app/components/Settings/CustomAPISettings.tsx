@@ -45,10 +45,11 @@ const CustomAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
     // 選択されたモデルのプロバイダーを保持するステートを追加
     const [selectedProviderForModel, setSelectedProviderForModel] = useState<Record<number, string | null>>({});
 
-    // 設定更新と再検証をまとめたヘルパー関数
+    // 防御的チェック: customApiConfigsが未定義の場合は空配列として扱う
+    const customApiConfigs = userConfig.customApiConfigs || [];
+
     const updateCustomApiConfigs = (newConfigs: UserConfig['customApiConfigs']) => {
         updateConfigValue({ customApiConfigs: newConfigs });
-        revalidateEnabledBots(); // 設定更新後に再検証をトリガー
     }
 
     const formRowClass = "grid grid-cols-[1fr_3fr] items-center gap-4"
@@ -134,12 +135,12 @@ const CustomAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
 
     // 新しいカスタムモデルを追加
     const addNewCustomModel = () => {
-        if (userConfig.customApiConfigs.length >= MAX_CUSTOM_MODELS) {
+        if (customApiConfigs.length >= MAX_CUSTOM_MODELS) {
             alert(t(`Maximum number of custom models (${MAX_CUSTOM_MODELS}) reached.`));
             return;
         }
 
-        const newId = Math.max(...userConfig.customApiConfigs.map(c => c.id ?? 0), 0) + 1;
+        const newId = Math.max(...customApiConfigs.map(c => c.id ?? 0), 0) + 1;
         const newConfig = {
             id: newId,
             name: `Custom AI ${newId}`,
@@ -159,11 +160,8 @@ const CustomAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
 
         // カスタムモデル設定のみを更新
         updateConfigValue({
-            customApiConfigs: [...userConfig.customApiConfigs, newConfig]
+            customApiConfigs: [...customApiConfigs, newConfig]
         });
-        
-        // 再検証をトリガー
-        revalidateEnabledBots();
     };
 
     // カスタムモデルを削除
@@ -324,7 +322,7 @@ const CustomAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
                                             className={`p-1 rounded ${index === 0 ? 'text-gray-400 cursor-not-allowed' : 'hover:bg-gray-700'}`}
                                             onClick={() => {
                                                 if (index > 0) {
-                                                    const updatedConfigs = [...userConfig.customApiConfigs];
+                                                    const updatedConfigs = [...customApiConfigs];
                                                     // 設定を入れ替え
                                                     [updatedConfigs[index - 1], updatedConfigs[index]] = [updatedConfigs[index], updatedConfigs[index - 1]];
                                                     
@@ -340,10 +338,10 @@ const CustomAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
                                             </svg>
                                         </button>
                                         <button
-                                            className={`p-1 rounded ${index === userConfig.customApiConfigs.length - 1 ? 'text-gray-400 cursor-not-allowed' : 'hover:bg-gray-700'}`}
+                                            className={`p-1 rounded ${index === customApiConfigs.length - 1 ? 'text-gray-400 cursor-not-allowed' : 'hover:bg-gray-700'}`}
                                             onClick={() => {
-                                                if (index < userConfig.customApiConfigs.length - 1) {
-                                                    const updatedConfigs = [...userConfig.customApiConfigs];
+                                                if (index < customApiConfigs.length - 1) {
+                                                    const updatedConfigs = [...customApiConfigs];
                                                     // 設定を入れ替え
                                                     [updatedConfigs[index], updatedConfigs[index + 1]] = [updatedConfigs[index + 1], updatedConfigs[index]];
                                                     

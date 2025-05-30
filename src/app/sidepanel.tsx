@@ -1,22 +1,17 @@
-import { useCallback, useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
-import { useTranslation } from 'react-i18next'
-import Browser from 'webextension-polyfill'
-import Button from './components/Button'
 import './i18n'
 import SidePanelPage from './pages/SidePanelPage'
 import './base.scss'
 import './sidepanel.css'
 import { CHATBOTS_UPDATED_EVENT } from './consts'
-
-
+import { revalidateEnabledBots } from './hooks/use-enabled-bots'
 
 function SidePanelApp() {
-  const [chatbotsUpdated, setChatbotsUpdated] = useState(false)
-
   useEffect(() => {
     const handleChatbotsUpdated = () => {
-      setChatbotsUpdated(prev => !prev)
+      // 強制再マウントの代わりにSWRキャッシュを再検証
+      revalidateEnabledBots()
     }
 
     window.addEventListener(CHATBOTS_UPDATED_EVENT, handleChatbotsUpdated)
@@ -26,8 +21,7 @@ function SidePanelApp() {
     }
   }, [])
 
-  return <SidePanelPage key={chatbotsUpdated ? 'updated' : 'initial'} />
-  
+  return <SidePanelPage />
 }
 
 const container = document.getElementById('app')!

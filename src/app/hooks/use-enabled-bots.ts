@@ -22,32 +22,47 @@ interface BotInfo {
  * @returns 有効なボットの情報の配列
  */
 export function useEnabledBots(): BotInfo[] {
-  const query = useSWR(SWR_KEY, async () => {
-    // ユーザー設定全体を取得
-    const config = await getUserConfig()
-    const customApiConfigs = config.customApiConfigs || []
+  const query = useSWR<BotInfo[]>(SWR_KEY, async (): Promise<BotInfo[]> => {
+    try {
+      // ユーザー設定全体を取得
+      const config = await getUserConfig()
+      
+      // customApiConfigsが存在し、配列であることを確認
+      if (!config || !Array.isArray(config.customApiConfigs)) {
+        console.warn('useEnabledBots: customApiConfigs is not available or not an array')
+        return []
+      }
 
-    // すべてのカスタムボットの情報を生成し、enabledプロパティでフィルタリング
-    const enabledBots = customApiConfigs
-      .map((customConfig, index) => {
-        const bot = {
-          name: customConfig.name,
-          avatar: customConfig.avatar,
-          shortName: customConfig.shortName,
+      const customApiConfigs = config.customApiConfigs
+
+      // すべてのカスタムボットの情報を生成し、enabledプロパティでフィルタリング
+      const enabledBots: BotInfo[] = []
+      
+      customApiConfigs.forEach((customConfig, index) => {
+        if (customConfig && customConfig.enabled === true) {
+          const bot = {
+            name: customConfig.name || `Custom Bot ${index + 1}`,
+            avatar: customConfig.avatar || '',
+            shortName: customConfig.shortName || '',
+          }
+          enabledBots.push({ index, bot })
         }
-        return { index, bot };
       })
-      .filter((botInfo, index) => {
-        // enabledプロパティがtrueのボットのみを返す
-        const config = customApiConfigs[index];
-        return config.enabled === true;
-      });
-    
-    return enabledBots;
+      
+      return enabledBots;
+    } catch (error) {
+      console.error('useEnabledBots: Error processing enabled bots:', error)
+      return []
+    }
+  }, {
+    // エラー時のフォールバック
+    fallbackData: [],
+    // エラー時も再試行しない（無限ループを防ぐ）
+    shouldRetryOnError: false,
   })
 
-  // データがなければ空配列を返す
-  return query.data || []
+  // データがなければ空配列を返す（型安全性を確保）
+  return Array.isArray(query.data) ? query.data : []
 }
 
 // 他のコンポーネントからSWRキャッシュの再検証をトリガーするためのヘルパー関数

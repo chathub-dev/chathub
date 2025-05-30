@@ -169,28 +169,28 @@ const CustomAPITemplateImportPanel: FC<Props> = ({ userConfig, updateConfigValue
         const updatedConfigs = [...newConfigs, ...configsToAdd]
         
         try {
-          // Reactの状態を更新
+          // 設定をブラウザストレージに保存（ユーティリティ関数を使用）
+          await updateUserConfig({
+            customApiConfigs: updatedConfigs
+          })
+          
+          // Reactの状態を更新（ストレージ保存が成功した後）
           updateConfigValue({
             customApiConfigs: updatedConfigs
           })
           
-          try {
-            // 設定をブラウザストレージに保存（ユーティリティ関数を使用）
-            await updateUserConfig({
-              customApiConfigs: updatedConfigs
-            })
-            
-            // 成功メッセージ
-            toast.success(t('Custom API settings imported successfully'))
-            
-            setIsOpen(false)
-          } catch (storageError: any) {
-            console.error('Error saving to storage:', storageError)
-            toast.error(t('Failed to save settings to storage: ') + storageError.message)
-          }
-        } catch (enableBotsError: any) {
-          console.error('Error updating enabled bots:', enableBotsError)
-          toast.error(t('Failed to update enabled bots: ') + enableBotsError.message)
+          // 成功メッセージ
+          toast.success(t('Custom API settings imported successfully'))
+          
+          setIsOpen(false)
+        } catch (storageError: any) {
+          console.error('Error saving to storage:', storageError)
+          toast.error(t('Failed to save settings to storage: ') + storageError.message)
+          
+          // エラーが発生した場合、状態を元に戻す
+          updateConfigValue({
+            customApiConfigs: userConfig.customApiConfigs || []
+          })
         }
       } catch (configError: any) {
         console.error('Error processing configurations:', configError)

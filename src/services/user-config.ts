@@ -295,14 +295,15 @@ export async function getUserConfig(): Promise<UserConfig> {
       return idA - idB;
     });
     
-    result.customApiConfigs = configs;
-
-    if (result.customApiConfigs && result.customApiConfigs.length > 0) {
+    // configsが空の場合はデフォルト設定を使用
+    if (configs.length === 0) {
+      configs = [...defaultCustomApiConfigs];
+    } else {
       const defaultCount = defaultCustomApiConfigs.length;
-      const currentCount = result.customApiConfigs.length;
+      const currentCount = configs.length;
 
       // 既存の設定にproviderフィールドがない場合は追加
-      result.customApiConfigs.forEach((config: CustomApiConfig) => {
+      configs.forEach((config: CustomApiConfig) => {
         if (config.provider === undefined) {
           config.provider = CustomApiProvider.OpenAI;
         }
@@ -311,11 +312,12 @@ export async function getUserConfig(): Promise<UserConfig> {
       // 最低限のデフォルト設定を確保
       if (currentCount < defaultCount) {
         const configsToAdd = defaultCustomApiConfigs.slice(currentCount, defaultCount);
-        result.customApiConfigs.push(...configsToAdd);
+        configs.push(...configsToAdd);
       }
-    } else {
-      result.customApiConfigs = [...defaultCustomApiConfigs]; // 初めて設定されている場合
     }
+
+    // 確実に配列として設定
+    result.customApiConfigs = configs;
 
     // enabledBotsからenabledプロパティへのマイグレーション
     if (result.enabledBots && Array.isArray(result.enabledBots)) {
@@ -349,22 +351,32 @@ export async function updateUserConfig(updates: Partial<UserConfig>) {
     if ('customApiConfigs' in updates) {
       const configs = updates.customApiConfigs;
       
-      if (configs) {
+      if (configs && Array.isArray(configs)) {
         // 上限数を考慮
         const limitedConfigs = configs.slice(0, MAX_CUSTOM_MODELS);
         
-        // 既存のカスタム設定キーを削除
+        // アトミックな更新: 削除と作成を同時に行い、一瞬でもデータが空になることを防ぐ
         const allKeys = await Browser.storage.sync.get(null);
         const existingConfigKeys = Object.keys(allKeys)
           .filter(key => key.startsWith(CUSTOM_API_CONFIG_PREFIX));
         
-        if (existingConfigKeys.length > 0) {
-          await Browser.storage.sync.remove(existingConfigKeys);
+        // 新しい設定データを準備
+        const newConfigData: Record<string, CustomApiConfig> = {};
+        for (let i = 0; i < limitedConfigs.length; i++) {
+          newConfigData[`${CUSTOM_API_CONFIG_PREFIX}${i}`] = limitedConfigs[i];
         }
         
-        // 各モデルを個別に保存
-        for (let i = 0; i < limitedConfigs.length; i++) {
-          await Browser.storage.sync.set({ [`${CUSTOM_API_CONFIG_PREFIX}${i}`]: limitedConfigs[i] });
+        // 1つのトランザクションで更新：まず新しいデータを保存
+        await Browser.storage.sync.set(newConfigData);
+        
+        // 新しいキー範囲を超える古いキーのみ削除
+        const keysToRemove = existingConfigKeys.filter(key => {
+          const index = 　parseInt(key.replace(CUSTOM_API_CONFIG_PREFIX, ''), 10);
+          return index >= limitedConfigs.length;
+        });
+        
+        if (keysToRemove.length > 0) {
+          await Browser.storage.sync.remove(keysToRemove);
         }
       }
       

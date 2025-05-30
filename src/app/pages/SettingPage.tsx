@@ -8,6 +8,7 @@ import { Input } from '~app/components/Input'
 import RadioGroup from '~app/components/RadioGroup'
 import Select from '~app/components/Select'
 import Blockquote from '~app/components/Settings/Blockquote'
+import { cloneDeep } from 'lodash-es'
 
 import CustomAPISettings from '~app/components/Settings/CustomAPISettings'
 import ExportDataPanel from '~app/components/Settings/ExportDataPanel'
@@ -65,43 +66,36 @@ function SettingPage() {
       return;
     }
 
-    // Request host permissions for all custom API hosts to prevent CORS issues
-    if (userConfig.customApiConfigs) {
-      const originsToRequest = userConfig.customApiConfigs
-        .map(config => config.host || userConfig.customApiHost) // Use common host if specific host is empty
-        .filter(host => host && host.startsWith('http')) // Filter valid http/https URLs
-        .map(host => host.replace(/\/$/, '') + '/'); // Ensure trailing slash for permission matching
-      const uniqueOrigins = [...new Set(originsToRequest)]; // Remove duplicates
+    try {
+      // Request host permissions for all custom API hosts to prevent CORS issues
+      if (userConfig.customApiConfigs) {
+        const originsToRequest = userConfig.customApiConfigs
+          .map(config => config.host || userConfig.customApiHost) // Use common host if specific host is empty
+          .filter(host => host && host.startsWith('http')) // Filter valid http/https URLs
+          .map(host => host.replace(/\/$/, '') + '/'); // Ensure trailing slash for permission matching
+        const uniqueOrigins = [...new Set(originsToRequest)]; // Remove duplicates
 
-      if (uniqueOrigins.length > 0) {
-        try {
-          console.log('Requesting permissions for origins:', uniqueOrigins);
-          // Request permissions from the browser
-          await Browser.permissions.request({ origins: uniqueOrigins });
-        } catch (e) {
-          console.error('Error requesting permissions:', e);
-          // Optionally inform the user about the error
-          // toast.error('Failed to request necessary permissions.');
+        if (uniqueOrigins.length > 0) {
+          try {
+            console.log('Requesting permissions for origins:', uniqueOrigins);
+            // Request permissions from the browser
+            await Browser.permissions.request({ origins: uniqueOrigins });
+          } catch (e) {
+            console.error('Error requesting permissions:', e);
+            // Optionally inform the user about the error
+            // toast.error('Failed to request necessary permissions.');
+          }
         }
       }
-    }
 
-    await updateUserConfig(userConfig);
-    setDirty(false);
-    
-    // リロードの代わりに、設定を再読み込みして状態を更新
-    try {
-      // 少し待機してからストレージから設定を再読み込み
-      await new Promise(resolve => setTimeout(resolve, 200));
-      
-      const updatedConfig = await getUserConfig();
-      setUserConfig(updatedConfig);
+      // userConfigのディープコピーを渡すことで副作用を防ぐ
+      await updateUserConfig(cloneDeep(userConfig));
+      setDirty(false);
       
       toast.success(t('Settings saved. Please reload the extension to reflect changes in the Sidebar.'));
     } catch (error) {
-      console.error('Failed to reload config after save:', error);
-      toast.success(t('Settings saved'));
-      setTimeout(() => location.reload(), 500);
+      console.error('Failed to save settings:', error);
+      toast.error(t('Failed to save settings. Please try again.'));
     }
   }, [userConfig, t]); // userConfig を依存配列に戻す
 
