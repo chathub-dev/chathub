@@ -153,19 +153,13 @@ const CustomAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
             thinkingMode: false,
             thinkingBudget: 2000,
             provider: CustomApiProvider.OpenAI,
-            webAccess: false
+            webAccess: false,
+            enabled: true // 新しいモデルはデフォルトで有効
         };
 
-        // 新しいカスタムモデルのインデックスを取得
-        const newIndex = userConfig.customApiConfigs.length;
-        
-        // enabledBots 設定にも追加（インデックスベース）
-        const updatedEnabledBots = [...userConfig.enabledBots, newIndex];
-        
-        // 両方の設定を更新
+        // カスタムモデル設定のみを更新
         updateConfigValue({
-            customApiConfigs: [...userConfig.customApiConfigs, newConfig],
-            enabledBots: updatedEnabledBots
+            customApiConfigs: [...userConfig.customApiConfigs, newConfig]
         });
         
         // 再検証をトリガー
@@ -208,25 +202,24 @@ const CustomAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
 
     // モデルの有効/無効を切り替え
     const toggleBotEnabledState = (index: number) => {
-        let updatedEnabledBots = [...userConfig.enabledBots];
-        const isCurrentlyEnabled = updatedEnabledBots.includes(index);
+        const updatedConfigs = [...userConfig.customApiConfigs];
+        const currentConfig = updatedConfigs[index];
+        const isCurrentlyEnabled = currentConfig.enabled === true;
 
         if (isCurrentlyEnabled) {
-            // 無効にする (enabledBots から削除)
-            if (updatedEnabledBots.length <= 1 && userConfig.customApiConfigs.length > 1) { // 最後の1つで、かつ他にも設定がある場合は無効化できない
+            // 無効にする前に、有効なボットが他にもあるかチェック
+            const enabledCount = updatedConfigs.filter(config => config.enabled === true).length;
+            if (enabledCount <= 1) {
                 alert(t('At least one bot should be enabled'));
                 return;
             }
-            updatedEnabledBots = updatedEnabledBots.filter(i => i !== index);
+            updatedConfigs[index].enabled = false;
         } else {
-            // 有効にする (enabledBots に追加)
-            if (!updatedEnabledBots.includes(index)) {
-                updatedEnabledBots.push(index);
-                // 有効になったボットをリストの最後に移動する場合（任意、現在の動作は維持）
-                // updatedEnabledBots.sort((a,b) => a-b); // インデックス順にソートする場合
-            }
+            // 有効にする
+            updatedConfigs[index].enabled = true;
         }
-        updateConfigValue({ enabledBots: updatedEnabledBots });
+        
+        updateCustomApiConfigs(updatedConfigs);
         revalidateEnabledBots(); // Sidebarの更新をトリガー
     };
 
@@ -289,7 +282,7 @@ const CustomAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
                                 <div className="flex justify-between items-center mb-4">
                                     <div className="flex items-center gap-2">
                                         <p className="font-semibold text-base">{t(`Custom Chatbot No. ${index + 1}`)}</p>
-                                        {!userConfig.enabledBots.includes(index) && (
+                                        {!config.enabled && (
                                             <span className="text-xs bg-gray-600 text-white px-2 py-0.5 rounded">
                                                 {t('Disabled')}
                                             </span>
@@ -314,9 +307,9 @@ const CustomAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
                                         <button
                                             className="p-1 rounded hover:bg-gray-700"
                                             onClick={() => toggleBotEnabledState(index)}
-                                            title={userConfig.enabledBots.includes(index) ? t('Disable') : t('Enable')}
+                                            title={config.enabled ? t('Disable') : t('Enable')}
                                         >
-                                            {userConfig.enabledBots.includes(index) ? <BiShow size={16} /> : <BiHide size={16} />}
+                                            {config.enabled ? <BiShow size={16} /> : <BiHide size={16} />}
                                         </button>
 
                                         {/* 削除ボタン */}
@@ -335,21 +328,8 @@ const CustomAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
                                                     // 設定を入れ替え
                                                     [updatedConfigs[index - 1], updatedConfigs[index]] = [updatedConfigs[index], updatedConfigs[index - 1]];
                                                     
-                                                    // enabledBots配列も更新
-                                                    const updatedEnabledBots = [...userConfig.enabledBots];
-                                                    for (let i = 0; i < updatedEnabledBots.length; i++) {
-                                                        if (updatedEnabledBots[i] === index) {
-                                                            updatedEnabledBots[i] = index - 1;
-                                                        } else if (updatedEnabledBots[i] === index - 1) {
-                                                            updatedEnabledBots[i] = index;
-                                                        }
-                                                    }
-                                                    
-                                                    // 両方の設定を更新
-                                                    updateConfigValue({
-                                                        customApiConfigs: updatedConfigs,
-                                                        enabledBots: updatedEnabledBots
-                                                    });
+                                                    // カスタムAPI設定のみを更新
+                                                    updateCustomApiConfigs(updatedConfigs);
                                                 }
                                             }}
                                             disabled={index === 0}
@@ -367,21 +347,8 @@ const CustomAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
                                                     // 設定を入れ替え
                                                     [updatedConfigs[index], updatedConfigs[index + 1]] = [updatedConfigs[index + 1], updatedConfigs[index]];
                                                     
-                                                    // enabledBots配列も更新
-                                                    const updatedEnabledBots = [...userConfig.enabledBots];
-                                                    for (let i = 0; i < updatedEnabledBots.length; i++) {
-                                                        if (updatedEnabledBots[i] === index) {
-                                                            updatedEnabledBots[i] = index + 1;
-                                                        } else if (updatedEnabledBots[i] === index + 1) {
-                                                            updatedEnabledBots[i] = index;
-                                                        }
-                                                    }
-                                                    
-                                                    // 両方の設定を更新
-                                                    updateConfigValue({
-                                                        customApiConfigs: updatedConfigs,
-                                                        enabledBots: updatedEnabledBots
-                                                    });
+                                                    // カスタムAPI設定のみを更新
+                                                    updateCustomApiConfigs(updatedConfigs);
                                                 }
                                             }}
                                             disabled={index === userConfig.customApiConfigs.length - 1}

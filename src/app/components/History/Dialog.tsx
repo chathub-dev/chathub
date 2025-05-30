@@ -3,7 +3,6 @@ import { FC, useCallback, useMemo, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FiSearch } from 'react-icons/fi'
 import { VscClearAll } from 'react-icons/vsc'
-import { usePremium } from '~app/hooks/use-premium'
 import { clearHistoryMessages } from '~services/chat-history'
 import { getUserConfig } from '~services/user-config'
 import Dialog from '../Dialog'
@@ -35,7 +34,6 @@ interface Props {
 const HistoryDialog: FC<Props> = (props) => {
   const [botName, setBotName] = useState('Custom Bot');
   const { t } = useTranslation()
-  const premiumState = usePremium()
   const [keyword, setKeyword] = useState('')
 
   useEffect(() => {
@@ -71,7 +69,7 @@ const HistoryDialog: FC<Props> = (props) => {
             <VscClearAll size={18} className="opacity-80" />
           </div>
         </Tooltip>
-        <SearchInput disabled={!premiumState.activated} value={keyword} onChange={setKeyword} />
+        <SearchInput disabled={false} value={keyword} onChange={setKeyword} />
       </div>
       <HistoryContent index={props.index} keyword={keyword} />
     </Dialog>

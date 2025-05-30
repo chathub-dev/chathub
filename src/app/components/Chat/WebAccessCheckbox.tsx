@@ -1,9 +1,6 @@
 import { Switch } from '@headlessui/react'
-import { useSetAtom } from 'jotai'
-import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react'
+import { FC, memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { usePremium } from '~app/hooks/use-premium'
-import { showPremiumModalAtom } from '~app/state'
 import { requestHostPermission } from '~app/utils/permissions'
 import { getUserConfig, updateUserConfig, CustomApiConfig } from '~services/user-config'
 import Toggle from '../Toggle'
@@ -15,8 +12,6 @@ interface Props {
 const WebAccessCheckbox: FC<Props> = (props) => {
   const { t } = useTranslation()
   const [checked, setChecked] = useState<boolean>(false) // 初期値は false
-  const setPremiumModalOpen = useSetAtom(showPremiumModalAtom)
-  const premiumState = usePremium()
 
   useEffect(() => {
     const fetchWebAccessState = async () => {
@@ -33,10 +28,6 @@ const WebAccessCheckbox: FC<Props> = (props) => {
 
   const onToggle = useCallback(
     async (newValue: boolean) => {
-      if (!premiumState.activated && newValue) {
-        setPremiumModalOpen('web-access');
-        return;
-      }
       if (newValue && !(await requestHostPermission('https://*.duckduckgo.com/'))) {
         return;
       }
@@ -56,7 +47,7 @@ const WebAccessCheckbox: FC<Props> = (props) => {
         updateUserConfig({ customApiConfigs: updatedCustomApiConfigs });
       }
     },
-    [premiumState.activated, props.index, setPremiumModalOpen],
+    [props.index],
   )
 
   return (

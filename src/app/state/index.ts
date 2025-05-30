@@ -2,7 +2,6 @@ import { atom } from 'jotai'
 import { atomWithImmer } from 'jotai-immer'
 import { atomFamily, atomWithStorage } from 'jotai/utils'
 import { createBotInstance } from '~app/bots'
-import { FeatureId } from '~app/components/Premium/FeatureList'
 import { getDefaultThemeColor } from '~app/utils/color-scheme'
 import { Campaign } from '~services/server-api'
 import { ChatMessageModel } from '~types'
@@ -31,6 +30,5 @@ export const themeColorAtom = atomWithStorage('themeColor', getDefaultThemeColor
 export const followArcThemeAtom = atomWithStorage('followArcTheme', false)
 export const sidePanelBotAtom = atomWithStorage<number>('sidePanelBot', 0)
 export const showDiscountModalAtom = atom<false | true | Campaign>(false)
-export const showPremiumModalAtom = atom<false | true | FeatureId>(false)
 export const releaseNotesAtom = atom<string[]>([])
 export const pendingSearchQueryAtom = atom<string | null>(null)

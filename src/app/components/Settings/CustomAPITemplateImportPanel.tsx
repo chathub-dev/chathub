@@ -44,21 +44,30 @@ const CustomAPITemplateImportPanel: FC<Props> = ({ userConfig, updateConfigValue
               console.log('Importing configs from new array format', json.sync.customApiConfigs.length);
               importedConfigs = [...json.sync.customApiConfigs];
             } else {
-              // 古い形式から読み込み
+              // 古い形式から読み込み - configCountに依存せず、存在するキーをすべて検索
               console.log('Importing configs from old individual keys format');
-              const configCount = json.sync.customApiConfigCount || 0;
               
-              if (configCount === 0) {
-                toast.error(t('Invalid file format: customApiConfigCount is 0 or not defined'));
+              // customApiConfig_XXXキーを検索
+              const configKeys = Object.keys(json.sync).filter(key => key.startsWith('customApiConfig_'));
+              
+              if (configKeys.length === 0) {
+                toast.error(t('No Custom API settings found in the file. Please check the file format.'));
                 return;
               }
               
-              for (let i = 0; i < configCount; i++) {
-                const config = json.sync[`customApiConfig_${i}`];
+              // インデックス順にソートしてから処理
+              configKeys.sort((a, b) => {
+                const indexA = parseInt(a.split('_')[1], 10);
+                const indexB = parseInt(b.split('_')[1], 10);
+                return indexA - indexB;
+              });
+              
+              for (const configKey of configKeys) {
+                const config = json.sync[configKey];
                 if (config) {
                   importedConfigs.push(config);
                 } else {
-                  console.warn(`Config at index ${i} not found`);
+                  console.warn(`Config for key ${configKey} not found`);
                 }
               }
             }
@@ -124,15 +133,9 @@ const CustomAPITemplateImportPanel: FC<Props> = ({ userConfig, updateConfigValue
       try {
         // 現在の設定のコピーを作成
         const newConfigs = [...userConfig.customApiConfigs]
-        
-        // 現在の有効なボットのインデックスを取得
-        const enabledBots = [...userConfig.enabledBots]
 
         // 新しく追加する設定を格納する配列
         const configsToAdd: CustomApiConfig[] = []
-        
-        // 新しく有効化するボットのインデックスを格納する配列
-        const newEnabledIndices: number[] = []
 
         try {
           // マッピングに基づいて設定を適用
@@ -140,25 +143,19 @@ const CustomAPITemplateImportPanel: FC<Props> = ({ userConfig, updateConfigValue
             const targetIndex = mappings[index]
             
             if (targetIndex === -2) {
-              // 新規として追加
+              // 新規として追加（デフォルトで有効化）
               const newIndex = newConfigs.length + configsToAdd.length
               configsToAdd.push({
                 ...config,
-                id: newIndex + 1 // 新しいIDを割り当て
+                id: newIndex + 1, // 新しいIDを割り当て
+                enabled: true // 新しく追加したボットを有効化
               })
-              
-              // 新しく追加したボットを有効化
-              newEnabledIndices.push(newIndex)
             } else if (targetIndex !== undefined && targetIndex >= 0 && targetIndex < newConfigs.length) {
-              // 既存の設定を置き換え
+              // 既存の設定を置き換え（有効化状態も更新）
               newConfigs[targetIndex] = {
                 ...config,
-                id: newConfigs[targetIndex].id // IDは保持
-              }
-              
-              // 既存のボットが有効化されていない場合は有効化
-              if (!enabledBots.includes(targetIndex)) {
-                enabledBots.push(targetIndex)
+                id: newConfigs[targetIndex].id, // IDは保持
+                enabled: true // インポートした設定は有効化
               }
             }
           })
@@ -172,26 +169,15 @@ const CustomAPITemplateImportPanel: FC<Props> = ({ userConfig, updateConfigValue
         const updatedConfigs = [...newConfigs, ...configsToAdd]
         
         try {
-          // 新しく追加したボットのインデックスを有効化
-          const updatedEnabledBots = [...enabledBots]
-          newEnabledIndices.forEach(index => {
-            const actualIndex = newConfigs.length + index - newEnabledIndices.indexOf(index)
-            if (!updatedEnabledBots.includes(actualIndex)) {
-              updatedEnabledBots.push(actualIndex)
-            }
-          })
-
           // Reactの状態を更新
           updateConfigValue({
-            customApiConfigs: updatedConfigs,
-            enabledBots: updatedEnabledBots
+            customApiConfigs: updatedConfigs
           })
           
           try {
             // 設定をブラウザストレージに保存（ユーティリティ関数を使用）
             await updateUserConfig({
-              customApiConfigs: updatedConfigs,
-              enabledBots: updatedEnabledBots
+              customApiConfigs: updatedConfigs
             })
             
             // 成功メッセージ

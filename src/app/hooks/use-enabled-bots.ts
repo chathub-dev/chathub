@@ -25,23 +25,23 @@ export function useEnabledBots(): BotInfo[] {
   const query = useSWR(SWR_KEY, async () => {
     // ユーザー設定全体を取得
     const config = await getUserConfig()
-    const enabledBotsFromConfig = config.enabledBots || [] // number[] 型
     const customApiConfigs = config.customApiConfigs || []
 
-    // すべてのカスタムボットの情報を生成
-    const allBots = customApiConfigs.map((customConfig, index) => {
-      const bot = {
-        name: customConfig.name,
-        avatar: customConfig.avatar,
-        shortName: customConfig.shortName,
-      }
-      return { index, bot };
-    });
-
-    // enabledBotsFromConfig に含まれ、かつ実際に存在するインデックスのボットのみをフィルタリング
-    const enabledBots = allBots.filter(bot =>
-      enabledBotsFromConfig.includes(bot.index) && bot.index < customApiConfigs.length
-    );
+    // すべてのカスタムボットの情報を生成し、enabledプロパティでフィルタリング
+    const enabledBots = customApiConfigs
+      .map((customConfig, index) => {
+        const bot = {
+          name: customConfig.name,
+          avatar: customConfig.avatar,
+          shortName: customConfig.shortName,
+        }
+        return { index, bot };
+      })
+      .filter((botInfo, index) => {
+        // enabledプロパティがtrueのボットのみを返す
+        const config = customApiConfigs[index];
+        return config.enabled === true;
+      });
     
     return enabledBots;
   })

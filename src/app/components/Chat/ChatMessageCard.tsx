@@ -7,7 +7,6 @@ import { LuCircleCheckBig } from "react-icons/lu";
 import { BeatLoader } from 'react-spinners'
 import { ChatMessageModel } from '~/types'
 import Markdown from '../Markdown'
-import ErrorAction from './ErrorAction'
 import MessageBubble from './MessageBubble'
 import { useTranslation } from 'react-i18next'
 
@@ -194,7 +193,6 @@ const ChatMessageCard: FC<Props> = ({ message, className, onPropaganda }) => {
             <p className="text-[#cc0000] dark:text-[#ff0033]">{message.error.message}</p>
           )}
         </MessageBubble>
-        {!!message.error && <ErrorAction error={message.error} />}
       </div>
       {!!copyText && (
         <div className="flex flex-col justify-between h-full py-1">

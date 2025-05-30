@@ -104,7 +104,8 @@ export interface CustomApiConfig {
   thinkingBudget: number,
   provider: CustomApiProvider,
   webAccess?: boolean,
-  isAnthropicUsingAuthorizationHeader?: boolean // Anthropicの認証ヘッダータイプを指定するフラグ
+  isAnthropicUsingAuthorizationHeader?: boolean, // Anthropicの認証ヘッダータイプを指定するフラグ
+  enabled?: boolean // 各チャットボットの有効/無効状態
 }
 
 /**
@@ -124,7 +125,8 @@ const defaultCustomApiConfigs: CustomApiConfig[] = [
     thinkingMode: false,
     thinkingBudget: 2000,
     provider: CustomApiProvider.OpenAI,
-    webAccess: false // デフォルトは無効
+    webAccess: false, // デフォルトは無効
+    enabled: true // 
   },
   {
     id: 2,
@@ -139,7 +141,8 @@ const defaultCustomApiConfigs: CustomApiConfig[] = [
     thinkingMode: false,
     thinkingBudget: 2000,
     provider: CustomApiProvider.OpenAI,
-    webAccess: false // デフォルトは無効
+    webAccess: false, // デフォルトは無効
+    enabled: true // 
   },
   {
     id: 3,
@@ -154,7 +157,8 @@ const defaultCustomApiConfigs: CustomApiConfig[] = [
     thinkingMode: false,
     thinkingBudget: 2000,
     provider: CustomApiProvider.OpenAI,
-    webAccess: false // デフォルトは無効
+    webAccess: false, // デフォルトは無効
+    enabled: true // 
   },
   {
     id: 4,
@@ -169,7 +173,8 @@ const defaultCustomApiConfigs: CustomApiConfig[] = [
     thinkingMode: false,
     thinkingBudget: 2000,
     provider: CustomApiProvider.OpenAI,
-    webAccess: false // デフォルトは無効
+    webAccess: false, // デフォルトは無効
+    enabled: true
   }
 ]
 
@@ -251,8 +256,6 @@ export const presetApiConfigs: Record<string, Omit<CustomApiConfig, 'id' | 'apiK
  */
 const userConfigWithDefaultValue = {
   startupPage: ALL_IN_ONE_PAGE_ID,
-  enabledBots: [0, 1, 2], // デフォルトで最初の3つのカスタムボットを有効化
-
   chatgptWebAccess: false,
   claudeWebAccess: false,
   customApiConfigs: defaultCustomApiConfigs,
@@ -312,6 +315,16 @@ export async function getUserConfig(): Promise<UserConfig> {
       }
     } else {
       result.customApiConfigs = [...defaultCustomApiConfigs]; // 初めて設定されている場合
+    }
+
+    // enabledBotsからenabledプロパティへのマイグレーション
+    if (result.enabledBots && Array.isArray(result.enabledBots)) {
+      result.customApiConfigs.forEach((config: CustomApiConfig, index: number) => {
+        // enabledプロパティが未定義の場合のみマイグレーション
+        if (config.enabled === undefined) {
+          config.enabled = result.enabledBots.includes(index);
+        }
+      });
     }
     
     // useCustomChatbotOnly フラグを削除（すべてカスタムモデルとして扱う）
