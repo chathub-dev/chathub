@@ -2,6 +2,14 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import BotIcon from '../BotIcon';
 
+// =====================================================================================
+// IMPORTANT: アイコン追加・変更時の注意
+// =====================================================================================
+// 新しいアイコンをここに追加する場合、必ず以下のファイルにも同様の変更を加えてください:
+//   - src/app/components/BotIcon.tsx (iconMap の更新)
+//
+// =====================================================================================
+
 // アイコンのインポート
 import claudeLogo from '~/assets/logos/anthropic.png';
 import baichuanLogo from '~/assets/logos/baichuan.png';
@@ -34,6 +42,7 @@ import rwkvLogo from '~/assets/logos/rwkv.png';
 import stablelmLogo from '~/assets/logos/stablelm.png';
 import sambaNovaLogo from '~/assets/logos/SambaNova.svg';
 import huddleLLMLogo from '~/assets/logos/HuddleLLM.png';
+import deepinfraLogo from '~/assets/logos/deepinfra.svg';
 
 // アイコンオプションの定義
 interface IconOption {
@@ -95,6 +104,7 @@ const otherIcons: IconOption[] = [
   { id: 'baichuan', name: 'Baichuan', src: baichuanLogo },
   { id: 'chatglm', name: 'ChatGLM', src: chatglmLogo },
   { id: 'chathub', name: 'ChatHub', src: chathubLogo },
+  { id: 'deepinfra', name: 'DeepInfra', src: deepinfraLogo },
   { id: 'deepseek', name: 'DeepSeek', src: deepseekLogo },
   { id: 'dolly', name: 'Dolly', src: dollyLogo },
   { id: 'falcon', name: 'Falcon', src: falconLogo },

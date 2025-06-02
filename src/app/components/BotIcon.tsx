@@ -3,6 +3,14 @@ import OpenAILogo from './logos/OpenAILogos';
 import ClaudeLogo from './logos/ClaudeLogos';
 import PerplexityLogo from './logos/PerplexityLogos';
 
+// =====================================================================================
+// IMPORTANT: アイコン追加・変更時の注意
+// =====================================================================================
+// 新しいアイコンをここに追加する場合、必ず以下のファイルにも同様の変更を加えてください:
+//   - src/app/components/Settings/IconSelect.tsx (otherIcons 配列の更新)
+//
+// =====================================================================================
+
 // アイコンのインポート
 import claudeLogo from '~/assets/logos/anthropic.png';
 import baichuanLogo from '~/assets/logos/baichuan.png';
@@ -35,6 +43,7 @@ import stablelmLogo from '~/assets/logos/stablelm.png';
 import sambaNovaLogo from '~/assets/logos/SambaNova.svg';
 import huddleLLMLogo from '~/assets/logos/HuddleLLM.png';
 import claude4Logo from '~/assets/logos/Claude4.webp';
+import deepinfraLogo from '~/assets/logos/deepinfra.svg';
 
 // 特殊フォーマットのアイコンID用マッピング
 const specialFormatMap: Record<string, string> = {
@@ -58,6 +67,7 @@ const iconMap: Record<string, string> = {
   'chatglm': chatglmLogo,
   'chatgpt': chatgptLogo,
   'chathub': chathubLogo,
+  'deepinfra': deepinfraLogo,
   'deepseek': deepseekLogo,
   'openai': chatgptLogo,
   'falcon': falconLogo,
