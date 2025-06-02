@@ -57,6 +57,8 @@
   "Copy to Clipboard": "クリップボードにコピー",
   "Copied to clipboard": "クリップボードにコピーしました",
   "Failed to copy": "コピーに失敗しました",
+  "releasenote_v274_custom_api_endpoint_options": "Custom APIのEnd point指定オプションを強化しました（Full pathの入力に対応することで、Deep InfraのようなOpenAIのPathとは微妙に異なるAPI Providerも使えるようになりました）。",
+  "releasenote_v274_config_system_refactor": "後方互換性に注意しながら設定ファイルの保持方法を変更しました（もしうまくいかなかったらすみません。再度設定し直してください）。",
   "releasenote_v270_thinking_mode_fix": "「Thinking Mode」と「Temperature」の設定表示ロジックを改善し、選択したAPIプロバイダーに応じてより分かりやすく表示されるようにしました。",
   "releasenote_v270_add_model_button_enhancement": "カスタムボット設定ページの下部にも「新しいモデルを追加」ボタンを追加し、利便性を向上させました。",
   "releasenote_v270_settings_bug_fix": "設定画面の内容が正しく設定に反映されない場合がある不具合を修正しました。",

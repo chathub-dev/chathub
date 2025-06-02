@@ -6,7 +6,7 @@ export default defineManifest(async () => {
     name: '__MSG_appName__',
     description: '__MSG_appDesc__',
     default_locale: 'en',
-    version: '2.7.2.1',
+    version: '2.7.4',
     icons: {
       '16': 'src/assets/icon.png',
       '32': 'src/assets/icon.png',
@@ -22,8 +22,8 @@ export default defineManifest(async () => {
     ],
     optional_host_permissions: ['https://*/*', 'wss://*/*'],
     permissions: ['storage', 'unlimitedStorage', 'sidePanel', 'declarativeNetRequestWithHostAccess', 'scripting'],
-    content_scripts: [
-    ],
+    // content_scripts: [
+    // ],
     commands: {
       'open-app': {
         suggested_key: {

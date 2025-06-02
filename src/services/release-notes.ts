@@ -6,6 +6,13 @@ import { getVersion } from '~utils'
 
 const RELEASE_NOTES = [
   {
+    version: '2.7.4',
+    notes: [
+      'releasenote_v274_custom_api_endpoint_options',
+      'releasenote_v274_config_system_refactor',
+    ],
+  },
+  {
     version: '2.7.0',
     notes: [
       'releasenote_v270_omnibox_search',

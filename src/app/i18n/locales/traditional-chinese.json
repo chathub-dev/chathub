@@ -17,6 +17,8 @@
   "releasenote-perplexity-reasoning": "## Perplexity功能增強\n\n- 為Perplexity API添加了推理模式（perplexity-reasoning）\n- 專注於逐步推理過程的模式\n- 可為標準模式和推理模式分別設置不同模型\n- 更新了Perplexity標誌設計：新增Color、Mono、Sonar、Square四種變體\n- 改進了Claude API的回應處理",
   "releasenote-gemini-2.5-pro": "## Gemini 2.5 Pro Experimental 支援\n\n此版本增加了對Google新的Gemini 2.5 Pro Experimental模型的支援，提供了更大的上下文視窗和增強的推理能力。我們還修復了Gemini API自定義模型名稱無法正確保存的錯誤。\n\n*(有趣的是：此發行說明是在Gemini 2.5 Pro的幫助下根據代碼差異編寫的！)*",
   "releasenote-custom-claude-api": "## Claude API功能增強 | 現同時支援Bedrock和Anthropic\n\n### ～使用Anthropic官方API效能提升最高30%～\n\n<video controls width=\"100%\" style=\"max-width: 600px; margin: 20px auto; display: block; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);\">\n  <source src=\"videos/claude-anthropic-vs-bedrock.mp4\" type=\"video/mp4\">\n  您的瀏覽器不支持視頻標籤。\n</video>\n\n- 在進階設定中添加了API提供商選擇（可選擇OpenAI Compatible、Anthropic Claude API、AWS Bedrock）\n- 改進了URL路徑處理，防止API主機已包含'v1/'時的重複\n- **從Bedrock切換到Anthropic Claude API可以將回應速度提高20-30%**\n\n這些變更使得使用各種服務提供商和自定義端點的Claude API變得更加容易，同時提高了整體效能。",
+  "releasenote_v274_custom_api_endpoint_options": "強化自訂API端點設定選項囉～（新增完整路徑輸入功能，現在可搭配Deep Infra這種路徑跟OpenAI不太一樣的服務供應商喔！）",
+  "releasenote_v274_config_system_refactor": "重構設定檔儲存方式啦！（仍相容舊版本設定，若造成問題真的不好意思餒...還請大家重新設定一下喔）",
   "releasenote_v270_sidebar_all_in_one_fix": "修復了側邊欄「All-In-One」聊天始終顯示在頂部的問題。",
   "releasenote_v270_thinking_mode_fix": "改進了「思考模式」和「Temperature」設定的顯示邏輯，確保根據所選的API提供商更清晰地顯示。",
   "releasenote_v270_add_model_button_enhancement": "在自訂聊天機器人設定頁面的底部也添加了「新增模型」按鈕，以提高可用性。",
