@@ -59,7 +59,7 @@ export const MODEL_LIST: Record<string, Record<string, string>> = {
         "Google Gemini 2.5 Flash": "google/gemini-2.5-flash-preview-04-17",
         "Google Gemini 2.5 Pro": "google/gemini-2.5-pro-preview-05-06",
         // Bedrock用のClaudeモデル
-        "Claude 3.7 Sonnet (Bedrock)": "us.anthropic.claude-3-7-sonnet-20250219-v1:0",
+        "Claude Sonnet 4 (Bedrock)": "us.anthropic.claude-sonnet-4-20250514-v1:0",
         "Claude 3.5 Haiku (Bedrock)": "anthropic.claude-3-5-haiku-20241022-v1:0",
     },
 };
@@ -115,8 +115,8 @@ const defaultCustomApiConfigs: CustomApiConfig[] = [
   {
     id: 1,
     name: 'Custom Ai1',
-    shortName: 'o3-mi',
-    model: 'o3-mini',
+    shortName: 'o4-mi',
+    model: 'o4-mini',
     host: '',
     temperature: 0.7,
     systemMessage: '',
@@ -271,68 +271,90 @@ export type UserConfig = typeof userConfigWithDefaultValue
  * ユーザー設定を取得する
  * @returns ユーザー設定
  */
-export async function getUserConfig(): Promise<UserConfig> {
-  try {
-    const result = await Browser.storage.sync.get(null) // 全ての設定を取得
-    
-    let configs: CustomApiConfig[] = [];
+// Helper function to migrate customApiConfigs from sync to local
+async function _migrateCustomApiConfigsFromSyncToLocal(): Promise<CustomApiConfig[] | undefined> {
+  const allSyncDataForMigration = await Browser.storage.sync.get(null);
+  const oldIndividualConfigKeys = Object.keys(allSyncDataForMigration)
+    .filter(key => key.startsWith(CUSTOM_API_CONFIG_PREFIX));
 
-    // customApiConfig_XXXから個数を取得
-    const configKeys = Object.keys(result).filter(key => key.startsWith(CUSTOM_API_CONFIG_PREFIX));
-    
-    // 存在するcustomApiConfig_XXXでループする
-    for (const key of configKeys) {
-      const customApiConfigFromStorage = result[key] as CustomApiConfig;
-      if (customApiConfigFromStorage) {
-        configs.push(customApiConfigFromStorage);
+  if (oldIndividualConfigKeys.length > 0) {
+    console.log('Migrating customApiConfigs from sync (individual keys) to local (single key)...');
+    let migratedConfigs: CustomApiConfig[] = [];
+    for (const key of oldIndividualConfigKeys) {
+      if (allSyncDataForMigration[key] && typeof allSyncDataForMigration[key] === 'object') {
+        migratedConfigs.push(allSyncDataForMigration[key] as CustomApiConfig);
       }
     }
-    
-    // インデックス順にソート
-    configs.sort((a, b) => {
-      const idA = a.id || 0;
-      const idB = b.id || 0;
-      return idA - idB;
+    // Sort by index extracted from the key
+    migratedConfigs.sort((a, b) => {
+      const getIndexFromKey = (config: CustomApiConfig, keyPrefix: string, allData: Record<string, any>): number => {
+        for (const k in allData) {
+          if (allData[k] === config && k.startsWith(keyPrefix)) {
+            const indexStr = k.substring(keyPrefix.length);
+            const index = parseInt(indexStr, 10);
+            if (!isNaN(index)) return index;
+          }
+        }
+        return Infinity;
+      };
+      const indexA = getIndexFromKey(a, CUSTOM_API_CONFIG_PREFIX, allSyncDataForMigration);
+      const indexB = getIndexFromKey(b, CUSTOM_API_CONFIG_PREFIX, allSyncDataForMigration);
+      return indexA - indexB;
     });
-    
-    // configsが空の場合はデフォルト設定を使用
-    if (configs.length === 0) {
-      configs = [...defaultCustomApiConfigs];
-    } else {
-      const defaultCount = defaultCustomApiConfigs.length;
-      const currentCount = configs.length;
 
-      // 既存の設定にproviderフィールドがない場合は追加
-      configs.forEach((config: CustomApiConfig) => {
+    await Browser.storage.local.set({ customApiConfigs: migratedConfigs });
+    await Browser.storage.sync.remove(oldIndividualConfigKeys);
+    console.log('Migration complete.');
+    return migratedConfigs;
+  }
+  return undefined;
+}
+
+export async function getUserConfig(): Promise<UserConfig> {
+  try {
+    // 1. customApiConfigs を local から取得
+    const localData = await Browser.storage.local.get('customApiConfigs');
+    let customConfigsInLocal: CustomApiConfig[] | undefined = localData.customApiConfigs;
+
+    // 2. その他の設定を sync から取得 (customApiConfigs を除く)
+    const syncKeysToGet = Object.keys(userConfigWithDefaultValue).filter(k => k !== 'customApiConfigs');
+    const syncData = await Browser.storage.sync.get(syncKeysToGet);
+
+    let finalConfig = defaults({}, syncData, userConfigWithDefaultValue);
+
+    // 3. マイグレーション処理 (必要な場合)
+    if (customConfigsInLocal === undefined || (Array.isArray(customConfigsInLocal) && customConfigsInLocal.length === 0)) {
+      const migrated = await _migrateCustomApiConfigsFromSyncToLocal();
+      if (migrated) {
+        customConfigsInLocal = migrated;
+      }
+    }
+
+    finalConfig.customApiConfigs = customConfigsInLocal || [...defaultCustomApiConfigs];
+    
+    if (finalConfig.customApiConfigs) {
+      finalConfig.customApiConfigs.forEach((config: CustomApiConfig) => {
         if (config.provider === undefined) {
           config.provider = CustomApiProvider.OpenAI;
         }
       });
-
-      // 最低限のデフォルト設定を確保
-      if (currentCount < defaultCount) {
-        const configsToAdd = defaultCustomApiConfigs.slice(currentCount, defaultCount);
-        configs.push(...configsToAdd);
-      }
     }
-
-    // 確実に配列として設定
-    result.customApiConfigs = configs;
-
-    // enabledBotsからenabledプロパティへのマイグレーション
-    if (result.enabledBots && Array.isArray(result.enabledBots)) {
-      result.customApiConfigs.forEach((config: CustomApiConfig, index: number) => {
-        // enabledプロパティが未定義の場合のみマイグレーション
+    
+    if (syncData.enabledBots && Array.isArray(syncData.enabledBots) && finalConfig.customApiConfigs) {
+        finalConfig.customApiConfigs.forEach((config: CustomApiConfig, index: number) => {
         if (config.enabled === undefined) {
-          config.enabled = result.enabledBots.includes(index);
+          config.enabled = syncData.enabledBots.includes(index);
         }
       });
+      await Browser.storage.sync.remove('enabledBots');
     }
     
-    // useCustomChatbotOnly フラグを削除（すべてカスタムモデルとして扱う）
-    delete result.useCustomChatbotOnly;
-    
-    return defaults(result, userConfigWithDefaultValue);
+    if (finalConfig.hasOwnProperty('useCustomChatbotOnly')) {
+        delete (finalConfig as any).useCustomChatbotOnly;
+        await Browser.storage.sync.remove('useCustomChatbotOnly');
+    }
+
+    return finalConfig;
   } catch (error) {
     console.error('Failed to get user config:', error);
     toast.error('設定の読み込みに失敗しました。デフォルト設定を使用します。');
@@ -340,63 +362,46 @@ export async function getUserConfig(): Promise<UserConfig> {
   }
 }
 
-
 /**
  * ユーザー設定を更新する
  * @param updates 更新する設定
  */
 export async function updateUserConfig(updates: Partial<UserConfig>) {
   try {
-    // customApiConfigsが含まれている場合は、個別キーに変換して保存
-    if ('customApiConfigs' in updates) {
-      const configs = updates.customApiConfigs;
-      
-      if (configs && Array.isArray(configs)) {
-        // 上限数を考慮
-        const limitedConfigs = configs.slice(0, MAX_CUSTOM_MODELS);
-        
-        // アトミックな更新: 削除と作成を同時に行い、一瞬でもデータが空になることを防ぐ
-        const allKeys = await Browser.storage.sync.get(null);
-        const existingConfigKeys = Object.keys(allKeys)
-          .filter(key => key.startsWith(CUSTOM_API_CONFIG_PREFIX));
-        
-        // 新しい設定データを準備
-        const newConfigData: Record<string, CustomApiConfig> = {};
-        for (let i = 0; i < limitedConfigs.length; i++) {
-          newConfigData[`${CUSTOM_API_CONFIG_PREFIX}${i}`] = limitedConfigs[i];
-        }
-        
-        // 1つのトランザクションで更新：まず新しいデータを保存
-        await Browser.storage.sync.set(newConfigData);
-        
-        // 新しいキー範囲を超える古いキーのみ削除
-        const keysToRemove = existingConfigKeys.filter(key => {
-          const index = 　parseInt(key.replace(CUSTOM_API_CONFIG_PREFIX, ''), 10);
-          return index >= limitedConfigs.length;
-        });
-        
-        if (keysToRemove.length > 0) {
-          await Browser.storage.sync.remove(keysToRemove);
-        }
+    const { customApiConfigs, ...otherUpdates } = updates;
+
+    // 1. customApiConfigs を local に保存 (存在する場合)
+    if (customApiConfigs !== undefined) { // null や空配列も保存対象とするため、undefined のみチェック
+      if (Array.isArray(customApiConfigs)) {
+        const limitedConfigs = customApiConfigs.slice(0, MAX_CUSTOM_MODELS);
+        await Browser.storage.local.set({ customApiConfigs: limitedConfigs });
+      } else {
+        // customApiConfigs が配列でない不正なケース (例: null)
+        await Browser.storage.local.set({ customApiConfigs: [] }); // 空配列として保存
       }
-      
-      // updates から customApiConfigs を削除（他の更新に含めない）
-      delete updates.customApiConfigs;
     }
-    
-    // その他の更新
-    if (Object.keys(updates).length > 0) {
-      await Browser.storage.sync.set(updates);
-      
-      // undefined値のキーを削除
-      for (const [key, value] of Object.entries(updates)) {
+
+    // 2. その他の設定を sync に保存 (存在する場合)
+    if (Object.keys(otherUpdates).length > 0) {
+      const updatesForSync: Record<string, any> = {};
+      const keysToRemoveFromSync: string[] = [];
+
+      for (const [key, value] of Object.entries(otherUpdates)) {
         if (value === undefined) {
-          await Browser.storage.sync.remove(key);
+          keysToRemoveFromSync.push(key);
+        } else {
+          updatesForSync[key] = value;
         }
+      }
+      if (Object.keys(updatesForSync).length > 0) {
+        await Browser.storage.sync.set(updatesForSync);
+      }
+      if (keysToRemoveFromSync.length > 0) {
+        await Browser.storage.sync.remove(keysToRemoveFromSync);
       }
     }
     
-    // 設定更新イベントを発火
+
     const event = new CustomEvent(CHATBOTS_UPDATED_EVENT);
     window.dispatchEvent(event);
   } catch (error) {
@@ -409,25 +414,3 @@ export async function updateUserConfig(updates: Partial<UserConfig>) {
   }
 }
 
-/**
- * 全てのカスタム設定を削除する
- */
-export async function clearAllCustomConfigs(): Promise<void> {
-  try {
-    const allKeys = await Browser.storage.sync.get(null);
-    const configKeys = Object.keys(allKeys)
-      .filter(key => key.startsWith(CUSTOM_API_CONFIG_PREFIX));
-    
-    if (configKeys.length > 0) {
-      await Browser.storage.sync.remove(configKeys);
-      toast.success('全てのカスタム設定を削除しました');
-    }
-  } catch (error) {
-    console.error('Failed to clear custom configs:', error);
-    let errorMessage = 'カスタム設定の削除に失敗しました';
-    if (error instanceof Error) {
-      errorMessage += `: ${error.message}`;
-    }
-    toast.error(errorMessage);
-  }
-}

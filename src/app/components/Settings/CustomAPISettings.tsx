@@ -1,6 +1,7 @@
 // Removed duplicate import
 import { useTranslation } from 'react-i18next'
 import { FC, useState, useEffect } from 'react' // useEffect をインポート
+import toast from 'react-hot-toast'
 import {
     UserConfig,
     CustomApiProvider,
@@ -171,31 +172,24 @@ const CustomAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
             return;
         }
 
-        window.confirm(t('The delete function is temporarily having an issue in the current version. The developer is working hard to fix it. I am sorry!'))
+        if (!window.confirm(t('Are you sure you want to delete this custom model?'))) {
+            return;
+        }
 
-        // if (window.confirm(t('Are you sure you want to delete this custom model?'))) {
-        //     const updatedConfigs = [...userConfig.customApiConfigs];
-            
-        //     // 設定から削除
-        //     updatedConfigs.splice(index, 1);
+        const updatedConfigs = [...userConfig.customApiConfigs];
+        // 設定から削除
+        updatedConfigs.splice(index, 1);
 
-        //     // enabledBots を再構築（インデックスベース）
-        //     // 削除されたインデックスより大きいインデックスをすべて1つ減らす
-        //     const updatedEnabledBots = userConfig.enabledBots
-        //         .filter(i => i !== index) // 削除されたインデックスを除外
-        //         .map(i => i > index ? i - 1 : i); // 削除されたインデックスより大きいものは1つ減らす
-            
-        //     // 状態更新を同時に実行（再検証なし）
-        //     updateConfigValue({
-        //         customApiConfigs: updatedConfigs,
-        //         enabledBots: updatedEnabledBots
-        //     });
-            
-        //     // 状態更新が完了してから再検証を実行
-        //     setTimeout(() => {
-        //         revalidateEnabledBots();
-        //     }, 100);
-        // }
+        // ローカルのReactステートを更新（「Save changes」で永続化）
+        updateConfigValue({
+            customApiConfigs: updatedConfigs,
+        });
+
+        // サイドバーの再検証を実行
+        revalidateEnabledBots();
+
+        // 保存を促すトースト
+        toast.success(t('Model deleted. Please save changes to persist.'));
     };
 
     // モデルの有効/無効を切り替え

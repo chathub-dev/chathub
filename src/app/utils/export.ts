@@ -88,39 +88,31 @@ export async function importData() {
  * APIキーを除外し、テンプレートとして必要な情報のみを出力する
  */
 export async function exportCustomAPITemplate() {
-  // ストレージからカスタムAPI設定を取得
-  const syncData = await Browser.storage.sync.get(null)
+  // localストレージからcustomApiConfigsを取得
+  const localData = await Browser.storage.local.get('customApiConfigs');
+  const customApiConfigsArray = localData.customApiConfigs as CustomApiConfig[] | undefined;
+
+  // syncストレージからcustomApiHostを取得
+  const syncData = await Browser.storage.sync.get('customApiHost');
   
-  // カスタムAPI設定の抽出
-  const templateData: { sync: Record<string, any> } = {
-    sync: {}
-  }
-  
-  // customApiConfig_XXXキーを検索
-  const configKeys = Object.keys(syncData).filter(key => key.startsWith('customApiConfig_'));
-  
-  // 各カスタムAPI設定を処理
-  for (const configKey of configKeys) {
-    const config = syncData[configKey] as CustomApiConfig | undefined
-    
-    if (config) {
+  const templateExportData: { customApiConfigs?: Partial<CustomApiConfig>[], customApiHost?: string } = {};
+
+  if (customApiConfigsArray && Array.isArray(customApiConfigsArray)) {
+    templateExportData.customApiConfigs = customApiConfigsArray.map(config => {
       // APIキーを除外したコピーを作成
-      const templateConfig: Partial<CustomApiConfig> = {
-        ...config,
-        apiKey: '' // APIキーを空にする
-      }
-      
-      // テンプレートデータに追加
-      templateData.sync[configKey] = templateConfig
-    }
+      const { apiKey, ...restConfig } = config;
+      return { ...restConfig, apiKey: '' }; // apiKeyを空にする
+    });
   }
   
-  // 共通のAPIホストを含める（APIキーは含めない）
+  // 共通のAPIホストを含める
   if (syncData.customApiHost) {
-    templateData.sync.customApiHost = syncData.customApiHost
+    templateExportData.customApiHost = syncData.customApiHost;
   }
   
   // JSONとして保存
-  const blob = new Blob([JSON.stringify(templateData)], { type: 'application/json' })
-  await fileSave(blob, { fileName: 'huddle-llm-template.json' })
+  // エクスポートするデータ構造は、customApiConfigsが配列であること、
+  // およびcustomApiHostがトップレベルにあることを反映する
+  const blob = new Blob([JSON.stringify(templateExportData)], { type: 'application/json' });
+  await fileSave(blob, { fileName: 'huddle-llm-template.json' });
 }

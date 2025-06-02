@@ -15,192 +15,146 @@ interface Props {
 }
 
 
+// Helper function to parse imported template data from various formats
+const _parseImportedTemplateData = (jsonData: any): { configs: CustomApiConfig[], host?: string } => {
+  let parsedConfigs: CustomApiConfig[] = [];
+  let parsedHost: string | undefined = undefined;
+
+  // New export format (top-level customApiConfigs array)
+  if (Array.isArray(jsonData.customApiConfigs)) {
+    console.log('Parsing template from new top-level array format', jsonData.customApiConfigs.length);
+    parsedConfigs = [...jsonData.customApiConfigs];
+    if (typeof jsonData.customApiHost === 'string') {
+      parsedHost = jsonData.customApiHost;
+    }
+  }
+  // Old export format (json.sync.customApiConfigs array)
+  else if (jsonData.sync && Array.isArray(jsonData.sync.customApiConfigs)) {
+    console.log('Parsing template from old sync.customApiConfigs array format', jsonData.sync.customApiConfigs.length);
+    parsedConfigs = [...jsonData.sync.customApiConfigs];
+    if (typeof jsonData.sync.customApiHost === 'string') {
+      parsedHost = jsonData.sync.customApiHost;
+    }
+  }
+  // Even older export format (json.sync individual keys)
+  else if (jsonData.sync) {
+    console.log('Parsing template from old sync individual keys format');
+    const configKeys = Object.keys(jsonData.sync).filter(key => key.startsWith('customApiConfig_'));
+    if (configKeys.length > 0) {
+      configKeys.sort((a, b) => {
+        const indexA = parseInt(a.split('_')[1], 10);
+        const indexB = parseInt(b.split('_')[1], 10);
+        return indexA - indexB;
+      });
+      for (const configKey of configKeys) {
+        const config = jsonData.sync[configKey];
+        if (config) {
+          parsedConfigs.push(config);
+        }
+      }
+    }
+    if (typeof jsonData.sync.customApiHost === 'string') {
+      parsedHost = jsonData.sync.customApiHost;
+    }
+  }
+  return { configs: parsedConfigs, host: parsedHost };
+};
+
+
 const CustomAPITemplateImportPanel: FC<Props> = ({ userConfig, updateConfigValue }) => {
   const { t } = useTranslation()
   const [isOpen, setIsOpen] = useState(false)
-  const [importedConfigs, setImportedConfigs] = useState<CustomApiConfig[]>([])
+  const [importedData, setImportedData] = useState<{ configs: CustomApiConfig[], host?: string }>({ configs: [] });
   const [mappings, setMappings] = useState<number[]>([])
+  const [lastOpenedFile, setLastOpenedFile] = useState<Blob | null>(null);
+
 
   // ファイル選択処理
   const handleFileSelect = async () => {
     try {
       const blob = await fileOpen({ extensions: ['.json'] })
-      try {
-        const text = await blob.text()
-        try {
-          const json = JSON.parse(text)
-          
-          if (!json.sync) {
-            toast.error(t('Invalid file format: "sync" property not found'))
-            return
-          }
-          
-          // カスタムAPI設定の抽出
-          let importedConfigs: CustomApiConfig[] = []
-          
-          try {
-            // 新しい形式（配列）で保存されているか確認
-            if (Array.isArray(json.sync.customApiConfigs)) {
-              console.log('Importing configs from new array format', json.sync.customApiConfigs.length);
-              importedConfigs = [...json.sync.customApiConfigs];
-            } else {
-              // 古い形式から読み込み - configCountに依存せず、存在するキーをすべて検索
-              console.log('Importing configs from old individual keys format');
-              
-              // customApiConfig_XXXキーを検索
-              const configKeys = Object.keys(json.sync).filter(key => key.startsWith('customApiConfig_'));
-              
-              if (configKeys.length === 0) {
-                toast.error(t('No Custom API settings found in the file. Please check the file format.'));
-                return;
-              }
-              
-              // インデックス順にソートしてから処理
-              configKeys.sort((a, b) => {
-                const indexA = parseInt(a.split('_')[1], 10);
-                const indexB = parseInt(b.split('_')[1], 10);
-                return indexA - indexB;
-              });
-              
-              for (const configKey of configKeys) {
-                const config = json.sync[configKey];
-                if (config) {
-                  importedConfigs.push(config);
-                } else {
-                  console.warn(`Config for key ${configKey} not found`);
-                }
-              }
-            }
-          } catch (extractError: any) {
-            console.error('Error extracting configs:', extractError);
-            toast.error(t('Failed to extract Custom API settings: ') + extractError.message);
-            return;
-          }
+      setLastOpenedFile(blob);
+      const text = await blob.text()
+      const json = JSON.parse(text);
+      
+      const { configs: parsedConfigs, host: parsedHost } = _parseImportedTemplateData(json);
 
-          if (importedConfigs.length === 0) {
-            toast.error(t('No Custom API settings found in the file. Please check the file format.'));
-            return;
-          }
-
-          // IDが存在しない場合はインデックス+1をIDとして設定
-          importedConfigs.forEach((config, index) => {
-            if (!config.id) {
-              config.id = index + 1
-            }
-          })
-
-          // ID順にソート
-          importedConfigs.sort((a, b) => (a.id || 0) - (b.id || 0))
-
-          // デフォルトのマッピングを設定（同じインデックスに）
-          const defaultMappings = importedConfigs.map((_, index) =>
-            index < userConfig.customApiConfigs.length ? index : -1
-          )
-
-          setImportedConfigs(importedConfigs)
-          setMappings(defaultMappings)
-          setIsOpen(true)
-          
-        } catch (parseError: any) {
-          console.error('Error parsing JSON:', parseError);
-          toast.error(t('Invalid JSON format: ') + parseError.message);
-          return;
-        }
-      } catch (textError: any) {
-        console.error('Error reading file content:', textError);
-        toast.error(t('Failed to read file content: ') + textError.message);
+      if (parsedConfigs.length === 0) {
+        toast.error(t('No Custom API settings found in the file. Please check the file format.'));
         return;
       }
-    } catch (fileError: any) {
-      console.error('Error opening file:', fileError);
-      toast.error(t('Failed to open file: ') + fileError.message);
-      return;
+
+
+      const defaultMappings = parsedConfigs.map((_, index) =>
+        index < userConfig.customApiConfigs.length ? index : -1
+      );
+      
+      setImportedData({ configs: parsedConfigs, host: parsedHost });
+      setMappings(defaultMappings);
+      setIsOpen(true);
+
+    } catch (error: any) {
+      console.error('Error processing file for import:', error);
+      toast.error(t('Failed to process file: ') + error.message);
+      setLastOpenedFile(null);
     }
   }
 
   // インポート実行
   const handleImport = async () => {
     try {
-      // 確認ダイアログ
       const confirmMessage = t(
         'Selected Custom API settings will be imported. This will overwrite existing settings including individual API keys. Common API Key will be preserved. Continue?'
-      )
-      
+      );
       if (!window.confirm(confirmMessage)) {
-        return
+        return;
       }
 
-      try {
-        // 現在の設定のコピーを作成
-        const newConfigs = [...userConfig.customApiConfigs]
+      const newConfigs = [...userConfig.customApiConfigs];
+      const configsToAdd: CustomApiConfig[] = [];
 
-        // 新しく追加する設定を格納する配列
-        const configsToAdd: CustomApiConfig[] = []
+      importedData.configs.forEach((config, index) => {
+        const targetIndex = mappings[index];
+        if (targetIndex === -2) { // Add as new
+          const newIndex = newConfigs.length + configsToAdd.length;
+          configsToAdd.push({
+            ...config,
+            id: newIndex + 1, // Assign new ID
+            enabled: true,
+          });
+        } else if (targetIndex !== undefined && targetIndex >= 0 && targetIndex < newConfigs.length) { // Overwrite existing
+          newConfigs[targetIndex] = {
+            ...config,
+            id: newConfigs[targetIndex].id, // Preserve original ID
+            enabled: true, // Enable imported config
+          };
+        }
+      });
 
-        try {
-          // マッピングに基づいて設定を適用
-          importedConfigs.forEach((config, index) => {
-            const targetIndex = mappings[index]
-            
-            if (targetIndex === -2) {
-              // 新規として追加（デフォルトで有効化）
-              const newIndex = newConfigs.length + configsToAdd.length
-              configsToAdd.push({
-                ...config,
-                id: newIndex + 1, // 新しいIDを割り当て
-                enabled: true // 新しく追加したボットを有効化
-              })
-            } else if (targetIndex !== undefined && targetIndex >= 0 && targetIndex < newConfigs.length) {
-              // 既存の設定を置き換え（有効化状態も更新）
-              newConfigs[targetIndex] = {
-                ...config,
-                id: newConfigs[targetIndex].id, // IDは保持
-                enabled: true // インポートした設定は有効化
-              }
-            }
-          })
-        } catch (mappingError: any) {
-          console.error('Error applying mappings:', mappingError)
-          toast.error(t('Failed to apply mappings: ') + mappingError.message)
-          return
-        }
-        
-        // 新しい設定を追加
-        const updatedConfigs = [...newConfigs, ...configsToAdd]
-        
-        try {
-          // 設定をブラウザストレージに保存（ユーティリティ関数を使用）
-          await updateUserConfig({
-            customApiConfigs: updatedConfigs
-          })
-          
-          // Reactの状態を更新（ストレージ保存が成功した後）
-          updateConfigValue({
-            customApiConfigs: updatedConfigs
-          })
-          
-          // 成功メッセージ
-          toast.success(t('Custom API settings imported successfully'))
-          
-          setIsOpen(false)
-        } catch (storageError: any) {
-          console.error('Error saving to storage:', storageError)
-          toast.error(t('Failed to save settings to storage: ') + storageError.message)
-          
-          // エラーが発生した場合、状態を元に戻す
-          updateConfigValue({
-            customApiConfigs: userConfig.customApiConfigs || []
-          })
-        }
-      } catch (configError: any) {
-        console.error('Error processing configurations:', configError)
-        toast.error(t('Failed to process configurations: ') + configError.message)
+      const updatedConfigs = [...newConfigs, ...configsToAdd];
+      const updatePayload: Partial<UserConfig> = { customApiConfigs: updatedConfigs };
+
+      if (importedData.host !== undefined) {
+        updatePayload.customApiHost = importedData.host;
       }
+
+      await updateUserConfig(updatePayload);
+      updateConfigValue(updatePayload);
+      
+      toast.success(t('Custom API settings imported successfully'));
+      setIsOpen(false);
+      setLastOpenedFile(null); // 正常終了後リセット
+
     } catch (error: any) {
-      console.error('Error applying import:', error)
-      toast.error(t('Failed to apply imported settings: ') + error.message)
+      console.error('Error applying import:', error);
+      toast.error(t('Failed to apply imported settings: ') + error.message);
+      // エラー時、元の設定に戻す処理は updateConfigValue を使って行う
+      updateConfigValue({
+         customApiConfigs: userConfig.customApiConfigs || [],
+         customApiHost: userConfig.customApiHost
+      });
     }
-  }
+  };
 
   return (
     <>
@@ -225,7 +179,7 @@ const CustomAPITemplateImportPanel: FC<Props> = ({ userConfig, updateConfigValue
         </div>
         
         <div className="max-h-[60vh] overflow-y-auto px-5">
-          {importedConfigs.map((importConfig, index) => (
+          {importedData.configs.map((importConfig, index) => (
             <div key={index} className="flex items-center gap-6 mb-2 py-2">
               <div className="w-1/3">
                 <p className="font-medium">{importConfig.name}</p>
@@ -247,20 +201,14 @@ const CustomAPITemplateImportPanel: FC<Props> = ({ userConfig, updateConfigValue
                     const newValue = parseInt(v, 10)
                     const newMappings = [...mappings]
                     
-                    // 選択された値が有効なモデル番号で、他の場所で既に選択されている場合
                     if (newValue >= 0) {
-                      // 同じ値が他の場所で使われているかチェック
                       const duplicateIndex = newMappings.findIndex(
                         (mapping, i) => i !== index && mapping === newValue
                       )
-                      
-                      // 重複があれば、その場所を「Do not import」に設定
                       if (duplicateIndex !== -1) {
                         newMappings[duplicateIndex] = -1
                       }
                     }
-                    
-                    // 現在の選択を更新
                     newMappings[index] = newValue
                     setMappings(newMappings)
                   }}
