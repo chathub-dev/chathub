@@ -250,18 +250,27 @@ const CustomAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
                     <Blockquote className="mt-1 ml-[25%]">{t('Your keys are stored locally')}</Blockquote>
 
                     <div className={formRowClass}>
-                        <p className={labelClass}>{t('Common API Host')}</p>
-                        <div className={inputContainerClass}>
+                        <p className={labelClass}>{t(userConfig.isCustomApiHostFullPath ? 'API Endpoint (Full Path)' : 'Common API Host')}</p>
+                        <div className="flex items-center gap-2 flex-1"> {/* Changed from inputContainerClass to allow flex items */}
                             <Input
-                                className='w-full'
-                                placeholder="https://api.openai.com"
+                                className='flex-1'
+                                placeholder={userConfig.isCustomApiHostFullPath ? t("https://api.example.com/v1/chat/completions") : "https://api.openai.com"}
                                 value={userConfig.customApiHost}
                                 onChange={(e) => updateConfigValue({ customApiHost: e.currentTarget.value })}
                             />
+                            <Switch
+                                checked={userConfig.isCustomApiHostFullPath ?? false}
+                                onChange={(checked) => updateConfigValue({ isCustomApiHostFullPath: checked })}
+                            />
+                            <span className="text-sm">{t('Full Path')}</span>
+                            <div className="relative group">
+                                <span className="cursor-help text-gray-400">ⓘ</span>
+                                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-72 hidden group-hover:block bg-gray-700 text-white text-xs p-2 rounded shadow-lg z-10">
+                                    {t('If "Full Path" is ON, enter the complete API endpoint URL. Otherwise, enter only the base host (e.g., https://api.openai.com) and the standard path (e.g., /v1/chat/completions) will be appended automatically.')}
+                                </div>
+                            </div>
                         </div>
-
                     </div>
-                    <Blockquote className="mt-1 ml-[25%]">{t('Host works both with /v1 or without /v1')}</Blockquote>
 
 
                 </div>
@@ -518,21 +527,41 @@ const CustomAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
 
                                                     {/* API Host */}
                                                     <div className={formRowClass}>
-                                                        <p className={labelClass}>API Host</p>
-                                                        <div className={inputContainerClass}>
+                                                        <p className={labelClass}>{t(config.isHostFullPath ? 'API Endpoint (Full Path)' : 'API Host')}</p>
+                                                        <div className="flex items-center gap-2 flex-1"> {/* Changed from inputContainerClass */}
                                                             <Input
-                                                                className='w-full'
-                                                                placeholder={config.provider === CustomApiProvider.Google ? t("Not applicable for Google Gemini") : "Leave blank to use API Host (Common)"}
+                                                                className='flex-1'
+                                                                placeholder={
+                                                                    config.provider === CustomApiProvider.Google ? t("Not applicable for Google Gemini") :
+                                                                    config.isHostFullPath ? t("https://api.example.com/v1/chat/completions") :
+                                                                    t("Leave blank for Common Host, or e.g., https://api.openai.com")
+                                                                }
                                                                 value={config.host}
                                                                 onChange={(e) => {
                                                                     const updatedConfigs = [...userConfig.customApiConfigs]
                                                                     updatedConfigs[index].host = e.currentTarget.value;
-                                                                    updateCustomApiConfigs(updatedConfigs); // ヘルパー関数を使用
+                                                                    updateCustomApiConfigs(updatedConfigs);
                                                                 }}
-                                                                disabled={config.provider === CustomApiProvider.Google} // Disable if provider is Google
+                                                                disabled={config.provider === CustomApiProvider.Google}
                                                             />
+                                                            <Switch
+                                                                checked={config.isHostFullPath ?? false}
+                                                                onChange={(checked) => {
+                                                                    const updatedConfigs = [...userConfig.customApiConfigs];
+                                                                    updatedConfigs[index].isHostFullPath = checked;
+                                                                    updateCustomApiConfigs(updatedConfigs);
+                                                                }}
+                                                            />
+                                                            <span className="text-sm">{t('Full Path')}</span>
+                                                            <div className="relative group">
+                                                                <span className="cursor-help text-gray-400">ⓘ</span>
+                                                                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-72 hidden group-hover:block bg-gray-700 text-white text-xs p-2 rounded shadow-lg z-10">
+                                                                    {t('If "Full Path" is ON, enter the complete API endpoint URL. Otherwise, enter only the base host. If host is blank, Common API Host settings will be used.')}
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
+                                                    {/* Blockquote removed as per user request */}
 
                                                     {/* API Key */}
                                                     <div className={formRowClass}>

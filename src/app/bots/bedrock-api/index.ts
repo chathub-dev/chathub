@@ -341,16 +341,32 @@ export class BedrockApiBot extends AbstractBedrockApiBot {
       temperature: number;
       thinkingMode?: boolean;
       thinkingBudget?: number;
+      isHostFullPath?: boolean; // isHostFullPath を型定義に追加
     },
   ) {
     super()
-    const api_path = 'v1/';
-    // API Hostの最後のslashを削除
-    const baseUrl = this.config.host.endsWith('/') ? this.config.host.slice(0, -1) : this.config.host; // Use config.host
-    const fullUrlStr = `${baseUrl}/${api_path}`.replace('v1/v1/', 'v1/')
-    this.client = new BedrockRuntimeClient({ 
-      region: 'us-east-1', // 適切なリージョンを指定
-      endpoint: fullUrlStr,
+    
+    let endpointUrl: string;
+    const hostValue = this.config.host; // Common host is not accessible here without async
+    const isFullPath = this.config.isHostFullPath ?? false; // Default to false if undefined
+
+    if (isFullPath) {
+      endpointUrl = hostValue;
+    } else {
+      // If not full path, Bedrock typically uses the host as the direct endpoint.
+      // The previous '/v1/' logic might not be standard for Bedrock.
+      // For now, if not full path, we use the host directly.
+      // If a path needs to be appended, user should use Full Path.
+      endpointUrl = hostValue.endsWith('/') ? hostValue.slice(0, -1) : hostValue;
+      // Example: if host is "bedrock-runtime.us-east-1.amazonaws.com" and not full path,
+      // it's used as is. If user needs "host/some/path", they should use Full Path.
+    }
+    // Clean up potential double slashes if any part of logic reintroduces them
+    endpointUrl = endpointUrl.replace(/([^:]\/)\/+/g, "$1");
+
+    this.client = new BedrockRuntimeClient({
+      region: 'us-east-1',
+      endpoint: endpointUrl,
       credentials: {
         accessKeyId: 'AWS',
         secretAccessKey: 'AWS',
@@ -461,8 +477,8 @@ export class BedrockApiBot extends AbstractBedrockApiBot {
         }
       });
     }
-    
-  }
+    // Ensure the try...catch block is properly closed before the method ends.
+  } // This closes the fetchCompletionApi method
 
   public getModelName() {
     const { model: claudeApiModel } = this.config // Use config.model

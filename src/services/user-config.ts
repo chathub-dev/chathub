@@ -105,7 +105,8 @@ export interface CustomApiConfig {
   provider: CustomApiProvider,
   webAccess?: boolean,
   isAnthropicUsingAuthorizationHeader?: boolean, // Anthropicの認証ヘッダータイプを指定するフラグ
-  enabled?: boolean // 各チャットボットの有効/無効状態
+  enabled?: boolean, // 各チャットボットの有効/無効状態
+  isHostFullPath?: boolean; // hostが完全なパスかどうかを示すフラグ (デフォルト: false)
 }
 
 /**
@@ -187,7 +188,7 @@ export const presetApiConfigs: Record<string, Omit<CustomApiConfig, 'id' | 'apiK
   "OpenAI": {
     name: 'OpenAI',
     shortName: "GPT",
-    model: MODEL_LIST.OpenAI["GPT-4.1"], // Ensure this is the intended default
+    model: MODEL_LIST.OpenAI["GPT-4.1"],
     host: 'https://api.openai.com',
     temperature: 1,
     systemMessage: DEFAULT_CHATGPT_SYSTEM_MESSAGE,
@@ -199,7 +200,7 @@ export const presetApiConfigs: Record<string, Omit<CustomApiConfig, 'id' | 'apiK
   "Anthropic": {
     name: 'Anthropic',
     shortName: "Claud",
-    model: MODEL_LIST.Anthropic["Claude Sonnet 3.7"], // 正しいモデル名に修正
+    model: MODEL_LIST.Anthropic["Claude Sonnet 4"],
     host: 'https://api.anthropic.com/',
     temperature: 1.0,
     systemMessage: DEFAULT_CLAUDE_SYSTEM_MESSAGE,
@@ -211,7 +212,7 @@ export const presetApiConfigs: Record<string, Omit<CustomApiConfig, 'id' | 'apiK
   "Gemini": {
     name: 'Google Gemini',
     shortName: "GGem",
-    model: MODEL_LIST.Google["Gemini 2.5 Pro"], // Ensure this is the intended default
+    model: MODEL_LIST.Google["Gemini 2.5 Pro"],
     host: '',
     temperature: 1.0,
     systemMessage: DEFAULT_CHATGPT_SYSTEM_MESSAGE,
@@ -261,6 +262,7 @@ const userConfigWithDefaultValue = {
   customApiConfigs: defaultCustomApiConfigs,
   customApiKey: '',
   customApiHost: '',
+  isCustomApiHostFullPath: false, // デフォルト値を設定
 }
 
 export type UserConfig = typeof userConfigWithDefaultValue
@@ -336,6 +338,9 @@ export async function getUserConfig(): Promise<UserConfig> {
       finalConfig.customApiConfigs.forEach((config: CustomApiConfig) => {
         if (config.provider === undefined) {
           config.provider = CustomApiProvider.OpenAI;
+        }
+        if (config.isHostFullPath === undefined) {
+          config.isHostFullPath = false; // マイグレーション: 既存設定にデフォルト値を設定
         }
       });
     }

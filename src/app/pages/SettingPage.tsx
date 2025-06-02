@@ -92,7 +92,7 @@ function SettingPage() {
       await updateUserConfig(cloneDeep(userConfig));
       setDirty(false);
       
-      toast.success(t('Settings saved. Please reload the extension to reflect changes in the Sidebar.'));
+      toast.success(t('Settings saved. API changes require reload')); 
     } catch (error) {
       console.error('Failed to save settings:', error);
       toast.error(t('Failed to save settings. Please try again.'));

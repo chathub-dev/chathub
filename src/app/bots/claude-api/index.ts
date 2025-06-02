@@ -1,7 +1,7 @@
 import { isArray } from 'lodash-es'
 import { DEFAULT_CLAUDE_SYSTEM_MESSAGE } from '~app/consts'
 import { requestHostPermission } from '~app/utils/permissions'
-import { UserConfig } from '~services/user-config'
+import { UserConfig, getUserConfig } from '~services/user-config' // Import getUserConfig
 import { ChatError, ErrorCode } from '~utils/errors'
 import { parseSSEResponse } from '~utils/sse'
 import { AbstractBot, SendMessageParams, ConversationHistory } from '../abstract-bot'
@@ -227,6 +227,7 @@ export class ClaudeApiBot extends AbstractClaudeApiBot {
       systemMessage: string;
       temperature: number;
       thinkingBudget?: number;
+      isHostFullPath?: boolean; // Add isHostFullPath to the config type
     },
     thinkingMode: boolean = false,
     private useCustomAuthorizationHeader: boolean = false
@@ -278,10 +279,30 @@ export class ClaudeApiBot extends AbstractClaudeApiBot {
       headers['x-api-key'] = this.config.apiKey; // Use config.apiKey
     }
 
-    const api_path = 'v1/messages';
-    // API Hostの最後のslashを削除
-    const baseUrl = this.config.host.endsWith('/') ? this.config.host.slice(0, -1) : this.config.host; // Use config.host
-    const fullUrlStr = `${baseUrl}/${api_path}`.replace('v1/v1/', 'v1/')
+    const { host: configHost, isHostFullPath: configIsHostFullPath } = this.config;
+    const userConfig = await getUserConfig(); // Get common user config
+
+    const hostValue = configHost || userConfig.customApiHost;
+    // Prioritize individual bot's isHostFullPath, then common setting, then default to false.
+    const isFullPath = configIsHostFullPath ?? userConfig.isCustomApiHostFullPath ?? false;
+
+    let fullUrlStr: string;
+
+    if (isFullPath) {
+      fullUrlStr = hostValue;
+    } else {
+      const api_path = 'v1/messages'; // Default path for Claude
+      const baseUrl = hostValue.endsWith('/') ? hostValue.slice(0, -1) : hostValue;
+      // Ensure v1 is not duplicated if already present in a non-full-path host
+      if (baseUrl.endsWith('/v1')) {
+        fullUrlStr = `${baseUrl.slice(0, -3)}/${api_path}`;
+      } else {
+        fullUrlStr = `${baseUrl}/${api_path}`;
+      }
+      // Clean up potential double slashes or v1/v1 issues more robustly
+      fullUrlStr = fullUrlStr.replace(/([^:]\/)\/+/g, "$1"); // Replace multiple slashes with single
+      fullUrlStr = fullUrlStr.replace(/\/v1\/v1\//g, "/v1/");
+    }
     
     const resp = await fetch(fullUrlStr, {
       method: 'POST',

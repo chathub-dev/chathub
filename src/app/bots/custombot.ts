@@ -34,31 +34,33 @@ export class CustomBot extends AsyncAbstractBot {
         // Decide which bot to instantiate based on the provider field
         switch (provider) {
             case CustomApiProvider.Bedrock:
-                return new BedrockApiBot({
-                    apiKey: config.apiKey || customApiKey, 
-                    host: config.host || customApiHost,     
-                    model: config.model,                   
-                    temperature: config.temperature,         
-                    systemMessage: config.systemMessage, 
+                                return new BedrockApiBot({
+                    apiKey: config.apiKey || customApiKey,
+                    host: config.host || customApiHost,
+                    model: config.model,
+                    temperature: config.temperature,
+                    systemMessage: config.systemMessage,
                     thinkingMode: config.thinkingMode,
                     thinkingBudget: config.thinkingBudget,
                 });
             case CustomApiProvider.Anthropic:
                 return new ClaudeApiBot({
-                    apiKey: config.apiKey || customApiKey,         
-                    host: config.host || customApiHost,             
-                    model: config.model,                           
-                    temperature: config.temperature,                 
-                    systemMessage: config.systemMessage,         
-                    thinkingBudget: config.thinkingBudget,       
-                }, config.thinkingMode, config.isAnthropicUsingAuthorizationHeader || false); // 新しいフラグを使用
+                    apiKey: config.apiKey || customApiKey,
+                    host: config.host || customApiHost,
+                    model: config.model,
+                    temperature: config.temperature,
+                    systemMessage: config.systemMessage,
+                    thinkingBudget: config.thinkingBudget,
+                    isHostFullPath: config.isHostFullPath,
+                }, config.thinkingMode, config.isAnthropicUsingAuthorizationHeader || false);
             case CustomApiProvider.OpenAI:
                 return new ChatGPTApiBot({
-                    apiKey: config.apiKey || customApiKey,         
-                    host: config.host || customApiHost,             
-                    model: config.model,                           
-                    temperature: config.temperature,                 
+                    apiKey: config.apiKey || customApiKey,
+                    host: config.host || customApiHost,
+                    model: config.model,
+                    temperature: config.temperature,
                     systemMessage: config.systemMessage,
+                    isHostFullPath: config.isHostFullPath,
                 });
             case CustomApiProvider.Google:
                 return new GeminiApiBot({
@@ -67,11 +69,13 @@ export class CustomBot extends AsyncAbstractBot {
                     geminiApiSystemMessage: config.systemMessage,
                     geminiApiTemperature: config.temperature,
                 });
-            case CustomApiProvider.Perplexity: // Add Perplexity case
-                return new PerplexityApiBot(
-                    config.apiKey || customApiKey,
-                    config.model,
-                );
+            case CustomApiProvider.Perplexity:
+                return new PerplexityApiBot({
+                    apiKey: config.apiKey || customApiKey,
+                    model: config.model,
+                    host: config.host || customApiHost,
+                    isHostFullPath: config.isHostFullPath,
+                });
             default:
                 // Log the unsupported provider for debugging before throwing the error
                 console.error(`Unsupported provider detected: ${provider}`);

@@ -192,6 +192,7 @@ export class ChatGPTApiBot extends AbstractChatGPTApiBot {
       model: string;
       temperature: number;
       systemMessage: string;
+      isHostFullPath?: boolean;
     },
   ) {
     super()
@@ -218,19 +219,36 @@ export class ChatGPTApiBot extends AbstractChatGPTApiBot {
       }
     }
 
-    const { apiKey: openaiApiKey, host: openaiApiHost } = this.config // Use config.apiKey and config.host
+    const { apiKey: openaiApiKey, host: configHost, isHostFullPath: configIsHostFullPath } = this.config;
+    const userConfig = await getUserConfig(); // Get common user config
+
+    const hostValue = configHost || userConfig.customApiHost;
+    // Prioritize individual bot's isHostFullPath, then common setting, then default to false.
+    const isFullPath = configIsHostFullPath ?? userConfig.isCustomApiHostFullPath ?? false;
+
+    let fullUrlStr: string;
+
+    if (isFullPath) {
+      fullUrlStr = hostValue;
+    } else {
+      const api_path = 'v1/chat/completions'; // Default path
+      const baseUrl = hostValue.endsWith('/') ? hostValue.slice(0, -1) : hostValue;
+      // Ensure v1 is not duplicated if already present in a non-full-path host
+      if (baseUrl.endsWith('/v1')) {
+        fullUrlStr = `${baseUrl.slice(0, -3)}/${api_path}`;
+      } else {
+        fullUrlStr = `${baseUrl}/${api_path}`;
+      }
+      // Clean up potential double slashes or v1/v1 issues more robustly
+      fullUrlStr = fullUrlStr.replace(/([^:]\/)\/+/g, "$1"); // Replace multiple slashes with single (but not after scheme like http://)
+      fullUrlStr = fullUrlStr.replace(/\/v1\/v1\//g, "/v1/");
+    }
+    
     const hasImageInput = messages.some(
       (message) => isArray(message.content) && message.content.some((part) => part.type === 'image_url'),
     )
-
     
-    const api_path = 'v1/chat/completions';
-    // API Hostの最後のslashを削除
-    const baseUrl = openaiApiHost.endsWith('/') ? openaiApiHost.slice(0, -1) : openaiApiHost;
-    const fullUrlStr = `${baseUrl}/${api_path}`.replace('v1/v1/', 'v1/')
-    
-    
-    const resp = await fetch(`${fullUrlStr}`, {
+    const resp = await fetch(fullUrlStr, {
       method: 'POST',
       signal,
       headers: {
