@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai'
-import { useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { chatFamily } from '~app/state'
 import { compressImageFile } from '~app/utils/image-compression'
 import { setConversationMessages } from '~services/chat-history'
@@ -127,6 +127,36 @@ export function useChat(index: number) {
     }
   }, [index, chatState.conversationId, chatState.messages])
 
+  // AsyncAbstractBotの初期化状態を監視するためのstate
+  const [botInitialized, setBotInitialized] = useState(false)
+
+  // ボットの初期化状態を定期的にチェック
+  useEffect(() => {
+    if ('isInitialized' in chatState.bot) {
+      const checkInitialization = () => {
+        const initialized = chatState.bot.isInitialized
+        if (initialized !== botInitialized) {
+          setBotInitialized(initialized)
+        }
+      }
+      
+      // 初期チェック
+      checkInitialization()
+      
+      // 定期的にチェック（初期化完了まで）
+      const interval = setInterval(() => {
+        checkInitialization()
+        if (chatState.bot.isInitialized) {
+          clearInterval(interval)
+        }
+      }, 100)
+      
+      return () => clearInterval(interval)
+    } else {
+      setBotInitialized(true) // 通常のAbstractBotの場合は常に初期化済み
+    }
+  }, [chatState.bot, botInitialized])
+
   const chat = useMemo(
     () => ({
       index,
@@ -136,7 +166,8 @@ export function useChat(index: number) {
       resetConversation,
       generating: !!chatState.generatingMessageId,
       stopGenerating,
-      modifyLastMessage
+      modifyLastMessage,
+      isInitialized: botInitialized
     }),
     [
       index,
@@ -146,7 +177,8 @@ export function useChat(index: number) {
       resetConversation,
       sendMessage,
       stopGenerating,
-      modifyLastMessage
+      modifyLastMessage,
+      botInitialized
     ],
   )
 

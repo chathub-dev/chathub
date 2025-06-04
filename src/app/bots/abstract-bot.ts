@@ -217,6 +217,7 @@ class DummyBot extends AbstractBot {
 export abstract class AsyncAbstractBot extends AbstractBot {
   #bot: AbstractBot
   #initializeError?: Error
+  #isInitialized: boolean = false
 
   constructor() {
     super()
@@ -224,6 +225,7 @@ export abstract class AsyncAbstractBot extends AbstractBot {
     this.initializeBot()
       .then((bot) => {
         this.#bot = bot
+        this.#isInitialized = true
         // 親クラスの会話履歴があれば、初期化されたボットに設定
         const history = this.getConversationHistory()
           if (history) {
@@ -233,6 +235,10 @@ export abstract class AsyncAbstractBot extends AbstractBot {
       .catch((err) => {
         this.#initializeError = err
       })
+  }
+
+  get isInitialized(): boolean {
+    return this.#isInitialized
   }
 
   abstract initializeBot(): Promise<AbstractBot>

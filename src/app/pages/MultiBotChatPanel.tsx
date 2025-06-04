@@ -60,7 +60,14 @@ const GeneralChatPanel: FC<{
 
   // 保存された検索クエリがあれば自動的に送信
   useEffect(() => {
-    if (pendingSearchQuery && !generating && chats.length > 0) {
+    // chats配列内のすべてのchatオブジェクトが準備完了しているか確認
+    // AsyncAbstractBotの場合、初期化が完了していることを確認
+    const allChatsReady = chats.length > 0 && chats.every(chat => {
+      if (!chat || !chat.bot) return false;
+      // chatオブジェクトのisInitializedプロパティを確認
+      return chat.isInitialized;
+    });
+    if (pendingSearchQuery && !generating && allChatsReady) {
       sendAllMessage(pendingSearchQuery)
       
       setPendingSearchQuery(null)
