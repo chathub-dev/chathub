@@ -13,6 +13,7 @@ const TextInput = React.forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
     value = '',
     onValueChange,
     minRows = 1,
+    maxRows = 12,
     formref,
     disabled,
     ...textareaProps
@@ -53,7 +54,7 @@ const TextInput = React.forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
       onChange={(event) => onValueChange(event.target.value)}
       autoComplete="off"
       minRows={minRows}
-      maxRows={12}
+      maxRows={maxRows}
       {...textareaProps}
     />
   )

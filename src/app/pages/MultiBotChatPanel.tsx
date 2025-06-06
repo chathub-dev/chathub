@@ -1,7 +1,7 @@
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 import { sample, uniqBy } from 'lodash-es'
-import { FC, Suspense, useCallback, useEffect, useMemo, useState } from 'react'
+import { FC, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { cx } from '~/utils'
 import { pendingSearchQueryAtom } from '../state'
@@ -39,6 +39,49 @@ const GeneralChatPanel: FC<{
   const [layout, setLayout] = useAtom(layoutAtom)
   const [refresh, setRefresh] = useState(0) // 更新用の state を追加
   const [pendingSearchQuery, setPendingSearchQuery] = useAtom(pendingSearchQueryAtom)
+
+  // リサイズ機能のstate
+  const [gridAreaHeight, setGridAreaHeight] = useState('70%')
+  const [isResizing, setIsResizing] = useState(false)
+  
+  // refs
+  const mainContainerRef = useRef<HTMLDivElement>(null)
+  const gridAreaRef = useRef<HTMLDivElement>(null)
+  const resizerRef = useRef<HTMLDivElement>(null)
+  const inputAreaRef = useRef<HTMLDivElement>(null)
+
+  // マウスイベントハンドラー
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (!isResizing || !mainContainerRef.current) return
+    
+    const containerRect = mainContainerRef.current.getBoundingClientRect()
+    const containerHeight = containerRect.height
+    const mouseY = e.clientY - containerRect.top
+    
+    // 高さの制約（入力エリアが最低60px確保できるよう、最小高さを調整）
+    const minInputAreaHeight = 60 // 入力エリアの最小高さ（文字1行分 + padding）
+    const minHeight = Math.max(50, containerHeight - minInputAreaHeight) // チャットエリアの最小高さ
+    const maxHeight = containerHeight * 0.95 // 最大95%まで
+    const clampedHeight = Math.max(minHeight, Math.min(maxHeight, mouseY))
+    
+    const heightPercentage = (clampedHeight / containerHeight) * 100
+    setGridAreaHeight(`${heightPercentage}%`)
+  }, [isResizing])
+
+  const handleMouseUp = useCallback(() => {
+    setIsResizing(false)
+  }, [])
+
+  useEffect(() => {
+    if (isResizing) {
+      document.addEventListener('mousemove', handleMouseMove)
+      document.addEventListener('mouseup', handleMouseUp)
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove)
+        document.removeEventListener('mouseup', handleMouseUp)
+      }
+    }
+  }, [isResizing, handleMouseMove, handleMouseUp])
 
   useEffect(() => {
   }, [chats.length, supportImageInput])
@@ -112,23 +155,25 @@ const GeneralChatPanel: FC<{
   )
 
   return (
-    <div className="flex flex-col overflow-hidden h-full">
+    <div className="flex flex-col overflow-hidden h-full" ref={mainContainerRef}>
+      {/* チャットパネルのグリッドエリア */}
       <div
+        ref={gridAreaRef}
+        style={{ height: gridAreaHeight }}
         className={cx(
-        layout === 'twoHorizon' 
-          ? 'flex flex-col'
-          : 'grid auto-rows-fr',
-          'overflow-hidden grow',
-          chats.length === 1 
-            ? 'grid-cols-1' // 1つのモデルだけを表示する場合
+          layout === 'twoHorizon'
+            ? 'flex flex-col'
+            : 'grid auto-rows-fr',
+          'overflow-hidden',
+          chats.length === 1
+            ? 'grid-cols-1'
             : chats.length % 3 === 0 ? 'grid-cols-3' : 'grid-cols-2',
-          // chats.length > 3 ? 'gap-1 mb-1' : 'gap-2 mb-2',
           'gap-1 mb-1',
         )}
       >
         {chats.map((chat, index) => (
           <ConversationPanel
-            key={`${chat.index}-${index}-${refresh}`} // refresh を key に含めることで再レンダリング
+            key={`${chat.index}-${index}-${refresh}`}
             index={chat.index}
             bot={chat.bot}
             messages={chat.messages}
@@ -142,7 +187,19 @@ const GeneralChatPanel: FC<{
           />
         ))}
       </div>
-      <div className="flex flex-row gap-3">
+
+      {/* リサイズハンドル（透明） */}
+      <div
+        ref={resizerRef}
+        className="w-full h-px cursor-row-resize shrink-0 bg-transparent"
+        onMouseDown={(e) => {
+          setIsResizing(true)
+          e.preventDefault()
+        }}
+      />
+
+      {/* 入力エリア */}
+      <div className="flex flex-row gap-3 flex-grow min-h-0" ref={inputAreaRef}>
         <LayoutSwitch layout={layout} onChange={onLayoutChange} />
         <ChatMessageInput
           mode="full"
@@ -152,6 +209,7 @@ const GeneralChatPanel: FC<{
           actionButton={!generating && <Button text={t('Send')} color="primary" type="submit" />}
           autoFocus={true}
           supportImageInput={supportImageInput}
+          maxRows={50}
         />
       </div>
     </div>

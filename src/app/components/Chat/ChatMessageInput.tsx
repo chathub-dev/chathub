@@ -32,6 +32,7 @@ interface Props {
   actionButton?: ReactNode | null
   autoFocus?: boolean
   supportImageInput?: boolean
+  maxRows?: number
 }
 
 const ChatMessageInput: FC<Props> = (props) => {
@@ -205,6 +206,7 @@ const ChatMessageInput: FC<Props> = (props) => {
           onValueChange={onValueChange}
           autoFocus={props.autoFocus}
           onPaste={props.supportImageInput ? onPaste : undefined}
+          maxRows={props.maxRows}
         />
       </div>
       {props.actionButton || <Button text="-" className="invisible" size={props.mode === 'full' ? 'normal' : 'tiny'} />}
