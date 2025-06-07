@@ -58,10 +58,9 @@ const GeneralChatPanel: FC<{
     const containerHeight = containerRect.height
     const mouseY = e.clientY - containerRect.top
     
-    // 高さの制約（入力エリアが最低60px確保できるよう、最小高さを調整）
-    const minInputAreaHeight = 60 // 入力エリアの最小高さ（文字1行分 + padding）
-    const minHeight = Math.max(50, containerHeight - minInputAreaHeight) // チャットエリアの最小高さ
-    const maxHeight = containerHeight * 0.95 // 最大95%まで
+    // 高さの制約
+    const minHeight = 100 // チャットエリアの最小高さ（固定100px）
+    const maxHeight = containerHeight - 60 // 入力エリアが最低60px確保できるよう
     const clampedHeight = Math.max(minHeight, Math.min(maxHeight, mouseY))
     
     const heightPercentage = (clampedHeight / containerHeight) * 100
@@ -188,18 +187,20 @@ const GeneralChatPanel: FC<{
         ))}
       </div>
 
-      {/* リサイズハンドル（透明） */}
-      <div
-        ref={resizerRef}
-        className="w-full h-px cursor-row-resize shrink-0 bg-transparent"
-        onMouseDown={(e) => {
-          setIsResizing(true)
-          e.preventDefault()
-        }}
-      />
+      {/* リサイズハンドル（透明、判定エリア拡大） */}
+      <div className="relative w-full h-px shrink-0 bg-transparent">
+        <div
+          ref={resizerRef}
+          className="absolute inset-x-0 -top-2 -bottom-2 cursor-row-resize"
+          onMouseDown={(e) => {
+            setIsResizing(true)
+            e.preventDefault()
+          }}
+        />
+      </div>
 
       {/* 入力エリア */}
-      <div className="flex flex-row gap-3 flex-grow min-h-0" ref={inputAreaRef}>
+      <div className="flex flex-row gap-2 flex-grow min-h-0 overflow-hidden" ref={inputAreaRef}>
         <LayoutSwitch layout={layout} onChange={onLayoutChange} />
         <ChatMessageInput
           mode="full"
@@ -209,7 +210,7 @@ const GeneralChatPanel: FC<{
           actionButton={!generating && <Button text={t('Send')} color="primary" type="submit" />}
           autoFocus={true}
           supportImageInput={supportImageInput}
-          maxRows={50}
+          fullHeight={true}
         />
       </div>
     </div>

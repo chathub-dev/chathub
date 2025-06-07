@@ -33,11 +33,16 @@ interface Props {
   autoFocus?: boolean
   supportImageInput?: boolean
   maxRows?: number
+  fullHeight?: boolean
 }
 
 const ChatMessageInput: FC<Props> = (props) => {
   const { t } = useTranslation()
-  const { placeholder = t('Use / to select prompts, Shift+Enter to add new line') } = props
+  const {
+    placeholder = t('Use / to select prompts, Shift+Enter to add new line'),
+    fullHeight = false,
+    ...restProps
+  } = props
 
   const [value, setValue] = useState('')
   const [image, setImage] = useState<File | undefined>(undefined)
@@ -156,7 +161,7 @@ const ChatMessageInput: FC<Props> = (props) => {
   }, [])
 
   return (
-    <form className={cx('flex flex-row items-center gap-3', props.className)} onSubmit={onFormSubmit} ref={formRef}>
+    <form className={cx('flex flex-row items-center gap-3', fullHeight && 'h-full', props.className)} onSubmit={onFormSubmit} ref={formRef}>
       {props.mode === 'full' && (
         <>
           <GoBook
@@ -189,7 +194,7 @@ const ChatMessageInput: FC<Props> = (props) => {
           )}
         </>
       )}
-      <div className="w-full flex flex-col justify-center" ref={refs.setReference} {...getReferenceProps()}>
+      <div className={cx("w-full flex flex-col justify-center", fullHeight && "h-full")} ref={refs.setReference} {...getReferenceProps()}>
         {image && (
           <div className="flex flex-row items-center w-fit mb-1 gap-1">
             <span className="text-xs text-primary-text font-semibold cursor-default">{image.name}</span>
@@ -207,6 +212,7 @@ const ChatMessageInput: FC<Props> = (props) => {
           autoFocus={props.autoFocus}
           onPaste={props.supportImageInput ? onPaste : undefined}
           maxRows={props.maxRows}
+          fullHeight={fullHeight}
         />
       </div>
       {props.actionButton || <Button text="-" className="invisible" size={props.mode === 'full' ? 'normal' : 'tiny'} />}

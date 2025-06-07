@@ -5,6 +5,7 @@ import TextareaAutosize, { TextareaAutosizeProps } from 'react-textarea-autosize
 type Props = TextareaAutosizeProps & {
   onValueChange: (value: string) => void
   formref?: React.RefObject<HTMLFormElement>
+  fullHeight?: boolean // 親要素の高さに合わせるかどうか
 }
 
 const TextInput = React.forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
@@ -16,6 +17,7 @@ const TextInput = React.forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
     maxRows = 12,
     formref,
     disabled,
+    fullHeight = false,
     ...textareaProps
   } = props as Props & { value: string }
 
@@ -40,6 +42,25 @@ const TextInput = React.forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
     },
     [disabled, formref, onValueChange, value],
   )
+
+  if (fullHeight) {
+    return (
+      <textarea
+        ref={inputRef}
+        className={cx(
+          'resize-none overflow-x-hidden overflow-y-auto w-full h-full outline-none text-sm text-primary-text bg-transparent scrollbar-thin',
+          disabled && 'cursor-wait',
+          className,
+        )}
+        onKeyDown={onKeyDown}
+        value={value}
+        onChange={(event) => onValueChange(event.target.value)}
+        autoComplete="off"
+        disabled={disabled}
+        {...textareaProps}
+      />
+    )
+  }
 
   return (
     <TextareaAutosize
