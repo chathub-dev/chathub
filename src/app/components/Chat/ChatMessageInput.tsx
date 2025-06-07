@@ -34,6 +34,7 @@ interface Props {
   supportImageInput?: boolean
   maxRows?: number
   fullHeight?: boolean
+  onHeightChange?: (height: number) => void
 }
 
 const ChatMessageInput: FC<Props> = (props) => {
@@ -41,6 +42,7 @@ const ChatMessageInput: FC<Props> = (props) => {
   const {
     placeholder = t('Use / to select prompts, Shift+Enter to add new line'),
     fullHeight = false,
+    onHeightChange,
     ...restProps
   } = props
 
@@ -213,6 +215,7 @@ const ChatMessageInput: FC<Props> = (props) => {
           onPaste={props.supportImageInput ? onPaste : undefined}
           maxRows={props.maxRows}
           fullHeight={fullHeight}
+          onHeightChange={onHeightChange}
         />
       </div>
       {props.actionButton || <Button text="-" className="invisible" size={props.mode === 'full' ? 'normal' : 'tiny'} />}

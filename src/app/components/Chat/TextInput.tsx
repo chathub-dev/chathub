@@ -6,6 +6,7 @@ type Props = TextareaAutosizeProps & {
   onValueChange: (value: string) => void
   formref?: React.RefObject<HTMLFormElement>
   fullHeight?: boolean // 親要素の高さに合わせるかどうか
+  onHeightChange?: (height: number) => void // 高さ変化のコールバック
 }
 
 const TextInput = React.forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
@@ -18,6 +19,7 @@ const TextInput = React.forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
     formref,
     disabled,
     fullHeight = false,
+    onHeightChange,
     ...textareaProps
   } = props as Props & { value: string }
 
@@ -45,20 +47,23 @@ const TextInput = React.forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
 
   if (fullHeight) {
     return (
-      <textarea
-        ref={inputRef}
-        className={cx(
-          'resize-none overflow-x-hidden overflow-y-auto w-full h-full outline-none text-sm text-primary-text bg-transparent scrollbar-thin',
-          disabled && 'cursor-wait',
-          className,
-        )}
-        onKeyDown={onKeyDown}
-        value={value}
-        onChange={(event) => onValueChange(event.target.value)}
-        autoComplete="off"
-        disabled={disabled}
-        {...textareaProps}
-      />
+      <div className="w-full h-full flex items-center">
+        <textarea
+          ref={inputRef}
+          className={cx(
+            'resize-none overflow-x-hidden overflow-y-auto w-full outline-none text-sm text-primary-text bg-transparent scrollbar-thin',
+            disabled && 'cursor-wait',
+            className,
+          )}
+          onKeyDown={onKeyDown}
+          value={value}
+          onChange={(event) => onValueChange(event.target.value)}
+          autoComplete="off"
+          disabled={disabled}
+          style={{ minHeight: '1.5em' }} // 最小高さを設定して中央揃えを維持
+          {...textareaProps}
+        />
+      </div>
     )
   }
 
@@ -66,13 +71,14 @@ const TextInput = React.forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
     <TextareaAutosize
       ref={inputRef}
       className={cx(
-        'resize-none overflow-x-hidden overflow-y-auto  w-full outline-none text-sm text-primary-text bg-transparent scrollbar-thin',
+        'resize-none overflow-x-hidden overflow-y-auto w-full max-h-full outline-none text-sm text-primary-text bg-transparent scrollbar-thin',
         disabled && 'cursor-wait',
         className,
       )}
       onKeyDown={onKeyDown}
       value={value}
       onChange={(event) => onValueChange(event.target.value)}
+      onHeightChange={onHeightChange}
       autoComplete="off"
       minRows={minRows}
       maxRows={maxRows}

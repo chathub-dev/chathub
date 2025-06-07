@@ -41,14 +41,26 @@ const GeneralChatPanel: FC<{
   const [pendingSearchQuery, setPendingSearchQuery] = useAtom(pendingSearchQueryAtom)
 
   // リサイズ機能のstate
-  const [gridAreaHeight, setGridAreaHeight] = useState('70%')
+  const [gridAreaHeight, setGridAreaHeight] = useState('85%') // 初期状態では入力エリアを小さく
   const [isResizing, setIsResizing] = useState(false)
+  const [hasUserResized, setHasUserResized] = useState(false) // ユーザーがリサイズしたかどうか
   
   // refs
   const mainContainerRef = useRef<HTMLDivElement>(null)
   const gridAreaRef = useRef<HTMLDivElement>(null)
   const resizerRef = useRef<HTMLDivElement>(null)
   const inputAreaRef = useRef<HTMLDivElement>(null)
+
+  // 共通の高さ設定関数
+  const updateGridAreaHeight = useCallback((newGridAreaHeight: number) => {
+    if (!mainContainerRef.current) return
+    
+    const containerHeight = mainContainerRef.current.getBoundingClientRect().height
+    const heightPercentage = (newGridAreaHeight / containerHeight) * 100
+    const clampedPercentage = Math.max(10, Math.min(95, heightPercentage))
+    
+    setGridAreaHeight(`${clampedPercentage}%`)
+  }, [])
 
   // マウスイベントハンドラー
   const handleMouseMove = useCallback((e: MouseEvent) => {
@@ -63,13 +75,27 @@ const GeneralChatPanel: FC<{
     const maxHeight = containerHeight - 60 // 入力エリアが最低60px確保できるよう
     const clampedHeight = Math.max(minHeight, Math.min(maxHeight, mouseY))
     
-    const heightPercentage = (clampedHeight / containerHeight) * 100
-    setGridAreaHeight(`${heightPercentage}%`)
-  }, [isResizing])
+    updateGridAreaHeight(clampedHeight)
+    setHasUserResized(true) // ユーザーがリサイズしたことを記録
+  }, [isResizing, updateGridAreaHeight])
 
   const handleMouseUp = useCallback(() => {
     setIsResizing(false)
   }, [])
+
+  // 自動拡大時の高さ変化ハンドラー
+  const handleAutoHeightChange = useCallback((textareaHeight: number) => {
+    if (hasUserResized || !mainContainerRef.current) return
+    
+    // TextAreaの高さに基づいて入力エリア全体の必要な高さを計算
+    const containerHeight = mainContainerRef.current.getBoundingClientRect().height
+    const inputAreaPadding = 32 // px-4 py-2 + その他のパディング
+    const neededInputAreaHeight = textareaHeight + inputAreaPadding
+    
+    // グリッドエリアの高さを調整（共通関数を使用）
+    const newGridAreaHeight = Math.max(100, containerHeight - neededInputAreaHeight)
+    updateGridAreaHeight(newGridAreaHeight)
+  }, [hasUserResized, updateGridAreaHeight])
 
   useEffect(() => {
     if (isResizing) {
@@ -204,13 +230,15 @@ const GeneralChatPanel: FC<{
         <LayoutSwitch layout={layout} onChange={onLayoutChange} />
         <ChatMessageInput
           mode="full"
-          className="rounded-2xl bg-primary-background px-4 py-2 grow"
+          className={`rounded-2xl bg-primary-background px-4 py-2 grow ${!hasUserResized ? 'max-h-full overflow-hidden' : ''}`}
           disabled={generating}
           onSubmit={sendAllMessage}
           actionButton={!generating && <Button text={t('Send')} color="primary" type="submit" />}
           autoFocus={true}
           supportImageInput={supportImageInput}
-          fullHeight={true}
+          fullHeight={hasUserResized}
+          maxRows={hasUserResized ? undefined : 12}
+          onHeightChange={handleAutoHeightChange}
         />
       </div>
     </div>
