@@ -18,13 +18,13 @@
 
 html,
 body {
-  font-family: 'Inter', 'system-ui';
+  font-family: 'Inter', 'Noto Sans JP', 'system-ui';
 }
 
 @supports (font-variation-settings: normal) {
   html,
   body {
-    font-family: 'Inter var', 'system-ui';
+    font-family: 'Inter var', 'Noto Sans JP', 'system-ui';
   }
 }
 
@@ -75,4 +75,3 @@ body {
   @include dark-theme;
   @import 'highlight.js/scss/github-dark.scss';
 }
-

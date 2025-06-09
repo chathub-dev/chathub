@@ -98,10 +98,9 @@ export const code: React.ElementType = memo(({ className, children }: TCodeProps
   }
 });
 
-
-
-// テーマモードに応じてCSSをインポートする関数
-const importThemeCSS = (themeMode: ThemeMode) => {
+// GitHub Markdown CSSの動的インポート管理
+const importThemeCSS = async (themeMode: ThemeMode) => {
+  // テーマに応じてダークモードかどうか判定
   let shouldUseDark = false;
   
   if (themeMode === ThemeMode.Dark) {
@@ -112,14 +111,56 @@ const importThemeCSS = (themeMode: ThemeMode) => {
   }
   // Light の場合は shouldUseDark = false のまま
   
-  if (shouldUseDark) {
-    import('github-markdown-css/github-markdown-dark.css');
-  } else {
-    import('github-markdown-css/github-markdown-light.css');
+  // 既存のGitHub Markdown CSSを削除
+  const existingStyles = document.querySelectorAll('link[data-github-markdown]');
+  existingStyles.forEach(style => style.remove());
+  
+  // 新しいCSSを動的インポート
+  try {
+    if (shouldUseDark) {
+      await import('github-markdown-css/github-markdown-dark.css');
+    } else {
+      await import('github-markdown-css/github-markdown-light.css');
+    }
+  } catch (error) {
+    console.warn('Failed to load GitHub Markdown CSS:', error);
   }
 };
 
 const Markdown: FC<{ children: string; allowHtml?: boolean }> = ({ children, allowHtml = false }) => {
+  const [currentTheme, setCurrentTheme] = useState<ThemeMode | null>(null);
+
+  // 初期CSS読み込みとテーマ変更監視
+  useEffect(() => {
+    // 初期読み込み
+    const initialTheme = getUserThemeMode();
+    importThemeCSS(initialTheme);
+    setCurrentTheme(initialTheme);
+
+    // テーマ変更監視用のMutationObserver
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          const newTheme = getUserThemeMode();
+          if (newTheme !== currentTheme) {
+            importThemeCSS(newTheme);
+            setCurrentTheme(newTheme);
+          }
+        }
+      });
+    });
+
+    // documentElementのclass属性変更を監視
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [currentTheme]);
+
   const remarkPlugins: Pluggable[] = useMemo(
     () => [
       supersub,
