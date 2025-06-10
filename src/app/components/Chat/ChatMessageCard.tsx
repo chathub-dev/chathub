@@ -195,7 +195,7 @@ const ChatMessageCard: FC<Props> = ({ message, className, onPropaganda }) => {
         </MessageBubble>
       </div>
       {!!copyText && (
-        <div className="flex flex-col justify-between h-full py-1">
+        <div className="flex flex-col justify-between py-1" style={{ height: messageHeight }}>
           <ActionButton />
           {messageHeight > MESSAGE_HEIGHT_THRESHOLD && <ActionButton />}
         </div>

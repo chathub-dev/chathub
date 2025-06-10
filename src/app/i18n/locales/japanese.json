@@ -62,6 +62,7 @@
   "releasenote_v270_thinking_mode_fix": "「Thinking Mode」と「Temperature」の設定表示ロジックを改善し、選択したAPIプロバイダーに応じてより分かりやすく表示されるようにしました。",
   "releasenote_v270_add_model_button_enhancement": "カスタムボット設定ページの下部にも「新しいモデルを追加」ボタンを追加し、利便性を向上させました。",
   "releasenote_v270_settings_bug_fix": "設定画面の内容が正しく設定に反映されない場合がある不具合を修正しました。",
+  "releasenote_v277_expandable_textarea": "All-in-Oneモードで入力欄の高さをドラッグで自由に調整できるようになりました。リサイズしない場合は自動で高さが変化します。\n\n![入力欄の拡張デモ](/HuddleLLM-ExpandableTextArea.gif)",
   "releasenote_v275_omnibox_search_fix": "## Omnibox検索の不具合修正\n\nアドレスバー（@hl）からの検索を行った際、ごくまれに「応答を待機中」のまま進まなくなる問題を修正しました。今後は、すべてのAIモデルの準備が整ってから検索が実行されるため、スムーズにご利用いただけます。",
   "releasenote_v270_omnibox_search": "## アドレスバーからの直接検索機能を追加！\n\nブラウザのアドレスバーで `@hl` に続けて検索したいキーワードを入力しEnterキーを押すと、HuddleLLMが起動し、入力したキーワードがチャットクエリとして自動的に送信されるようになりました。\n例えば、アドレスバーに `@hl カシミール州はどこの国に属する？` と入力してEnterを押してみてください。\n\n<video controls width=\"100%\" style=\"max-width: 600px; margin: 20px auto; display: block; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);\">\n  <source src=\"videos/HuddleLLM Addressbar search.mp4\" type=\"video/mp4\">\n  お使いのブラウザは動画タグをサポートしていません。\n</video>\n",
   "ReleaseNote-Close": "閉じる",

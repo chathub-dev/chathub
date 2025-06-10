@@ -6,6 +6,12 @@ import { getVersion } from '~utils'
 
 const RELEASE_NOTES = [
   {
+    version: '2.7.7',
+    notes: [
+      'releasenote_v277_expandable_textarea',
+    ],
+  },
+  {
     version: '2.7.5',
     notes: [
       'releasenote_v275_omnibox_search_fix',
