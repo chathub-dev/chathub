@@ -48,7 +48,7 @@ export default defineManifest(async () => {
       },
     },
     side_panel: {
-      default_path: 'sidepanel.html',
+      default_path: 'app.html',
     },
     declarative_net_request: {
       rule_resources: [
