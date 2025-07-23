@@ -7,6 +7,7 @@ import { ChatError, ErrorCode } from '~utils/errors';
 import { BedrockApiBot } from './bedrock-api';
 import { GeminiApiBot } from './gemini-api'; // Import GeminiApiBot
 import { PerplexityApiBot } from './perplexity-api'; // Import PerplexityApiBot
+import { VertexClaudeBot } from './vertex-claude'; // Import VertexClaudeBot
 
 export class CustomBot extends AsyncAbstractBot {
     private customBotNumber: number;
@@ -34,7 +35,7 @@ export class CustomBot extends AsyncAbstractBot {
         // Decide which bot to instantiate based on the provider field
         switch (provider) {
             case CustomApiProvider.Bedrock:
-                                return new BedrockApiBot({
+                return new BedrockApiBot({
                     apiKey: config.apiKey || customApiKey,
                     host: config.host || customApiHost,
                     model: config.model,
@@ -74,6 +75,15 @@ export class CustomBot extends AsyncAbstractBot {
                     apiKey: config.apiKey || customApiKey,
                     model: config.model,
                     host: config.host || customApiHost,
+                    isHostFullPath: config.isHostFullPath,
+                });
+            case CustomApiProvider.VertexAI_Claude:
+                return new VertexClaudeBot({
+                    apiKey: config.apiKey || customApiKey,
+                    host: config.host || customApiHost,
+                    model: config.model,
+                    temperature: config.temperature,
+                    systemMessage: config.systemMessage,
                     isHostFullPath: config.isHostFullPath,
                 });
             default:

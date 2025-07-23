@@ -320,7 +320,7 @@ class CustomFetchHttpHandler extends FetchHttpHandler {
   async handle(request: HttpRequest): Promise<any> {
     request.headers = {
       ...request.headers,
-      'authorization': this.apiKey, 
+      'Authorization': this.apiKey,
     };
     
     return super.handle(request);

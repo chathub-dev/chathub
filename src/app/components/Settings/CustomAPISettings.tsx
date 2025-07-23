@@ -490,7 +490,8 @@ const CustomAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
                                                                     { name: 'Anthropic Claude API', value: CustomApiProvider.Anthropic },
                                                                     { name: 'AWS Bedrock (Anthropic)', value: CustomApiProvider.Bedrock },
                                                                     { name: 'Google Gemini API', value: CustomApiProvider.Google },
-                                                                    { name: 'Perplexity API', value: CustomApiProvider.Perplexity }
+                                                                    { name: 'Perplexity API', value: CustomApiProvider.Perplexity },
+                                                                    { name: 'VertexAI (Claude)', value: CustomApiProvider.VertexAI_Claude }
                                                                 ]}
                                                                 value={config.provider || CustomApiProvider.OpenAI}
                                                                 onChange={(v) => {
@@ -544,15 +545,21 @@ const CustomAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
                                                                 }}
                                                                 disabled={config.provider === CustomApiProvider.Google}
                                                             />
-                                                            <Switch
-                                                                checked={config.isHostFullPath ?? false}
-                                                                onChange={(checked) => {
-                                                                    const updatedConfigs = [...userConfig.customApiConfigs];
-                                                                    updatedConfigs[index].isHostFullPath = checked;
-                                                                    updateCustomApiConfigs(updatedConfigs);
-                                                                }}
-                                                            />
-                                                            <span className="text-sm">{t('Full Path')}</span>
+                                                            {config.provider === CustomApiProvider.VertexAI_Claude ? (
+                                                                <span className="text-sm">{t('Full Path')}</span>
+                                                            ) : (
+                                                                <>
+                                                                    <Switch
+                                                                        checked={config.isHostFullPath ?? false}
+                                                                        onChange={(checked) => {
+                                                                            const updatedConfigs = [...userConfig.customApiConfigs];
+                                                                            updatedConfigs[index].isHostFullPath = checked;
+                                                                            updateCustomApiConfigs(updatedConfigs);
+                                                                        }}
+                                                                    />
+                                                                    <span className="text-sm">{t('Full Path')}</span>
+                                                                </>
+                                                            )}
                                                             <div className="relative group">
                                                                 <span className="cursor-help text-gray-400">ⓘ</span>
                                                                 <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-72 hidden group-hover:block bg-gray-700 text-white text-xs p-2 rounded shadow-lg z-10">
