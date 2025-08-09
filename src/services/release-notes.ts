@@ -6,6 +6,14 @@ import { getVersion } from '~utils'
 
 const RELEASE_NOTES = [
   {
+    version: '2.8.0',
+    notes: [
+      'releasenote_v280_vertex_claude',
+      'releasenote_v280_multiple_images',
+      'releasenote_v280_gemini_update',
+      'releasenote_v280_markdown_improvement'    ],
+  },
+  {
     version: '2.7.7',
     notes: [
       'releasenote_v277_expandable_textarea',
