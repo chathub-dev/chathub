@@ -53,7 +53,7 @@
     "@aws-sdk/client-bedrock-runtime": "^3.755.0",
     "@epic-web/cachified": "^4.0.0",
     "@floating-ui/react": "^0.26.4",
-    "@google/generative-ai": "^0.21.0",
+    "@google/genai": "^1.0.0",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.1.1",
     "@radix-ui/react-tooltip": "^1.0.7",

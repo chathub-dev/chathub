@@ -34,6 +34,12 @@ const cache = createCache({
   storage: { type: 'memory' },
 })
 
-const cacheInstance = cache.define('compressImageFile', _compressImageFile)
+const cacheInstance = cache.define(
+  'compressImageFile',
+  {
+    serialize: (image: File) => image.name,
+  },
+  _compressImageFile,
+)
 
 export const compressImageFile = cacheInstance.compressImageFile.bind(cacheInstance)

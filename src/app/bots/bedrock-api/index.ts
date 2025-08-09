@@ -95,24 +95,40 @@ export abstract class AbstractBedrockApiBot extends AbstractBot {
     return { messages };
   }
 
-  private buildUserMessage(prompt: string, imageUrl?: string): ChatMessage {
-    const content: ContentPart[] = [
-      { text: prompt }
-    ];
+  private buildUserMessage(prompt: string, images?: { data: string, format: 'jpeg' | 'png' | 'gif' | 'webp' }[]): ChatMessage {
+    const content: ContentPart[] = [];
 
-    if (imageUrl) {
-      content.push({
-        image: {
-          format: 'jpeg',  // assuming format as jpeg
-          source: { bytes: this.base64ToUint8Array(imageUrl) }
+    // Add text content first
+    content.push({ text: prompt });
+
+    // Then add images if any
+    if (images && images.length > 0) {
+      for (const image of images) {
+        try {
+          const bytes = this.base64ToUint8Array(image.data);
+          console.log(`Adding image: format=${image.format}, bytes length=${bytes.length}`);
+          
+          content.push({
+            image: {
+              format: image.format,
+              source: {
+                bytes: bytes
+              }
+            }
+          });
+        } catch (imageError) {
+          console.error('Error processing image:', imageError);
+          console.error('Image format:', image.format);
+          console.error('Image data length:', image.data?.length || 0);
+          throw new Error(`Failed to process image: ${imageError instanceof Error ? imageError.message : 'Unknown error'}`);
         }
-      });
+      }
     }
 
     return { role: 'user', content };
   }
 
-  private buildMessages(prompt: string, imageUrl?: string): ChatMessage[] {
+  private buildMessages(prompt: string, images?: { data: string, format: 'jpeg' | 'png' | 'gif' | 'webp' }[]): ChatMessage[] {
     // 会話コンテキストからメッセージを取得
     const contextMessages = this.conversationContext!.messages.slice(-(CONTEXT_SIZE + 1));
 
@@ -158,7 +174,7 @@ export abstract class AbstractBedrockApiBot extends AbstractBot {
 
     return [
       ...result.slice(-(CONTEXT_SIZE - 1)),
-      this.buildUserMessage(prompt, imageUrl),
+      this.buildUserMessage(prompt, images),
     ]
   }
 
@@ -170,15 +186,74 @@ export abstract class AbstractBedrockApiBot extends AbstractBot {
     if (!this.conversationContext) {
       this.conversationContext = { messages: [] }
     }
-  
-    let imageUrl: string | undefined
-    if (params.image) {
-      imageUrl = await file2base64(params.image)
-    }
-  
-    try {
-      const resp = await this.fetchCompletionApi(this.buildMessages(params.prompt, imageUrl), params.signal)
+
+    const images_for_api: { data: string, format: 'jpeg' | 'png' | 'gif' | 'webp' }[] = [];
+    if (params.images && params.images.length > 0) {
+      console.log(`Processing ${params.images.length} images for Bedrock API`);
       
+      for (const image of params.images) {
+        try {
+          const base64Data = await file2base64(image);
+          
+          // base64データが空でないことを確認
+          if (!base64Data || base64Data.trim().length === 0) {
+            throw new Error(`Empty base64 data returned for image: ${image.name || 'unknown'}`);
+          }
+          
+          const mimeType = image.type.split('/')[1]?.toLowerCase();
+          let format: 'jpeg' | 'png' | 'gif' | 'webp' = 'jpeg';
+          
+          console.log(`Image MIME type: ${image.type}, extracted format: ${mimeType}`);
+          
+          if (mimeType === 'png' || mimeType === 'gif' || mimeType === 'webp') {
+            format = mimeType;
+          } else if (mimeType === 'jpg') {
+            format = 'jpeg';
+          }
+          
+          // base64データの処理を改善
+          let base64Content: string;
+          
+          if (base64Data.includes(',')) {
+            // data:image/jpeg;base64,xxxxx 形式の場合
+            const parts = base64Data.split(',');
+            if (parts.length !== 2 || !parts[1] || parts[1].trim().length === 0) {
+              throw new Error(`Invalid base64 data: no content after comma. Got: "${base64Data.substring(0, 100)}..."`);
+            }
+            base64Content = parts[1].trim();
+          } else {
+            // 既にbase64データのみの場合
+            base64Content = base64Data.trim();
+          }
+          
+          // base64データの妥当性をチェック
+          if (!base64Content || base64Content.trim().length === 0) {
+            throw new Error('Empty base64 content');
+          }
+          
+          // base64形式の妥当性をチェック（簡易チェック）
+          if (!/^[A-Za-z0-9+/]*={0,2}$/.test(base64Content)) {
+            throw new Error('Invalid base64 characters');
+          }
+          
+          console.log(`Image processed: format=${format}, base64 length=${base64Content.length}`);
+          
+          images_for_api.push({
+            data: base64Content,
+            format: format,
+          });
+        } catch (imageProcessingError) {
+          console.error('Error processing individual image:', imageProcessingError);
+          console.error('Image type:', image.type);
+          console.error('Image size:', image.size);
+          throw imageProcessingError;
+        }
+      }
+    }
+
+    try {
+      const resp = await this.fetchCompletionApi(this.buildMessages(params.prompt, images_for_api), params.signal)
+
       if (!resp.ok) {
         params.onEvent({
           type: 'ERROR',
@@ -187,8 +262,8 @@ export abstract class AbstractBedrockApiBot extends AbstractBot {
         console.error('Failed to fetch API:', await resp.text());
         return;
       }
-  
-      this.conversationContext.messages.push(this.buildUserMessage(params.rawUserInput || params.prompt, imageUrl))
+
+      this.conversationContext.messages.push(this.buildUserMessage(params.rawUserInput || params.prompt, images_for_api))
   
       let done = false
       const result: ChatMessage = { 
@@ -262,9 +337,18 @@ export abstract class AbstractBedrockApiBot extends AbstractBot {
       }
     } catch (error) {
       console.error('Error sending message:', error);
+      // より詳細なエラー情報をログに出力
+      if (error instanceof Error) {
+        console.error('Error message:', error.message);
+        console.error('Error stack:', error.stack);
+      }
+      // AWS SDK固有のエラー情報も出力
+      if (error && typeof error === 'object') {
+        console.error('Error details:', JSON.stringify(error, null, 2));
+      }
       params.onEvent({
         type: 'ERROR',
-        error: new ChatError('Error sending message', ErrorCode.UNKOWN_ERROR)
+        error: new ChatError(`Error sending message: ${error instanceof Error ? error.message : 'Unknown error'}`, ErrorCode.UNKOWN_ERROR)
       });
     }
   }
@@ -318,10 +402,19 @@ class CustomFetchHttpHandler extends FetchHttpHandler {
   }
 
   async handle(request: HttpRequest): Promise<any> {
-    request.headers = {
-      ...request.headers,
-      'Authorization': this.apiKey,
+    // For Bedrock API, we need to set proper headers
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/x-amz-json-1.0',
+      'Authorization': `Bearer ${this.apiKey}`,
+      'X-Amzn-Bedrock-Accept': '*/*',
     };
+    
+    // Preserve existing content-type if it's different
+    if (request.headers['Content-Type']) {
+      headers['Content-Type'] = request.headers['Content-Type'];
+    }
+    
+    request.headers = headers;
     
     return super.handle(request);
   }
@@ -371,8 +464,13 @@ export class BedrockApiBot extends AbstractBedrockApiBot {
         accessKeyId: 'AWS',
         secretAccessKey: 'AWS',
       },
-      requestHandler: new CustomFetchHttpHandler(this.config.apiKey, { // Use config.apiKey
+      requestHandler: new CustomFetchHttpHandler(this.config.apiKey, {
+        requestTimeout: 120000,
       }),
+      // Disable AWS signature to use custom authorization
+      signer: {
+        sign: async (request: any) => request, // No-op signer that doesn't modify the request
+      },
     });
   }
 
@@ -462,9 +560,24 @@ export class BedrockApiBot extends AbstractBedrockApiBot {
     } catch (error: unknown) {
       console.error('Bedrock API error:', error);
       
+      // より詳細なエラー情報をログに出力
+      if (error instanceof Error) {
+        console.error('Error name:', error.name);
+        console.error('Error message:', error.message);
+        console.error('Error stack:', error.stack);
+      }
+      
+      // AWS SDK固有のエラー情報
+      if (error && typeof error === 'object') {
+        const errorObj = error as any;
+        console.error('Error code:', errorObj.$metadata?.httpStatusCode || errorObj.statusCode);
+        console.error('Error response:', errorObj.$response);
+        console.error('Full error object:', JSON.stringify(error, null, 2));
+      }
+      
       // エラーオブジェクトの型を判定
-      const errorMessage = error instanceof Error 
-        ? error.message 
+      const errorMessage = error instanceof Error
+        ? error.message
         : 'Unknown error occurred';
     
       // statusCodeの取得

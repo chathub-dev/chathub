@@ -24,12 +24,12 @@ export function useChat(index: number) {
   )
 
   const sendMessage = useCallback(
-    async (input: string, image?: File) => {
+    async (input: string, images?: File[]) => {
 
       const botMessageId = uuid()
       setChatState((draft) => {
         draft.messages.push(
-          { id: uuid(), text: input, image, author: 'user' },
+          { id: uuid(), text: input, images, author: 'user' },
           { id: botMessageId, text: '', author: index }, // Use index as author
         )
       })
@@ -40,14 +40,14 @@ export function useChat(index: number) {
         draft.abortController = abortController
       })
 
-      let compressedImage: File | undefined = undefined
-      if (image) {
-        compressedImage = await compressImageFile(image)
+      let compressedImages: File[] | undefined = undefined
+      if (images && images.length > 0) {
+        compressedImages = await Promise.all(images.map(compressImageFile))
       }
       
       const resp = await chatState.bot.sendMessage({
         prompt: input,
-        image: compressedImage,
+        images: compressedImages,
         signal: abortController.signal,
       })
 

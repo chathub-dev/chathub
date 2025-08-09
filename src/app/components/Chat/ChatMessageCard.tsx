@@ -71,9 +71,9 @@ const ChatMessageCard: FC<Props> = ({ message, className, onPropaganda }) => {
   const { t } = useTranslation()
 
 
-  const imageUrl = useMemo(() => {
-    return message.image ? URL.createObjectURL(message.image) : ''
-  }, [message.image])
+  const imageUrls = useMemo(() => {
+    return message.images ? message.images.map(img => URL.createObjectURL(img)) : []
+  }, [message.images])
 
   const copyText = useMemo(() => {
     if (message.text) {
@@ -181,7 +181,13 @@ const ChatMessageCard: FC<Props> = ({ message, className, onPropaganda }) => {
           color={message.author === 'user' ? 'primary' : 'flat'}
           thinking={message.thinking}
         >
-          {!!imageUrl && <img src={imageUrl} alt="Uploaded content" className="max-w-xs my-2" />}
+          {imageUrls.length > 0 && (
+            <div className="flex flex-wrap gap-2 my-2">
+              {imageUrls.map((url, index) => (
+                <img key={index} src={url} alt={`Uploaded content ${index + 1}`} className="max-w-xs" />
+              ))}
+            </div>
+          )}
           {message.text ? (
             <Markdown>{message.text}</Markdown>
           ) : (

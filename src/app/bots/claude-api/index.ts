@@ -77,25 +77,46 @@ export abstract class AbstractClaudeApiBot extends AbstractBot {
     return { messages };
   }
 
-  private buildUserMessage(prompt: string, imageBase64Data?: string, imageMediaType?: string): ChatMessage {
-    if (!imageBase64Data || !imageMediaType) {
+  private async buildUserMessage(prompt: string, images?: File[]): Promise<ChatMessage> {
+    if (!images || images.length === 0) {
       return { role: 'user', content: prompt }
     }
+
+    const imageContents = await Promise.all(images.map(async (image) => {
+      const dataUrl = await file2base64(image, true) // keepHeader = true
+      const match = dataUrl.match(/^data:(.+);base64,(.+)$/)
+      if (match) {
+        return {
+          type: 'image',
+          source: {
+            type: 'base64',
+            media_type: match[1],
+            data: match[2]
+          }
+        }
+      }
+      console.error('Could not parse data URL for image:', dataUrl)
+      return null
+    }))
+
+    const validImageContents = imageContents.filter(content => content !== null)
+
     return {
       role: 'user',
       content: [
         { type: 'text', text: prompt },
-        { type: 'image', source: { type: 'base64', media_type: imageMediaType, data: imageBase64Data } },
+        ...validImageContents
       ],
     }
   }
 
-    private buildMessages(prompt: string, imageBase64Data?: string, imageMediaType?: string): ChatMessage[] {
-      return [
-        ...this.conversationContext!.messages.slice(-(CONTEXT_SIZE + 1)),
-        this.buildUserMessage(prompt, imageBase64Data, imageMediaType),
-      ]
-    }
+  private async buildMessages(prompt: string, images?: File[]): Promise<ChatMessage[]> {
+    const userMessage = await this.buildUserMessage(prompt, images);
+    return [
+      ...this.conversationContext!.messages.slice(-(CONTEXT_SIZE + 1)),
+      userMessage,
+    ]
+  }
 
   getSystemMessage() {
     return DEFAULT_CLAUDE_SYSTEM_MESSAGE
@@ -106,26 +127,12 @@ export abstract class AbstractClaudeApiBot extends AbstractBot {
       this.conversationContext = { messages: [] }
     }
 
-    let imageMediaType: string | undefined
-    let imageBase64Data: string | undefined
-    if (params.image) {
-      const dataUrl = await file2base64(params.image, true) // keepHeader = true
-      const match = dataUrl.match(/^data:(.+);base64,(.+)$/)
-      if (match) {
-        imageMediaType = match[1]
-        imageBase64Data = match[2]
-      } else {
-        console.error("Could not parse data URL for image:", dataUrl)
-        // フォールバック: データ部分のみを使用し、デフォルトでJPEGを指定（元の挙動に近い）
-        imageBase64Data = dataUrl.replace('data:', '').replace(/^.+,/, '')
-        imageMediaType = 'image/jpeg';
-      }
-    }
-
-    const resp = await this.fetchCompletionApi(this.buildMessages(params.prompt, imageBase64Data, imageMediaType), params.signal)
+    const messages = await this.buildMessages(params.prompt, params.images);
+    const resp = await this.fetchCompletionApi(messages, params.signal)
 
     // add user message to context only after fetch success
-    this.conversationContext.messages.push(this.buildUserMessage(params.rawUserInput || params.prompt, imageBase64Data, imageMediaType))
+    const userMessage = await this.buildUserMessage(params.rawUserInput || params.prompt, params.images);
+    this.conversationContext.messages.push(userMessage);
 
     let done = false
     const result: ChatMessage = { role: 'assistant', content: '' }

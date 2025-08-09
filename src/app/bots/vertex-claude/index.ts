@@ -84,21 +84,23 @@ export abstract class AbstractVertexClaudeBot extends AbstractBot {
     return { messages };
   }
 
-  private buildUserMessage(prompt: string, imageUrl?: string): ChatMessage {
-    const content: ContentPart[] = [
-      { type: 'text', text: prompt }
-    ];
+  private buildUserMessage(prompt: string, images?: { data: string, media_type: string }[]): ChatMessage {
+    const content: ContentPart[] = [];
 
-    if (imageUrl) {
-      // base64データからmedia_typeを推定
-      const mediaType = this.getMediaTypeFromBase64(imageUrl);
-      content.push({
-        type: 'image',
-        image: {
-          type: 'base64',
-          media_type: mediaType,
-          data: imageUrl
-        }
+    // Add text content first
+    content.push({ type: 'text', text: prompt });
+
+    // Then add images if any
+    if (images && images.length > 0) {
+      images.forEach(image => {
+        content.push({
+          type: 'image',
+          image: {
+            type: 'base64',
+            media_type: image.media_type,
+            data: image.data
+          }
+        });
       });
     }
 
@@ -114,7 +116,7 @@ export abstract class AbstractVertexClaudeBot extends AbstractBot {
     return 'image/jpeg'; // デフォルト
   }
 
-  private buildMessages(prompt: string, imageUrl?: string): ChatMessage[] {
+  private buildMessages(prompt: string, images?: { data: string, media_type: string }[]): ChatMessage[] {
     // 会話コンテキストからメッセージを取得
     const contextMessages = this.conversationContext!.messages.slice(-(CONTEXT_SIZE + 1));
 
@@ -159,7 +161,7 @@ export abstract class AbstractVertexClaudeBot extends AbstractBot {
 
     return [
       ...result.slice(-(CONTEXT_SIZE - 1)),
-      this.buildUserMessage(prompt, imageUrl),
+      this.buildUserMessage(prompt, images),
     ]
   }
 
@@ -171,15 +173,21 @@ export abstract class AbstractVertexClaudeBot extends AbstractBot {
     if (!this.conversationContext) {
       this.conversationContext = { messages: [] }
     }
-  
-    let imageUrl: string | undefined
-    if (params.image) {
-      imageUrl = await file2base64(params.image)
+
+    const images_for_api: { data: string, media_type: string }[] = [];
+    if (params.images && params.images.length > 0) {
+      for (const image of params.images) {
+        const base64Data = await file2base64(image);
+        images_for_api.push({
+          data: base64Data,
+          media_type: image.type,
+        });
+      }
     }
-  
+
     try {
-      const resp = await this.fetchCompletionApi(this.buildMessages(params.prompt, imageUrl), params.signal)
-      
+      const resp = await this.fetchCompletionApi(this.buildMessages(params.prompt, images_for_api), params.signal)
+
       if (!resp.ok) {
         params.onEvent({
           type: 'ERROR',
@@ -188,8 +196,8 @@ export abstract class AbstractVertexClaudeBot extends AbstractBot {
         console.error('Failed to fetch API:', await resp.text());
         return;
       }
-  
-      this.conversationContext.messages.push(this.buildUserMessage(params.rawUserInput || params.prompt, imageUrl))
+
+      this.conversationContext.messages.push(this.buildUserMessage(params.rawUserInput || params.prompt, images_for_api))
   
       let done = false
       const result: ChatMessage = { 

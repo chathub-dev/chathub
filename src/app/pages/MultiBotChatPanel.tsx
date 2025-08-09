@@ -120,8 +120,8 @@ const GeneralChatPanel: FC<{
   )
 
   const sendAllMessage = useCallback(
-    (input: string, image?: File) => {
-      uniqBy(chats, (c) => c.index).forEach((c) => c.sendMessage(input, image))
+    (input: string, images?: File[]) => {
+      uniqBy(chats, (c) => c.index).forEach((c) => c.sendMessage(input, images))
     },
     [chats, layout],
   )

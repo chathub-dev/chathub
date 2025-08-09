@@ -72,26 +72,29 @@ export abstract class AbstractChatGPTApiBot extends AbstractBot {
     return { messages };
   }
 
-  private buildUserMessage(prompt: string, imageUrl?: string): ChatMessage {
-    if (!imageUrl) {
+  private buildUserMessage(prompt: string, imageUrls?: string[]): ChatMessage {
+    if (!imageUrls || imageUrls.length === 0) {
       return { role: 'user', content: prompt }
     }
+    
+    const content: any[] = [{ type: 'text', text: prompt }];
+    imageUrls.forEach(imageUrl => {
+      content.push({ type: 'image_url', image_url: { url: imageUrl, detail: 'low' } });
+    });
+    
     return {
       role: 'user',
-      content: [
-        { type: 'text', text: prompt },
-        { type: 'image_url', image_url: { url: imageUrl, detail: 'low' } },
-      ],
+      content: content,
     }
   }
 
-  private buildMessages(prompt: string, imageUrl?: string): ChatMessage[] {
+  private buildMessages(prompt: string, imageUrls?: string[]): ChatMessage[] {
     const currentDate = new Date().toISOString().split('T')[0]
     const systemMessage = this.getSystemMessage().replace('{current_date}', currentDate)
     return [
       { role: 'system', content: systemMessage },
       ...this.conversationContext!.messages.slice(-(CONTEXT_SIZE + 1)),
-      this.buildUserMessage(prompt, imageUrl),
+      this.buildUserMessage(prompt, imageUrls),
     ]
   }
 
@@ -124,15 +127,17 @@ export abstract class AbstractChatGPTApiBot extends AbstractBot {
       this.conversationContext = { messages: [] }
     }
 
-    let imageUrl: string | undefined
-    if (params.image) {
-      imageUrl = await file2base64(params.image, true)
+    let imageUrls: string[] = []
+    if (params.images && params.images.length > 0) {
+      imageUrls = await Promise.all(
+        params.images.map(image => file2base64(image, true))
+      )
     }
 
-    const resp = await this.fetchCompletionApi(this.buildMessages(params.prompt, imageUrl), params.signal)
+    const resp = await this.fetchCompletionApi(this.buildMessages(params.prompt, imageUrls), params.signal)
 
     // add user message to context only after fetch success
-    this.conversationContext.messages.push(this.buildUserMessage(params.rawUserInput || params.prompt, imageUrl))
+    this.conversationContext.messages.push(this.buildUserMessage(params.rawUserInput || params.prompt, imageUrls))
 
     let done = false
     const result: ChatMessage = { role: 'assistant', content: '' }

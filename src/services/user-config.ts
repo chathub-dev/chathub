@@ -51,7 +51,12 @@ export const MODEL_LIST: Record<string, Record<string, string>> = {
         "R1-1776 (Offline)": "r1-1776",
     },
     "Rakuten": {
+        "DeepSeek-R1": "DeepSeek-R1",
         "RakutenAI-2.0-MoE": "RakutenAI-2.0-MoE",
+        "Rakuten-AI-3.0-Alpha": "Rakuten-AI-3.0-Alpha",
+        "RakutenAI-7B-instruct": "RakutenAI-7B-instruct",
+        "DeepSeek-V3": "DeepSeek-V3",
+        "RakutenAI-2.0-Mini-1.5B": "RakutenAI-2.0-Mini-1.5B",
     },
     // ベンダー特有のモデルIDを「Custom」カテゴリとして追加
     "Custom": {

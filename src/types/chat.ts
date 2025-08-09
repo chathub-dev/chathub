@@ -4,7 +4,7 @@ export interface ChatMessageModel {
   id: string
   author: number | 'user'
   text: string
-  image?: Blob
+  images?: File[]
   error?: ChatError
   thinking?: string
 }

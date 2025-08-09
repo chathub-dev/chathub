@@ -25,7 +25,7 @@ import TextInput from './TextInput'
 
 interface Props {
   mode: 'full' | 'compact'
-  onSubmit: (value: string, image?: File) => void
+  onSubmit: (value: string, images?: File[]) => void
   className?: string
   disabled?: boolean
   placeholder?: string
@@ -47,7 +47,7 @@ const ChatMessageInput: FC<Props> = (props) => {
   } = props
 
   const [value, setValue] = useState('')
-  const [image, setImage] = useState<File | undefined>(undefined)
+  const [images, setImages] = useState<File[]>([])
   const formRef = useRef<HTMLFormElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const [isPromptLibraryDialogOpen, setIsPromptLibraryDialogOpen] = useState(false)
@@ -110,13 +110,13 @@ const ChatMessageInput: FC<Props> = (props) => {
   const onFormSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
-      if (value.trim()) {
-        props.onSubmit(value, image)
+      if (value.trim() || images.length > 0) {
+        props.onSubmit(value, images)
       }
       setValue('')
-      setImage(undefined)
+      setImages([])
     },
-    [image, props, value],
+    [images, props, value],
   )
 
   const onValueChange = useCallback((v: string) => {
@@ -141,23 +141,39 @@ const ChatMessageInput: FC<Props> = (props) => {
   }, [])
 
   const selectImage = useCallback(async () => {
-    const file = await fileOpen({
+    const files = await fileOpen({
       mimeTypes: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'],
       extensions: ['.jpg', '.jpeg', '.png', '.gif'],
+      multiple: true,
     })
-    setImage(file)
+    console.debug('📁 Selected files:', files.map(f => ({ name: f.name, size: f.size, lastModified: f.lastModified })))
+    setImages(prev => {
+      const newImages = [...prev, ...files]
+      console.debug('🖼️ All images after selection:', newImages.map((f, i) => ({ 
+        index: i, 
+        name: f.name, 
+        size: f.size, 
+        lastModified: f.lastModified,
+        sameAsFirst: i > 0 ? f === newImages[0] : false
+      })))
+      return newImages
+    })
     inputRef.current?.focus()
   }, [])
 
+  const removeImage = useCallback((index: number) => {
+    setImages(prev => prev.filter((_, i) => i !== index))
+  }, [])
+
   const onPaste: ClipboardEventHandler<HTMLTextAreaElement> = useCallback((event) => {
-    const files = event.clipboardData.files
-    if (!files.length) {
+    const pastedFiles = event.clipboardData.files
+    if (!pastedFiles.length) {
       return
     }
-    const imageFile = Array.from(files).find((file) => file.type.startsWith('image/'))
-    if (imageFile) {
+    const imageFiles = Array.from(pastedFiles).filter((file) => file.type.startsWith('image/'))
+    if (imageFiles.length > 0) {
       event.preventDefault()
-      setImage(imageFile)
+      setImages(prev => [...prev, ...imageFiles])
       inputRef.current?.focus()
     }
   }, [])
@@ -168,8 +184,7 @@ const ChatMessageInput: FC<Props> = (props) => {
         <>
           <GoBook
             size={22}
-            color="#707070"
-            className="cursor-pointer"
+            className="cursor-pointer text-secondary-text hover:text-primary-text transition-colors duration-200"
             onClick={openPromptLibrary}
             title="Prompt library"
           />
@@ -192,15 +207,19 @@ const ChatMessageInput: FC<Props> = (props) => {
             )}
           </ComboboxContext.Provider>
           {props.supportImageInput && (
-            <GoImage size={22} color="#707070" className="cursor-pointer" onClick={selectImage} title="Image input" />
+            <GoImage size={22} className="cursor-pointer text-secondary-text hover:text-primary-text transition-colors duration-200" onClick={selectImage} title="Image input" />
           )}
         </>
       )}
       <div className={cx("w-full flex flex-col justify-center", fullHeight && "h-full")} ref={refs.setReference} {...getReferenceProps()}>
-        {image && (
-          <div className="flex flex-row items-center w-fit mb-1 gap-1">
-            <span className="text-xs text-primary-text font-semibold cursor-default">{image.name}</span>
-            <RiDeleteBackLine size={10} className="cursor-pointer" onClick={() => setImage(undefined)} />
+        {images.length > 0 && (
+          <div className="flex flex-row items-center flex-wrap w-full mb-1 gap-2">
+            {images.map((img, index) => (
+              <div key={index} className="flex items-center gap-1 bg-primary-border dark:bg-secondary rounded-full px-2 py-1 border border-primary-border">
+                <span className="text-xs text-primary-text font-semibold cursor-default truncate max-w-[100px]">{img.name}</span>
+                <RiDeleteBackLine size={12} className="cursor-pointer text-secondary-text hover:text-primary-text transition-colors duration-200 hover:scale-110" onClick={() => removeImage(index)} />
+              </div>
+            ))}
           </div>
         )}
         <TextInput

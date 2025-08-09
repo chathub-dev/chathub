@@ -24,14 +24,15 @@ export class BardBot extends AbstractBot {
     const { requestParams, contextIds } = this.conversationContext
 
     let imageUrl: string | undefined
-    if (params.image) {
-      imageUrl = await this.uploadImage(params.image)
+    const image = params.images?.[0]
+    if (image) {
+      imageUrl = await this.uploadImage(image)
     }
 
     const payload = [
       null,
       JSON.stringify([
-        [params.prompt, 0, null, imageUrl ? [[[imageUrl, 1], params.image!.name]] : []],
+        [params.prompt, 0, null, imageUrl && image ? [[[imageUrl, 1], image.name]] : []],
         null,
         contextIds,
       ]),
