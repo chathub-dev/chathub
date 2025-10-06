@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { crx } from '@crxjs/vite-plugin'
 import react from '@vitejs/plugin-react'
 import jotaiDebugLabel from 'jotai/babel/plugin-debug-label'
@@ -17,6 +18,11 @@ export default defineConfig(({ mode }) => {
       }),
       crx({ manifest }),
     ],
+    test: {
+      globals: true,
+      environment: 'jsdom',
+      setupFiles: './vitest.setup.ts',
+    },
     build: {
       rollupOptions: {
         input: ['app.html'],
