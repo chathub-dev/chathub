@@ -13,7 +13,7 @@ export class ChatGPTAzureApiBot extends AbstractChatGPTApiBot {
   }
 
   async fetchCompletionApi(messages: ChatMessage[], signal?: AbortSignal) {
-    const endpoint = `https://${this.config.azureOpenAIApiInstanceName}.openai.azure.com/openai/deployments/${this.config.azureOpenAIApiDeploymentName}/chat/completions?api-version=2025-01-01-preview`
+    const endpoint = `https://${this.config.azureOpenAIApiInstanceName}.openai.azure.com/openai/deployments/${this.config.azureOpenAIApiDeploymentName}/chat/completions`
     return fetch(endpoint, {
       method: 'POST',
       signal,
