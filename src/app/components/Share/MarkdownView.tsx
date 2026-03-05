@@ -13,7 +13,7 @@ const MarkdownView: FC<Props> = ({ messages }) => {
   const content = useMemo(() => {
     return messages
       .filter((m) => !!m.text)
-      .map((m) => `**${m.author}**: ` + m.text)
+      .map((m) => `## ${m.author}` + '\n\n' + m.text)
       .join('\n\n')
   }, [messages])
 
