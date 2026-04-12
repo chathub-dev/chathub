@@ -15,7 +15,7 @@ export class ClaudeWebBot extends AbstractBot {
 
   constructor() {
     super()
-    this.model = 'claude-2.1'
+    this.model = 'claude-3-5-sonnet-20241022'
   }
 
   async doSendMessage(params: SendMessageParams): Promise<void> {
@@ -33,28 +33,28 @@ export class ClaudeWebBot extends AbstractBot {
       generateChatTitle(this.organizationId, conversationId, params.prompt).catch(console.error)
     }
 
-    const resp = await fetch('https://claude.ai/api/append_message', {
-      method: 'POST',
-      signal: params.signal,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        organization_uuid: this.organizationId,
-        conversation_uuid: this.conversationContext.conversationId,
-        text: params.prompt,
-        completion: {
-          prompt: params.prompt,
-          model: this.model,
+    const resp = await fetch(
+      `https://claude.ai/api/organizations/${this.organizationId}/chat_conversations/${this.conversationContext.conversationId}/completion`,
+      {
+        method: 'POST',
+        signal: params.signal,
+        headers: {
+          'Content-Type': 'application/json',
         },
-        attachments: [],
-      }),
-    })
+        body: JSON.stringify({
+          prompt: params.prompt,
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          model: this.model,
+          attachments: [],
+          files: [],
+        }),
+      },
+    )
 
-    // different models are available for different accounts
-    if (!resp.ok && resp.status === 403 && this.model === 'claude-2.1') {
-      if ((await resp.text()).includes('model_not_allowed')) {
-        this.model = 'claude-2.0'
+    if (!resp.ok && resp.status === 403) {
+      const text = await resp.text()
+      if (text.includes('model_not_allowed')) {
+        this.model = 'claude-3-haiku-20240307'
         return this.doSendMessage(params)
       }
     }
@@ -64,7 +64,14 @@ export class ClaudeWebBot extends AbstractBot {
     await parseSSEResponse(resp, (message) => {
       console.debug('claude sse message', message)
       const payload = JSON.parse(message)
-      if (payload.completion) {
+      if (payload.type === 'content_block_delta' && payload.delta?.type === 'text_delta') {
+        result += payload.delta.text
+        params.onEvent({
+          type: 'UPDATE_ANSWER',
+          data: { text: result },
+        })
+      } else if (payload.completion) {
+        // fallback for older SSE format
         result += payload.completion
         params.onEvent({
           type: 'UPDATE_ANSWER',
@@ -83,6 +90,6 @@ export class ClaudeWebBot extends AbstractBot {
   }
 
   get name() {
-    return 'Claude (webapp/claude-2)'
+    return 'Claude (webapp)'
   }
 }

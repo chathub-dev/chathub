@@ -5,7 +5,6 @@ import { ChatGPTWebModel } from '~services/user-config'
 import { ChatError, ErrorCode } from '~utils/errors'
 import { parseSSEResponse } from '~utils/sse'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
-import { getArkoseToken } from './arkose'
 import { chatGPTClient } from './client'
 import { ImageContent, ResponseContent, ResponsePayload } from './types'
 
@@ -79,14 +78,12 @@ export class ChatGPTWebBot extends AbstractBot {
     const modelName = await this.getModelName()
     console.debug('Using model:', modelName)
 
-    const arkoseToken = await getArkoseToken()
-
     let image: ImageContent | undefined = undefined
     if (params.image) {
       image = await this.uploadImage(params.image)
     }
 
-    const resp = await chatGPTClient.fetch('https://chat.openai.com/backend-api/conversation', {
+    const resp = await chatGPTClient.fetch('https://chatgpt.com/backend-api/conversation', {
       method: 'POST',
       signal: params.signal,
       headers: {
@@ -99,7 +96,6 @@ export class ChatGPTWebBot extends AbstractBot {
         model: modelName,
         conversation_id: this.conversationContext?.conversationId || undefined,
         parent_message_id: this.conversationContext?.lastMessageId || uuidv4(),
-        arkose_token: arkoseToken,
         conversation_mode: { kind: 'primary_assistant' },
       }),
     })

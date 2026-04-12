@@ -21,7 +21,8 @@ export default defineManifest(async () => {
     host_permissions: [
       'https://*.bing.com/',
       'https://*.openai.com/',
-      'https://bard.google.com/',
+      'https://chatgpt.com/',
+      'https://gemini.google.com/',
       'https://*.chathub.gg/',
       'https://*.duckduckgo.com/',
       'https://*.poe.com/',
@@ -32,7 +33,7 @@ export default defineManifest(async () => {
     permissions: ['storage', 'unlimitedStorage', 'sidePanel', 'declarativeNetRequestWithHostAccess', 'scripting'],
     content_scripts: [
       {
-        matches: ['https://chat.openai.com/*'],
+        matches: ['https://chatgpt.com/*', 'https://chat.openai.com/*'],
         js: ['src/content-script/chatgpt-inpage-proxy.ts'],
       },
     ],

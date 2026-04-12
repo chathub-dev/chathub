@@ -25,7 +25,7 @@ class ChatGPTClient {
   }
 
   async getAccessToken(): Promise<string> {
-    const resp = await this.fetch('https://chat.openai.com/api/auth/session')
+    const resp = await this.fetch('https://chatgpt.com/api/auth/session')
     if (resp.status === 403) {
       throw new ChatError('Please pass Cloudflare check', ErrorCode.CHATGPT_CLOUDFLARE)
     }
@@ -37,7 +37,7 @@ class ChatGPTClient {
   }
 
   private async requestBackendAPIWithToken(token: string, method: 'GET' | 'POST', path: string, data?: unknown) {
-    return this.fetch(`https://chat.openai.com/backend-api${path}`, {
+    return this.fetch(`https://chatgpt.com/backend-api${path}`, {
       method,
       headers: {
         'Content-Type': 'application/json',

@@ -25,7 +25,7 @@ class ProxyFetchRequester implements Requester {
       }),
     )
     for (let i = 0; i < results.length; i++) {
-      if (results[i]?.startsWith('https://chat.openai.com')) {
+      if (results[i]?.startsWith('https://chatgpt.com') || results[i]?.startsWith('https://chat.openai.com')) {
         return tabs[i]
       }
     }

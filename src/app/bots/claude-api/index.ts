@@ -4,8 +4,13 @@ import { ChatError, ErrorCode } from '~utils/errors'
 import { parseSSEResponse } from '~utils/sse'
 import { AbstractBot, SendMessageParams } from '../abstract-bot'
 
+interface ConversationMessage {
+  role: 'user' | 'assistant'
+  content: string
+}
+
 interface ConversationContext {
-  prompt: string
+  messages: ConversationMessage[]
 }
 
 export class ClaudeApiBot extends AbstractBot {
@@ -15,8 +20,8 @@ export class ClaudeApiBot extends AbstractBot {
     super()
   }
 
-  async fetchCompletionApi(prompt: string, signal?: AbortSignal) {
-    return fetch('https://api.anthropic.com/v1/complete', {
+  async fetchCompletionApi(messages: ConversationMessage[], signal?: AbortSignal) {
+    return fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       signal,
       headers: {
@@ -25,9 +30,9 @@ export class ClaudeApiBot extends AbstractBot {
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        prompt,
         model: this.getModelName(),
-        max_tokens_to_sample: 100_000,
+        max_tokens: 8096,
+        messages,
         stream: true,
       }),
     })
@@ -39,33 +44,39 @@ export class ClaudeApiBot extends AbstractBot {
     }
 
     if (!this.conversationContext) {
-      this.conversationContext = { prompt: '' }
+      this.conversationContext = { messages: [] }
     }
-    this.conversationContext.prompt += `\n\nHuman: ${params.prompt}\n\nAssistant:`
 
-    const resp = await this.fetchCompletionApi(this.conversationContext.prompt, params.signal)
+    this.conversationContext.messages.push({ role: 'user', content: params.prompt })
+
+    const resp = await this.fetchCompletionApi(this.conversationContext.messages, params.signal)
 
     let result = ''
 
     await parseSSEResponse(resp, (message) => {
       console.debug('claude sse message', message)
-      const data = JSON.parse(message) as { completion: string }
-      if (data.completion) {
-        result += data.completion
-        params.onEvent({ type: 'UPDATE_ANSWER', data: { text: result.trimStart() } })
+      const data = JSON.parse(message)
+      if (data.type === 'content_block_delta' && data.delta?.type === 'text_delta') {
+        result += data.delta.text
+        params.onEvent({ type: 'UPDATE_ANSWER', data: { text: result } })
+      } else if (data.type === 'message_stop') {
+        // stream done
+      } else if (data.type === 'error') {
+        throw new ChatError(JSON.stringify(data.error), ErrorCode.UNKOWN_ERROR)
       }
     })
 
     params.onEvent({ type: 'DONE' })
-    this.conversationContext!.prompt += result
+    this.conversationContext.messages.push({ role: 'assistant', content: result })
   }
 
   private getModelName() {
     switch (this.config.claudeApiModel) {
       case ClaudeAPIModel['claude-instant-1']:
-        return 'claude-instant-1.2'
+        return 'claude-3-haiku-20240307'
+      case ClaudeAPIModel['claude-2']:
       default:
-        return 'claude-2.1'
+        return 'claude-3-5-sonnet-20241022'
     }
   }
 

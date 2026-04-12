@@ -97,7 +97,7 @@ const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
   }
   if (error.code === ErrorCode.CHATGPT_AUTH) {
     return (
-      <a href="https://chat.openai.com" target="_blank" rel="noreferrer">
+      <a href="https://chatgpt.com" target="_blank" rel="noreferrer">
         <ActionButton text={t('Login to ChatGPT')} />
       </a>
     )
@@ -111,7 +111,7 @@ const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
   }
   if (error.code === ErrorCode.BARD_UNAUTHORIZED) {
     return (
-      <a href="https://bard.google.com" target="_blank" rel="noreferrer">
+      <a href="https://gemini.google.com" target="_blank" rel="noreferrer">
         <ActionButton text={t('Login to Bard')} />
       </a>
     )
@@ -131,8 +131,8 @@ const ErrorAction: FC<{ error: ChatError }> = ({ error }) => {
   }
   if (error.code === ErrorCode.BARD_EMPTY_RESPONSE) {
     return (
-      <a href="https://bard.google.com" target="_blank" rel="noreferrer">
-        <ActionButton text="Visit bard.google.com" />
+      <a href="https://gemini.google.com" target="_blank" rel="noreferrer">
+        <ActionButton text="Visit gemini.google.com" />
       </a>
     )
   }
